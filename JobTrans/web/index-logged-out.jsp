@@ -1,3 +1,11 @@
+<%-- 
+    Document   : index-login-logout
+    Created on : Sep 17, 2024, 10:15:11 AM
+    Author     : admin
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <!doctype html>
 <html lang="en">
 

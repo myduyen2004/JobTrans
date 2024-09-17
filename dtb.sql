@@ -153,3 +153,7 @@ CREATE TABLE Shipment (
     shipmentDate DATE,
 	description NVARCHAR(MAX)
 );
+
+INSERT INTO Users (user_id,user_name,email,password,oauth_provider,oauth_id,role,balance,description,specification,address,avatar_url,status)
+VALUES
+(1,N'Quang','nguyendinhquang25082004@gmail.com','123qqquang',null,null,'Admin',null,null,null,null,null,1);

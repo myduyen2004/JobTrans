@@ -9,18 +9,18 @@ package jobtrans.model;
  * @author admin
  */
 public class User {
-    private int user_id;
-    private String user_name;
+    private int userId;
+    private String userName;
     private String email;
     private String password;
-    private String oauth_provider;
-    private String oauth_id;
+    private String oauthProvider;
+    private String oauthId;
     private String role;
     private int balance;
     private String description;
     private String specification;
     private String address;
-    private String avatar_url;
+    private String avatarUrl;
     private boolean status;
 
     // Default constructor
@@ -28,38 +28,43 @@ public class User {
     }
 
     // Parameterized constructor
-    public User(int user_id, String user_name, String email, String password, String oauth_provider, String oauth_id,
-                String role, int balance, String description, String specification, String address, String avatar_url, boolean status) {
-        this.user_id = user_id;
-        this.user_name = user_name;
+    public User(int userId, String userName, String email, String password, String oauthProvider, String oauthId,
+                String role, int balance, String description, String specification, String address, String avatarUrl, boolean status) {
+        this.userId = userId;
+        this.userName = userName;
         this.email = email;
         this.password = password;
-        this.oauth_provider = oauth_provider;
-        this.oauth_id = oauth_id;
+        this.oauthProvider = oauthProvider;
+        this.oauthId = oauthId;
         this.role = role;
         this.balance = balance;
         this.description = description;
         this.specification = specification;
         this.address = address;
-        this.avatar_url = avatar_url;
+        this.avatarUrl = avatarUrl;
         this.status = status;
+    }
+    
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
     }
 
     // Getters and Setters for each field
-    public int getUser_id() {
-        return user_id;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getEmail() {
@@ -78,20 +83,20 @@ public class User {
         this.password = password;
     }
 
-    public String getOauth_provider() {
-        return oauth_provider;
+    public String getOauthProvider() {
+        return oauthProvider;
     }
 
-    public void setOauth_provider(String oauth_provider) {
-        this.oauth_provider = oauth_provider;
+    public void setOauthProvider(String oauthProvider) {
+        this.oauthProvider = oauthProvider;
     }
 
-    public String getOauth_id() {
-        return oauth_id;
+    public String getOauthId() {
+        return oauthId;
     }
 
-    public void setOauth_id(String oauth_id) {
-        this.oauth_id = oauth_id;
+    public void setOauthId(String oauthId) {
+        this.oauthId = oauthId;
     }
 
     public String getRole() {
@@ -134,12 +139,12 @@ public class User {
         this.address = address;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public boolean isStatus() {
@@ -154,18 +159,18 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "user_id=" + user_id +
-                ", user_name='" + user_name + '\'' +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", oauth_provider='" + oauth_provider + '\'' +
-                ", oauth_id='" + oauth_id + '\'' +
+                ", oauthProvider='" + oauthProvider + '\'' +
+                ", oauthId='" + oauthId + '\'' +
                 ", role='" + role + '\'' +
                 ", balance=" + balance +
                 ", description='" + description + '\'' +
                 ", specification='" + specification + '\'' +
                 ", address='" + address + '\'' +
-                ", avatar_url='" + avatar_url + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
                 ", status=" + status +
                 '}';
     }

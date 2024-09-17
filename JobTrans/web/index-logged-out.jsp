@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import= "jobtrans.utils.CookieUtils" %>
 <!DOCTYPE html>
 <!doctype html>
 <html lang="en">
@@ -1154,6 +1155,12 @@
 
 	<!--Tabs -->
 	<div class="sign-in-form">
+                
+                <%
+                    String email = CookieUtils.get("cookemail", request);
+                    String password = CookieUtils.get("cookpass", request);
+                    String rememberVal = CookieUtils.get("cookrem", request);
+                %>
 
 		<ul class="popup-tabs-nav">
 			<li><a href="#login">Log In</a></li>
@@ -1167,32 +1174,36 @@
 				
 				<!-- Welcome Text -->
 				<div class="welcome-text">
-					<h3>We're glad to see you again!</h3>
-					<span>Don't have an account? <a href="#" class="register-tab">Sign Up!</a></span>
+					<h3>Chúng tôi rất vui khi gặp lại bạn!</h3>
+					<span>Bạn chưa có tài khoản? <a href="#" class="register-tab">Đăng ký!</a></span>
 				</div>
 					
 				<!-- Form -->
-				<form method="post" id="login-form">
+				<form action="LoginServlet"  method="post" id="login-form">
 					<div class="input-with-icon-left">
 						<i class="icon-material-baseline-mail-outline"></i>
-						<input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address" required/>
+                                                <input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address" required/>
 					</div>
 
 					<div class="input-with-icon-left">
 						<i class="icon-material-outline-lock"></i>
-						<input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required/>
+                                                <input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required/>
 					</div>
-					<a href="#" class="forgot-password">Forgot Password?</a>
+                                        <input type="checkbox" class name="remember" value="1"
+                                        <%= "1".equals(rememberVal.trim()) ?"checked=\"checked\"" : ""%> />
+                                        <label class="form-check-label" for="exampleCheck1">Ghi nhớ mật khẩu</label> 
+					<a href="#" class="forgot-password">Quên mật khẩu?</a>
+                                        <button class="button full-width button-sliding-icon ripple-effect" type="submit">Đăng nhập <i class="icon-material-outline-arrow-right-alt"></i></button>
 				</form>
 				
 				<!-- Button -->
-				<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="login-form">Log In <i class="icon-material-outline-arrow-right-alt"></i></button>
+				
 				
 				<!-- Social Login -->
 				<div class="social-login-separator"><span>or</span></div>
 				<div class="social-login-buttons">
-					<button class="facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Log In via Facebook</button>
-					<button class="google-login ripple-effect"><i class="icon-brand-google-plus-g"></i> Log In via Google+</button>
+					<button class="facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Đăng nhập qua Facebook</button>
+					<button class="google-login ripple-effect"><i class="icon-brand-google-plus-g"></i> Đăng nhập qua Google+</button>
 				</div>
 
 			</div>
@@ -1219,7 +1230,7 @@
 				</div>
 					
 				<!-- Form -->
-				<form method="post" id="register-account-form">
+                                <form method="post" id="register-account-form">
 					<div class="input-with-icon-left">
 						<i class="icon-material-baseline-mail-outline"></i>
 						<input type="text" class="input-text with-border" name="emailaddress-register" id="emailaddress-register" placeholder="Email Address" required/>

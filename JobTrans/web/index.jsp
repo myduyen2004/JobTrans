@@ -316,7 +316,7 @@
 								<div class="user-details">
 									<div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt=""></div>
 									<div class="user-name">
-										Tom Smith <span>Freelancer</span>
+										${userName} <span>Freelancer</span>
 									</div>
 								</div>
 								
@@ -332,7 +332,7 @@
 						<ul class="user-menu-small-nav">
 							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
 							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+							<li><a href="LogoutServlet"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
 						</ul>
 
 						</div>

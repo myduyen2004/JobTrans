@@ -23,6 +23,7 @@
 ================================================== -->
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/colors/blue.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </head>
 <body>
@@ -164,7 +165,7 @@
 			<div class="right-side">
 
 				<div class="header-widget">
-					<a href="#sign-in-dialog" class="popup-with-zoom-anim log-in-button"><i class="icon-feather-log-in"></i> <span>Log In / Register</span></a>
+					<a href="#sign-in-dialog"  class="popup-with-zoom-anim log-in-button" ><i class="icon-feather-log-in"></i> <span>Log In / Register</span></a>
 				</div>
 
 				<!-- Mobile Navigation Button -->
@@ -1180,18 +1181,22 @@
 					
 				<!-- Form -->
 				<form action="LoginServlet"  method="post" id="login-form">
+                                        <%=request.getAttribute("loginError")!=null?request.getAttribute("loginError") : ""%>
 					<div class="input-with-icon-left">
 						<i class="icon-material-baseline-mail-outline"></i>
                                                 <input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address" required/>
+                                                <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> 
 					</div>
 
 					<div class="input-with-icon-left">
 						<i class="icon-material-outline-lock"></i>
                                                 <input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required/>
 					</div>
-                                        <input type="checkbox" class name="remember" value="1"
-                                        <%= "1".equals(rememberVal.trim()) ?"checked=\"checked\"" : ""%> />
-                                        <label class="form-check-label" for="exampleCheck1">Ghi nhớ mật khẩu</label> 
+                                        <div style="display: inline-flex">
+                                            <input id="exampleCheck1" type="checkbox" class name="remember" value="1" style="width: 15px; height: 15px; margin-right: 10px; margin-top: 5px"
+                                            <%= "1".equals(rememberVal.trim()) ?"checked=\"checked\"" : ""%> />
+                                            <label class="form-check-label" for="exampleCheck1">Ghi nhớ mật khẩu</label> 
+                                        </div>
 					<a href="#" class="forgot-password">Quên mật khẩu?</a>
                                         <button class="button full-width button-sliding-icon ripple-effect" type="submit">Đăng nhập <i class="icon-material-outline-arrow-right-alt"></i></button>
 				</form>
@@ -1283,6 +1288,12 @@
 
 <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
 <script>
+        <% if (request.getAttribute("loginError") != null) { %>
+            toastr.error('<%= request.getAttribute("error") %>');
+        <% } %>
+</script>
+
+<script>
 // Snackbar for user status switcher
 $('#snackbar-user-status label').click(function() { 
 	Snackbar.show({
@@ -1316,7 +1327,6 @@ $('#snackbar-user-status label').click(function() {
 	        $(".pac-container").prependTo(".intro-search-field.with-autocomplete");
 	    }, 300);
 	}
-
 </script>
 
 <!-- Google API & Maps -->

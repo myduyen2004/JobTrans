@@ -89,10 +89,11 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", u.getUserName());
             session.setAttribute("email", u.getEmail());
             session.setAttribute("avatarUrl", u.getAvatarUrl());
+            request.setAttribute("success", "Đăng nhập thành công!");
             request.getRequestDispatcher("index.jsp").forward(request, response);
         }else{
-            request.setAttribute("msg", "Authenticate failure!");
-            request.getRequestDispatcher("index-logged-out.jsp").forward(request, response);
+            request.setAttribute("loginError", "Đăng nhập thất bại!");
+            response.sendRedirect("index-logged-out.jsp#sign-in-dialog");
         }
     }
 

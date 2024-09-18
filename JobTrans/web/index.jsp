@@ -21,6 +21,7 @@
 ================================================== -->
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/colors/blue.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </head>
 <body>
@@ -1135,6 +1136,11 @@
 <script src="js/custom.js"></script>
 
 <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+    <% if (request.getAttribute("success") != null) { %>
+            toastr.success('<%= request.getAttribute("success") %>');
+    <% } %>
+</script>
 <script>
 // Snackbar for user status switcher
 $('#snackbar-user-status label').click(function() { 

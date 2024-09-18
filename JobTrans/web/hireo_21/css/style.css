@@ -10858,12 +10858,12 @@ img.mfp-img {
 }
 
 /* Social Login Buttons */
-.social-login-buttons {
+/*.social-login-buttons {
 	display: flex;
 	width: calc(100% + 20px)
-}
+}*/
 
-.social-login-buttons button {
+.social-login-buttons a {
 	flex: 1;
 	text-align: center;
 	border: 1px solid #333;
@@ -10873,7 +10873,7 @@ img.mfp-img {
 	margin-right: 20px;
 	font-size: 14px;
 	padding: 9px 5px;
-	max-width: 50%;
+	max-width: 100%;
 	transition: 0.3s;
 }
 

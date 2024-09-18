@@ -28,6 +28,14 @@
         <servlet-name>ProfileController</servlet-name>
         <servlet-class>jobtrans.controller.web.profile.ProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HomeServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.home.HomeServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.authentication.LoginServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountManage</servlet-name>
         <url-pattern>/AccountManage</url-pattern>
@@ -55,5 +63,13 @@
     <servlet-mapping>
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/ProfileController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HomeServlet</servlet-name>
+        <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
     </servlet-mapping>
 </web-app>

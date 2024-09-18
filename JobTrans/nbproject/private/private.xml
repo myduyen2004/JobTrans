@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/KÌ%205-%20FALL24/JobTrans%20Website/JobTrans/web/hireo_21/index-logged-out.html</file>
-            <file>file:/D:/KÌ%205-%20FALL24/JobTrans%20Website/JobTrans/web/hireo_21/browse-companies.html</file>
+            <file>file:/D:/KÌ%205-%20FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/authentication/LoginServlet.java</file>
+            <file>file:/D:/KÌ%205-%20FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/home/HomeServlet.java</file>
+            <file>file:/D:/KÌ%205-%20FALL24/JobTrans%20Website/JobTrans/web/index-logged-out.jsp</file>
         </group>
     </open-files>
 </project-private>

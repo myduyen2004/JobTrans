@@ -395,12 +395,12 @@
                             <!-- Account Type -->
                             <div class="account-type">
                                 <div>
-                                    <input type="radio" name="account-type-radio" id="freelancer-radio" class="account-type-radio" checked/>
+                                    <input type="radio" name="account-type-radio" id="freelancer-radio" class="account-type-radio" value="Seeker" checked/>
                                     <label for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Người tìm việc </label>
                                 </div>
 
                                 <div>
-                                    <input type="radio" name="account-type-radio" id="employer-radio" class="account-type-radio"/>
+                                    <input type="radio" name="account-type-radio" id="employer-radio" class="account-type-radio" value="Employee"/>
                                     <label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Người tuyển dụng</label>
                                 </div>
                             </div>

@@ -14,6 +14,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import jobtrans.dal.UserDAO;
+import jobtrans.model.User;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -22,6 +26,8 @@ import java.util.regex.Pattern;
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/Register"})
 public class RegisterServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
+    private static final Logger logger = Logger.getLogger(RegisterServlet.class.getName());
+    UserDAO ud = new UserDAO();
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -69,14 +75,21 @@ public class RegisterServlet extends HttpServlet {
      */
     @Override
 
-
+ 
    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-   
-request.getRequestDispatcher("pages-login.jsp").forward(request, response);
-  
-
-   
-    
+       String username = request.getParameter("username-register");
+   String email = request.getParameter("emailaddress-register");
+   String password = request.getParameter("password-register");
+   String role = request.getParameter("account-type-radio");
+   boolean status =true;
+   User u = new User(username, email, password, role, status);
+   ud.addUserByRegister(u);
+    System.out.println("Username: " + username);
+    System.out.println("Email: " + email);
+    System.out.println("Password: " + password);
+    System.out.println("Role: " + role);
+    System.out.println("Status: " + status);
+    request.getRequestDispatcher("pages-login.jsp").forward(request, response);
    }
 
     /** 
@@ -87,5 +100,5 @@ request.getRequestDispatcher("pages-login.jsp").forward(request, response);
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+ 
 }

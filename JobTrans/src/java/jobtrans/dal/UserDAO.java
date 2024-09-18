@@ -123,7 +123,24 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+  public void addUserByRegister(User user) {
+       String sql = "INSERT INTO Users(user_name,email,password,role,status)"
+                + " VALUES (?,?,?,?,?)";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setNString(1, user.getUserName());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, user.getPassword());
+            statement.setString(4, user.getRole());
+            statement.setBoolean(5, user.isStatus());
+            statement.executeUpdate(); 
+            statement.close();
+            con.close();
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     public User getUserByEmail(String email) {
         DBConnection db = DBConnection.getInstance();
         User user = null;
@@ -158,7 +175,7 @@ public class UserDAO {
         }
         return user;
     }
-
+ 
     public boolean checkExistEmail(String email) {
         DBConnection db = DBConnection.getInstance();
         User user = null;
@@ -180,11 +197,6 @@ public class UserDAO {
         }
         return check;
     }
-
-    public static void main(String[] args) {
-        UserDAO u = new UserDAO();
-
-        System.out.println(u.getAllUSer());
-        System.out.println(u.checkLogin(new User("nguyendinhquang25082004@gmail.com", "123qqquang")));
-    }
+  
+   
 }

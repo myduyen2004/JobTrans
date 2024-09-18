@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import= "jobtrans.utils.CookieUtils" %>
 <!DOCTYPE html>
 <!doctype html>
 <html lang="en">
@@ -1153,8 +1154,14 @@
         ================================================== -->
         <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
 
-            <!--Tabs -->
-            <div class="sign-in-form">
+	<!--Tabs -->
+	<div class="sign-in-form">
+                
+                <%
+                    String email = CookieUtils.get("cookemail", request);
+                    String password = CookieUtils.get("cookpass", request);
+                    String rememberVal = CookieUtils.get("cookrem", request);
+                %>
 
                 <ul class="popup-tabs-nav">
                     <li><a href="#login">Log In</a></li>
@@ -1163,39 +1170,43 @@
 
                 <div class="popup-tabs-container">
 
-                    <!-- Login -->
-                    <div class="popup-tab-content" id="login">
+			<!-- Login -->
+			<div class="popup-tab-content" id="login">
+				
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3>Chúng tôi rất vui khi gặp lại bạn!</h3>
+					<span>Bạn chưa có tài khoản? <a href="#" class="register-tab">Đăng ký!</a></span>
+				</div>
+					
+				<!-- Form -->
+				<form action="login"  method="post" id="login-form">
+					<div class="input-with-icon-left">
+						<i class="icon-material-baseline-mail-outline"></i>
+                                                <input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address" required/>
+					</div>
 
-                        <!-- Welcome Text -->
-                        <div class="welcome-text">
-                            <h3>We're glad to see you again!</h3>
-                            <span>Don't have an account? <a href="#" class="register-tab">Sign Up!</a></span>
-                        </div>
-
-                        <!-- Form -->
-                        <form method="post" id="login-form">
-                            <div class="input-with-icon-left">
-                                <i class="icon-material-baseline-mail-outline"></i>
-                                <input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address" required/>
-                            </div>
-
-                            <div class="input-with-icon-left">
-                                <i class="icon-material-outline-lock"></i>
-                                <input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required/>
-                            </div>
-                            <a href="#" class="forgot-password">Forgot Password?</a>
-                        </form>
-
-                        <!-- Button -->
-                        <button class="button full-width button-sliding-icon ripple-effect" type="submit" form="login-form">Log In <i class="icon-material-outline-arrow-right-alt"></i></button>
-                        
-                        <!-- Social Login -->
-                        <div class="social-login-separator"><span>or</span></div>
-                        <div class="social-login-buttons">
-                            <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/JobTrans/login&response_type=code&client_id=1002920823516-m0hv1uhsmimct8nfg7v84imor7mln17n.apps.googleusercontent.com&approval_prompt=force" class="google-login ripple-effect" style="color: #fff">
-                                <i class="icon-brand-google-plus-g"></i> Log In via Google+
-                            </a>
-                        </div>
+					<div class="input-with-icon-left">
+						<i class="icon-material-outline-lock"></i>
+                                                <input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required/>
+					</div>
+                                        <input type="checkbox" class name="remember" value="1"
+                                        <%= "1".equals(rememberVal.trim()) ?"checked=\"checked\"" : ""%> />
+                                        <label class="form-check-label" for="exampleCheck1">Ghi nhớ mật khẩu</label> 
+					<a href="#" class="forgot-password">Quên mật khẩu?</a>
+                                        <button class="button full-width button-sliding-icon ripple-effect" type="submit">Đăng nhập <i class="icon-material-outline-arrow-right-alt"></i></button>
+				</form>
+				
+				<!-- Button -->
+				
+				
+				<!-- Social Login -->
+				<div class="social-login-separator"><span>or</span></div>
+				<div class="social-login-buttons">
+					<a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/JobTrans/login&response_type=code&client_id=1002920823516-m0hv1uhsmimct8nfg7v84imor7mln17n.apps.googleusercontent.com&approval_prompt=force" class="google-login ripple-effect" style="color: #fff">
+                        <i class="icon-brand-google-plus-g"></i> Log In via Google+
+                    </a>
+				</div>
 
                     </div>
 

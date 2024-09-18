@@ -2,7 +2,7 @@ CREATE DATABASE JOBTRANS
 
 USE JOBTRANS
 CREATE TABLE Users (
-    user_id INT NOT NULL PRIMARY KEY,
+    user_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     user_name NVARCHAR(50),
     email VARCHAR(100) UNIQUE,
     password VARCHAR(20) NOT NULL,
@@ -16,9 +16,9 @@ CREATE TABLE Users (
     avatar_url NVARCHAR(MAX),
     status BIT NOT NULL
 );
-
+GO
 CREATE TABLE Notifications (
-    notification_id INT NOT NULL PRIMARY KEY,
+    notification_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     user_id INT,
     noti_title NVARCHAR(200),
     content NVARCHAR(MAX),
@@ -26,13 +26,13 @@ CREATE TABLE Notifications (
     type VARCHAR(50),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
-
+GO
 CREATE TABLE JobCategory(
 	category_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	category_name NVARCHAR(50),
 	description NVARCHAR(200)
 );
-
+GO
 CREATE TABLE Job(
 	job_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	user_id INT FOREIGN KEY REFERENCES Users(user_id),
@@ -45,9 +45,9 @@ CREATE TABLE Job(
 	employer_feedback NVARCHAR(MAX),
 	seeker_feedback NVARCHAR(MAX)
 );
-
+GO
 CREATE TABLE JobGreetings (
-    greeting_id INT NOT NULL PRIMARY KEY,
+    greeting_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     job_seeker_id INT,
     job_id INT,
     introduction NVARCHAR(MAX),
@@ -57,8 +57,9 @@ CREATE TABLE JobGreetings (
     FOREIGN KEY (job_seeker_id) REFERENCES Users(user_id),
     FOREIGN KEY (job_id) REFERENCES Job(job_id)
 );
+GO
 CREATE TABLE CV (
-    cv_id INT NOT NULL PRIMARY KEY,   
+    cv_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,   
     user_id INT NOT NULL,             
     title NVARCHAR(100),
     summary NVARCHAR(MAX),
@@ -66,22 +67,26 @@ CREATE TABLE CV (
     
     CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES Users(user_id) 
 );
+GO
  create table School(
-	 education_id INT not null primary key ,
+	 education_id INT not null IDENTITY(1,1) primary key ,
 	 field_of_study Nvarchar(100),
 	 school_name Nvarchar(100)
-)
+);
+GO
  create table Skill(
-	 skill_id INT not null primary key ,
+	 skill_id INT not null IDENTITY(1,1) primary key ,
 	 cv_id int ,
 	 skill_name Nvarchar(100),
 	 proficiency nVarchar(max)
-)
+);
+GO
 create table Company(
-	 experience_id INT not null primary key ,
+	 experience_id INT not null IDENTITY(1,1) primary key ,
 	 company_name Nvarchar(100),
 	 description Nvarchar(max)
 );
+GO
 
 CREATE TABLE CV_Skill (
     cv_id INT NOT NULL,              
@@ -119,8 +124,8 @@ CREATE TABLE CV_Experience (
 );
 Create table dConversation(
  conversation_id varchar primary key,
- job_id varchar not null ,
- start_date Date 
+ job_id INT FOREIGN KEY REFERENCES Job(job_id) ,
+ start_date Date ,
  )
  
  CREATE TABLE dMESSAGE(
@@ -153,3 +158,7 @@ CREATE TABLE Shipment (
     shipmentDate DATE,
 	description NVARCHAR(MAX)
 );
+
+ALTER TABLE Users
+ADD CONSTRAINT chk_role CHECK (role IN ('Seeker', 'Employer', 'Admin'));
+GO

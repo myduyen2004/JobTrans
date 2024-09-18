@@ -23,10 +23,13 @@ public class User {
     private String avatarUrl;
     private boolean status;
 
+    // Default constructor
     public User() {
     }
-
-    public User(int userId, String userName, String email, String password, String oauthProvider, String oauthId, String role, int balance, String description, String specification, String address, String avatarUrl, boolean status) {
+    
+    // Parameterized constructor
+    public User(int userId, String userName, String email, String password, String oauthProvider, String oauthId,
+                String role, int balance, String description, String specification, String address, String avatarUrl, boolean status) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
@@ -42,6 +45,23 @@ public class User {
         this.status = status;
     }
 
+    public User(String userName, String email, String oauthProvider, String oauthId, String role, String avatarUrl, boolean status) {
+        this.userName = userName;
+        this.email = email;
+        this.oauthProvider = oauthProvider;
+        this.oauthId = oauthId;
+        this.role = role;
+        this.avatarUrl = avatarUrl;
+        this.status = status;
+    }
+    
+    
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    // Getters and Setters for each field
     public int getUserId() {
         return userId;
     }
@@ -146,11 +166,24 @@ public class User {
         this.status = status;
     }
 
+    // Overriding toString() method to display the User object
     @Override
     public String toString() {
-        return "User{" + "userId=" + userId + ", userName=" + userName + ", email=" + email + ", password=" + password + ", oauthProvider=" + oauthProvider + ", oauthId=" + oauthId + ", role=" + role + ", balance=" + balance + ", description=" + description + ", specification=" + specification + ", address=" + address + ", avatarUrl=" + avatarUrl + ", status=" + status + '}';
+        return "User{" +
+                "userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", oauthProvider='" + oauthProvider + '\'' +
+                ", oauthId='" + oauthId + '\'' +
+                ", role='" + role + '\'' +
+                ", balance=" + balance +
+                ", description='" + description + '\'' +
+                ", specification='" + specification + '\'' +
+                ", address='" + address + '\'' +
+                ", avatarUrl='" + avatarUrl + '\'' +
+                ", status=" + status +
+                '}';
     }
     
-    
-
 }

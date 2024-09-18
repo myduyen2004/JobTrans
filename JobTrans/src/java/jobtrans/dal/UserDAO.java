@@ -107,8 +107,8 @@ public class UserDAO {
 //    }
 
     public void addUserByLoginGoogle(User user) {
-        String sql = "INSERT INTO Users(user_name, email, oauth_provider, oauth_id, status)"
-                + " VALUES (?,?,?,?,?)";
+        String sql = "INSERT INTO Users(user_name, email, oauth_provider, oauth_id, avatar_url, status)"
+                + " VALUES (?,?,?,?,?,?)";
         try {
             Connection con = dbConnection.openConnection();
             PreparedStatement statement = con.prepareStatement(sql);
@@ -116,7 +116,8 @@ public class UserDAO {
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getOauthProvider());
             statement.setString(4, user.getOauthId());
-            statement.setBoolean(5, user.isStatus());
+            statement.setString(5, user.getAvatarUrl());
+            statement.setBoolean(6, user.isStatus());
             statement.execute();
             statement.close();
             con.close();
@@ -181,7 +182,37 @@ public class UserDAO {
         }
         return check;
     }
-
+    public void changePassword(String password, String email){
+        String sql = "UPDATE [dbo].[Users] SET password = ? WHERE email = ?";
+        ResultSet rs = null;
+        try{
+            Connection con = dbConnection.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, password);
+            statement.setString(2, email);
+            statement.executeQuery();
+            statement.close();
+            con.close();
+            System.out.println("Sucess!");
+        }catch(Exception ex){
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE,null, ex);
+        }
+    }
+    public void updateAfterLoginGoogle(String role, String email){
+        String sql = "UPDATE [dbo].[Users] SET role = ? WHERE email = ?";
+        ResultSet rs = null;
+        try{
+            Connection con = dbConnection.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, role);
+            statement.setString(2, email);
+            statement.executeQuery();
+            statement.close();
+            con.close();
+        }catch(Exception ex){
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE,null, ex);
+        }
+    }
     public static void main(String[] args) {
         UserDAO u = new UserDAO();
 

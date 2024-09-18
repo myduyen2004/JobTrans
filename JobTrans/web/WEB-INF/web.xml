@@ -36,6 +36,18 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>jobtrans.controller.web.authentication.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ForgotPassword</servlet-name>
+        <servlet-class>jobtrans.controller.web.authentication.ForgotPassword</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>RoleServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.authentication.RoleServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>LogoutServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.authentication.LogoutServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountManage</servlet-name>
         <url-pattern>/AccountManage</url-pattern>
@@ -71,5 +83,17 @@
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ForgotPassword</servlet-name>
+        <url-pattern>/forgot</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>RoleServlet</servlet-name>
+        <url-pattern>/RoleServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LogoutServlet</servlet-name>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
 </web-app>

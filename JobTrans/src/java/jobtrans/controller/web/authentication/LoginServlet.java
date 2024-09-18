@@ -46,7 +46,7 @@ public class LoginServlet extends HttpServlet {
         response.getWriter().print(code);
         // neu nguoi dung huy uy quyen
         if (error != null) {
-            request.getRequestDispatcher("index-logged-out.jsp").forward(request, response);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
         GoogleLogin gg = new GoogleLogin();
         String accessToken = gg.getToken(code);
@@ -63,6 +63,8 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", user.getUserName());
             session.setAttribute("email", user.getEmail());
             session.setAttribute("avatarUrl", user.getAvatarUrl());
+            response.getWriter().print(user.getAvatarUrl());
+            request.getRequestDispatcher("index.jsp").forward(request, response);
         }else{
             user = new User(userName, email, "Google", code, avatar, true);
             userDao.addUserByLoginGoogle(user);
@@ -70,8 +72,10 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", user.getUserName());
             session.setAttribute("email", user.getEmail());
             session.setAttribute("avatarUrl", user.getAvatarUrl());
+            response.getWriter().print(user.getAvatarUrl());
+            request.getRequestDispatcher("choose-role-form.jsp").forward(request, response);
         }
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
@@ -122,12 +126,11 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", u.getUserName());
             session.setAttribute("email", u.getEmail());
             session.setAttribute("avatarUrl", u.getAvatarUrl());
-            response.getWriter().print(mail);
-            response.getWriter().print(u);
+            request.setAttribute("success", "Đăng nhập thành công!");
             request.getRequestDispatcher("index.jsp").forward(request, response);
-        } else {
-            request.setAttribute("msg", "Authenticate failure!");
-            request.getRequestDispatcher("index-logged-out.jsp").forward(request, response);
+        }else{
+            request.setAttribute("loginError", "Đăng nhập thất bại!");
+            response.sendRedirect("index-logged-out.jsp#sign-in-dialog");
         }
     }
 

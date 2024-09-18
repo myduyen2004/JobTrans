@@ -90,7 +90,7 @@
         <div class="email-container">
             <!-- Email Header -->
             <div class="email-header">
-                <img src="../images/logo.png" alt="Logo">
+                <img src="http://localhost:8080/JobTrans/images/logo.png" alt="Logo">
             </div>
             
             <!-- Email Body -->

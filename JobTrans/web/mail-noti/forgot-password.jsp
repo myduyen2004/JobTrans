@@ -88,7 +88,7 @@
         <div class="body">
             <div class="container">
                 <div class="img-header">
-                    <img src="../images/logo.png" width="100"/>
+                    <img src="http://localhost:8080/JobTrans/images/logo.png" width="100"/>
                 </div>
                 <br><br>
                 <h1>Yêu cầu xác minh quên mật khẩu JOBTRANS</h1>
@@ -114,7 +114,7 @@
             </div>
             <div class="footer">
                 <p>Trường Đại học FPT phân hiệu Đà Nẵng, Khu Công nghệ cao, Ngũ Hành Sơn, Đà Nẵng, Việt Nam</p>
-                <p>&copy; 2024 LaptopHub</p>
+                <p>&copy; 2024 JobTrans</p>
             </div>
         </div>
     </body>

@@ -1190,10 +1190,10 @@
                                 <i class="icon-material-outline-lock"></i>
                                 <input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required/>
                             </div>
-                            <input type="checkbox" class name="remember" value="1"
+                            <input type="checkbox" class name="remember" value="1" style="width: 15px; height: 15px; margin-right: 10px; margin-top: 5px"
                                    <%= "1".equals(rememberVal.trim()) ?"checked=\"checked\"" : ""%> />
-                            <label class="form-check-label" for="exampleCheck1">Ghi nhớ mật khẩu</label> 
-                            <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                            Ghi nhớ mật khẩu
+                            <a href="authentication/verify-email.jsp" class="forgot-password">Quên mật khẩu?</a>
                             <button class="button full-width button-sliding-icon ripple-effect" type="submit">Đăng nhập <i class="icon-material-outline-arrow-right-alt"></i></button>
                         </form>
 

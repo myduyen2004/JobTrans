@@ -16,35 +16,37 @@
 <title>JobTrans</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
 <!-- CSS
 ================================================== -->
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/colors/blue.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
 </head>
+    <%@include file="/includes/header.jsp" %>
+
 <body>
 
-<!-- Wrapper -->
+<!-- Wrapper 
 <div id="wrapper">
 
-<!-- Header Container
-================================================== -->
+ Header Container
+================================================== 
 <header id="header-container" class="fullwidth">
 
-	<!-- Header -->
+	 Header 
 	<div id="header">
 		<div class="container">
 			
-			<!-- Left Side Content -->
+			 Left Side Content 
 			<div class="left-side">
 				
-				<!-- Logo -->
+				 Logo 
 				<div id="logo">
 					<a href="index-2.html"><img src="images/logo.png" alt=""></a>
 				</div>
 
-				<!-- Main Navigation -->
+				 Main Navigation 
 				<nav id="navigation">
 					<ul id="responsive">
 
@@ -152,27 +154,27 @@
 					</ul>
 				</nav>
 				<div class="clearfix"></div>
-				<!-- Main Navigation / End -->
+				 Main Navigation / End 
 				
 			</div>
-			<!-- Left Side Content / End -->
+			 Left Side Content / End 
 
 
-			<!-- Right Side Content / End -->
+			 Right Side Content / End 
 			<div class="right-side">
 
-				<!--  User Notifications -->
+				  User Notifications 
 				<div class="header-widget hide-on-mobile">
 					
-					<!-- Notifications -->
+					 Notifications 
 					<div class="header-notifications">
 
-						<!-- Trigger -->
+						 Trigger 
 						<div class="header-notifications-trigger">
 							<a href="#"><i class="icon-feather-bell"></i><span>4</span></a>
 						</div>
 
-						<!-- Dropdown -->
+						 Dropdown 
 						<div class="header-notifications-dropdown">
 
 							<div class="header-notifications-headline">
@@ -185,7 +187,7 @@
 							<div class="header-notifications-content">
 								<div class="header-notifications-scroll" data-simplebar>
 									<ul>
-										<!-- Notification -->
+										 Notification 
 										<li class="notifications-not-read">
 											<a href="dashboard-manage-candidates.html">
 												<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
@@ -195,7 +197,7 @@
 											</a>
 										</li>
 
-										<!-- Notification -->
+										 Notification 
 										<li>
 											<a href="dashboard-manage-bidders.html">
 												<span class="notification-icon"><i class=" icon-material-outline-gavel"></i></span>
@@ -205,7 +207,7 @@
 											</a>
 										</li>
 
-										<!-- Notification -->
+										 Notification 
 										<li>
 											<a href="dashboard-manage-jobs.html">
 												<span class="notification-icon"><i class="icon-material-outline-autorenew"></i></span>
@@ -215,7 +217,7 @@
 											</a>
 										</li>
 
-										<!-- Notification -->
+										 Notification 
 										<li>
 											<a href="dashboard-manage-candidates.html">
 												<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
@@ -232,13 +234,13 @@
 
 					</div>
 					
-					<!-- Messages -->
+					 Messages 
 					<div class="header-notifications">
 						<div class="header-notifications-trigger">
 							<a href="#"><i class="icon-feather-mail"></i><span>3</span></a>
 						</div>
 
-						<!-- Dropdown -->
+						 Dropdown 
 						<div class="header-notifications-dropdown">
 
 							<div class="header-notifications-headline">
@@ -251,7 +253,7 @@
 							<div class="header-notifications-content">
 								<div class="header-notifications-scroll" data-simplebar>
 									<ul>
-										<!-- Notification -->
+										 Notification 
 										<li class="notifications-not-read">
 											<a href="dashboard-messages.html">
 												<span class="notification-avatar status-online"><img src="images/user-avatar-small-03.jpg" alt=""></span>
@@ -263,7 +265,7 @@
 											</a>
 										</li>
 
-										<!-- Notification -->
+										 Notification 
 										<li class="notifications-not-read">
 											<a href="dashboard-messages.html">
 												<span class="notification-avatar status-offline"><img src="images/user-avatar-small-02.jpg" alt=""></span>
@@ -275,7 +277,7 @@
 											</a>
 										</li>
 
-										<!-- Notification -->
+										 Notification 
 										<li class="notifications-not-read">
 											<a href="dashboard-messages.html">
 												<span class="notification-avatar status-online"><img src="images/user-avatar-placeholder.png" alt=""></span>
@@ -295,53 +297,53 @@
 					</div>
 
 				</div>
-				<!--  User Notifications / End -->
+				  User Notifications / End 
 
-				<!-- User Menu -->
+				 User Menu 
 				<div class="header-widget">
 
-					<!-- Messages -->
+					 Messages 
 					<div class="header-notifications user-menu">
 						<div class="header-notifications-trigger">
-							<a href="#"><div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt=""></div></a>
+							<a href="#"><div class="user-avatar status-online"><img src="${avatarUrl}" alt=""></div></a>
 						</div>
 
-						<!-- Dropdown -->
+						 Dropdown 
 						<div class="header-notifications-dropdown">
 
-							<!-- User Status -->
+							 User Status 
 							<div class="user-status">
 
-								<!-- User Name / Avatar -->
+								 User Name / Avatar 
 								<div class="user-details">
-									<div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt=""></div>
+									<div class="user-avatar status-online"><img src="${avatarUrl}" alt=""></div>
 									<div class="user-name">
-										Tom Smith <span>Freelancer</span>
+										${userName} <span>Freelancer</span>
 									</div>
 								</div>
 								
-								<!-- User Status Switcher -->
+								 User Status Switcher 
 								<div class="status-switch" id="snackbar-user-status">
 									<label class="user-online current-status">Online</label>
 									<label class="user-invisible">Invisible</label>
-									<!-- Status Indicator -->
+									 Status Indicator 
 									<span class="status-indicator" aria-hidden="true"></span>
 								</div>	
 						</div>
 						
 						<ul class="user-menu-small-nav">
-							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Thông tin</a></li>
+							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Sửa hồ sơ</a></li>
+							<li><a href="logout"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
 						</ul>
 
 						</div>
 					</div>
 
 				</div>
-				<!-- User Menu / End -->
+				 User Menu / End 
 
-				<!-- Mobile Navigation Button -->
+				 Mobile Navigation Button 
 				<span class="mmenu-trigger">
 					<button class="hamburger hamburger--collapse" type="button">
 						<span class="hamburger-box">
@@ -351,15 +353,15 @@
 				</span>
 
 			</div>
-			<!-- Right Side Content / End -->
+			 Right Side Content / End 
 
 		</div>
 	</div>
-	<!-- Header / End -->
+	 Header / End 
 
 </header>
 <div class="clearfix"></div>
-<!-- Header Container / End -->
+ Header Container / End -->
 
 
 
@@ -1340,6 +1342,11 @@
 <script src="js/custom.js"></script>
 
 <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+<script>
+    <% if (request.getAttribute("success") != null) { %>
+            toastr.success('<%= request.getAttribute("success") %>');
+    <% } %>
+</script>
 <script>
 // Snackbar for user status switcher
 $('#snackbar-user-status label').click(function() { 

@@ -5,7 +5,7 @@ CREATE TABLE Users (
     user_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     user_name NVARCHAR(50),
     email VARCHAR(100) UNIQUE,
-    password VARCHAR(20) NOT NULL,
+    password VARCHAR(20),
     oauth_provider VARCHAR(100),
     oauth_id VARCHAR(MAX),
     role VARCHAR(15),

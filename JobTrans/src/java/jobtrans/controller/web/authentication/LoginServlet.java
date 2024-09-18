@@ -42,9 +42,8 @@ public class LoginServlet extends HttpServlet {
 //        response.getWriter().println("something");
         String code = request.getParameter("code");
         String error = request.getParameter("error");
-        String role = request.getParameter("role");
         HttpSession session = request.getSession();
-
+        response.getWriter().print(code);
         // neu nguoi dung huy uy quyen
         if (error != null) {
             request.getRequestDispatcher("index-logged-out.jsp").forward(request, response);
@@ -64,20 +63,15 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", user.getUserName());
             session.setAttribute("email", user.getEmail());
             session.setAttribute("avatarUrl", user.getAvatarUrl());
-            response.getWriter().print("Something01");
         }else{
-            user = new User(userName, email, "Google", code, role, avatar, true);
+            user = new User(userName, email, "Google", code, avatar, true);
             userDao.addUserByLoginGoogle(user);
             session.setAttribute("account", email);
             session.setAttribute("userName", user.getUserName());
             session.setAttribute("email", user.getEmail());
             session.setAttribute("avatarUrl", user.getAvatarUrl());
-            response.getWriter().print("Something02");
         }
-        response.getWriter().print(email);
-        response.getWriter().print(userName);
-
-//        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the

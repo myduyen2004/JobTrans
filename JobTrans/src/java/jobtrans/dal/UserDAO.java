@@ -33,7 +33,7 @@ public class UserDAO {
             Connection con = db.openConnection();
             PreparedStatement statement = con.prepareStatement(sql);
             ResultSet rs = statement.executeQuery();
-
+            System.out.println(rs);
             while (rs.next()) {
                 int userId = rs.getInt(1);
                 String userName = rs.getNString(2);
@@ -107,8 +107,8 @@ public class UserDAO {
 //    }
 
     public void addUserByLoginGoogle(User user) {
-        String sql = "INSERT INTO Users(user_name, email, oauth_provider, oauth_id, role, balance, status)"
-                + " VALUES (?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO Users(user_name, email, oauth_provider, oauth_id, status)"
+                + " VALUES (?,?,?,?,?)";
         try {
             Connection con = dbConnection.openConnection();
             PreparedStatement statement = con.prepareStatement(sql);
@@ -116,6 +116,7 @@ public class UserDAO {
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getOauthProvider());
             statement.setString(4, user.getOauthId());
+            statement.setBoolean(5, user.isStatus());
             statement.execute();
             statement.close();
             con.close();
@@ -162,7 +163,7 @@ public class UserDAO {
     public boolean checkExistEmail(String email) {
         DBConnection db = DBConnection.getInstance();
         User user = null;
-        String sql = "SELECT * FROM [dbo].[User] WHERE email = ?";
+        String sql = "SELECT * FROM [dbo].[Users] WHERE email = ?";
         boolean check = false;
         try {
             Connection con = db.openConnection();
@@ -184,7 +185,9 @@ public class UserDAO {
     public static void main(String[] args) {
         UserDAO u = new UserDAO();
 
-        System.out.println(u.getAllUSer());
-        System.out.println(u.checkLogin(new User("nguyendinhquang25082004@gmail.com", "123qqquang")));
+//        System.out.println(u.getAllUSer());
+//        System.out.println(u.checkExistEmail("vtmyduyen3103@gmail.com"));
+//        User user = new User("Duyên", "duyenvtmde180048@fpt.edu.vn", "Google", "12221", "12", true);
+//        u.addUserByLoginGoogle(user);
     }
 }

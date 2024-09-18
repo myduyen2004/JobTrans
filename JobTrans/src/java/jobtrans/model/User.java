@@ -45,7 +45,7 @@ public class User {
         this.status = status;
     }
 
-    public User(String userName, String email, String oauthProvider, String oauthId, String role, String avatarUrl, boolean status) {
+    public User(String userName, String email, String oauthProvider, String oauthId, String avatarUrl, boolean status) {
         this.userName = userName;
         this.email = email;
         this.oauthProvider = oauthProvider;

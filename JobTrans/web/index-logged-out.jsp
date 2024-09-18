@@ -1154,9 +1154,9 @@
         ================================================== -->
         <div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
 
-	<!--Tabs -->
-	<div class="sign-in-form">
-                
+            <!--Tabs -->
+            <div class="sign-in-form">
+
                 <%
                     String email = CookieUtils.get("cookemail", request);
                     String password = CookieUtils.get("cookpass", request);
@@ -1170,44 +1170,44 @@
 
                 <div class="popup-tabs-container">
 
-			<!-- Login -->
-			<div class="popup-tab-content" id="login">
-				
-				<!-- Welcome Text -->
-				<div class="welcome-text">
-					<h3>Chúng tôi rất vui khi gặp lại bạn!</h3>
-					<span>Bạn chưa có tài khoản? <a href="#" class="register-tab">Đăng ký!</a></span>
-				</div>
-					
-				<!-- Form -->
-				<form action="login"  method="post" id="login-form">
-					<div class="input-with-icon-left">
-						<i class="icon-material-baseline-mail-outline"></i>
-                                                <input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address" required/>
-					</div>
+                    <!-- Login -->
+                    <div class="popup-tab-content" id="login">
 
-					<div class="input-with-icon-left">
-						<i class="icon-material-outline-lock"></i>
-                                                <input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required/>
-					</div>
-                                        <input type="checkbox" class name="remember" value="1"
-                                        <%= "1".equals(rememberVal.trim()) ?"checked=\"checked\"" : ""%> />
-                                        <label class="form-check-label" for="exampleCheck1">Ghi nhớ mật khẩu</label> 
-					<a href="#" class="forgot-password">Quên mật khẩu?</a>
-                                        <button class="button full-width button-sliding-icon ripple-effect" type="submit">Đăng nhập <i class="icon-material-outline-arrow-right-alt"></i></button>
-				</form>
-				
-				<!-- Button -->
-				
-				
-				<!-- Social Login -->
-				<div class="social-login-separator"><span>or</span></div>
-				<div class="social-login-buttons">
-					<a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/JobTrans/login&response_type=code&client_id=1002920823516-m0hv1uhsmimct8nfg7v84imor7mln17n.apps.googleusercontent.com&approval_prompt=force" class="google-login ripple-effect" style="color: #fff">
-                        <i class="icon-brand-google-plus-g"></i> Log In via Google+
-                    </a>
-				</div>
+                        <!-- Welcome Text -->
+                        <div class="welcome-text">
+                            <h3>Chúng tôi rất vui khi gặp lại bạn!</h3>
+                            <span>Bạn chưa có tài khoản? <a href="#" class="register-tab">Đăng ký!</a></span>
+                        </div>
 
+                        <!-- Form -->
+                        <form action="login"  method="post" id="login-form">
+                            <div class="input-with-icon-left">
+                                <i class="icon-material-baseline-mail-outline"></i>
+                                <input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Email Address" required/>
+                            </div>
+
+                            <div class="input-with-icon-left">
+                                <i class="icon-material-outline-lock"></i>
+                                <input type="password" class="input-text with-border" name="password" id="password" placeholder="Password" required/>
+                            </div>
+                            <input type="checkbox" class name="remember" value="1"
+                                   <%= "1".equals(rememberVal.trim()) ?"checked=\"checked\"" : ""%> />
+                            <label class="form-check-label" for="exampleCheck1">Ghi nhớ mật khẩu</label> 
+                            <a href="#" class="forgot-password">Quên mật khẩu?</a>
+                            <button class="button full-width button-sliding-icon ripple-effect" type="submit">Đăng nhập <i class="icon-material-outline-arrow-right-alt"></i></button>
+                        </form>
+
+                        <!-- Button -->
+
+
+                        <!-- Social Login -->
+                        <div class="social-login-separator"><span>or</span></div>
+                        <div class="social-login-buttons">
+                            <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/JobTrans/login&response_type=code&client_id=1002920823516-m0hv1uhsmimct8nfg7v84imor7mln17n.apps.googleusercontent.com&approval_prompt=force" class="google-login ripple-effect" style="color: #fff">
+                                <i class="icon-brand-google-plus-g"></i> Đăng nhập bằng Google
+                            </a>
+                        </div>
+                        
                     </div>
 
                     <!-- Register -->
@@ -1278,18 +1278,18 @@
 
         <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
         <script>
-        // Snackbar for user status switcher
-                                                            $('#snackbar-user-status label').click(function () {
-                                                                Snackbar.show({
-                                                                    text: 'Your status has been changed!',
-                                                                    pos: 'bottom-center',
-                                                                    showAction: false,
-                                                                    actionText: "Dismiss",
-                                                                    duration: 3000,
-                                                                    textColor: '#fff',
-                                                                    backgroundColor: '#383838'
-                                                                });
-                                                            });
+                                        // Snackbar for user status switcher
+                                        $('#snackbar-user-status label').click(function () {
+                                            Snackbar.show({
+                                                text: 'Your status has been changed!',
+                                                pos: 'bottom-center',
+                                                showAction: false,
+                                                actionText: "Dismiss",
+                                                duration: 3000,
+                                                textColor: '#fff',
+                                                backgroundColor: '#383838'
+                                            });
+                                        });
         </script>
 
 

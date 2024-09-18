@@ -28,6 +28,10 @@
         <servlet-name>ProfileController</servlet-name>
         <servlet-class>jobtrans.controller.web.profile.ProfileController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.authentication.RegisterServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>AccountManage</servlet-name>
         <url-pattern>/AccountManage</url-pattern>
@@ -56,4 +60,5 @@
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/ProfileController</url-pattern>
     </servlet-mapping>
+   
 </web-app>

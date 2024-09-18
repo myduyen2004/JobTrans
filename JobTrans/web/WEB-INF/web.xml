@@ -29,12 +29,8 @@
         <servlet-class>jobtrans.controller.web.profile.ProfileController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>HomeServlet</servlet-name>
-        <servlet-class>jobtrans.controller.web.home.HomeServlet</servlet-class>
-    </servlet>
-    <servlet>
-        <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>jobtrans.controller.web.authentication.LoginServlet</servlet-class>
+        <servlet-name>RegisterServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.authentication.RegisterServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>ForgotPassword</servlet-name>
@@ -76,6 +72,7 @@
         <servlet-name>ProfileController</servlet-name>
         <url-pattern>/ProfileController</url-pattern>
     </servlet-mapping>
+<<<<<<< HEAD
     <servlet-mapping>
         <servlet-name>HomeServlet</servlet-name>
         <url-pattern>/home</url-pattern>
@@ -96,4 +93,7 @@
         <servlet-name>LogoutServlet</servlet-name>
         <url-pattern>/logout</url-pattern>
     </servlet-mapping>
+=======
+   
+>>>>>>> 63c4f861897eeb26e51c807df21cd8098232d704
 </web-app>

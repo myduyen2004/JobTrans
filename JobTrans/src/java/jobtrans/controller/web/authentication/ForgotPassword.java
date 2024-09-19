@@ -116,12 +116,12 @@ public class ForgotPassword extends HttpServlet {
                     req.getRequestDispatcher("authentication/verify-otp.jsp").forward(req, resp);
                 } else {
                     req.setAttribute("error", "Gửi mã OTP thất bại! Vui lòng kiểm tra lại email!");
-                    req.getRequestDispatcher("authentication/verify-gmail.jsp").forward(req, resp);
+                    req.getRequestDispatcher("authentication/verify-email.jsp").forward(req, resp);
                 }
             } catch (Exception ex) {
                 Logger.getLogger(ForgotPassword.class.getName()).log(Level.SEVERE, null, ex);
                 req.setAttribute("error", "Gửi mã OTP thất bại! Vui lòng kiểm tra lại email!");
-                req.getRequestDispatcher("authentication/verify-gmail.jsp").forward(req, resp);
+                req.getRequestDispatcher("authentication/verify-email.jsp").forward(req, resp);
             }
         } else if (cmd.equals("2")) {
             String email = req.getParameter("email");

@@ -309,8 +309,9 @@
 						</div>
 						
 						<ul class="user-menu-small-nav">
-							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Thông tin</a></li>
-							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Sửa hồ sơ</a></li>
+							<li><a href="profile?action=view"><i class="icon-material-outline-dashboard"></i> Thông tin</a></li>
+							<li><a href="UpdateServlet?action=load"><i class="icon-material-outline-settings"></i> Sửa hồ sơ</a></li>
+                                                        <li><a href="profile?action=loadPassword"><i class="icon-material-outline-settings"></i> Đổi mật khẩu</a></li>
 							<li><a href="logout"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
 						</ul>
 

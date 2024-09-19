@@ -96,7 +96,7 @@
             <!-- Email Body -->
             <div class="email-body">
                 <h1>Yêu cầu xác minh tài khoản</h1>
-                <h2>Xin chào [Recipient's Name],</h2>
+                <h2>Xin chào [NAME],</h2>
                 <p>Cảm ơn bạn đã đăng ký tài khoản trên hệ thống <b>JOBTRANS</b>. Vui lòng sử dụng mã dưới đây để xác minh địa chỉ email của bạn.</p>
                 <div class="code-block">[CODE]</div>
                 <p class="body1">Đấy không phải tôi!</p>

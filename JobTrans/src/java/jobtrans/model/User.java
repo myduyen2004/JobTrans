@@ -22,7 +22,7 @@ public class User {
     private String address;
     private String avatarUrl;
     private boolean status;
-
+    private int quantityOfJob;
     // Default constructor
     public User() {
     }
@@ -44,24 +44,40 @@ public class User {
         this.avatarUrl = avatarUrl;
         this.status = status;
     }
-
+    public User(int userId, String userName, String email, String password, String oauthProvider, String oauthId, String role, int balance, String description, String specification, String address, String avatarUrl, boolean status, int quantityOfJob) {
+        this.userId = userId;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.oauthProvider = oauthProvider;
+        this.oauthId = oauthId;
+        this.role = role;
+        this.balance = balance;
+        this.description = description;
+        this.specification = specification;
+        this.address = address;
+        this.avatarUrl = avatarUrl;
+        this.status = status;
+        this.quantityOfJob = quantityOfJob;
+    }
     public User(String userName, String email, String oauthProvider, String oauthId, String avatarUrl, boolean status) {
         this.userName = userName;
         this.email = email;
         this.oauthProvider = oauthProvider;
         this.oauthId = oauthId;
-        this.role = role;
         this.avatarUrl = avatarUrl;
         this.status = status;
     }
 
-    public User(String userName, String email, String password, String role, boolean status) {
+    public User(String userName, String email, String password, String avatarUrl, boolean status) {
         this.userName = userName;
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.avatarUrl = avatarUrl;
         this.status = status;
     }
+
+    
 
    
     
@@ -163,6 +179,9 @@ public class User {
     public String getAvatarUrl() {
         return avatarUrl;
     }
+    public String getDefaultAvatarUrl() {
+        return "images/default-avatar.jpg";
+    }
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
@@ -174,6 +193,13 @@ public class User {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+    public int getQuantityOfJob() {
+        return quantityOfJob;
+    }
+
+    public void setQuantityOfJob(int quantityOfJob) {
+        this.quantityOfJob = quantityOfJob;
     }
 
     // Overriding toString() method to display the User object

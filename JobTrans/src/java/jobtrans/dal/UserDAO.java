@@ -13,12 +13,15 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.model.User;
 import jobtrans.utils.DBConnection;
+import java.sql.SQLException;
+import java.sql.*;
 
 /**
  *
  * @author admin
  */
 public class UserDAO {
+
     private final DBConnection dbConnection;
 
     public UserDAO() {
@@ -105,7 +108,6 @@ public class UserDAO {
 //        }
 //        return user;
 //    }
-
     public void addUserByLoginGoogle(User user) {
         String sql = "INSERT INTO Users(user_name, email, oauth_provider, oauth_id, avatar_url, status)"
                 + " VALUES (?,?,?,?,?,?)";
@@ -125,9 +127,10 @@ public class UserDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-  public void addUserByRegister(User user) {
-       String sql = "INSERT INTO Users(user_name,email,password,role,status)"
-                + " VALUES (?,?,?,?,?)";
+
+    public void addUserByRegister(User user) {
+        String sql = "INSERT INTO Users(user_name,email,password,role,avatar_url, status)"
+                + " VALUES (?,?,?,?,?,?)";
         try {
             Connection con = dbConnection.openConnection();
             PreparedStatement statement = con.prepareStatement(sql);
@@ -135,14 +138,16 @@ public class UserDAO {
             statement.setString(2, user.getEmail());
             statement.setString(3, user.getPassword());
             statement.setString(4, user.getRole());
-            statement.setBoolean(5, user.isStatus());
-            statement.executeUpdate(); 
+            statement.setString(5, user.getDefaultAvatarUrl());
+            statement.setBoolean(6, user.isStatus());
+            statement.executeUpdate();
             statement.close();
             con.close();
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public User getUserByEmail(String email) {
         DBConnection db = DBConnection.getInstance();
         User user = null;
@@ -177,7 +182,7 @@ public class UserDAO {
         }
         return user;
     }
- 
+
     public boolean checkExistEmail(String email) {
         DBConnection db = DBConnection.getInstance();
         User user = null;
@@ -199,11 +204,11 @@ public class UserDAO {
         }
         return check;
     }
-<<<<<<< HEAD
-    public void changePassword(String password, String email){
+
+    public void changePassword(String password, String email) {
         String sql = "UPDATE [dbo].[Users] SET password = ? WHERE email = ?";
         ResultSet rs = null;
-        try{
+        try {
             Connection con = dbConnection.openConnection();
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, password);
@@ -212,14 +217,15 @@ public class UserDAO {
             statement.close();
             con.close();
             System.out.println("Sucess!");
-        }catch(Exception ex){
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE,null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public void updateAfterLoginGoogle(String role, String email){
+
+    public void updateAfterLoginGoogle(String role, String email) {
         String sql = "UPDATE [dbo].[Users] SET role = ? WHERE email = ?";
         ResultSet rs = null;
-        try{
+        try {
             Connection con = dbConnection.openConnection();
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, role);
@@ -227,20 +233,140 @@ public class UserDAO {
             statement.executeQuery();
             statement.close();
             con.close();
-        }catch(Exception ex){
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE,null, ex);
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public static void main(String[] args) {
-        UserDAO u = new UserDAO();
 
+    public User getUserById(int userId) {
+        User user = null;
+        Connection con = null; // Khởi tạo Connection là null
+        try {
+            // Mở kết nối thông qua lớp DBConnection
+            con = DBConnection.getInstance().openConnection();
+
+            String query = "SELECT * FROM [Users] WHERE user_id = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                user = new User(
+                        rs.getInt("user_id"),
+                        rs.getString("user_name"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("oauth_provider"),
+                        rs.getString("oauth_id"),
+                        rs.getString("role"),
+                        rs.getInt("balance"),
+                        rs.getString("description"),
+                        rs.getString("specification"),
+                        rs.getString("address"),
+                        rs.getString("avatar_url"),
+                        rs.getBoolean("status"),
+                        rs.getInt("quantity_of_job") // Thêm quantityOfJob từ database
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace(); // Bắt các lỗi khác nếu có
+        } finally {
+            // Đóng kết nối
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return user;
+    }
+    
+    
+
+    // Cập nhật thông tin user, bao gồm cả mật khẩu mới
+    public void changePassword(User user) {
+        Connection con = null; // Khởi tạo Connection là null
+        try {
+            // Mở kết nối thông qua lớp DBConnection
+            con = DBConnection.getInstance().openConnection();
+
+            String query = "UPDATE Users SET password = ? WHERE email = ?";
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, user.getPassword());
+            ps.setString(2, user.getEmail());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace(); // Bắt các lỗi khác nếu có
+        } finally {
+            // Đóng kết nối
+            if (con != null) {
+                try {
+                    con.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public  boolean editProfile(User user) {
+       DBConnection db = DBConnection.getInstance(); 
+       
+    boolean isUpdated = false;
+    try  {
+        Connection con = db.openConnection();
+        // SQL query to update the user's profile
+        String query = "UPDATE Users SET user_name = ?, role = ?, description = ?, specification = ?, address = ?, avatar_url=? WHERE email = ?";
+        
+        PreparedStatement stmt = con.prepareStatement(query);
+        
+        // Ensure all parameters are properly set
+//        if (user.getUserName() == null || user.getUserName().isEmpty()) {
+//            throw new IllegalArgumentException("User name is missing!");
+//        }
+//        if (user.getRole() == null || user.getRole().isEmpty()) {
+//            throw new IllegalArgumentException("Role is missing!");
+//        }
+//        if (user.getUserId() == 0) {
+//            throw new IllegalArgumentException("User ID is missing or invalid!");
+//        }
+
+        // Set the parameters based on the User object
+        stmt.setString(1, user.getUserName());         // user_name
+        stmt.setString(2, user.getRole());              // role
+        stmt.setString(3, user.getDescription());       // description
+        stmt.setString(4, user.getSpecification());     // specification
+        stmt.setString(5, user.getAddress());           // address
+        stmt.setString(6, user.getAvatarUrl());
+        stmt.setString(7, user.getEmail());              // user_id (for the WHERE condition)
+
+        // Execute the update query
+        int rowsAffected = stmt.executeUpdate();
+        
+        if (rowsAffected > 0) {
+            isUpdated = true;  // Update was successful
+        }
+        
+        con.close();
+    } catch (IllegalArgumentException e) {
+        System.out.println("Error in input parameters: " + e.getMessage());
+    } catch (Exception e) {
+        Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, e);
+    }
+    return isUpdated;  // Return true if the profile was updated, false otherwise
+}
+//    public static void main(String[] args) {
+//        UserDAO u = new UserDAO();
+//
 //        System.out.println(u.getAllUSer());
 //        System.out.println(u.checkExistEmail("vtmyduyen3103@gmail.com"));
 //        User user = new User("Duyên", "duyenvtmde180048@fpt.edu.vn", "Google", "12221", "12", true);
 //        u.addUserByLoginGoogle(user);
-    }
-=======
-  
-   
->>>>>>> 63c4f861897eeb26e51c807df21cd8098232d704
+//    }
 }

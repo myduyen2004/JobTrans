@@ -20,8 +20,9 @@
 ================================================== -->
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/colors/blue.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 </head>
     <%@include file="/includes/header.jsp" %>
 
@@ -1382,6 +1383,15 @@ $('#snackbar-user-status label').click(function() {
 	    }, 300);
 	}
 
+</script>
+<script>
+        // Kiểm tra xem có thông báo thành công hay không
+            <% if (request.getAttribute("success") != null) { %>
+                toastr.success('<%= request.getAttribute("success") %>');
+            <% } %>
+            <% if (request.getAttribute("error") != null) { %>
+                toastr.error('<%= request.getAttribute("error") %>');
+            <% } %>
 </script>
 
 <!-- Google API -->

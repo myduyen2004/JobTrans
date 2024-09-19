@@ -24,7 +24,9 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/colors/blue.css">
         <link rel="stylesheet" href="css/other.css">
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     </head>
     <body>
 
@@ -1219,38 +1221,54 @@
                         </div>
 
                         <!-- Account Type -->
-                        <div class="account-type">
+                        
+
+                        <!-- Form -->
+                        <form method="post" id="register-account-form" action="./Register">
+                            <div class="account-type">
                             <div>
-                                <input type="radio" name="account-type-radio" id="freelancer-radio" class="account-type-radio" checked/>
+                                <input type="radio" name="account-type-radio" id="freelancer-radio" value = "freelancer" class="account-type-radio" checked/>
                                 <label for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
                             </div>
 
                             <div>
-                                <input type="radio" name="account-type-radio" id="employer-radio" class="account-type-radio"/>
+                                <input type="radio" name="account-type-radio" id="employer-radio" value = "employer" class="account-type-radio"/>
                                 <label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
                             </div>
+                            
                         </div>
-
-                        <!-- Form -->
-                        <form method="post" id="register-account-form">
-                            <div class="input-with-icon-left">
-                                <i class="icon-material-baseline-mail-outline"></i>
-                                <input type="text" class="input-text with-border" name="emailaddress-register" id="emailaddress-register" placeholder="Email Address" required/>
+                            <div>
+                                <input type="hidden" name="cmd" id="cmd" value="1"/>
                             </div>
+                                 <div class="input-with-icon-left">
+                                    <i class="icon-material-baseline-mail-outline"></i>
+                                    <input type="text" class="input-text with-border" name="username-register" id="username-register" placeholder="Tên người dùng" required/>
+                                    <input type="hidden" class="input-text with-border" name="cmd" id="cmd" value="1"/>
 
-                            <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
-                                <i class="icon-material-outline-lock"></i>
-                                <input type="password" class="input-text with-border" name="password-register" id="password-register" placeholder="Password" required/>
-                            </div>
+                                </div>
+                                <div class="input-with-icon-left">
+                                    <i class="icon-material-baseline-mail-outline"></i>
+                                    <input type="text" class="input-text with-border" name="emailaddress-register" id="emailaddress-register" placeholder="Địa chỉ email" required/>
+                                    <small id="email-error" style="color: red; display: none;">Không đúng định dạng mail</small>
+                                </div>
 
-                            <div class="input-with-icon-left">
-                                <i class="icon-material-outline-lock"></i>
-                                <input type="password" class="input-text with-border" name="password-repeat-register" id="password-repeat-register" placeholder="Repeat Password" required/>
-                            </div>
-                        </form>
+                                <div class="input-with-icon-left" title="Should be at least 8 characters long" data-tippy-placement="bottom">
+                                    <i class="icon-material-outline-lock"></i>
+                                    <input type="password" class="input-text with-border" name="password-register" id="password-register" placeholder="Mật khẩu" required/>
+                                    <small id="password-error" style="color: red; display: none;">Mật khẩu ít nhất phải có 8 ký tự</small>
+                                </div>
+
+                                <div class="input-with-icon-left">
+                                    <i class="icon-material-outline-lock"></i>
+                                    <input type="password" class="input-text with-border" name="password-repeat-register" id="password-repeat-register" placeholder="Nhập lại mật khẩu" required/>
+                                    <small id="password-repeat-error" style="color: red; display: none;">Mật khẩu không khớp</small>
+                                </div>
+
+                                <!-- Button -->
+                                <button class="button full-width button-sliding-icon ripple-effect margin-top-10" type="submit" form="register-account-form">Đăng ký <i class="icon-material-outline-arrow-right-alt"></i></button>
+                            </form>
 
                         <!-- Button -->
-                        <button class="margin-top-10 button full-width button-sliding-icon ripple-effect" type="submit" form="register-account-form">Register <i class="icon-material-outline-arrow-right-alt"></i></button>
 
                         <!-- Social Login -->
                     </div>
@@ -1313,6 +1331,57 @@
             }
 
         </script>
+        
+        <script>
+    document.getElementById('register-account-form').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent immediate form submission
+        let isValid = true;
+
+        // Get form values
+        const email = document.getElementById('emailaddress-register').value;
+        const password = document.getElementById('password-register').value;
+        const passwordRepeat = document.getElementById('password-repeat-register').value;
+
+        // Email validation regex
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            document.getElementById('email-error').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('email-error').style.display = 'none';
+        }
+
+        // Password length validation (at least 8 characters)
+        if (password.length < 8) {
+            document.getElementById('password-error').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('password-error').style.display = 'none';
+        }
+
+        // Password matching validation
+        if (password !== passwordRepeat) {
+            document.getElementById('password-repeat-error').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('password-repeat-error').style.display = 'none';
+        }
+
+        // If all validations pass, submit the form
+        if (isValid) {
+            this.submit();
+        }
+    });
+</script>
+<script>
+        // Kiểm tra xem có thông báo thành công hay không
+            <% if (request.getAttribute("success") != null) { %>
+                toastr.success('<%= request.getAttribute("success") %>');
+            <% } %>
+            <% if (request.getAttribute("error") != null) { %>
+                toastr.error('<%= request.getAttribute("error") %>');
+            <% } %>
+</script>
 
         <!-- Google API & Maps -->
         <!-- Geting an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key -->

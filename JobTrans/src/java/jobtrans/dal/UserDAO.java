@@ -75,39 +75,6 @@ public class UserDAO {
         }
         return temp;
     }
-
-//    public User getUserByEmail(String emailIn) {
-//        DBConnection db = DBConnection.getInstance();
-//        String sql = "Select * From Users where email = ?";
-//        User user = null;
-//        try {
-//            Connection con = db.openConnection();
-//            PreparedStatement stmt = con.prepareStatement(sql);
-//            stmt.setString(1, emailIn);
-//            ResultSet rs = stmt.executeQuery();
-//
-//            while (rs.next()) {
-//                int userId = rs.getInt(1);
-//                String userName = rs.getNString(2);
-//                String email = rs.getString(3);
-//                String password = rs.getString(4);
-//                String oauthProvider = rs.getString(5);
-//                String oauthId = rs.getString(6);
-//                String role = rs.getString(7);
-//                int balance = rs.getInt(8);
-//                String description = rs.getNString(9);
-//                String specification = rs.getNString(10);
-//                String address = rs.getNString(11);
-//                String avatarUrl = rs.getString(12);
-//                Boolean status = rs.getBoolean(13);
-//                user = new User(userId, userName, email, password, oauthProvider, oauthId, role, balance, description,
-//                        specification, address, avatarUrl, status);
-//            }
-//        } catch (Exception ex) {
-//            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return user;
-//    }
     public void addUserByLoginGoogle(User user) {
         String sql = "INSERT INTO Users(user_name, email, oauth_provider, oauth_id, avatar_url, status)"
                 + " VALUES (?,?,?,?,?,?)";
@@ -165,14 +132,13 @@ public class UserDAO {
                 String oauthProvider = rs.getString(5);
                 String oauthId = rs.getString(6);
                 String role = rs.getString(7);
-                double balance = rs.getInt(8);
+                double balance = rs.getDouble(8);
                 String description = rs.getNString(9);
                 String specification = rs.getNString(10);
                 String address = rs.getNString(11);
                 String avatarUrl = rs.getNString(12);
                 boolean status = rs.getBoolean(13);
-                user = new User(userId, userName, email, password, oauthProvider, oauthId, role, userId, description,
-                        specification, address, avatarUrl, status);
+                user = new User(userId, userName, email, password, oauthProvider, oauthId, role, balance, description, specification, address, avatarUrl, status);
             }
             rs.close();
             statement.close();
@@ -238,55 +204,6 @@ public class UserDAO {
         }
     }
 
-    public User getUserById(int userId) {
-        User user = null;
-        Connection con = null; // Khởi tạo Connection là null
-        try {
-            // Mở kết nối thông qua lớp DBConnection
-            con = DBConnection.getInstance().openConnection();
-
-            String query = "SELECT * FROM [Users] WHERE user_id = ?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setInt(1, userId);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                user = new User(
-                        rs.getInt("user_id"),
-                        rs.getString("user_name"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("oauth_provider"),
-                        rs.getString("oauth_id"),
-                        rs.getString("role"),
-                        rs.getInt("balance"),
-                        rs.getString("description"),
-                        rs.getString("specification"),
-                        rs.getString("address"),
-                        rs.getString("avatar_url"),
-                        rs.getBoolean("status"),
-                        rs.getInt("quantity_of_job") // Thêm quantityOfJob từ database
-                );
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace(); // Bắt các lỗi khác nếu có
-        } finally {
-            // Đóng kết nối
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return user;
-    }
-    
-    
-
     // Cập nhật thông tin user, bao gồm cả mật khẩu mới
     public void changePassword(User user) {
         Connection con = null; // Khởi tạo Connection là null
@@ -325,18 +242,6 @@ public class UserDAO {
         String query = "UPDATE Users SET user_name = ?, role = ?, description = ?, specification = ?, address = ?, avatar_url=? WHERE email = ?";
         
         PreparedStatement stmt = con.prepareStatement(query);
-        
-        // Ensure all parameters are properly set
-//        if (user.getUserName() == null || user.getUserName().isEmpty()) {
-//            throw new IllegalArgumentException("User name is missing!");
-//        }
-//        if (user.getRole() == null || user.getRole().isEmpty()) {
-//            throw new IllegalArgumentException("Role is missing!");
-//        }
-//        if (user.getUserId() == 0) {
-//            throw new IllegalArgumentException("User ID is missing or invalid!");
-//        }
-
         // Set the parameters based on the User object
         stmt.setString(1, user.getUserName());         // user_name
         stmt.setString(2, user.getRole());              // role
@@ -361,12 +266,42 @@ public class UserDAO {
     }
     return isUpdated;  // Return true if the profile was updated, false otherwise
 }
-//    public static void main(String[] args) {
-//        UserDAO u = new UserDAO();
-//
-//        System.out.println(u.getAllUSer());
-//        System.out.println(u.checkExistEmail("vtmyduyen3103@gmail.com"));
-//        User user = new User("Duyên", "duyenvtmde180048@fpt.edu.vn", "Google", "12221", "12", true);
-//        u.addUserByLoginGoogle(user);
-//    }
+    public int getQuantityOfAppliedJob(User u){
+        String sql = """
+                     SELECT COUNT(*) AS TotalApplications FROM JobGreetings
+                     WHERE job_seeker_id = ?;""";
+        int quantityOfAppliedJob = 0;
+        try{
+            Connection con = dbConnection.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setInt(1, u.getUserId());
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                quantityOfAppliedJob = rs.getInt(1);
+            }
+        }catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return quantityOfAppliedJob;
+    }
+    public int getQuantityOfPostedJob(User u){
+        String sql = """
+                     SELECT COUNT(*) AS TotalPost FROM Job
+                     WHERE user_id = ?;""";
+        int quantityOfPostedJob = 0;
+        try{
+            Connection con = dbConnection.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setInt(1, u.getUserId());
+            ResultSet rs = statement.executeQuery();
+            while(rs.next()){
+                quantityOfPostedJob = rs.getInt(1);
+            }
+        }catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+        
+    }
+
 }

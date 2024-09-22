@@ -7,6 +7,7 @@ package jobtrans.controller.web.authentication;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,8 +17,9 @@ import jobtrans.model.User;
 
 /**
  *
- * @author admin
+ * @author MyDuyen
  */
+@WebServlet(name="RoleServlet", urlPatterns={"/role"})
 public class RoleServlet extends HttpServlet {
 
     /**
@@ -83,6 +85,8 @@ public class RoleServlet extends HttpServlet {
         session.setAttribute("userName", user.getUserName());
         session.setAttribute("email", user.getEmail());
         session.setAttribute("avatarUrl", user.getAvatarUrl());
+        session.setAttribute("oauthId", user.getOauthId());
+        session.setAttribute("role", user.getRole());
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 

@@ -27,6 +27,10 @@ import jobtrans.utils.RandomGenerator;
  *
  * @author NGUYENVU
  */
+/**
+ *
+ * @author MyDuyen
+ */
 @WebServlet(name = "RegisterServlet", urlPatterns = {"/Register"})
 public class RegisterServlet extends HttpServlet {
 
@@ -129,7 +133,7 @@ public class RegisterServlet extends HttpServlet {
             request.getRequestDispatcher("authentication/verify-otp_1.jsp").forward(request, response);
         }else{
             request.setAttribute("error", "Email đã được đăng kí. Thất bại");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
         }
         }
         else if(cmd.equals("2")){
@@ -142,10 +146,10 @@ public class RegisterServlet extends HttpServlet {
                 ud.addUserByRegister(user);
                 request.setAttribute("success", "Thành công! Hãy đăng nhập để tiếp tục");
                 response.getWriter().print(user);
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                request.getRequestDispatcher("home.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "Xác minh mã OTP thất bại! Vui lòng thử lại");
-                request.getRequestDispatcher("login.jsp").forward(request, response);
+                request.getRequestDispatcher("home.jsp").forward(request, response);
             }
         }
     }

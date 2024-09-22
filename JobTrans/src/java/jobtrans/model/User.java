@@ -16,20 +16,21 @@ public class User {
     private String oauthProvider;
     private String oauthId;
     private String role;
-    private int balance;
+    private double balance;
     private String description;
     private String specification;
     private String address;
     private String avatarUrl;
     private boolean status;
-    private int quantityOfJob;
+    private int quantityOfAppliedJob;
+    private int quantityOfPostedJob;
     // Default constructor
     public User() {
     }
     
     // Parameterized constructor
     public User(int userId, String userName, String email, String password, String oauthProvider, String oauthId,
-                String role, int balance, String description, String specification, String address, String avatarUrl, boolean status) {
+                String role, double balance, String description, String specification, String address, String avatarUrl, boolean status) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
@@ -44,22 +45,7 @@ public class User {
         this.avatarUrl = avatarUrl;
         this.status = status;
     }
-    public User(int userId, String userName, String email, String password, String oauthProvider, String oauthId, String role, int balance, String description, String specification, String address, String avatarUrl, boolean status, int quantityOfJob) {
-        this.userId = userId;
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.oauthProvider = oauthProvider;
-        this.oauthId = oauthId;
-        this.role = role;
-        this.balance = balance;
-        this.description = description;
-        this.specification = specification;
-        this.address = address;
-        this.avatarUrl = avatarUrl;
-        this.status = status;
-        this.quantityOfJob = quantityOfJob;
-    }
+    
     public User(String userName, String email, String oauthProvider, String oauthId, String avatarUrl, boolean status) {
         this.userName = userName;
         this.email = email;
@@ -144,11 +130,11 @@ public class User {
         this.role = role;
     }
 
-    public int getBalance() {
+    public double getBalance() {
         return balance;
     }
 
-    public void setBalance(int balance) {
+    public void setBalance(double balance) {
         this.balance = balance;
     }
 
@@ -194,13 +180,23 @@ public class User {
     public void setStatus(boolean status) {
         this.status = status;
     }
-    public int getQuantityOfJob() {
-        return quantityOfJob;
+
+    public int getQuantityOfAppliedJob() {
+        return quantityOfAppliedJob;
     }
 
-    public void setQuantityOfJob(int quantityOfJob) {
-        this.quantityOfJob = quantityOfJob;
+    public void setQuantityOfAppliedJob(int quantityOfAppliedJob) {
+        this.quantityOfAppliedJob = quantityOfAppliedJob;
     }
+
+    public int getQuantityOfPostedJob() {
+        return quantityOfPostedJob;
+    }
+
+    public void setQuantityOfPostedJob(int quantityOfPostedJob) {
+        this.quantityOfPostedJob = quantityOfPostedJob;
+    }
+    
 
     // Overriding toString() method to display the User object
     @Override

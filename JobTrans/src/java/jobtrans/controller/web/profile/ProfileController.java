@@ -53,12 +53,13 @@ public class ProfileController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         HttpSession session = request.getSession();
         String email = (String)session.getAttribute("account");
-
+        
         UserDAO userDao = new UserDAO();
         User user = null;
         try {
             // Gọi phương thức getUserById với userId lấy từ session
             user = userDao.getUserByEmail(email);
+            
         } catch (Exception e) {
             e.printStackTrace();
             response.sendRedirect("errorPage.jsp"); // Chuyển hướng đến trang lỗi nếu có ngoại lệ
@@ -68,21 +69,17 @@ public class ProfileController extends HttpServlet {
         if (user != null) {
             String role = user.getRole(); // Lấy role của người dùng
             request.setAttribute("user", user);
-
+            if(role.equals("Employer")){
+                user.setQuantityOfPostedJob(userDao.getQuantityOfPostedJob(user));
+            }else if(role.equals("Seeker")){
+                user.setQuantityOfAppliedJob(userDao.getQuantityOfAppliedJob(user));
+            }
             // Điều hướng tới trang phù hợp dựa trên role
             RequestDispatcher dispatcher = null;
-            if ("Seeker".equalsIgnoreCase(role)) {
-                dispatcher = request.getRequestDispatcher("viewProfileSeeker.jsp");
-            } else if ("Employer".equalsIgnoreCase(role)) {
-                dispatcher = request.getRequestDispatcher("viewProfileEmployer.jsp");
-            }
-
-            // Chuyển hướng tới trang profile phù hợp
-            if (dispatcher != null) {
-                dispatcher.forward(request, response);
-            } else {
-                response.sendRedirect("errorPage.jsp"); // Redirect đến trang lỗi nếu role không hợp lệ
-            }
+            
+            request.getRequestDispatcher("viewProfile.jsp").forward(request, response);
+        }else{
+            request.getRequestDispatcher("page-404.jsp").forward(request, response);
         }
     }
 

@@ -17,7 +17,7 @@ import jobtrans.utils.CookieUtils;
 
 /**
  *
- * @author ADM
+ * @author Quang
  */
 @WebServlet(name="LogoutServlet", urlPatterns={"/logout"})
 
@@ -64,7 +64,7 @@ public class LogoutServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.removeAttribute("account");
         session.invalidate();
-        request.getRequestDispatcher("login.jsp").forward(request, response);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     } 
 
     /** 

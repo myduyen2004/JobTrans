@@ -178,7 +178,7 @@
 
                                         <!-- Back to profile link -->
                                         <div class="col-xl-6">
-                                            <a href="ViewProfileServlet" class="button ripple-effect big margin-top-30">Back to Profile</a>
+                                            <a href="profile?action=view" class="button ripple-effect big margin-top-30">Back to Profile</a>
                                         </div>
 
                                     </div>

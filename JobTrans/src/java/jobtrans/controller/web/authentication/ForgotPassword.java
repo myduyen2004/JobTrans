@@ -15,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.dal.UserDAO;
@@ -25,7 +24,7 @@ import jobtrans.utils.RandomGenerator;
 
 /**
  *
- * @author admin
+ * @author MyDuyen
  */
 @WebServlet(name="ForgotPassword", urlPatterns={"/forgot"})
 
@@ -149,7 +148,7 @@ public class ForgotPassword extends HttpServlet {
                     }else
                     userDAO.changePassword(password, email);
                     req.setAttribute("success", "Đặt mật khẩu mới thành công");
-                    req.getRequestDispatcher("login.jsp").forward(req, resp);
+                    req.getRequestDispatcher("home.jsp").forward(req, resp);
                 } else {
                     req.setAttribute("error", "Mật khẩu nhập lại không khớp! Vui lòng thử lại");
                     req.getRequestDispatcher("authentication/reset-password.jsp").forward(req, resp);

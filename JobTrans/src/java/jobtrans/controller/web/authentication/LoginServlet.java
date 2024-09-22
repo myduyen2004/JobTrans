@@ -39,7 +39,6 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-//        response.getWriter().println("something");
         String code = request.getParameter("code");
         String error = request.getParameter("error");
         HttpSession session = request.getSession();
@@ -63,8 +62,8 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", user.getUserName());
             session.setAttribute("email", user.getEmail());
             session.setAttribute("avatarUrl", user.getAvatarUrl());
-            response.getWriter().print(user.getAvatarUrl());
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            session.setAttribute("role",user.getRole());
+            request.getRequestDispatcher("home.jsp").forward(request, response);
         }else{
             user = new User(userName, email, "Google", code, avatar, true);
             userDao.addUserByLoginGoogle(user);
@@ -72,10 +71,8 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", user.getUserName());
             session.setAttribute("email", user.getEmail());
             session.setAttribute("avatarUrl", user.getAvatarUrl());
-            response.getWriter().print(user.getAvatarUrl());
-            request.getRequestDispatcher("choose-role-form.jsp").forward(request, response);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
         }
-        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
@@ -126,15 +123,33 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", u.getUserName());
             session.setAttribute("email", u.getEmail());
             session.setAttribute("avatarUrl", u.getAvatarUrl());
+            session.setAttribute("role", u.getRole());
             request.setAttribute("success", "Đăng nhập thành công!");
-            request.getRequestDispatcher("index.jsp").forward(request, response);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
         }else{
             request.setAttribute("error", "Đăng nhập thất bại!");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
             
         }
     }
 
+    @Override
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String role = request.getParameter("role");
+        String email = request.getParameter("email");
+        UserDAO userDao = new UserDAO();
+        userDao.updateAfterLoginGoogle(role, email);
+        HttpSession session = request.getSession();
+
+        User user = userDao.getUserByEmail(email);
+        session.setAttribute("account", email);
+        session.setAttribute("userName", user.getUserName());
+        session.setAttribute("email", user.getEmail());
+        session.setAttribute("avatarUrl", user.getAvatarUrl());
+//        request.getRequestDispatcher("home.jsp").forward(request, response);
+        response.getWriter().print("Something login");
+    }
+    
     /**
      * Returns a short description of the servlet.
      * 

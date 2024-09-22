@@ -77,7 +77,7 @@ public class UpdateServlet extends HttpServlet {
         String email = (String)session.getAttribute("account");
         User u = uDao.getUserByEmail(email);
         request.setAttribute("User", u);
-        request.getRequestDispatcher("dashboard-settings.jsp").forward(request, response);
+        request.getRequestDispatcher("edit-profile.jsp").forward(request, response);
     }
 
     @Override
@@ -122,17 +122,19 @@ public class UpdateServlet extends HttpServlet {
             user.setAvatarUrl(user.getDefaultAvatarUrl());
         }
         user.setSpecification(specification);
+        session.setAttribute("account", user);
+        request.setAttribute("user", user);
         boolean isUpdated = dao.editProfile(user);
             if (isUpdated==true) {
                 request.setAttribute("success", "Cập nhật thành công");
-                request.getRequestDispatcher("dashboard-settings.jsp").forward(request, response);
+                request.getRequestDispatcher("viewProfile.jsp").forward(request, response);
             } else {
                 request.setAttribute("error", "Cập nhật thất bại");
-                request.getRequestDispatcher("dashboard-settings.jsp").forward(request, response);
+                request.getRequestDispatcher("edit-profile.jsp").forward(request, response);
             }
         } else {
             request.setAttribute("error", "Phiên làm việc hết hạn. Không tìm thấy người dùng");
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
         }
     }
     @Override

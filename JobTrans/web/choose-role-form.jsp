@@ -22,7 +22,7 @@
         <style>
             .container1 {
                 text-align: center;
-                background-color: #fff;
+                background-color: url('images/home-background.jpg');
                 padding: 40px;
                 border-radius: 10px;
                 box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -68,7 +68,7 @@
     <body>
         <!-- Intro Banner
 ================================================== -->
-        <div class="intro-banner dark-overlay" data-background-image="images/home-background-02.jpg">
+        <div class="intro-banner dark-overlay" data-background-image="images/home-background.jpg">
 
             <!-- Transparent Header Spacer -->
             <div class="transparent-header-spacer"></div>

@@ -45,57 +45,57 @@
                 ================================================== -->
                 <div class="dashboard-sidebar">
                     <div class="dashboard-sidebar-inner" data-simplebar>
-                        <div class="dashboard-nav-container">
+                            <div class="dashboard-nav-container">
 
-                            <!-- Responsive Navigation Trigger -->
-                            <a href="#" class="dashboard-responsive-nav-trigger">
-                                <span class="hamburger hamburger--collapse" >
-                                    <span class="hamburger-box">
-                                        <span class="hamburger-inner"></span>
-                                    </span>
-                                </span>
-                                <span class="trigger-title">Dashboard Navigation</span>
-                            </a>
+                                    <!-- Responsive Navigation Trigger -->
+                                    <a href="#" class="dashboard-responsive-nav-trigger">
+                                            <span class="hamburger hamburger--collapse">
+                                                    <span class="hamburger-box">
+                                                            <span class="hamburger-inner"></span>
+                                                    </span>
+                                            </span>
+                                            <span class="trigger-title">Điều Hướng</span>
+                                    </a>
 
-                            <!-- Navigation -->
-                            <div class="dashboard-nav">
-                                <div class="dashboard-nav-inner">
+                                    <!-- Navigation -->
+                                    <div class="dashboard-nav">
+                                            <div class="dashboard-nav-inner">
 
-                                    <ul data-submenu-title="Start">
-                                        <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-                                        <li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">2</span></a></li>
-                                        <li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Bookmarks</a></li>
-                                        <li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
-                                    </ul>
+                                                    <ul data-submenu-title="Bắt đầu">
+                                                            <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Bảng Điều Khiển</a></li>
+                                                            <li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Tin Nhắn <span class="nav-tag">2</span></a></li>
+                                                            <li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Đánh Dấu</a></li>
+                                                            <li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Đánh Giá</a></li>
+                                                    </ul>
 
-                                    <ul data-submenu-title="Organize and Manage">
-                                        <li><a href="#"><i class="icon-material-outline-business-center"></i> Jobs</a>
-                                            <ul>
-                                                <li><a href="dashboard-manage-jobs.html">Manage Jobs <span class="nav-tag">3</span></a></li>
-                                                <li><a href="dashboard-manage-candidates.html">Manage Candidates</a></li>
-                                                <li><a href="dashboard-post-a-job.html">Post a Job</a></li>
-                                            </ul>	
-                                        </li>
-                                        <li><a href="#"><i class="icon-material-outline-assignment"></i> Tasks</a>
-                                            <ul>
-                                                <li><a href="dashboard-manage-tasks.html">Manage Tasks <span class="nav-tag">2</span></a></li>
-                                                <li><a href="dashboard-manage-bidders.html">Manage Bidders</a></li>
-                                                <li><a href="dashboard-my-active-bids.html">My Active Bids <span class="nav-tag">4</span></a></li>
-                                                <li><a href="dashboard-post-a-task.html">Post a Task</a></li>
-                                            </ul>	
-                                        </li>
-                                    </ul>
+                                                    <ul data-submenu-title="Tổ chức và Quản lý">
+                                                            <li><a href="#"><i class="icon-material-outline-business-center"></i> Công Việc</a>
+                                                                    <ul>
+                                                                            <li><a href="dashboard-manage-jobs.html">Quản Lý Công Việc <span class="nav-tag">3</span></a></li>
+                                                                            <li><a href="dashboard-manage-candidates.html">Quản Lý Ứng Viên</a></li>
+                                                                            <li><a href="dashboard-post-a-job.html">Đăng Vông Việc</a></li>
+                                                                    </ul>	
+                                                            </li>
+                                                            <li><a href="#"><i class="icon-material-outline-assignment"></i> Nhiệm Vụ</a>
+                                                                    <ul>
+                                                                            <li><a href="dashboard-manage-tasks.html">Quản Lý Nhiệm Vụ <span class="nav-tag">2</span></a></li>
+                                                                            <li><a href="dashboard-manage-bidders.html">Quản Lý Người Đấu Thầu</a></li>
+                                                                            <li><a href="dashboard-my-active-bids.html">Đấu Thầu Đang Hoạt Động <span class="nav-tag">4</span></a></li>
+                                                                            <li><a href="dashboard-post-a-task.html">Đăng Nhiệm Vụ</a></li>
+                                                                    </ul>	
+                                                            </li>
+                                                    </ul>
 
-                                    <ul data-submenu-title="Account">
-                                        <li class="active"><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-                                        <li><a href="logout"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
-                                    </ul>
+                                                    <ul data-submenu-title="Tài khoản">
+                                                            <li class="active"><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Cài Đặt</a></li>
+                                                            <li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Đăng Xuất</a></li>
+                                                    </ul>
 
-                                </div>
+                                            </div>
+                                    </div>
+                                    <!-- Navigation / End -->
+
                             </div>
-                            <!-- Navigation / End -->
-
-                        </div>
                     </div>
                 </div>
                 <!-- Dashboard Sidebar / End -->
@@ -109,14 +109,14 @@
 
                         <!-- Dashboard Headline -->
                         <div class="dashboard-headline">
-                            <h3>Settings</h3>
+                            <h3>Cài Đặt</h3>
 
                             <!-- Breadcrumbs -->
                             <nav id="breadcrumbs" class="dark">
                                 <ul>
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">Dashboard</a></li>
-                                    <li>Settings</li>
+                                    <li><a href="#">Trang Chủ</a></li>
+                                    <li><a href="#">Bảng Điều Khiển</a></li>
+                                    <li>Cài Đặt</li>
                                 </ul>
                             </nav>
                         </div>
@@ -130,7 +130,7 @@
 
                                     <!-- Headline -->
                                     <div class="headline">
-                                        <h3><i class="icon-material-outline-account-circle"></i> Tài khoản của tôi</h3>
+                                        <h3><i class="icon-material-outline-account-circle"></i> Tài Khoản Của Tôi</h3>
                                     </div>
 
                                     <div class="content with-padding padding-bottom-0">
@@ -150,19 +150,19 @@
 
                                                     <div class="col-xl-6">
                                                         <div class="submit-field">
-                                                            <h5>Tên người dùng: </h5>
+                                                            <h5>Tên Người Dùng: </h5>
                                                             <input type="text" class="with-border" name="user_name" value="${User.userName}">
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6">
                                                         <div class="submit-field">
-                                                            <h5>Chuyên môn: </h5>
+                                                            <h5>Chuyên Môn: </h5>
                                                             <input type="text" name="specification" class="with-border" }">
                                                         </div>
                                                     </div>
                                                     <div class="col-xl-6">
                                                         <div class="submit-field">
-                                                            <h5>Địa chỉ: </h5>
+                                                            <h5>Địa Chỉ: </h5>
                                                             <input type="text" name="address" class="with-border" }">
                                                         </div>
                                                     </div>
@@ -180,7 +180,7 @@
 
                                                                 <div>
                                                                     <input type="radio" name="account-type-radio" value ="Employer" id="employer-radio" class="account-type-radio"/>
-                                                                    <label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
+                                                                    <label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Nhà Tuyển Dụng</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -198,7 +198,7 @@
                                 <div class="dashboard-box">
                                     <div class="col-xl-12">
                                         <div class="submit-field">
-                                            <h5>Giới thiệu bản thân</h5>
+                                            <h5>Giới Thiệu Bản Thân</h5>
                                             <textarea cols="30" rows="5"  placeholder="Nhập mô tả" name="description" class="with-border"}"></textarea>
                                         </div>
                                     </div>

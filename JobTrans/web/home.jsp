@@ -101,15 +101,16 @@
                             </div>
                         </div>
                     </div>
+                                        
                     <%}else{%>
                     <!-- Intro Headline -->
                     <div class="row">
                         <div class="col-md-12">
                             <div class="banner-headline">
                                 <h3>
-                                    <strong>Hire experts or be hired for any job, any time.</strong>
+                                    <strong>Tuyển chuyên gia hoặc được tuyển cho bất kỳ công việc nào, bất kỳ lúc nào.</strong>
                                     <br>
-                                    <span>Thousands of small businesses use <strong class="color">Hireo</strong> to turn their ideas into reality.</span>
+                                    <span>Hàng nghìn doanh nghiệp nhỏ sử dụng <strong class="color">JobTrans</strong> để biến ý tưởng của họ thành hiện thực.</span>
                                 </h3>
                             </div>
                         </div>
@@ -122,22 +123,22 @@
 
                                 <!-- Search Field -->
                                 <div class="intro-search-field with-autocomplete">
-                                    <label for="autocomplete-input" class="field-title ripple-effect">Where?</label>
+                                    <label for="autocomplete-input" class="field-title ripple-effect">Ở đâu?</label>
                                     <div class="input-with-icon">
-                                        <input id="autocomplete-input" type="text" placeholder="Online Job">
+                                        <input id="autocomplete-input" type="text" placeholder="Công việc trực tuyến">
                                         <i class="icon-material-outline-location-on"></i>
                                     </div>
                                 </div>
 
                                 <!-- Search Field -->
                                 <div class="intro-search-field">
-                                    <label for ="intro-keywords" class="field-title ripple-effect">What job you want?</label>
-                                    <input id="intro-keywords" type="text" placeholder="Job Title or Keywords">
+                                    <label for ="intro-keywords" class="field-title ripple-effect">Bạn muốn công việc gì?</label>
+                                    <input id="intro-keywords" type="text" placeholder="Tiêu đề công việc hoặc từ khóa">
                                 </div>
 
                                 <!-- Button -->
                                 <div class="intro-search-button">
-                                    <button class="button ripple-effect" onclick="window.location.href = 'jobs-list-layout-full-page-map.html'">Search</button>
+                                    <button class="button ripple-effect" onclick="window.location.href = 'jobs-list-layout-full-page-map.html'">Tìm kiếm</button>
                                 </div>
                             </div>
                         </div>
@@ -149,15 +150,15 @@
                             <ul class="intro-stats margin-top-45 hide-under-992px">
                                 <li>
                                     <strong class="counter">1,586</strong>
-                                    <span>Jobs Posted</span>
+                                    <span>Công việc đã đăng</span>
                                 </li>
                                 <li>
                                     <strong class="counter">3,543</strong>
-                                    <span>Tasks Posted</span>
+                                    <span>Nhiệm vụ đã đăng</span>
                                 </li>
                                 <li>
                                     <strong class="counter">1,232</strong>
-                                    <span>Freelancers</span>
+                                    <span>Freelancer</span>
                                 </li>
                             </ul>
                         </div>
@@ -176,7 +177,7 @@
                         <div class="col-xl-12">
 
                             <div class="section-headline centered margin-bottom-15">
-                                <h3>Popular Job Categories</h3>
+                                <h3>Các Danh Mục Công Việc Phổ Biến</h3>
                             </div>
 
                             <!-- Category Boxes Container -->
@@ -189,8 +190,8 @@
                                     </div>
                                     <div class="category-box-counter">612</div>
                                     <div class="category-box-content">
-                                        <h3>Web & Software Dev</h3>
-                                        <p>Software Engineer, Web / Mobile Developer & More</p>
+                                        <h3>Phát Triển Web & Phần Mềm</h3>
+                                        <p>Kỹ sư Phần mềm, Nhà phát triển Web / Di động & Nhiều hơn nữa</p>
                                     </div>
                                 </a>
 
@@ -201,8 +202,8 @@
                                     </div>
                                     <div class="category-box-counter">113</div>
                                     <div class="category-box-content">
-                                        <h3>Data Science & Analitycs</h3>
-                                        <p>Data Specialist / Scientist, Data Analyst & More</p>
+                                        <h3>Khoa Học Dữ Liệu & Phân Tích</h3>
+                                        <p>Chuyên gia Dữ liệu / Nhà khoa học, Nhà phân tích Dữ liệu & Nhiều hơn nữa</p>
                                     </div>
                                 </a>
 
@@ -213,8 +214,8 @@
                                     </div>
                                     <div class="category-box-counter">186</div>
                                     <div class="category-box-content">
-                                        <h3>Accounting & Consulting</h3>
-                                        <p>Auditor, Accountant, Fnancial Analyst & More</p>
+                                        <h3>Kế Toán & Tư Vấn</h3>
+                                        <p>Kiểm toán viên, Kế toán viên, Nhà phân tích Tài chính & Nhiều hơn nữa</p>
                                     </div>
                                 </a>
 
@@ -225,8 +226,8 @@
                                     </div>
                                     <div class="category-box-counter">298</div>
                                     <div class="category-box-content">
-                                        <h3>Writing & Translations</h3>
-                                        <p>Copywriter, Creative Writer, Translator & More</p>
+                                        <h3>Viết Lách & Dịch Thuật</h3>
+                                        <p>Người viết quảng cáo, Nhà văn sáng tạo, Người dịch & Nhiều hơn nữa</p>
                                     </div>
                                 </a>
 
@@ -237,8 +238,8 @@
                                     </div>
                                     <div class="category-box-counter">549</div>						
                                     <div class="category-box-content">
-                                        <h3>Sales & Marketing</h3>
-                                        <p>Brand Manager, Marketing Coordinator & More</p>
+                                        <h3>Bán Hàng & Tiếp Thị</h3>
+                                        <p>Quản lý Thương hiệu, Điều phối viên Tiếp thị & Nhiều hơn nữa</p>
                                     </div>
                                 </a>
 
@@ -249,8 +250,8 @@
                                     </div>
                                     <div class="category-box-counter">873</div>
                                     <div class="category-box-content">
-                                        <h3>Graphics & Design</h3>
-                                        <p>Creative Director, Web Designer & More</p>
+                                        <h3>Đồ Họa & Thiết Kế</h3>
+                                        <p>Giám đốc Sáng tạo, Nhà thiết kế Web & Nhiều hơn nữa</p>
                                     </div>
                                 </a>
 
@@ -261,8 +262,8 @@
                                     </div>
                                     <div class="category-box-counter">125</div>
                                     <div class="category-box-content">
-                                        <h3>Digital Marketing</h3>
-                                        <p>Darketing Analyst, Social Profile Admin & More</p>
+                                        <h3>Tiếp Thị Kỹ Thuật Số</h3>
+                                        <p>Nhà phân tích Tiếp thị, Quản trị Hồ sơ Xã hội & Nhiều hơn nữa</p>
                                     </div>
                                 </a>
 
@@ -273,8 +274,8 @@
                                     </div>
                                     <div class="category-box-counter">445</div>
                                     <div class="category-box-content">
-                                        <h3>Education & Training</h3>
-                                        <p>Advisor, Coach, Education Coordinator & More</p>
+                                        <h3>Giáo Dục & Đào Tạo</h3>
+                                        <p>Cố vấn, Huấn luyện viên, Điều phối viên Giáo dục & Nhiều hơn nữa</p>
                                     </div>
                                 </a>
 
@@ -284,6 +285,7 @@
                     </div>
                 </div>
             </div>
+
             <!-- Category Boxes / End -->
 
 
@@ -295,8 +297,8 @@
 
                             <!-- Section Headline -->
                             <div class="section-headline margin-top-0 margin-bottom-35">
-                                <h3>Featured Jobs</h3>
-                                <a href="jobs-list-layout-full-page-map.html" class="headline-link">Browse All Jobs</a>
+                                <h3>Công Việc Nổi Bật</h3>
+                                <a href="jobs-list-layout-full-page-map.html" class="headline-link">Xem Tất Cả Công Việc</a>
                             </div>
 
                             <!-- Jobs Container -->
@@ -315,24 +317,23 @@
 
                                         <!-- Details -->
                                         <div class="job-listing-description">
-                                            <h3 class="job-listing-title">Bilingual Event Support Specialist</h3>
+                                            <h3 class="job-listing-title">Chuyên Viên Hỗ Trợ Sự Kiện Bilingual</h3>
 
                                             <!-- Job Listing Footer -->
                                             <div class="job-listing-footer">
                                                 <ul>
-                                                    <li><i class="icon-material-outline-business"></i> Hexagon <div class="verified-badge" title="Verified Employer" data-tippy-placement="top"></div></li>
-                                                    <li><i class="icon-material-outline-location-on"></i> San Francissco</li>
-                                                    <li><i class="icon-material-outline-business-center"></i> Full Time</li>
-                                                    <li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+                                                    <li><i class="icon-material-outline-business"></i> Hexagon <div class="verified-badge" title="Nhà tuyển dụng đã xác minh" data-tippy-placement="top"></div></li>
+                                                    <li><i class="icon-material-outline-location-on"></i> San Francisco</li>
+                                                    <li><i class="icon-material-outline-business-center"></i> Toàn thời gian</li>
+                                                    <li><i class="icon-material-outline-access-time"></i> 2 ngày trước</li>
                                                 </ul>
                                             </div>
                                         </div>
 
                                         <!-- Apply Button -->
-                                        <span class="list-apply-button ripple-effect">Apply Now</span>
+                                        <span class="list-apply-button ripple-effect">Nộp Đơn Ngay</span>
                                     </div>
                                 </a>	
-
 
                                 <!-- Job Listing -->
                                 <a href="single-job-page.html" class="job-listing with-apply-button">
@@ -347,23 +348,24 @@
 
                                         <!-- Details -->
                                         <div class="job-listing-description">
-                                            <h3 class="job-listing-title">Competition Law Officer</h3>
+                                            <h3 class="job-listing-title">Nhân Viên Pháp Luật Cạnh Tranh</h3>
 
                                             <!-- Job Listing Footer -->
                                             <div class="job-listing-footer">
                                                 <ul>
                                                     <li><i class="icon-material-outline-business"></i> Laxo</li>
-                                                    <li><i class="icon-material-outline-location-on"></i> San Francissco</li>
-                                                    <li><i class="icon-material-outline-business-center"></i> Full Time</li>
-                                                    <li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+                                                    <li><i class="icon-material-outline-location-on"></i> San Francisco</li>
+                                                    <li><i class="icon-material-outline-business-center"></i> Toàn thời gian</li>
+                                                    <li><i class="icon-material-outline-access-time"></i> 2 ngày trước</li>
                                                 </ul>
                                             </div>
                                         </div>
 
                                         <!-- Apply Button -->
-                                        <span class="list-apply-button ripple-effect">Apply Now</span>
+                                        <span class="list-apply-button ripple-effect">Nộp Đơn Ngay</span>
                                     </div>
                                 </a>
+
                                 <!-- Job Listing -->
                                 <a href="single-job-page.html" class="job-listing with-apply-button">
 
@@ -377,24 +379,23 @@
 
                                         <!-- Details -->
                                         <div class="job-listing-description">
-                                            <h3 class="job-listing-title">Barista and Cashier</h3>
+                                            <h3 class="job-listing-title">Barista và Nhân Viên Thu Ngân</h3>
 
                                             <!-- Job Listing Footer -->
                                             <div class="job-listing-footer">
                                                 <ul>
                                                     <li><i class="icon-material-outline-business"></i> Coffee</li>
-                                                    <li><i class="icon-material-outline-location-on"></i> San Francissco</li>
-                                                    <li><i class="icon-material-outline-business-center"></i> Full Time</li>
-                                                    <li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+                                                    <li><i class="icon-material-outline-location-on"></i> San Francisco</li>
+                                                    <li><i class="icon-material-outline-business-center"></i> Toàn thời gian</li>
+                                                    <li><i class="icon-material-outline-access-time"></i> 2 ngày trước</li>
                                                 </ul>
                                             </div>
                                         </div>
 
                                         <!-- Apply Button -->
-                                        <span class="list-apply-button ripple-effect">Apply Now</span>
+                                        <span class="list-apply-button ripple-effect">Nộp Đơn Ngay</span>
                                     </div>
                                 </a>
-
 
                                 <!-- Job Listing -->
                                 <a href="single-job-page.html" class="job-listing with-apply-button">
@@ -409,21 +410,21 @@
 
                                         <!-- Details -->
                                         <div class="job-listing-description">
-                                            <h3 class="job-listing-title">Restaurant General Manager</h3>
+                                            <h3 class="job-listing-title">Giám Đốc Nhà Hàng</h3>
 
                                             <!-- Job Listing Footer -->
                                             <div class="job-listing-footer">
                                                 <ul>
-                                                    <li><i class="icon-material-outline-business"></i> King <div class="verified-badge" title="Verified Employer" data-tippy-placement="top"></div></li>
-                                                    <li><i class="icon-material-outline-location-on"></i> San Francissco</li>
-                                                    <li><i class="icon-material-outline-business-center"></i> Full Time</li>
-                                                    <li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+                                                    <li><i class="icon-material-outline-business"></i> King <div class="verified-badge" title="Nhà tuyển dụng đã xác minh" data-tippy-placement="top"></div></li>
+                                                    <li><i class="icon-material-outline-location-on"></i> San Francisco</li>
+                                                    <li><i class="icon-material-outline-business-center"></i> Toàn thời gian</li>
+                                                    <li><i class="icon-material-outline-access-time"></i> 2 ngày trước</li>
                                                 </ul>
                                             </div>
                                         </div>
 
                                         <!-- Apply Button -->
-                                        <span class="list-apply-button ripple-effect">Apply Now</span>
+                                        <span class="list-apply-button ripple-effect">Nộp Đơn Ngay</span>
                                     </div>
                                 </a>
 
@@ -440,21 +441,21 @@
 
                                         <!-- Details -->
                                         <div class="job-listing-description">
-                                            <h3 class="job-listing-title">International Marketing Coordinator</h3>
+                                            <h3 class="job-listing-title">Điều Phối Viên Tiếp Thị Quốc Tế</h3>
 
                                             <!-- Job Listing Footer -->
                                             <div class="job-listing-footer">
                                                 <ul>
                                                     <li><i class="icon-material-outline-business"></i> Skyist</li>
-                                                    <li><i class="icon-material-outline-location-on"></i> San Francissco</li>
-                                                    <li><i class="icon-material-outline-business-center"></i> Full Time</li>
-                                                    <li><i class="icon-material-outline-access-time"></i> 2 days ago</li>
+                                                    <li><i class="icon-material-outline-location-on"></i> San Francisco</li>
+                                                    <li><i class="icon-material-outline-business-center"></i> Toàn thời gian</li>
+                                                    <li><i class="icon-material-outline-access-time"></i> 2 ngày trước</li>
                                                 </ul>
                                             </div>
                                         </div>
 
                                         <!-- Apply Button -->
-                                        <span class="list-apply-button ripple-effect">Apply Now</span>
+                                        <span class="list-apply-button ripple-effect">Nộp Đơn Ngay</span>
                                     </div>
                                 </a>
 
@@ -467,7 +468,6 @@
             </div>
             <!-- Featured Jobs / End -->
 
-
             <!-- Features Cities -->
             <div class="section margin-top-65 margin-bottom-65">
                 <div class="container">
@@ -476,7 +476,7 @@
                         <!-- Section Headline -->
                         <div class="col-xl-12">
                             <div class="section-headline centered margin-top-0 margin-bottom-45">
-                                <h3>Featured Cities</h3>
+                                <h3>Các Thành Phố Nổi Bật</h3>
                             </div>
                         </div>
 
@@ -485,7 +485,7 @@
                             <a href="jobs-list-layout-1.html" class="photo-box" data-background-image="images/featured-city-01.jpg">
                                 <div class="photo-box-content">
                                     <h3>San Francisco</h3>
-                                    <span>376 Jobs</span>
+                                    <span>376 Công Việc</span>
                                 </div>
                             </a>
                         </div>
@@ -495,7 +495,7 @@
                             <a href="jobs-list-layout-full-page-map.html" class="photo-box" data-background-image="images/featured-city-02.jpg">
                                 <div class="photo-box-content">
                                     <h3>New York</h3>
-                                    <span>645 Jobs</span>
+                                    <span>645 Công Việc</span>
                                 </div>
                             </a>
                         </div>
@@ -505,7 +505,7 @@
                             <a href="jobs-grid-layout-full-page.html" class="photo-box" data-background-image="images/featured-city-03.jpg">
                                 <div class="photo-box-content">
                                     <h3>Los Angeles</h3>
-                                    <span>832 Jobs</span>
+                                    <span>832 Công Việc</span>
                                 </div>
                             </a>
                         </div>
@@ -515,7 +515,7 @@
                             <a href="jobs-list-layout-2.html" class="photo-box" data-background-image="images/featured-city-04.jpg">
                                 <div class="photo-box-content">
                                     <h3>Miami</h3>
-                                    <span>513 Jobs</span>
+                                    <span>513 Công Việc</span>
                                 </div>
                             </a>
                         </div>
@@ -523,7 +523,7 @@
                     </div>
                 </div>
             </div>
-            <%}%>
+
             <!-- Features Cities / End -->
 
             <!-- Footer
@@ -546,8 +546,8 @@
                 %>
 
                 <ul class="popup-tabs-nav">
-                    <li><a href="#login">Log In</a></li>
-                    <li><a href="#register">Register</a></li>
+                    <li><a href="#login">Đăng Nhập</a></li>
+                    <li><a href="#register">Đăng Ký</a></li>
                 </ul>
 
                 <div class="popup-tabs-container">
@@ -598,7 +598,7 @@
 
                         <!-- Welcome Text -->
                         <div class="welcome-text">
-                            <h3>Let's create your account!</h3>
+                            <h3>Tạo Tài Khoản Của Bạn Ngây Bây Giờ!</h3>
                         </div>
 
                         <!-- Account Type -->
@@ -614,7 +614,7 @@
 
                                 <div>
                                     <input type="radio" name="account-type-radio" id="employer-radio" value = "employer" class="account-type-radio"/>
-                                    <label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Employer</label>
+                                    <label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Nhà Tuyển Dụng</label>
                                 </div>
 
                             </div>
@@ -656,6 +656,9 @@
                 </div>
             </div>
         </div>
+                                   <%
+                                       }
+                                   %>
         <!-- Sign In Popup / End -->
 
 

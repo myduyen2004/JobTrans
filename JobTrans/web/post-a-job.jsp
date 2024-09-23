@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 
@@ -6,7 +7,7 @@
 
 <!-- Basic Page Needs
 ================================================== -->
-<title>Hireo</title>
+<title>JobTrans</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -23,7 +24,7 @@
 
 <!-- Header Container
 ================================================== -->
-<header id="header-container" class="fullwidth dashboard-header not-sticky">
+<header id="header-container" class="fullwidth">
 
 	<!-- Header -->
 	<div id="header">
@@ -41,104 +42,104 @@
 				<nav id="navigation">
 					<ul id="responsive">
 
-						<li><a href="#">Home</a>
+						<li><a href="#">Trang Chủ</a>
 							<ul class="dropdown-nav">
-								<li><a href="index-2.html">Home 1</a></li>
-								<li><a href="index-3.html">Home 2</a></li>
-								<li><a href="index-4.html">Home 3</a></li>
+								<li><a href="index-2.html">Trang Chủ 1</a></li>
+								<li><a href="index-3.html">Trang Chủ 2</a></li>
+								<li><a href="index-4.html">Trang Chủ 3</a></li>
 							</ul>
 						</li>
 
-						<li><a href="#">Find Work</a>
+						<li><a href="#" class="current">Tìm Việc</a>
 							<ul class="dropdown-nav">
-								<li><a href="#">Browse Jobs</a>
+								<li><a href="#">Duyệt Công Việc</a>
 									<ul class="dropdown-nav">
-										<li><a href="jobs-list-layout-full-page-map.html">Full Page List + Map</a></li>
-										<li><a href="jobs-grid-layout-full-page-map.html">Full Page Grid + Map</a></li>
-										<li><a href="jobs-grid-layout-full-page.html">Full Page Grid</a></li>
-										<li><a href="jobs-list-layout-1.html">List Layout 1</a></li>
-										<li><a href="jobs-list-layout-2.html">List Layout 2</a></li>
-										<li><a href="jobs-grid-layout.html">Grid Layout</a></li>
+										<li><a href="jobs-list-layout-full-page-map.html">Danh Sách Toàn Trang + Bản Đồ</a></li>
+										<li><a href="jobs-grid-layout-full-page-map.html">Lưới Toàn Trang + Bản Đồ</a></li>
+										<li><a href="jobs-grid-layout-full-page.html">Lưới Toàn Trang</a></li>
+										<li><a href="jobs-list-layout-1.html">Bố Cục Danh Sách 1</a></li>
+										<li><a href="jobs-list-layout-2.html">Bố Cục Danh Sách 2</a></li>
+										<li><a href="jobs-grid-layout.html">Bố Cục Lưới</a></li>
 									</ul>
 								</li>
-								<li><a href="#">Browse Tasks</a>
+								<li><a href="#">Duyệt Nhiệm Vụ</a>
 									<ul class="dropdown-nav">
-										<li><a href="tasks-list-layout-1.html">List Layout 1</a></li>
-										<li><a href="tasks-list-layout-2.html">List Layout 2</a></li>
-										<li><a href="tasks-grid-layout.html">Grid Layout</a></li>
-										<li><a href="tasks-grid-layout-full-page.html">Full Page Grid</a></li>
+										<li><a href="tasks-list-layout-1.html">Bố Cục Danh Sách 1</a></li>
+										<li><a href="tasks-list-layout-2.html">Bố Cục Danh Sách 2</a></li>
+										<li><a href="tasks-grid-layout.html">Bố Cục Lưới</a></li>
+										<li><a href="tasks-grid-layout-full-page.html">Lưới Toàn Trang</a></li>
 									</ul>
 								</li>
-								<li><a href="browse-companies.html">Browse Companies</a></li>
-								<li><a href="single-job-page.html">Job Page</a></li>
-								<li><a href="single-task-page.html">Task Page</a></li>
-								<li><a href="single-company-profile.html">Company Profile</a></li>
+								<li><a href="browse-companies.html">Duyệt Công Ty</a></li>
+								<li><a href="single-job-page.html">Trang Công Việc</a></li>
+								<li><a href="single-task-page.html">Trang Nhiệm Vụ</a></li>
+								<li><a href="single-company-profile.html">Hồ Sơ Công Ty</a></li>
 							</ul>
 						</li>
 
-						<li><a href="#">For Employers</a>
+						<li><a href="#">Dành Cho Nhà Tuyển Dụng</a>
 							<ul class="dropdown-nav">
-								<li><a href="#">Find a Freelancer</a>
+								<li><a href="#">Tìm Kiếm Freelancer</a>
 									<ul class="dropdown-nav">
-										<li><a href="freelancers-grid-layout-full-page.html">Full Page Grid</a></li>
-										<li><a href="freelancers-grid-layout.html">Grid Layout</a></li>
-										<li><a href="freelancers-list-layout-1.html">List Layout 1</a></li>
-										<li><a href="freelancers-list-layout-2.html">List Layout 2</a></li>
+										<li><a href="freelancers-grid-layout-full-page.html">Lưới Toàn Trang</a></li>
+										<li><a href="freelancers-grid-layout.html">Bố Cục Lưới</a></li>
+										<li><a href="freelancers-list-layout-1.html">Bố Cục Danh Sách 1</a></li>
+										<li><a href="freelancers-list-layout-2.html">Bố Cục Danh Sách 2</a></li>
 									</ul>
 								</li>
-								<li><a href="single-freelancer-profile.html">Freelancer Profile</a></li>
-								<li><a href="dashboard-post-a-job.html">Post a Job</a></li>
-								<li><a href="dashboard-post-a-task.html">Post a Task</a></li>
+								<li><a href="single-freelancer-profile.html">Hồ Sơ Freelancer</a></li>
+								<li><a href="dashboard-post-a-job.html">Đăng Công Việc</a></li>
+								<li><a href="dashboard-post-a-task.html">Đăng Nhiệm Vụ</a></li>
 							</ul>
 						</li>
 
-						<li><a href="#" class="current">Dashboard</a>
+						<li><a href="#">Bảng Điều Khiển</a>
 							<ul class="dropdown-nav">
-								<li><a href="dashboard.html">Dashboard</a></li>
-								<li><a href="dashboard-messages.html">Messages</a></li>
-								<li><a href="dashboard-bookmarks.html">Bookmarks</a></li>
-								<li><a href="dashboard-reviews.html">Reviews</a></li>
-								<li><a href="dashboard-manage-jobs.html">Jobs</a>
+								<li><a href="dashboard.html">Bảng Điều Khiển</a></li>
+								<li><a href="dashboard-messages.html">Tin Nhắn</a></li>
+								<li><a href="dashboard-bookmarks.html">Đánh Dấu</a></li>
+								<li><a href="dashboard-reviews.html">Đánh Giá</a></li>
+								<li><a href="dashboard-manage-jobs.html">Công Việc</a>
 									<ul class="dropdown-nav">
-										<li><a href="dashboard-manage-jobs.html">Manage Jobs</a></li>
-										<li><a href="dashboard-manage-candidates.html">Manage Candidates</a></li>
-										<li><a href="dashboard-post-a-job.html">Post a Job</a></li>
+										<li><a href="dashboard-manage-jobs.html">Quản Lý Công Việc</a></li>
+										<li><a href="dashboard-manage-candidates.html">Quản Lý Ứng Viên</a></li>
+										<li><a href="dashboard-post-a-job.html">Đăng Công Việc</a></li>
 									</ul>
 								</li>
-								<li><a href="dashboard-manage-tasks.html">Tasks</a>
+								<li><a href="dashboard-manage-tasks.html">Nhiệm Vụ</a>
 									<ul class="dropdown-nav">
-										<li><a href="dashboard-manage-tasks.html">Manage Tasks</a></li>
-										<li><a href="dashboard-manage-bidders.html">Manage Bidders</a></li>
-										<li><a href="dashboard-my-active-bids.html">My Active Bids</a></li>
-										<li><a href="dashboard-post-a-task.html">Post a Task</a></li>
+										<li><a href="dashboard-manage-tasks.html">Quản Lý Nhiệm Vụ</a></li>
+										<li><a href="dashboard-manage-bidders.html">Quản Lý Người Đấu Thầu</a></li>
+										<li><a href="dashboard-my-active-bids.html">Đấu Thầu Đang Hoạt Động</a></li>
+										<li><a href="dashboard-post-a-task.html">Đăng Nhiệm Vụ</a></li>
 									</ul>
 								</li>
-								<li><a href="dashboard-settings.html">Settings</a></li>
+								<li><a href="dashboard-settings.html">Cài Đặt</a></li>
 							</ul>
 						</li>
 
-						<li><a href="#">Pages</a>
+						<li><a href="#">Trang</a>
 							<ul class="dropdown-nav">
 								<li>
-									<a href="#">Open Street Map</a>
+									<a href="#">Bản Đồ Mở</a>
 									<ul class="dropdown-nav">
-										<li><a href="jobs-list-layout-full-page-map-OpenStreetMap.html">Full Page List + Map</a></li>
-										<li><a href="jobs-grid-layout-full-page-map-OpenStreetMap.html">Full Page Grid + Map</a></li>
-										<li><a href="single-job-page-OpenStreetMap.html">Job Page</a></li>
-										<li><a href="single-company-profile-OpenStreetMap.html">Company Profile</a></li>
-										<li><a href="pages-contact-OpenStreetMap.html">Contact</a></li>
-										<li><a href="jobs-list-layout-1-OpenStreetMap.html">Location Autocomplete</a></li>
+										<li><a href="jobs-list-layout-full-page-map-OpenStreetMap.html">Danh Sách Toàn Trang + Bản Đồ</a></li>
+										<li><a href="jobs-grid-layout-full-page-map-OpenStreetMap.html">Lưới Toàn Trang + Bản Đồ</a></li>
+										<li><a href="single-job-page-OpenStreetMap.html">Trang Công Việc</a></li>
+										<li><a href="single-company-profile-OpenStreetMap.html">Hồ Sơ Công Ty</a></li>
+										<li><a href="pages-contact-OpenStreetMap.html">Liên Hệ</a></li>
+										<li><a href="jobs-list-layout-1-OpenStreetMap.html">Tự Động Hoàn Thành Địa Điểm</a></li>
 									</ul>
 								</li>
 								<li><a href="pages-blog.html">Blog</a></li>
-								<li><a href="pages-pricing-plans.html">Pricing Plans</a></li>
-								<li><a href="pages-checkout-page.html">Checkout Page</a></li>
-								<li><a href="pages-invoice-template.html">Invoice Template</a></li>
-								<li><a href="pages-user-interface-elements.html">User Interface Elements</a></li>
-								<li><a href="pages-icons-cheatsheet.html">Icons Cheatsheet</a></li>
-								<li><a href="pages-login.html">Login & Register</a></li>
-								<li><a href="pages-404.html">404 Page</a></li>
-								<li><a href="pages-contact.html">Contact</a></li>
+								<li><a href="pages-pricing-plans.html">Kế Hoạch Giá</a></li>
+								<li><a href="pages-checkout-page.html">Trang Thanh Toán</a></li>
+								<li><a href="pages-invoice-template.html">Mẫu Hóa Đơn</a></li>
+								<li><a href="pages-user-interface-elements.html">Phần Tử Giao Diện Người Dùng</a></li>
+								<li><a href="pages-icons-cheatsheet.html">Bảng Tóm Tắt Biểu Tượng</a></li>
+								<li><a href="pages-login.html">Đăng Nhập & Đăng Ký</a></li>
+								<li><a href="pages-404.html">Trang 404</a></li>
+								<li><a href="pages-contact.html">Liên Hệ</a></li>
 							</ul>
 						</li>
 
@@ -169,8 +170,8 @@
 						<div class="header-notifications-dropdown">
 
 							<div class="header-notifications-headline">
-								<h4>Notifications</h4>
-								<button class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
+								<h4>Thông Báo</h4>
+								<button class="mark-as-read ripple-effect-dark" title="Đ đánh dấu tất cả đã đọc" data-tippy-placement="left">
 									<i class="icon-feather-check-square"></i>
 								</button>
 							</div>
@@ -183,7 +184,7 @@
 											<a href="dashboard-manage-candidates.html">
 												<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
 												<span class="notification-text">
-													<strong>Michael Shannah</strong> applied for a job <span class="color">Full Stack Software Engineer</span>
+													<strong>Michael Shannah</strong> đã ứng tuyển cho công việc <span class="color">Kỹ Sư Phần Mềm Toàn Diện</span>
 												</span>
 											</a>
 										</li>
@@ -193,7 +194,7 @@
 											<a href="dashboard-manage-bidders.html">
 												<span class="notification-icon"><i class=" icon-material-outline-gavel"></i></span>
 												<span class="notification-text">
-													<strong>Gilbert Allanis</strong> placed a bid on your <span class="color">iOS App Development</span> project
+													<strong>Gilbert Allanis</strong> đã đặt giá cho dự án <span class="color">Phát Triển Ứng Dụng iOS</span>
 												</span>
 											</a>
 										</li>
@@ -203,7 +204,7 @@
 											<a href="dashboard-manage-jobs.html">
 												<span class="notification-icon"><i class="icon-material-outline-autorenew"></i></span>
 												<span class="notification-text">
-													Your job listing <span class="color">Full Stack PHP Developer</span> is expiring.
+													Thông tin công việc của bạn <span class="color">Kỹ Sư PHP Toàn Diện</span> đang hết hạn.
 												</span>
 											</a>
 										</li>
@@ -213,7 +214,7 @@
 											<a href="dashboard-manage-candidates.html">
 												<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
 												<span class="notification-text">
-													<strong>Sindy Forrest</strong> applied for a job <span class="color">Full Stack Software Engineer</span>
+													<strong>Sindy Forrest</strong> đã ứng tuyển cho công việc <span class="color">Kỹ Sư Phần Mềm Toàn Diện</span>
 												</span>
 											</a>
 										</li>
@@ -235,8 +236,8 @@
 						<div class="header-notifications-dropdown">
 
 							<div class="header-notifications-headline">
-								<h4>Messages</h4>
-								<button class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
+								<h4>Tin Nhắn</h4>
+								<button class="mark-as-read ripple-effect-dark" title="Đánh dấu tất cả đã đọc" data-tippy-placement="left">
 									<i class="icon-feather-check-square"></i>
 								</button>
 							</div>
@@ -250,8 +251,8 @@
 												<span class="notification-avatar status-online"><img src="images/user-avatar-small-03.jpg" alt=""></span>
 												<div class="notification-text">
 													<strong>David Peterson</strong>
-													<p class="notification-msg-text">Thanks for reaching out. I'm quite busy right now on many...</p>
-													<span class="color">4 hours ago</span>
+													<p class="notification-msg-text">Cảm ơn đã liên hệ. Tôi hiện khá bận rộn với nhiều việc...</p>
+													<span class="color">4 giờ trước</span>
 												</div>
 											</a>
 										</li>
@@ -262,8 +263,8 @@
 												<span class="notification-avatar status-offline"><img src="images/user-avatar-small-02.jpg" alt=""></span>
 												<div class="notification-text">
 													<strong>Sindy Forest</strong>
-													<p class="notification-msg-text">Hi Tom! Hate to break it to you, but I'm actually on vacation until...</p>
-													<span class="color">Yesterday</span>
+													<p class="notification-msg-text">Chào Tom! Thật tiếc khi phải nói với bạn rằng tôi đang trong kỳ nghỉ cho đến...</p>
+													<span class="color">Hôm qua</span>
 												</div>
 											</a>
 										</li>
@@ -274,8 +275,8 @@
 												<span class="notification-avatar status-online"><img src="images/user-avatar-placeholder.png" alt=""></span>
 												<div class="notification-text">
 													<strong>Marcin Kowalski</strong>
-													<p class="notification-msg-text">I received payment. Thanks for cooperation!</p>
-													<span class="color">Yesterday</span>
+													<p class="notification-msg-text">Tôi đã nhận thanh toán. Cảm ơn sự hợp tác!</p>
+													<span class="color">Hôm qua</span>
 												</div>
 											</a>
 										</li>
@@ -283,7 +284,7 @@
 								</div>
 							</div>
 
-							<a href="dashboard-messages.html" class="header-notifications-button ripple-effect button-sliding-icon">View All Messages<i class="icon-material-outline-arrow-right-alt"></i></a>
+							<a href="dashboard-messages.html" class="header-notifications-button ripple-effect button-sliding-icon">Xem Tất Cả Tin Nhắn<i class="icon-material-outline-arrow-right-alt"></i></a>
 						</div>
 					</div>
 
@@ -309,23 +310,23 @@
 								<div class="user-details">
 									<div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt=""></div>
 									<div class="user-name">
-										Tom Smith <span>Freelancer</span>
+										${userName} <span>Freelancer</span>
 									</div>
 								</div>
 								
 								<!-- User Status Switcher -->
 								<div class="status-switch" id="snackbar-user-status">
-									<label class="user-online current-status">Online</label>
-									<label class="user-invisible">Invisible</label>
+									<label class="user-online current-status">Trực Tuyến</label>
+									<label class="user-invisible">Ẩn</label>
 									<!-- Status Indicator -->
 									<span class="status-indicator" aria-hidden="true"></span>
 								</div>	
 						</div>
 						
 						<ul class="user-menu-small-nav">
-							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Bảng Điều Khiển</a></li>
+							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Cài Đặt</a></li>
+							<li><a href="LogoutServlet"><i class="icon-material-outline-power-settings-new"></i> Đăng Xuất</a></li>
 						</ul>
 
 						</div>
@@ -371,41 +372,41 @@
 							<span class="hamburger-inner"></span>
 						</span>
 					</span>
-					<span class="trigger-title">Dashboard Navigation</span>
+					<span class="trigger-title">Điều Hướng Bảng Điều Khiển</span>
 				</a>
 				
 				<!-- Navigation -->
 				<div class="dashboard-nav">
 					<div class="dashboard-nav-inner">
 
-						<ul data-submenu-title="Start">
-							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-							<li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">2</span></a></li>
-							<li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Bookmarks</a></li>
-							<li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
+						<ul data-submenu-title="Bắt Đầu">
+							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Bảng Điều Khiển</a></li>
+							<li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Tin Nhắn <span class="nav-tag">2</span></a></li>
+							<li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Đánh Dấu</a></li>
+							<li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Đánh Giá</a></li>
 						</ul>
 						
-						<ul data-submenu-title="Organize and Manage">
-							<li><a href="#"><i class="icon-material-outline-business-center"></i> Jobs</a>
+						<ul data-submenu-title="Tổ Chức và Quản Lý">
+							<li><a href="#"><i class="icon-material-outline-business-center"></i> Công Việc</a>
 								<ul>
-									<li><a href="dashboard-manage-jobs.html">Manage Jobs <span class="nav-tag">3</span></a></li>
-									<li><a href="dashboard-manage-candidates.html">Manage Candidates</a></li>
-									<li><a href="dashboard-post-a-job.html">Post a Job</a></li>
+									<li><a href="dashboard-manage-jobs.html">Quản Lý Công Việc <span class="nav-tag">3</span></a></li>
+									<li><a href="dashboard-manage-candidates.html">Quản Lý Ứng Viên</a></li>
+									<li><a href="dashboard-post-a-job.html">Đăng Công Việc</a></li>
 								</ul>	
 							</li>
-							<li class="active-submenu"><a href="#"><i class="icon-material-outline-assignment"></i> Tasks</a>
+							<li class="active-submenu"><a href="#"><i class="icon-material-outline-assignment"></i> Nhiệm Vụ</a>
 								<ul>
-									<li><a href="dashboard-manage-tasks.html">Manage Tasks <span class="nav-tag">2</span></a></li>
-									<li><a href="dashboard-manage-bidders.html">Manage Bidders</a></li>
-									<li><a href="dashboard-my-active-bids.html">My Active Bids <span class="nav-tag">4</span></a></li>
-									<li><a href="dashboard-post-a-task.html">Post a Task</a></li>
+									<li><a href="dashboard-manage-tasks.html">Quản Lý Nhiệm Vụ <span class="nav-tag">2</span></a></li>
+									<li><a href="dashboard-manage-bidders.html">Quản Lý Người Đấu Thầu</a></li>
+									<li><a href="dashboard-my-active-bids.html">Các Đấu Thầu Hoạt Động Của Tôi <span class="nav-tag">4</span></a></li>
+									<li><a href="dashboard-post-a-task.html">Đăng Nhiệm Vụ</a></li>
 								</ul>	
 							</li>
 						</ul>
 
-						<ul data-submenu-title="Account">
-							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+						<ul data-submenu-title="Tài Khoản">
+							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Cài Đặt</a></li>
+							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Đăng Xuất</a></li>
 						</ul>
 						
 					</div>
@@ -425,14 +426,14 @@
 			
 			<!-- Dashboard Headline -->
 			<div class="dashboard-headline">
-				<h3>Post a Task</h3>
+				<h3>Đăng Nhiệm Vụ</h3>
 
 				<!-- Breadcrumbs -->
 				<nav id="breadcrumbs" class="dark">
 					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Dashboard</a></li>
-						<li>Post a Task</li>
+						<li><a href="#">Trang Chủ</a></li>
+						<li><a href="#">Bảng Điều Khiển</a></li>
+						<li>Đăng Nhiệm Vụ</li>
 					</ul>
 				</nav>
 			</div>
@@ -446,7 +447,7 @@
 
 						<!-- Headline -->
 						<div class="headline">
-							<h3><i class="icon-feather-folder-plus"></i> Task Submission Form</h3>
+							<h3><i class="icon-feather-folder-plus"></i> Biểu Mẫu Gửi Nhiệm Vụ</h3>
 						</div>
 
 						<div class="content with-padding padding-bottom-10">
@@ -454,35 +455,35 @@
 
 								<div class="col-xl-4">
 									<div class="submit-field">
-										<h5>Project Name</h5>
-										<input type="text" class="with-border" placeholder="e.g. build me a website">
+										<h5>Tên Dự Án</h5>
+										<input type="text" class="with-border" placeholder="ví dụ: tạo trang web cho tôi">
 									</div>
 								</div>
 
 								<div class="col-xl-4">
 									<div class="submit-field">
-										<h5>Category</h5>
-										<select class="selectpicker with-border" data-size="7" title="Select Category">
-											<option>Admin Support</option>
-											<option>Customer Service</option>
-											<option>Data Analytics</option>
-											<option>Design & Creative</option>
-											<option>Legal</option>
-											<option>Software Developing</option>
-											<option>IT & Networking</option>
-											<option>Writing</option>
-											<option>Translation</option>
-											<option>Sales & Marketing</option>
+										<h5>Danh Mục</h5>
+										<select class="selectpicker with-border" data-size="7" title="Chọn Danh Mục">
+											<option>Hỗ Trợ Quản Trị</option>
+											<option>Dịch Vụ Khách Hàng</option>
+											<option>Phân Tích Dữ Liệu</option>
+											<option>Thiết Kế & Sáng Tạo</option>
+											<option>Pháp Lý</option>
+											<option>Phát Triển Phần Mềm</option>
+											<option>Công Nghệ Thông Tin & Mạng</option>
+											<option>Viết Lách</option>
+											<option>Biên Dịch</option>
+											<option>Bán Hàng & Tiếp Thị</option>
 										</select>
 									</div>
 								</div>
 
 								<div class="col-xl-4">
 									<div class="submit-field">
-										<h5>Location  <i class="help-icon" data-tippy-placement="right" title="Leave blank if it's an online job"></i></h5>
+										<h5>Địa Điểm  <i class="help-icon" data-tippy-placement="right" title="Để trống nếu là công việc trực tuyến"></i></h5>
 										<div class="input-with-icon">
 											<div id="autocomplete-container">
-												<input id="autocomplete-input" class="with-border" type="text" placeholder="Anywhere">
+												<input id="autocomplete-input" class="with-border" type="text" placeholder="Bất Cứ Nơi Nào">
 											</div>
 											<i class="icon-material-outline-location-on"></i>
 										</div>
@@ -491,17 +492,17 @@
 
 								<div class="col-xl-6">
 									<div class="submit-field">
-										<h5>What is your estimated budget?</h5>
+										<h5>Ngân Sách Dự Kiến Của Bạn Là Gì?</h5>
 										<div class="row">
 											<div class="col-xl-6">
 												<div class="input-with-icon">
-													<input class="with-border" type="text" placeholder="Minimum">
+													<input class="with-border" type="text" placeholder="Tối Thiểu">
 													<i class="currency">USD</i>
 												</div>
 											</div>
 											<div class="col-xl-6">
 												<div class="input-with-icon">
-													<input class="with-border" type="text" placeholder="Maximum">
+													<input class="with-border" type="text" placeholder="Tối Đa">
 													<i class="currency">USD</i>
 												</div>
 											</div>
@@ -509,12 +510,12 @@
 										<div class="feedback-yes-no margin-top-0">
 											<div class="radio">
 												<input id="radio-1" name="radio" type="radio" checked>
-												<label for="radio-1"><span class="radio-label"></span> Fixed Price Project</label>
+												<label for="radio-1"><span class="radio-label"></span> Dự Án Giá Cố Định</label>
 											</div>
 
 											<div class="radio">
 												<input id="radio-2" name="radio" type="radio">
-												<label for="radio-2"><span class="radio-label"></span> Hourly Project</label>
+												<label for="radio-2"><span class="radio-label"></span> Dự Án Tính Theo Giờ</label>
 											</div>
 										</div>
 									</div>
@@ -522,10 +523,10 @@
 
 								<div class="col-xl-6">
 									<div class="submit-field">
-										<h5>What skills are required? <i class="help-icon" data-tippy-placement="right" title="Up to 5 skills that best describe your project"></i></h5>
+										<h5>Kỹ Năng Yêu Cầu Là Gì? <i class="help-icon" data-tippy-placement="right" title="Tối đa 5 kỹ năng mô tả tốt nhất dự án của bạn"></i></h5>
 										<div class="keywords-container">
 											<div class="keyword-input-container">
-												<input type="text" class="keyword-input with-border" placeholder="Add Skills"/>
+												<input type="text" class="keyword-input with-border" placeholder="Thêm Kỹ Năng"/>
 												<button class="keyword-input-button ripple-effect"><i class="icon-material-outline-add"></i></button>
 											</div>
 											<div class="keywords-list"><!-- keywords go here --></div>
@@ -537,12 +538,12 @@
 
 								<div class="col-xl-12">
 									<div class="submit-field">
-										<h5>Describe Your Project</h5>
+										<h5>Mô Tả Dự Án Của Bạn</h5>
 										<textarea cols="30" rows="5" class="with-border"></textarea>
 										<div class="uploadButton margin-top-30">
 											<input class="uploadButton-input" type="file" accept="image/*, application/pdf" id="upload" multiple/>
-											<label class="uploadButton-button ripple-effect" for="upload">Upload Files</label>
-											<span class="uploadButton-file-name">Images or documents that might be helpful in describing your project</span>
+											<label class="uploadButton-button ripple-effect" for="upload">Tải Lên Tập Tin</label>
+											<span class="uploadButton-file-name">Hình ảnh hoặc tài liệu giúp mô tả dự án của bạn</span>
 										</div>
 									</div>
 								</div>
@@ -553,7 +554,7 @@
 				</div>
 
 				<div class="col-xl-12">
-					<a href="#" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Post a Task</a>
+					<a href="#" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Đăng Nhiệm Vụ</a>
 				</div>
 
 			</div>
@@ -563,7 +564,7 @@
 			<div class="dashboard-footer-spacer"></div>
 			<div class="small-footer margin-top-15">
 				<div class="small-footer-copyrights">
-					� 2019 <strong>Hireo</strong>. All Rights Reserved.
+					© 2019 <strong>Hireo</strong>. Bảo Lưu Mọi Quyền.
 				</div>
 				<ul class="footer-social-links">
 					<li>

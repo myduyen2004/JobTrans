@@ -7,7 +7,7 @@
 
         <!-- Basic Page Needs
         ================================================== -->
-        <title>Hireo</title>
+        <title>JobTrans</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -51,9 +51,9 @@
                             <!-- Breadcrumbs -->
                             <nav id="breadcrumbs" class="dark">
                                 <ul>
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">Dashboard</a></li>
-                                    <li>Settings</li>
+                                    <li><a href="#">Trang Chủ</a></li>
+                                    <li><a href="#">Bảng Điều Khiển</a></li>
+                                    <li>Cài Đặt</li>
                                 </ul>
                             </nav>
                         </div>
@@ -67,7 +67,7 @@
 
                                     <!-- Headline -->
                                     <div class="headline">
-                                        <h3><i class="icon-material-outline-account-circle"></i> My Account</h3>
+                                        <h3><i class="icon-material-outline-account-circle"></i> Trang Cá Nhân Của Tôi</h3>
                                     </div>
 
                                     <div class="content with-padding padding-bottom-0">
@@ -92,13 +92,13 @@
                                                              role = session.getAttribute("role");
                                                             if (role.equals("Employer")) { 
                                                             %>
-                                                            <h5>Tên nhà tuyển dụng</h5>
+                                                            <h5>Tên Nhà Tuyển Dụng</h5>
                                                             <%}%>
                                                             <%if (role.equals("Seeker")) { %>
-                                                            <h5>Họ và tên</h5>
+                                                            <h5>Họ và Tên</h5>
                                                             <%}%>
                                                             <%if (role.equals("Admin")) { %>
-                                                            <h5>Quản trị viên</h5>
+                                                            <h5>Quản Trị Viên</h5>
                                                             <%}%>
                                                             <span class="with-border">${user.userName}</span> <!-- Hiển thị tên người dùng -->
                                                         </div>
@@ -114,7 +114,7 @@
                                                     <div class="col-xl-6">
                                                         <!-- Account Type -->
                                                         <div class="submit-field">
-                                                            <h5>Role</h5>
+                                                            <h5>Vai Trò</h5>
                                                             <div class="account-type">
                                                                 <div>
                                                                     <span class="with-border">
@@ -128,7 +128,7 @@
 
                                                     <div class="col-xl-6">
                                                         <div class="submit-field">
-                                                            <h5>Password</h5>
+                                                            <h5>Mật Khẩu</h5>
                                                             <% 
                                                         Object password = session.getAttribute("oauthId");
                                                             if (password == null) { 
@@ -157,7 +157,7 @@
 
                                     <!-- Headline -->
                                     <div class="headline">
-                                        <h3><i class="icon-material-outline-face"></i> My Profile</h3>
+                                        <h3><i class="icon-material-outline-face"></i> Thông Tin Của Tôi</h3>
                                     </div>
 
                                     <div class="content">
@@ -169,11 +169,11 @@
                                                             <div class="bidding-widget">
                                                                 <!-- Headline -->
                                                                 <%if (role.equals("Employer")) { %>
-                                                                <span class="bidding-detail">Số lượng <strong>công việc đã đăng</strong></span>
+                                                                <span class="bidding-detail">Số Lượng <strong>Công Việc Đã Đăng</strong></span>
                                                                 <span class="with-border">${user.getQuantityOfPostedJob()}</span>
                                                                 <%}%>
                                                                 <%if (role.equals("Seeker")) { %>
-                                                                <span class="bidding-detail">Số lượng <strong>công việc đã ứng tuyển</strong></span>
+                                                                <span class="bidding-detail">Số Lượng <strong>Công Việc Đã Ứng Tuyển</strong></span>
                                                                 <span class="with-border">${user.getQuantityOfAppliedJob()}</span>
                                                                 <%}%>
                                                             </div>
@@ -182,7 +182,7 @@
 
                                                     <div class="col-xl-4">
                                                         <div class="submit-field">
-                                                            <h5>Balance </h5>
+                                                            <h5>Số Dư </h5>
                                                             <span class="with-border">
                                                                 <span>&#36;</span>
                                                                 ${user.balance}</span>
@@ -192,7 +192,7 @@
 
                                                     <div class="col-xl-4">
                                                         <div class="submit-field">
-                                                            <h5>Chuyên môn</h5>
+                                                            <h5>Chuyên Môn</h5>
 
                                                             <!-- Specification -->
                                                             <div class="attachments-container margin-top-0 margin-bottom-0">
@@ -209,7 +209,7 @@
                                                     <!-- Tagline Field -->
                                                     <div class="col-xl-6">
                                                         <div class="submit-field">
-                                                            <h5>Role</h5>
+                                                            <h5>Vai Trò</h5>
                                                             <span class="with-border">${user.role}</span>  
                                                         </div>
                                                     </div>
@@ -217,7 +217,7 @@
                                                     <!-- Nationality Field -->
                                                     <div class="col-xl-6">
                                                         <div class="submit-field">
-                                                            <h5>Address</h5>
+                                                            <h5>Địa Chỉ</h5>
                                                             <span class="with-border">${user.address}</span>
                                                         </div>
                                                     </div>
@@ -225,7 +225,7 @@
                                                     <!-- Introduction Field -->
                                                     <div class="col-xl-12">
                                                         <div class="submit-field">
-                                                            <h5>Introduce Company</h5>
+                                                            <h5>Mô Tả Về Chúng Tôi</h5>
                                                             <span class="with-border">${user.description}</span>
                                                         </div>
                                                     </div>
@@ -241,11 +241,11 @@
 
                             <!-- Button -->
                             <div class="col-xl-6">
-                                <a href="profile?action=loadPassword" class="button ripple-effect big margin-top-30">Change Password</a>
+                                <a href="profile?action=loadPassword" class="button ripple-effect big margin-top-30">Đổi Mật Khẩu</a>
                             </div>
 
                             <div class="col-xl-6">
-                                <a href="UpdateServlet?action=load" class="button ripple-effect big margin-top-30">Edit Profile</a>
+                                <a href="UpdateServlet?action=load" class="button ripple-effect big margin-top-30">Chỉnh Sửa Thông Tin</a>
                             </div>
                         </div>
 
@@ -255,7 +255,7 @@
                         <div class="dashboard-footer-spacer"></div>
                         <div class="small-footer margin-top-15">
                             <div class="small-footer-copyrights">
-                                © 2019 <strong>Hireo</strong>. All Rights Reserved.
+                                © 2024<strong>JOBTRANS</strong>. All Rights Reserved.
                             </div>
                             <ul class="footer-social-links">
                                 <li>

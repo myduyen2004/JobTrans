@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 
@@ -6,7 +7,7 @@
 
 <!-- Basic Page Needs
 ================================================== -->
-<title>Hireo</title>
+<title>JobTrans</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -34,111 +35,111 @@
 				
 				<!-- Logo -->
 				<div id="logo">
-					<a href="index-2.html"><img src="images/logo.png" alt=""></a>
+					<a href="index-2.html"><img src="images/logo.png" alt="Logo"></a>
 				</div>
 
 				<!-- Main Navigation -->
 				<nav id="navigation">
 					<ul id="responsive">
 
-						<li><a href="#">Home</a>
+						<li><a href="#">Trang Chủ</a>
 							<ul class="dropdown-nav">
-								<li><a href="index-2.html">Home 1</a></li>
-								<li><a href="index-3.html">Home 2</a></li>
-								<li><a href="index-4.html">Home 3</a></li>
+								<li><a href="index-2.html">Trang Chủ 1</a></li>
+								<li><a href="index-3.html">Trang Chủ 2</a></li>
+								<li><a href="index-4.html">Trang Chủ 3</a></li>
 							</ul>
 						</li>
 
-						<li><a href="#">Find Work</a>
+						<li><a href="#">Tìm Công Việc</a>
 							<ul class="dropdown-nav">
-								<li><a href="#">Browse Jobs</a>
+								<li><a href="#">Duyệt Việc Làm</a>
 									<ul class="dropdown-nav">
-										<li><a href="jobs-list-layout-full-page-map.html">Full Page List + Map</a></li>
-										<li><a href="jobs-grid-layout-full-page-map.html">Full Page Grid + Map</a></li>
-										<li><a href="jobs-grid-layout-full-page.html">Full Page Grid</a></li>
-										<li><a href="jobs-list-layout-1.html">List Layout 1</a></li>
-										<li><a href="jobs-list-layout-2.html">List Layout 2</a></li>
-										<li><a href="jobs-grid-layout.html">Grid Layout</a></li>
+										<li><a href="jobs-list-layout-full-page-map.html">Danh Sách Toàn Trang + Bản Đồ</a></li>
+										<li><a href="jobs-grid-layout-full-page-map.html">Lưới Toàn Trang + Bản Đồ</a></li>
+										<li><a href="jobs-grid-layout-full-page.html">Lưới Toàn Trang</a></li>
+										<li><a href="jobs-list-layout-1.html">Danh Sách 1</a></li>
+										<li><a href="jobs-list-layout-2.html">Danh Sách 2</a></li>
+										<li><a href="jobs-grid-layout.html">Lưới</a></li>
 									</ul>
 								</li>
-								<li><a href="#">Browse Tasks</a>
+								<li><a href="#">Duyệt Nhiệm Vụ</a>
 									<ul class="dropdown-nav">
-										<li><a href="tasks-list-layout-1.html">List Layout 1</a></li>
-										<li><a href="tasks-list-layout-2.html">List Layout 2</a></li>
-										<li><a href="tasks-grid-layout.html">Grid Layout</a></li>
-										<li><a href="tasks-grid-layout-full-page.html">Full Page Grid</a></li>
+										<li><a href="tasks-list-layout-1.html">Danh Sách 1</a></li>
+										<li><a href="tasks-list-layout-2.html">Danh Sách 2</a></li>
+										<li><a href="tasks-grid-layout.html">Lưới</a></li>
+										<li><a href="tasks-grid-layout-full-page.html">Lưới Toàn Trang</a></li>
 									</ul>
 								</li>
-								<li><a href="browse-companies.html">Browse Companies</a></li>
-								<li><a href="single-job-page.html">Job Page</a></li>
-								<li><a href="single-task-page.html">Task Page</a></li>
-								<li><a href="single-company-profile.html">Company Profile</a></li>
+								<li><a href="browse-companies.html">Duyệt Công Ty</a></li>
+								<li><a href="single-job-page.html">Trang Việc Làm</a></li>
+								<li><a href="single-task-page.html">Trang Nhiệm Vụ</a></li>
+								<li><a href="single-company-profile.html">Hồ Sơ Công Ty</a></li>
 							</ul>
 						</li>
 
-						<li><a href="#">For Employers</a>
+						<li><a href="#">Dành Cho Nhà Tuyển Dụng</a>
 							<ul class="dropdown-nav">
-								<li><a href="#">Find a Freelancer</a>
+								<li><a href="#">Tìm Freelancer</a>
 									<ul class="dropdown-nav">
-										<li><a href="freelancers-grid-layout-full-page.html">Full Page Grid</a></li>
-										<li><a href="freelancers-grid-layout.html">Grid Layout</a></li>
-										<li><a href="freelancers-list-layout-1.html">List Layout 1</a></li>
-										<li><a href="freelancers-list-layout-2.html">List Layout 2</a></li>
+										<li><a href="freelancers-grid-layout-full-page.html">Lưới Toàn Trang</a></li>
+										<li><a href="freelancers-grid-layout.html">Lưới</a></li>
+										<li><a href="freelancers-list-layout-1.html">Danh Sách 1</a></li>
+										<li><a href="freelancers-list-layout-2.html">Danh Sách 2</a></li>
 									</ul>
 								</li>
-								<li><a href="single-freelancer-profile.html">Freelancer Profile</a></li>
-								<li><a href="dashboard-post-a-job.html">Post a Job</a></li>
-								<li><a href="dashboard-post-a-task.html">Post a Task</a></li>
+								<li><a href="single-freelancer-profile.html">Hồ Sơ Freelancer</a></li>
+								<li><a href="dashboard-post-a-job.html">Đăng Việc Làm</a></li>
+								<li><a href="dashboard-post-a-task.html">Đăng Nhiệm Vụ</a></li>
 							</ul>
 						</li>
 
-						<li><a href="#" class="current">Dashboard</a>
+						<li><a href="#" class="current">Bảng Điều Khiển</a>
 							<ul class="dropdown-nav">
-								<li><a href="dashboard.html">Dashboard</a></li>
-								<li><a href="dashboard-messages.html">Messages</a></li>
-								<li><a href="dashboard-bookmarks.html">Bookmarks</a></li>
-								<li><a href="dashboard-reviews.html">Reviews</a></li>
-								<li><a href="dashboard-manage-jobs.html">Jobs</a>
+								<li><a href="dashboard.html">Bảng Điều Khiển</a></li>
+								<li><a href="dashboard-messages.html">Tin Nhắn</a></li>
+								<li><a href="dashboard-bookmarks.html">Dấu Trang</a></li>
+								<li><a href="dashboard-reviews.html">Đánh Giá</a></li>
+								<li><a href="dashboard-manage-jobs.html">Quản Lý Việc Làm</a>
 									<ul class="dropdown-nav">
-										<li><a href="dashboard-manage-jobs.html">Manage Jobs</a></li>
-										<li><a href="dashboard-manage-candidates.html">Manage Candidates</a></li>
-										<li><a href="dashboard-post-a-job.html">Post a Job</a></li>
+										<li><a href="dashboard-manage-jobs.html">Quản Lý Việc Làm</a></li>
+										<li><a href="dashboard-manage-candidates.html">Quản Lý Ứng Viên</a></li>
+										<li><a href="dashboard-post-a-job.html">Đăng Việc Làm</a></li>
 									</ul>
 								</li>
-								<li><a href="dashboard-manage-tasks.html">Tasks</a>
+								<li><a href="dashboard-manage-tasks.html">Quản Lý Nhiệm Vụ</a>
 									<ul class="dropdown-nav">
-										<li><a href="dashboard-manage-tasks.html">Manage Tasks</a></li>
-										<li><a href="dashboard-manage-bidders.html">Manage Bidders</a></li>
-										<li><a href="dashboard-my-active-bids.html">My Active Bids</a></li>
-										<li><a href="dashboard-post-a-task.html">Post a Task</a></li>
+										<li><a href="dashboard-manage-tasks.html">Quản Lý Nhiệm Vụ</a></li>
+										<li><a href="dashboard-manage-bidders.html">Quản Lý Người Đấu Giá</a></li>
+										<li><a href="dashboard-my-active-bids.html">Các Đấu Giá Đang Hoạt Động</a></li>
+										<li><a href="dashboard-post-a-task.html">Đăng Nhiệm Vụ</a></li>
 									</ul>
 								</li>
-								<li><a href="dashboard-settings.html">Settings</a></li>
+								<li><a href="dashboard-settings.html">Cài Đặt</a></li>
 							</ul>
 						</li>
 
-						<li><a href="#">Pages</a>
+						<li><a href="#">Trang</a>
 							<ul class="dropdown-nav">
 								<li>
-									<a href="#">Open Street Map</a>
+									<a href="#">Bản Đồ Mở</a>
 									<ul class="dropdown-nav">
-										<li><a href="jobs-list-layout-full-page-map-OpenStreetMap.html">Full Page List + Map</a></li>
-										<li><a href="jobs-grid-layout-full-page-map-OpenStreetMap.html">Full Page Grid + Map</a></li>
-										<li><a href="single-job-page-OpenStreetMap.html">Job Page</a></li>
-										<li><a href="single-company-profile-OpenStreetMap.html">Company Profile</a></li>
-										<li><a href="pages-contact-OpenStreetMap.html">Contact</a></li>
-										<li><a href="jobs-list-layout-1-OpenStreetMap.html">Location Autocomplete</a></li>
+										<li><a href="jobs-list-layout-full-page-map-OpenStreetMap.html">Danh Sách + Bản Đồ</a></li>
+										<li><a href="jobs-grid-layout-full-page-map-OpenStreetMap.html">Lưới Toàn Trang + Bản Đồ</a></li>
+										<li><a href="single-job-page-OpenStreetMap.html">Trang Việc Làm</a></li>
+										<li><a href="single-company-profile-OpenStreetMap.html">Hồ Sơ Công Ty</a></li>
+										<li><a href="pages-contact-OpenStreetMap.html">Liên Hệ</a></li>
+										<li><a href="jobs-list-layout-1-OpenStreetMap.html">Tự Động Hoàn Thành Địa Điểm</a></li>
 									</ul>
 								</li>
 								<li><a href="pages-blog.html">Blog</a></li>
-								<li><a href="pages-pricing-plans.html">Pricing Plans</a></li>
-								<li><a href="pages-checkout-page.html">Checkout Page</a></li>
-								<li><a href="pages-invoice-template.html">Invoice Template</a></li>
-								<li><a href="pages-user-interface-elements.html">User Interface Elements</a></li>
-								<li><a href="pages-icons-cheatsheet.html">Icons Cheatsheet</a></li>
-								<li><a href="pages-login.html">Login & Register</a></li>
-								<li><a href="pages-404.html">404 Page</a></li>
-								<li><a href="pages-contact.html">Contact</a></li>
+								<li><a href="pages-pricing-plans.html">Kế Hoạch Giá</a></li>
+								<li><a href="pages-checkout-page.html">Trang Thanh Toán</a></li>
+								<li><a href="pages-invoice-template.html">Mẫu Hóa Đơn</a></li>
+								<li><a href="pages-user-interface-elements.html">Yếu Tố Giao Diện Người Dùng</a></li>
+								<li><a href="pages-icons-cheatsheet.html">Bảng Mã Biểu Tượng</a></li>
+								<li><a href="pages-login.html">Đăng Nhập & Đăng Ký</a></li>
+								<li><a href="pages-404.html">Trang 404</a></li>
+								<li><a href="pages-contact.html">Liên Hệ</a></li>
 							</ul>
 						</li>
 
@@ -169,8 +170,8 @@
 						<div class="header-notifications-dropdown">
 
 							<div class="header-notifications-headline">
-								<h4>Notifications</h4>
-								<button class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
+								<h4>Thông Báo</h4>
+								<button class="mark-as-read ripple-effect-dark" title="Đánh dấu tất cả là đã đọc" data-tippy-placement="left">
 									<i class="icon-feather-check-square"></i>
 								</button>
 							</div>
@@ -183,7 +184,7 @@
 											<a href="dashboard-manage-candidates.html">
 												<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
 												<span class="notification-text">
-													<strong>Michael Shannah</strong> applied for a job <span class="color">Full Stack Software Engineer</span>
+													<strong>David Peterson</strong> đã ứng tuyển cho <span class="color">Senior Python Developer</span>
 												</span>
 											</a>
 										</li>
@@ -193,7 +194,7 @@
 											<a href="dashboard-manage-bidders.html">
 												<span class="notification-icon"><i class=" icon-material-outline-gavel"></i></span>
 												<span class="notification-text">
-													<strong>Gilbert Allanis</strong> placed a bid on your <span class="color">iOS App Development</span> project
+													<strong>Mark Francis</strong> đã đấu giá cho <span class="color">iOS App Development</span>
 												</span>
 											</a>
 										</li>
@@ -203,7 +204,7 @@
 											<a href="dashboard-manage-jobs.html">
 												<span class="notification-icon"><i class="icon-material-outline-autorenew"></i></span>
 												<span class="notification-text">
-													Your job listing <span class="color">Full Stack PHP Developer</span> is expiring.
+													Việc Làm của bạn <span class="color">Full Stack Software Engineer</span> đã được gia hạn thêm 6 ngày
 												</span>
 											</a>
 										</li>
@@ -213,7 +214,7 @@
 											<a href="dashboard-manage-candidates.html">
 												<span class="notification-icon"><i class="icon-material-outline-group"></i></span>
 												<span class="notification-text">
-													<strong>Sindy Forrest</strong> applied for a job <span class="color">Full Stack Software Engineer</span>
+													<strong>Michael Shannah</strong> đã ứng tuyển cho <span class="color">Full Stack Software Engineer</span>
 												</span>
 											</a>
 										</li>
@@ -221,70 +222,9 @@
 								</div>
 							</div>
 
+							<a href="dashboard-manage-candidates.html" class="header-notifications-button ripple-effect button-sliding-icon">Xem Tất Cả Thông Báo<i class="icon-material-outline-arrow-right-alt"></i></a>
 						</div>
 
-					</div>
-					
-					<!-- Messages -->
-					<div class="header-notifications">
-						<div class="header-notifications-trigger">
-							<a href="#"><i class="icon-feather-mail"></i><span>3</span></a>
-						</div>
-
-						<!-- Dropdown -->
-						<div class="header-notifications-dropdown">
-
-							<div class="header-notifications-headline">
-								<h4>Messages</h4>
-								<button class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
-									<i class="icon-feather-check-square"></i>
-								</button>
-							</div>
-
-							<div class="header-notifications-content">
-								<div class="header-notifications-scroll" data-simplebar>
-									<ul>
-										<!-- Notification -->
-										<li class="notifications-not-read">
-											<a href="dashboard-messages.html">
-												<span class="notification-avatar status-online"><img src="images/user-avatar-small-03.jpg" alt=""></span>
-												<div class="notification-text">
-													<strong>David Peterson</strong>
-													<p class="notification-msg-text">Thanks for reaching out. I'm quite busy right now on many...</p>
-													<span class="color">4 hours ago</span>
-												</div>
-											</a>
-										</li>
-
-										<!-- Notification -->
-										<li class="notifications-not-read">
-											<a href="dashboard-messages.html">
-												<span class="notification-avatar status-offline"><img src="images/user-avatar-small-02.jpg" alt=""></span>
-												<div class="notification-text">
-													<strong>Sindy Forest</strong>
-													<p class="notification-msg-text">Hi Tom! Hate to break it to you, but I'm actually on vacation until...</p>
-													<span class="color">Yesterday</span>
-												</div>
-											</a>
-										</li>
-
-										<!-- Notification -->
-										<li class="notifications-not-read">
-											<a href="dashboard-messages.html">
-												<span class="notification-avatar status-online"><img src="images/user-avatar-placeholder.png" alt=""></span>
-												<div class="notification-text">
-													<strong>Marcin Kowalski</strong>
-													<p class="notification-msg-text">I received payment. Thanks for cooperation!</p>
-													<span class="color">Yesterday</span>
-												</div>
-											</a>
-										</li>
-									</ul>
-								</div>
-							</div>
-
-							<a href="dashboard-messages.html" class="header-notifications-button ripple-effect button-sliding-icon">View All Messages<i class="icon-material-outline-arrow-right-alt"></i></a>
-						</div>
 					</div>
 
 				</div>
@@ -296,7 +236,7 @@
 					<!-- Messages -->
 					<div class="header-notifications user-menu">
 						<div class="header-notifications-trigger">
-							<a href="#"><div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt=""></div></a>
+							<a href="#"><div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt="User Avatar"></div></a>
 						</div>
 
 						<!-- Dropdown -->
@@ -307,41 +247,31 @@
 
 								<!-- User Name / Avatar -->
 								<div class="user-details">
-									<div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt=""></div>
+									<div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt="User Avatar"></div>
 									<div class="user-name">
-										Tom Smith <span>Freelancer</span>
+										Chào, Tom! 
 									</div>
 								</div>
 								
 								<!-- User Status Switcher -->
 								<div class="status-switch" id="snackbar-user-status">
 									<label class="user-online current-status">Online</label>
-									<label class="user-invisible">Invisible</label>
+									<label class="user-invisible">Ẩn Danh</label>
+									
 									<!-- Status Indicator -->
 									<span class="status-indicator" aria-hidden="true"></span>
 								</div>	
 						</div>
 						
 						<ul class="user-menu-small-nav">
-							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Bảng Điều Khiển</a></li>
+							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Cài Đặt</a></li>
+							<li><a href="pages-login.html"><i class="icon-material-outline-power-settings-new"></i> Đăng Xuất</a></li>
 						</ul>
 
-						</div>
 					</div>
-
 				</div>
 				<!-- User Menu / End -->
-
-				<!-- Mobile Navigation Button -->
-				<span class="mmenu-trigger">
-					<button class="hamburger hamburger--collapse" type="button">
-						<span class="hamburger-box">
-							<span class="hamburger-inner"></span>
-						</span>
-					</button>
-				</span>
 
 			</div>
 			<!-- Right Side Content / End -->
@@ -351,15 +281,14 @@
 	<!-- Header / End -->
 
 </header>
-<div class="clearfix"></div>
+
 <!-- Header Container / End -->
 
 
 <!-- Dashboard Container -->
 <div class="dashboard-container">
 
-	<!-- Dashboard Sidebar
-	================================================== -->
+	<!-- Dashboard Sidebar -->
 	<div class="dashboard-sidebar">
 		<div class="dashboard-sidebar-inner" data-simplebar>
 			<div class="dashboard-nav-container">
@@ -371,41 +300,41 @@
 							<span class="hamburger-inner"></span>
 						</span>
 					</span>
-					<span class="trigger-title">Dashboard Navigation</span>
+					<span class="trigger-title">Điều Hướng Bảng Điều Khiển</span>
 				</a>
 				
 				<!-- Navigation -->
 				<div class="dashboard-nav">
 					<div class="dashboard-nav-inner">
 
-						<ul data-submenu-title="Start">
-							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Dashboard</a></li>
-							<li class="active"><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Messages <span class="nav-tag">2</span></a></li>
-							<li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Bookmarks</a></li>
-							<li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Reviews</a></li>
+						<ul data-submenu-title="Bắt đầu">
+							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Bảng Điều Khiển</a></li>
+							<li class="active"><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Tin nhắn <span class="nav-tag">2</span></a></li>
+							<li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Đánh dấu</a></li>
+							<li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Đánh giá</a></li>
 						</ul>
 						
-						<ul data-submenu-title="Organize and Manage">
-							<li><a href="#"><i class="icon-material-outline-business-center"></i> Jobs</a>
+						<ul data-submenu-title="Tổ chức và Quản lý">
+							<li><a href="#"><i class="icon-material-outline-business-center"></i> Công Việc</a>
 								<ul>
-									<li><a href="dashboard-manage-jobs.html">Manage Jobs <span class="nav-tag">3</span></a></li>
-									<li><a href="dashboard-manage-candidates.html">Manage Candidates</a></li>
-									<li><a href="dashboard-post-a-job.html">Post a Job</a></li>
+									<li><a href="dashboard-manage-jobs.html">Quản lý công việc <span class="nav-tag">3</span></a></li>
+									<li><a href="dashboard-manage-candidates.html">Quản lý ứng viên</a></li>
+									<li><a href="dashboard-post-a-job.html">Đăng công việc</a></li>
 								</ul>	
 							</li>
-							<li><a href="#"><i class="icon-material-outline-assignment"></i> Tasks</a>
+							<li><a href="#"><i class="icon-material-outline-assignment"></i> Nhiệm vụ</a>
 								<ul>
-									<li><a href="dashboard-manage-tasks.html">Manage Tasks <span class="nav-tag">2</span></a></li>
-									<li><a href="dashboard-manage-bidders.html">Manage Bidders</a></li>
-									<li><a href="dashboard-my-active-bids.html">My Active Bids <span class="nav-tag">4</span></a></li>
-									<li><a href="dashboard-post-a-task.html">Post a Task</a></li>
+									<li><a href="dashboard-manage-tasks.html">Quản lý nhiệm vụ <span class="nav-tag">2</span></a></li>
+									<li><a href="dashboard-manage-bidders.html">Quản lý đấu giá</a></li>
+									<li><a href="dashboard-my-active-bids.html">Đấu giá đang hoạt động <span class="nav-tag">4</span></a></li>
+									<li><a href="dashboard-post-a-task.html">Đăng nhiệm vụ</a></li>
 								</ul>	
 							</li>
 						</ul>
 
-						<ul data-submenu-title="Account">
-							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Settings</a></li>
-							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+						<ul data-submenu-title="Tài khoản">
+							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Cài đặt</a></li>
+							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Đăng xuất</a></li>
 						</ul>
 						
 					</div>
@@ -418,21 +347,20 @@
 	<!-- Dashboard Sidebar / End -->
 
 
-	<!-- Dashboard Content
-	================================================== -->
+	<!-- Dashboard Content -->
 	<div class="dashboard-content-container" data-simplebar>
 		<div class="dashboard-content-inner" >
 			
 			<!-- Dashboard Headline -->
 			<div class="dashboard-headline">
-				<h3>Messages</h3>
+				<h3>Tin nhắn</h3>
 
 				<!-- Breadcrumbs -->
 				<nav id="breadcrumbs" class="dark">
 					<ul>
-						<li><a href="#">Home</a></li>
-						<li><a href="#">Dashboard</a></li>
-						<li>Messages</li>
+						<li><a href="#">Trang Chủ</a></li>
+						<li><a href="#">Bảng Điều Khiển</a></li>
+						<li>Tin nhắn</li>
 					</ul>
 				</nav>
 			</div>
@@ -445,7 +373,7 @@
 						<div class="messages-inbox">
 							<div class="messages-headline">
 								<div class="input-with-icon">
-										<input id="autocomplete-input" type="text" placeholder="Search">
+										<input id="autocomplete-input" type="text" placeholder="Tìm kiếm">
 									<i class="icon-material-outline-search"></i>
 								</div>
 							</div>
@@ -458,9 +386,9 @@
 										<div class="message-by">
 											<div class="message-by-headline">
 												<h5>David Peterson</h5>
-												<span>4 hours ago</span>
+												<span>4 giờ trước</span>
 											</div>
-											<p>Thanks for reaching out. I'm quite busy right now on many</p>
+											<p>Cảm ơn đã liên hệ. Hiện tại tôi đang khá bận với nhiều dự án</p>
 										</div>
 									</a>
 								</li>
@@ -472,9 +400,9 @@
 										<div class="message-by">
 											<div class="message-by-headline">
 												<h5>Sindy Forest</h5>
-												<span>Yesterday</span>
+												<span>Hôm qua</span>
 											</div>
-											<p>Hi Tom! Hate to break it to you but I'm actually on vacation</p>
+											<p>Chào Tom! Rất tiếc, nhưng tôi đang đi nghỉ</p>
 										</div>
 									</a>
 								</li>
@@ -486,9 +414,9 @@
 										<div class="message-by">
 											<div class="message-by-headline">
 												<h5>Sebastiano Piccio</h5>
-												<span>2 days ago</span>
+												<span>2 ngày trước</span>
 											</div>
-											<p>Hello, I want to talk about my project if you don't mind!</p>
+											<p>Xin chào, tôi muốn trao đổi về dự án của mình nếu bạn có thời gian!</p>
 										</div>
 									</a>
 								</li>
@@ -500,9 +428,9 @@
 										<div class="message-by">
 											<div class="message-by-headline">
 												<h5>Marcin Kowalski</h5>
-												<span>2 days ago</span>
+												<span>2 ngày trước</span>
 											</div>
-											<p>Yes, I received payment. Thanks for cooperation!</p>
+											<p>Vâng, tôi đã nhận được thanh toán. Cảm ơn vì sự hợp tác!</p>
 										</div>
 									</a>
 								</li>
@@ -516,7 +444,7 @@
 
 							<div class="messages-headline">
 								<h4>Sindy Forest</h4>
-								<a href="#" class="message-action"><i class="icon-feather-trash-2"></i> Delete Conversation</a>
+								<a href="#" class="message-action"><i class="icon-feather-trash-2"></i> Xóa cuộc trò chuyện</a>
 							</div>
 							
 							<!-- Message Content Inner -->
@@ -524,13 +452,13 @@
 									
 									<!-- Time Sign -->
 									<div class="message-time-sign">
-										<span>28 June, 2019</span>
+										<span>28 Tháng 6, 2019</span>
 									</div>
 
 									<div class="message-bubble me">
 										<div class="message-bubble-inner">
 											<div class="message-avatar"><img src="images/user-avatar-small-01.jpg" alt="" /></div>
-											<div class="message-text"><p>Thanks for choosing my offer. I will start working on your project tomorrow.</p></div>
+											<div class="message-text"><p>Cảm ơn bạn đã chọn lời đề nghị của tôi. Tôi sẽ bắt đầu làm việc vào ngày mai.</p></div>
 										</div>
 										<div class="clearfix"></div>
 									</div>
@@ -538,7 +466,7 @@
 									<div class="message-bubble">
 										<div class="message-bubble-inner">
 											<div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div>
-											<div class="message-text"><p>Great. If you need any further clarification let me know. ?</p></div>
+											<div class="message-text"><p>Rất tốt. Nếu cần bất kỳ giải thích thêm, hãy cho tôi biết. ?</p></div>
 										</div>
 										<div class="clearfix"></div>
 									</div>
@@ -546,51 +474,36 @@
 									<div class="message-bubble me">
 										<div class="message-bubble-inner">
 											<div class="message-avatar"><img src="images/user-avatar-small-01.jpg" alt="" /></div>
-											<div class="message-text"><p>Ok, I will. ?</p></div>
+											<div class="message-text"><p>Được, tôi sẽ làm vậy. ?</p></div>
 										</div>
 										<div class="clearfix"></div>
 									</div>
 
 									<!-- Time Sign -->
 									<div class="message-time-sign">
-										<span>Yesterday</span>
+										<span>Hôm qua</span>
 									</div>
 
 									<div class="message-bubble me">
 										<div class="message-bubble-inner">
 											<div class="message-avatar"><img src="images/user-avatar-small-01.jpg" alt="" /></div>
-											<div class="message-text"><p>Hi Sindy, I just wanted to let you know that project is finished and I'm waiting for your approval.</p></div>
+											<div class="message-text"><p>Chào Sindy, tôi muốn báo với bạn rằng dự án đã hoàn thành và tôi đang đợi sự phê duyệt của bạn.</p></div>
 										</div>
 										<div class="clearfix"></div>
 									</div>
 
 									<div class="message-bubble">
-										<div class="message-bubble-inner">
-											<div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div>
-											<div class="message-text"><p>Hi Tom! Hate to break it to you, but I'm actually on vacation ? until Sunday so I can't check it now. ?</p></div>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-
-									<div class="message-bubble me">
-										<div class="message-bubble-inner">
-											<div class="message-avatar"><img src="images/user-avatar-small-01.jpg" alt="" /></div>
-											<div class="message-text"><p>Ok, no problem. But don't forget about last payment. ?</p></div>
-										</div>
-										<div class="clearfix"></div>
-									</div>
-
-									<div class="message-bubble">
-										<div class="message-bubble-inner">
-											<div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div>
-											<div class="message-text">
-												<!-- Typing Indicator -->
-												<div class="typing-indicator">
-													<span></span>
-													<span></span>
-													<span></span>
-												</div>
+											<div class="message-bubble-inner">
+												<div class="message-avatar"><img src="images/user-avatar-small-02.jpg" alt="" /></div>
+												<div class="message-text"><p>Chào Tom! Rất tiếc, nhưng tôi đang đi nghỉ mát vì vậy có thể tôi sẽ không có thời gian để kiểm tra cho đến ngày mai. Hy vọng điều đó không sao!</p></div>
 											</div>
+											<div class="clearfix"></div>
+										</div>
+
+									<div class="message-bubble me">
+										<div class="message-bubble-inner">
+											<div class="message-avatar"><img src="images/user-avatar-small-01.jpg" alt="" /></div>
+											<div class="message-text"><p>Không vấn đề gì, tôi sẽ đợi, hãy tận hưởng kỳ nghỉ của bạn! ?</p></div>
 										</div>
 										<div class="clearfix"></div>
 									</div>
@@ -599,49 +512,21 @@
 							
 							<!-- Reply Area -->
 							<div class="message-reply">
-								<textarea cols="1" rows="1" placeholder="Your Message" data-autoresize></textarea>
-								<button class="button ripple-effect">Send</button>
+								<textarea cols="1" rows="1" placeholder="Gõ tin nhắn của bạn"></textarea>
+								<button class="button ripple-effect">Gửi</button>
 							</div>
 
 						</div>
 						<!-- Message Content -->
 
 					</div>
-			</div>
-			<!-- Messages Container / End -->
+				</div>
+				<!-- Messages Container / End -->
 
-
-
-			
 			<!-- Footer -->
 			<div class="dashboard-footer-spacer"></div>
 			<div class="small-footer margin-top-15">
-				<div class="small-footer-copyrights">
-					� 2019 <strong>Hireo</strong>. All Rights Reserved.
-				</div>
-				<ul class="footer-social-links">
-					<li>
-						<a href="#" title="Facebook" data-tippy-placement="top">
-							<i class="icon-brand-facebook-f"></i>
-						</a>
-					</li>
-					<li>
-						<a href="#" title="Twitter" data-tippy-placement="top">
-							<i class="icon-brand-twitter"></i>
-						</a>
-					</li>
-					<li>
-						<a href="#" title="Google Plus" data-tippy-placement="top">
-							<i class="icon-brand-google-plus-g"></i>
-						</a>
-					</li>
-					<li>
-						<a href="#" title="LinkedIn" data-tippy-placement="top">
-							<i class="icon-brand-linkedin-in"></i>
-						</a>
-					</li>
-				</ul>
-				<div class="clearfix"></div>
+				© 2024 <strong>JOBTRANS</strong>. All Rights Reserved.
 			</div>
 			<!-- Footer / End -->
 
@@ -664,7 +549,7 @@
 	<div class="sign-in-form">
 
 		<ul class="popup-tabs-nav">
-			<li><a href="#tab">Add Note</a></li>
+			<li><a href="#tab">Thêm Ghi Chú</a></li>
 		</ul>
 
 		<div class="popup-tabs-container">
@@ -674,16 +559,16 @@
 				
 				<!-- Welcome Text -->
 				<div class="welcome-text">
-					<h3>Do Not Forget ?</h3>
+					<h3>Đừng Quên ?</h3>
 				</div>
 					
 				<!-- Form -->
 				<form method="post" id="add-note">
 
-					<select class="selectpicker with-border default margin-bottom-20" data-size="7" title="Priority">
-						<option>Low Priority</option>
-						<option>Medium Priority</option>
-						<option>High Priority</option>
+					<select class="selectpicker with-border default margin-bottom-20" data-size="7" title="Mức độ Ưu Tiên">
+						<option>Ưu Tiên Thấp</option>
+						<option>Ưu Tiên Trung Bình</option>
+						<option>Ưu Tiên Cao</option>
 					</select>
 
 					<textarea name="textarea" cols="10" placeholder="Note" class="with-border"></textarea>
@@ -691,13 +576,14 @@
 				</form>
 				
 				<!-- Button -->
-				<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="add-note">Add Note <i class="icon-material-outline-arrow-right-alt"></i></button>
+				<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="add-note">Thêm Ghi Chú <i class="icon-material-outline-arrow-right-alt"></i></button>
 
 			</div>
 
 		</div>
 	</div>
 </div>
+
 <!-- Apply for a job popup / End -->
 
 

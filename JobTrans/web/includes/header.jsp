@@ -27,7 +27,7 @@
                 <!-- Main Navigation -->
                 <nav id="navigation">
                     <ul id="responsive">
-                        <li><a href="#" class="current">Home</a>
+                        <li><a href="#" class="current">Trang Chủ</a>
                         </li>
 
                         <li><a href="#">Việc làm</a>
@@ -36,7 +36,7 @@
                         <li><a href="#">Nhà tuyển dụng</a>
                         </li>
 
-                        <li><a href="#">Contact</a>
+                        <li><a href="#">Liên Hệ</a>
                         </li>
                     </ul>
                 </nav>
@@ -68,7 +68,7 @@
 
                             <div class="header-notifications-headline">
                                 <h4>Thông báo</h4>
-                                <button class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
+                                <button class="mark-as-read ripple-effect-dark" title="Đ đánh dấu tất cả đã đọc" data-tippy-placement="left">
                                     <i class="icon-feather-check-square"></i>
                                 </button>
                             </div>
@@ -81,7 +81,7 @@
                                             <a href="dashboard-manage-candidates.html">
                                                 <span class="notification-icon"><i class="icon-material-outline-group"></i></span>
                                                 <span class="notification-text">
-                                                    <strong>Michael Shannah</strong> applied for a job <span class="color">Full Stack Software Engineer</span>
+                                                    <strong>Michael Shannah</strong> đã nộp đơn cho công việc <span class="color">Kỹ Sư Phần Mềm Toàn Diện</span>
                                                 </span>
                                             </a>
                                         </li>
@@ -102,7 +102,7 @@
 
                             <div class="header-notifications-headline">
                                 <h4>Tin nhắn</h4>
-                                <button class="mark-as-read ripple-effect-dark" title="Mark all as read" data-tippy-placement="left">
+                                <button class="mark-as-read ripple-effect-dark" title="Đánh dấu tất cả đã đọc" data-tippy-placement="left">
                                     <i class="icon-feather-check-square"></i>
                                 </button>
                             </div>
@@ -116,8 +116,8 @@
                                                 <span class="notification-avatar status-online"><img src="images/user-avatar-small-03.jpg" alt=""></span>
                                                 <div class="notification-text">
                                                     <strong>David Peterson</strong>
-                                                    <p class="notification-msg-text">Thanks for reaching out. I'm quite busy right now on many...</p>
-                                                    <span class="color">4 hours ago</span>
+                                                    <p class="notification-msg-text">Cảm ơn vì đã liên hệ. Tôi khá bận rộn với nhiều việc...</p>
+                                                    <span class="color">4 giờ trước</span>
                                                 </div>
                                             </a>
                                         </li>
@@ -147,8 +147,8 @@
                                                 <span class="notification-avatar status-online"><img src="images/user-avatar-small-03.jpg" alt=""></span>
                                                 <div class="notification-text">
                                                     <strong>David Peterson</strong>
-                                                    <p class="notification-msg-text">Thanks for reaching out. I'm quite busy right now on many...</p>
-                                                    <span class="color">4 hours ago</span>
+                                                    <p class="notification-msg-text">Cảm ơn vì đã liên hệ. Tôi khá bận rộn với nhiều việc...</p>
+                                                    <span class="color">4 giờ trước</span>
                                                 </div>
                                             </a>
                                         </li>
@@ -202,7 +202,7 @@
                                 <li><a href="UpdateServlet?action=load"><i class="icon-material-outline-settings"></i> Sửa hồ sơ</a></li>
                                 <li><a href="profile?action=loadPassword"><i class="icon-line-awesome-futbol-o"></i> Đổi mật khẩu</a></li>
                                 <li><a href="#"><i class="icon-line-awesome-dollar"></i> Nạp thêm tiền</a></li>
-                                <li><a href="logout"><i class="icon-material-outline-power-settings-new"></i> Logout</a></li>
+                                <li><a href="logout"><i class="icon-material-outline-power-settings-new"></i> Đăng Xuất</a></li>
                             </ul>
 
                         </div>
@@ -223,7 +223,7 @@
             </div>
             <div class="right-side">
                 <div class="header-widget">
-                    <a href="#sign-in-dialog" class="popup-with-zoom-anim log-in-button"><i class="icon-feather-log-in"></i> <span>Log In / Register</span></a>
+                    <a href="#sign-in-dialog" class="popup-with-zoom-anim log-in-button"><i class="icon-feather-log-in"></i> <span>Đăng Nhập / Đăng Ký</span></a>
                 </div>
                 <!-- Mobile Navigation Button -->
                 <span class="mmenu-trigger">
@@ -243,4 +243,5 @@
     <!-- Header / End -->
 
 </header>
+
 <div class="clearfix"></div>

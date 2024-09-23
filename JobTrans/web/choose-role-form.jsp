@@ -11,7 +11,7 @@
 
         <!-- Basic Page Needs
         ================================================== -->
-        <title>Hireo</title>
+        <title>JobTrans</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
@@ -97,8 +97,8 @@
                                 <form action="RoleServlet" method="post">
                                     <div class="button-group">
                                         <input name="email" value="${email}" type="hidden"><!-- comment -->
-                                        <button type="submit" name="role" value="Seeker" class="btn seeker">Người tìm việc</button>
-                                        <button type="submit" name="role" value="Employer" class="btn employer">Người kiếm việc</button>
+                                        <button type="submit" name="role" value="Seeker" class="btn seeker">Người Tìm Việc</button>
+                                        <button type="submit" name="role" value="Employer" class="btn employer">Nhà Tuyển Dụng</button>
                                     </div>
                                 </form>
                             </div>
@@ -112,11 +112,11 @@
                         <ul class="intro-stats margin-top-45 hide-under-992px">
                             <li>
                                 <strong class="counter">1,586</strong>
-                                <span>Jobs Posted</span>
+                                <span>Công Việc Đã Đăng</span>
                             </li>
                             <li>
                                 <strong class="counter">3,543</strong>
-                                <span>Tasks Posted</span>
+                                <span>Nhiệm Vụ Đã Đăng</span>
                             </li>
                             <li>
                                 <strong class="counter">1,232</strong>
@@ -125,6 +125,7 @@
                         </ul>
                     </div>
                 </div>
+
 
             </div>
         </div>

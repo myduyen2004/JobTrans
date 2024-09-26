@@ -2,9 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/D:/KÌ%205-%20FALL24/JobTrans%20Website/JobTrans/web/hireo_21/css/icons.css</file>
-        </group>
         <group name="Group1">
             <file>file:/C:/Users/qn407/OneDrive/Documents/JobTrans/JobTrans/JobTrans/web/give-feedback.jsp</file>
             <file>file:/C:/Users/qn407/OneDrive/Documents/JobTrans/JobTrans/JobTrans/web/employer-infor.jsp</file>
@@ -13,6 +10,17 @@
             <file>file:/C:/Users/qn407/OneDrive/Documents/JobTrans/JobTrans/JobTrans/web/chat-box.jsp</file>
             <file>file:/C:/Users/qn407/OneDrive/Documents/JobTrans/JobTrans/JobTrans/web/freelancer-infor.jsp</file>
             <file>file:/C:/Users/qn407/OneDrive/Documents/JobTrans/JobTrans/JobTrans/web/job-list.jsp</file>
+        </group>
+        <group>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/WEB-INF/web.xml</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/authentication/reset-password.jsp</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/home.jsp</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/authentication/RoleServlet.java</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/authentication/verify-otp_1.jsp</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/profile/UpdateServlet.java</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/authentication/verify-email.jsp</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/profile/ProfileController.java</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/authentication/ForgotPassword.java</file>
         </group>
     </open-files>
 </project-private>

@@ -92,7 +92,7 @@ public class UpdateServlet extends HttpServlet {
         String specification = request.getParameter("specification");
         String address = request.getParameter("address");
         String description = request.getParameter("description");
-        String baseUploadPath = "D:/PROJECT FALL24/JobTrans/web/images/";
+        String baseUploadPath = "D:/FALL24/JobTrans Website/JobTrans/web/images/";
         String uniqueFolderName = "avatar_" + System.currentTimeMillis();
         File uploadDir = new File(baseUploadPath + uniqueFolderName);
         int count =0;

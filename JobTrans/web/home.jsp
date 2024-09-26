@@ -89,7 +89,7 @@
 
                                 <!-- Search Field -->
                                 <div class="intro-search-field with-autocomplete">
-                                    <label for="autocomplete-input" class="field-title ripple-effect">Bạn muốn: </label>
+                                    <label for="autocomplete-input" class="field-title ripple-effect">Bạn muốn trở thành: </label>
                                     <form action="role" method="post">
                                     <!--<div class="button-group">-->
                                         <input name="email" value="${email}" type="hidden"><!-- comment -->

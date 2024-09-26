@@ -87,7 +87,7 @@ public class RoleServlet extends HttpServlet {
         session.setAttribute("avatarUrl", user.getAvatarUrl());
         session.setAttribute("oauthId", user.getOauthId());
         session.setAttribute("role", user.getRole());
-        request.getRequestDispatcher("index.jsp").forward(request, response);
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     /**

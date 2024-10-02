@@ -4,6 +4,7 @@
  */
 package jobtrans.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 /**
@@ -17,12 +18,26 @@ public class Job {
     private float budget;
     private String description;
     private Date dueDate;
-    private boolean status;
+    private String status;
     private int categoryId;
     private String empFeedback;
     private String seekerFeedback;
-
+    private double secureWallet;
     public Job() {
+    }
+
+    public Job(int jobId, int userId, String jobTitle, float budget, String description, Date dueDate, String status, int categoryId, String empFeedback, String seekerFeedback, double secureWallet) {
+        this.jobId = jobId;
+        this.userId = userId;
+        this.jobTitle = jobTitle;
+        this.budget = budget;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = status;
+        this.categoryId = categoryId;
+        this.empFeedback = empFeedback;
+        this.seekerFeedback = seekerFeedback;
+        this.secureWallet = secureWallet;
     }
 
     
@@ -74,14 +89,15 @@ public class Job {
         this.dueDate = dueDate;
     }
 
-    public boolean isStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
+    
     public int getCategoryId() {
         return categoryId;
     }
@@ -105,5 +121,29 @@ public class Job {
     public void setSeekerFeedback(String seekerFeedback) {
         this.seekerFeedback = seekerFeedback;
     }
+
+    public double getSecureWallet() {
+        return secureWallet;
+    }
+
+    public void setSecureWallet(double secureWallet) {
+        this.secureWallet = secureWallet;
+    }
+
+    @Override
+    public String toString() {
+        return "Job{" + "jobId=" + jobId + ", userId=" + userId + ", jobTitle=" + jobTitle + ", budget=" + budget + ", description=" + description + ", dueDate=" + dueDate + ", status=" + status + ", categoryId=" + categoryId + ", empFeedback=" + empFeedback + ", seekerFeedback=" + seekerFeedback + ", secureWallet=" + secureWallet + '}';
+    }
     
+    public double calcTotalDeposit(double price, ArrayList<JobGreetings> list){
+        double totalDeposit = 0;
+        totalDeposit = price + (0.1 * price)*list.size();
+        return totalDeposit;
+    }
+    
+    public double getDepositEmployer(double price){
+        double depositEmployer = 0;
+        depositEmployer = price;
+        return depositEmployer;
+    }
 }

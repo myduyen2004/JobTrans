@@ -8,8 +8,11 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import jobtrans.dal.TransactionDAO;
 import jobtrans.model.User;
 import jobtrans.dal.UserDAO;
+import jobtrans.model.Transaction;
 
 @WebServlet(name="ProfileController", urlPatterns={"/profile"})
 
@@ -28,6 +31,12 @@ public class ProfileController extends HttpServlet {
                 break;
             case "changePassword":
                 changePassword(request, response);
+                break;
+            case "wallet":
+                loadWallet(request, response);
+                break;
+            case "addWallet":
+                addWallet(request, response);
                 break;
             default:
                 response.sendRedirect("viewProfile.jsp"); // Trang lỗi nếu action không hợp lệ
@@ -82,7 +91,54 @@ public class ProfileController extends HttpServlet {
             request.getRequestDispatcher("page-404.jsp").forward(request, response);
         }
     }
+    private void loadWallet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        String email = (String)session.getAttribute("account");
+        UserDAO userDao = new UserDAO();
+        User user = userDao.getUserByEmail(email);
+        TransactionDAO transDao = new TransactionDAO();
+        ArrayList<Transaction> transList = transDao.getTransactionBySender(user);
+        request.setAttribute("user", user);
+        request.setAttribute("transList", transList);
+//        response.getWriter().print(transList);
+//        response.getWriter().print(user);
+//        response.getWriter().print(email);
+        request.getRequestDispatcher("wallet.jsp").forward(request, response);
+    }
+    
+    private void addWallet(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+         HttpSession session = request.getSession();
+    String email = (String) session.getAttribute("account");
+    UserDAO userDao = new UserDAO();
+    User user = userDao.getUserByEmail(email);
+    TransactionDAO transDao = new TransactionDAO();
+    // Kiểm tra xem 'amount-add' có tồn tại trong session không
+    String amount = (String) session.getAttribute("amount-add");
+    if (amount != null) {
+        Transaction trans = new Transaction();
+        trans.setSenderId(user.getUserId());
+        trans.setAmount(Double.parseDouble(amount));
+        user.setBalance(user.getBalance() + Double.parseDouble(amount)); // Cộng số tiền vào balance
+        trans.setStatus(true);
+        trans.setTransactionType("Thêm tiền");
+        trans.setDescription("Nộp tiền vào ví");
 
+        transDao.addTransaction(trans);
+        transDao.updateBalance(user);
+
+        // Xóa 'amount-add' khỏi session sau khi xử lý
+        session.removeAttribute("amount-add");
+    }
+
+    ArrayList<Transaction> transList = transDao.getTransactionBySender(user);
+    user = userDao.getUserByEmail(email);
+    request.setAttribute("user", user);
+    request.setAttribute("transList", transList);
+    request.getRequestDispatcher("wallet.jsp").forward(request, response);
+    }
+    
 
     // Phương thức để xử lý việc thay đổi mật khẩu
     private void loadPassword(HttpServletRequest request, HttpServletResponse response)

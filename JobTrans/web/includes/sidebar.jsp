@@ -4,7 +4,7 @@
     Author     : admin
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="../css/style.css">
 <link rel="stylesheet" href="../css/colors/blue.css">
 <div class="dashboard-sidebar">
@@ -62,7 +62,8 @@
 						</ul>
                                                 <%}%>
 						<ul data-submenu-title="Account">
-							<li class="active"><a href="UpdateServlet?action=load"><i class="icon-material-outline-settings"></i> Cài Đặt</a></li>
+                                                    <li ><a href=""><i class="icon-material-outline-settings"></i> Nạp tiền vào ví</a></li>
+							<li><a href="UpdateServlet?action=load"><i class="icon-material-outline-settings"></i> Cài Đặt</a></li>
 							<li><a href="logout"><i class="icon-material-outline-power-settings-new"></i> Đăng Xuất</a></li>
 						</ul>
 						

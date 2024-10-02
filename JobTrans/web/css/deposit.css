@@ -1,0 +1,141 @@
+
+.payment-container {
+    background: #fff;
+    padding: 40px 60px;
+    width: 98%;
+     /* Tăng kích thước container để hiển thị thoáng hơn */
+    border-radius: 15px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2); /* Tạo bóng mờ để container nổi bật */
+    margin-top: 110px;
+    margin-bottom: 50px;
+    transition: all 0.3s ease;
+    border-left: 5px solid #2a41e8; /* Tạo điểm nhấn với viền trái màu xanh */
+}
+
+.payment-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25); /* Hiệu ứng nổi khi hover */
+}
+
+h2 {
+    color: #2a41e8;
+    margin-bottom: 30px;
+    font-size: 32px;
+    text-align: left;
+    letter-spacing: 1px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+    font-weight: 700; /* Tăng độ đậm của tiêu đề */
+}
+
+p {
+    margin: 0 0 20px 0;
+    color: #555; /* Thay đổi màu chữ cho mềm mại hơn */
+    line-height: 1.7;
+    text-align: justify;
+}
+
+.payment-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px;
+    border: 1px solid #dcdcdc;
+    border-radius: 10px;
+    background-color: #eef2ff;
+    margin-bottom: 30px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.payment-info:hover {
+    background-color: #e0e7ff;
+    box-shadow: 0 4px 20px rgba(42, 65, 232, 0.1); /* Hiệu ứng nổi khi hover */
+}
+
+.payment-info span {
+    font-size: 18px;
+    color: #333;
+}
+
+.payment-info strong {
+    font-size: 22px;
+    color: #2a41e8;
+}
+
+.btn-tra-truoc {
+    padding: 12px 30px;
+    background-color: #2a41e8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 5px 15px rgba(42, 65, 232, 0.3);
+}
+
+.btn-tra-truoc:hover {
+    background-color: #1a2dbb;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(42, 65, 232, 0.4);
+}
+
+.payment-note {
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+.note-green, .note-red {
+    padding: 15px;
+    border-radius: 8px; /* Tăng độ bo tròn */
+    margin: 15px 0;
+    font-size: 16px;
+    border-left: 4px solid; /* Thêm viền trái để nổi bật */
+}
+
+.note-green {
+    color: #27ae60;
+    background-color: rgba(39, 174, 96, 0.1);
+    border-color: #27ae60;
+}
+
+.note-red {
+    color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.1);
+    border-color: #e74c3c;
+}
+.btn-nap-tien {
+    padding: 12px 30px;
+    background-color: #262626; /* Màu đen */
+    color: #fff; /* Màu chữ trắng */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); /* Bóng đổ để tạo độ nổi */
+    margin-top: 20px; /* Khoảng cách phía trên */
+    display: inline-block;
+}
+
+.btn-nap-tien:hover {
+    background-color: #1a1a1a; /* Thay đổi màu khi hover */
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Hiệu ứng nổi khi hover */
+}
+
+
+@media (max-width: 1200px) {
+    .payment-container {
+        width: 95%;
+        padding: 30px 20px;
+    }
+
+    .payment-info {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .btn-tra-truoc {
+        align-self: flex-end;
+        margin-top: 15px;
+    }
+}

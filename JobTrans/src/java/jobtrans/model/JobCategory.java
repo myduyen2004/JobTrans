@@ -8,15 +8,22 @@ package jobtrans.model;
  *
  * @author admin
  */
-public class Category {
-    private int categoryId;
-    private String categoryName;
-    private String description;
+public class JobCategory {
+    private int categoryId;        // category_id
+    private String categoryName;   // category_name
+    private String description;     // description
 
-    public Category() {
+    // Constructor
+    public JobCategory() {
     }
 
-    
+    public JobCategory(int categoryId, String categoryName, String description) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.description = description;
+    }
+
+    // Getters and Setters
     public int getCategoryId() {
         return categoryId;
     }
@@ -40,6 +47,15 @@ public class Category {
     public void setDescription(String description) {
         this.description = description;
     }
-    
-    
+
+    // toString() method for easy display
+    @Override
+    public String toString() {
+        return "Category{" +
+                "categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
+                ", description='" + description + '\'' +
+                '}';
+    }
 }
+

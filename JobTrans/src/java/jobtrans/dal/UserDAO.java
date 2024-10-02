@@ -148,6 +148,41 @@ public class UserDAO {
         }
         return user;
     }
+    
+    public User getUserByUserId(int userId) {
+        DBConnection db = DBConnection.getInstance();
+        User user = null;
+        String sql = "SELECT * FROM [dbo].[Users] WHERE user_id = ?";
+
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setInt(1, userId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                userId = rs.getInt(1);
+                String userName = rs.getNString(2);
+                String email = rs.getString(3);
+                String password = rs.getString(4);
+                String oauthProvider = rs.getString(5);
+                String oauthId = rs.getString(6);
+                String role = rs.getString(7);
+                double balance = rs.getDouble(8);
+                String description = rs.getNString(9);
+                String specification = rs.getNString(10);
+                String address = rs.getNString(11);
+                String avatarUrl = rs.getNString(12);
+                boolean status = rs.getBoolean(13);
+                user = new User(userId, userName, email, password, oauthProvider, oauthId, role, balance, description, specification, address, avatarUrl, status);
+            }
+            rs.close();
+            statement.close();
+            con.close();
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return user;
+    }
 
     public boolean checkExistEmail(String email) {
         DBConnection db = DBConnection.getInstance();

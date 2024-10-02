@@ -4,23 +4,35 @@
  */
 package jobtrans.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author admin
  */
 public class JobGreetings {
     private int greetingId;
-    private int seekerId;
+    private int jobSeekerId;
     private int jobId;
     private String introduction;
     private String attachment;
-    private float price;
-    private boolean status;
+    private double price;
+    private String status;
 
+    // Constructors
     public JobGreetings() {
     }
 
-    
+    public JobGreetings(int greetingId, int jobSeekerId, int jobId, String introduction, String attachment, double price, String status) {
+        this.greetingId = greetingId;
+        this.jobSeekerId = jobSeekerId;
+        this.jobId = jobId;
+        this.introduction = introduction;
+        this.attachment = attachment;
+        this.price = price;
+        this.status = status;
+    }
+
     public int getGreetingId() {
         return greetingId;
     }
@@ -29,12 +41,12 @@ public class JobGreetings {
         this.greetingId = greetingId;
     }
 
-    public int getSeekerId() {
-        return seekerId;
+    public int getJobSeekerId() {
+        return jobSeekerId;
     }
 
-    public void setSeekerId(int seekerId) {
-        this.seekerId = seekerId;
+    public void setJobSeekerId(int jobSeekerId) {
+        this.jobSeekerId = jobSeekerId;
     }
 
     public int getJobId() {
@@ -61,21 +73,40 @@ public class JobGreetings {
         this.attachment = attachment;
     }
 
-    public float getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public boolean isStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(boolean status) {
+    public void setStatus(String status) {
         this.status = status;
     }
     
     
+
+    @Override
+    public String toString() {
+        return "JobGreeting{" + "greetingId=" + greetingId + ", jobSeekerId=" + jobSeekerId + ", jobId=" + jobId + ", introduction=" + introduction + ", attachment=" + attachment + ", price=" + price + ", status=" + status + '}';
+    }
+
+    public double getSumPrice(ArrayList<JobGreetings> greetings){
+        double sum = 0;
+        for (JobGreetings greeting : greetings) {
+            sum += greeting.getPrice();
+        }
+        return sum;
+    }
+    
+    public double getDepositSeeker(){
+        double deposit = 0;
+        deposit = this.price * 0.1;
+        return deposit;
+    }
 }

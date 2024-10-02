@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 
@@ -125,23 +125,7 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <div class="col-xl-6">
-                                                        <div class="submit-field">
-                                                            <h5>Mật Khẩu</h5>
-                                                            <% 
-                                                        Object password = session.getAttribute("oauthId");
-                                                            if (password == null) { 
-                                                            %>
-                                                            <div class="password-container">
-                                                                <span id="password">${user.password}</span>
-                                                                <button type="button" id="togglePassword" class="btn btn-outline-secondary">
-                                                                    <i id="passwordIcon" class="fas fa-eye"></i>
-                                                                </button>
-                                                            </div>
-                                                                <%}%>
-                                                               
-                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -12,15 +12,14 @@
             <file>file:/C:/Users/qn407/OneDrive/Documents/JobTrans/JobTrans/JobTrans/web/job-list.jsp</file>
         </group>
         <group>
-            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/WEB-INF/web.xml</file>
-            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/authentication/reset-password.jsp</file>
-            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/home.jsp</file>
-            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/authentication/RoleServlet.java</file>
-            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/authentication/verify-otp_1.jsp</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/dal/JobDAO.java</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/model/JobGreetings.java</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/job/JobController.java</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/deposit.jsp</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/model/Job.java</file>
+            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/wallet.jsp</file>
             <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/profile/UpdateServlet.java</file>
-            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/web/authentication/verify-email.jsp</file>
             <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/profile/ProfileController.java</file>
-            <file>file:/D:/FALL24/JobTrans%20Website/JobTrans/src/java/jobtrans/controller/web/authentication/ForgotPassword.java</file>
         </group>
     </open-files>
 </project-private>

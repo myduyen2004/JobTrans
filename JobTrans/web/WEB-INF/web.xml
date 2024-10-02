@@ -4,6 +4,18 @@
         <servlet-name>UpdateServlet</servlet-name>
         <servlet-class>jobtrans.controller.web.profile.UpdateServlet</servlet-class>
         <multipart-config>
+            <max-file-size>1048576</max-file-size>
+            <!-- 1MB -->
+            <max-request-size>2097152</max-request-size>
+            <!-- 2MB -->
+            <file-size-threshold>512000</file-size-threshold>
+            <!-- 500KB -->
+        </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>CRUDJobServerlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.job.CRUDJobServerlet</servlet-class>
+        <multipart-config>
         <max-file-size>1048576</max-file-size> <!-- 1MB -->
         <max-request-size>2097152</max-request-size> <!-- 2MB -->
         <file-size-threshold>512000</file-size-threshold> <!-- 500KB -->
@@ -12,6 +24,10 @@
     <servlet-mapping>
         <servlet-name>UpdateServlet</servlet-name>
         <url-pattern>/UpdateServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CRUDJobServerlet</servlet-name>
+        <url-pattern>/CRUDJobServerlet</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>

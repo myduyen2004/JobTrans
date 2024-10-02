@@ -1,21 +1,13 @@
-<%-- 
-    Document   : manage-job
-    Created on : Sep 22, 2024, 11:51:30 AM
-    Author     : admin
---%>
-
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="jobtrans.model.Job" %>
-<%@ page import="jobtrans.model.Category" %>
-<%@ page import="java.time.LocalDateTime, java.time.Duration" %>
+
 <!doctype html>
 <html lang="en">
 
-<!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-manage-tasks.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:48 GMT -->
+<!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-post-a-task.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:47 GMT -->
 <head>
-    <jsp:useBean id="jg" class="jobtrans.dal.JobDAO" scope="session"></jsp:useBean>
-    <jsp:useBean id="jgmodel" class="jobtrans.model.JobGreetings" scope="session"></jsp:useBean>
+<jsp:useBean id="category" class="jobtrans.dal.JobDAO" scope="session"></jsp:useBean>
+<jsp:useBean id="categoryModel" class="jobtrans.model.Category" scope="session"></jsp:useBean>
 <!-- Basic Page Needs
 ================================================== -->
 <title>JobTrans</title>
@@ -26,7 +18,6 @@
 ================================================== -->
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/colors/blue.css">
-<link rel="stylesheet" href="css/popup.css">
 
 </head>
 <body class="gray">
@@ -409,8 +400,8 @@
 							<li class="active-submenu"><a href="#"><i class="icon-material-outline-assignment"></i> Nhiệm Vụ</a>
 								<ul>
 									<li><a href="dashboard-manage-tasks.html">Quản Lý Nhiệm Vụ <span class="nav-tag">2</span></a></li>
-									<li><a href="dashboard-manage-bidders.html">Quản Lý Đấu Thầu</a></li>
-									<li><a href="dashboard-my-active-bids.html">Đấu Thầu Đang Hoạt Động <span class="nav-tag">4</span></a></li>
+									<li><a href="dashboard-manage-bidders.html">Quản Lý Người Đấu Thầu</a></li>
+									<li><a href="dashboard-my-active-bids.html">Các Đấu Thầu Hoạt Động Của Tôi <span class="nav-tag">4</span></a></li>
 									<li><a href="dashboard-post-a-task.html">Đăng Nhiệm Vụ</a></li>
 								</ul>	
 							</li>
@@ -438,81 +429,126 @@
 			
 			<!-- Dashboard Headline -->
 			<div class="dashboard-headline">
-				<h3>Quản Lý Nhiệm Vụ</h3>
+				<h3>Đăng Nhiệm Vụ</h3>
 
 				<!-- Breadcrumbs -->
 				<nav id="breadcrumbs" class="dark">
 					<ul>
 						<li><a href="#">Trang Chủ</a></li>
 						<li><a href="#">Bảng Điều Khiển</a></li>
-						<li>Quản Lý Nhiệm Vụ</li>
+						<li>Đăng Nhiệm Vụ</li>
 					</ul>
 				</nav>
 			</div>
 	
 			<!-- Row -->
 			<div class="row">
-
+                            <form action="CRUDJobServerlet" method="POST" enctype="multipart/form-data">
+                                <input type="hidden" name="command" value="UPDATE">
+                                <input type="hidden" name="jid" value="${job.jobId}">
 				<!-- Dashboard Box -->
 				<div class="col-xl-12">
 					<div class="dashboard-box margin-top-0">
 
 						<!-- Headline -->
 						<div class="headline">
-							<h3><i class="icon-material-outline-assignment"></i> Nhiệm Vụ Của Tôi</h3>
+							<h3><i class="icon-feather-folder-plus"></i> Cập nhật công việc</h3>
 						</div>
 
-						<div class="content">
-							<ul class="dashboard-box-list">
-                                                            <c:forEach var="myJob" items="${jobList}">
-                                                                <li>
-									<!-- Job Listing -->
-									<div class="job-listing width-adjustment">
+						<div class="content with-padding padding-bottom-10">
+							<div class="row">
 
-										<!-- Job Listing Details -->
-										<div class="job-listing-details">
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Tên Dự Án</h5>
+                                                                                <input type="text" class="with-border" name="projectName" value="${job.jobTitle}">
+									</div>
+								</div>
 
-											<!-- Details -->
-											<div class="job-listing-description">
-												<h3 class="job-listing-title"><a href="CRUDJobServerlet?command=VIEW&jid=${myJob.jobId}">${myJob.jobTitle}</a> <span class="dashboard-status-button yellow">${myJob.status}</span></h3>
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Danh Mục</h5>
+                                                                                <select class="selectpicker with-border" name="category" data-size="7" title="Chọn Danh Mục">
+                                                                                  
+                                                                                    <c:forEach var="cateName" items="${categoryModel.getCategoryName(category.getAllCategory())}">
+                                                                                        <option>${cateName}</option>
+                                                                                    </c:forEach>
+										</select>
+                                                                                
+									</div>
+								</div>
 
-												<!-- Job Listing Footer -->
-												<div class="job-listing-footer">
-													<ul>
-														<li><i class="icon-material-outline-access-time"></i>Ngày hết hạn: ${myJob.dueDate}</li>
-													</ul>
+								<div class="col-xl-4">
+									<div class="submit-field">
+										<h5>Địa Điểm  <i class="help-icon" data-tippy-placement="right" title="Để trống nếu là công việc trực tuyến"></i></h5>
+										<div class="input-with-icon">
+											<div id="autocomplete-container">
+                                                                                            <input id="autocomplete-input" class="with-border" type="text" name="address" value="${job.address}">
+											</div>
+											<i class="icon-material-outline-location-on"></i>
+										</div>
+									</div>
+								</div>
+
+								<div class="col-xl-6">
+									<div class="submit-field">
+										<h5>Ngân Sách Dự Kiến Của Bạn Là Gì?</h5>
+										<div class="row">
+											<div class="col-xl-6">
+												<div class="input-with-icon">
+													<input class="with-border" type="text" name="budget" value="${job.budget}">
+													<i class="currency">VND</i>
 												</div>
 											</div>
 										</div>
 									</div>
-									
-									<!-- Task Details -->
-									<ul class="dashboard-task-info">
-                                                                            <li><strong>${jgmodel.getNumberOfBidder(jg.getJobGreetingByJobId(myJob.jobId))}</strong><span>Lượt Đấu Thầu</span></li>
-                                                                            <li><strong><fmt:formatNumber value="${jgmodel.getAveragePrice(jg.getJobGreetingByJobId(myJob.jobId))}" type="currency" pattern="#,##0" currencySymbol="₫" groupingUsed="true" /></strong><span>Giá Thầu Trung Bình</span></li>
-									</ul>
+								</div>
 
-									<!-- Buttons -->
-									<div class="buttons-to-right always-visible">
-										<a href="dashboard-manage-bidders.html" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Quản Lý Đấu Thầu <span class="button-info">3</span></a>
-										<a href="CRUDJobServerlet?command=LOAD&jid=${myJob.jobId}" class="button gray ripple-effect ico" title="Chỉnh Sửa" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-										<a class="button gray ripple-effect ico" title="Xóa" data-tippy-placement="top" onclick="openPopup(this)" data-jobid="${myJob.jobId}"><i class="icon-feather-trash-2"></i></a>
+								<div class="col-xl-6">
+									<div class="submit-field">
+                                                                                <h5>Ngày hết hạn </h5>
+										<div class="keywords-container">
+											<div class="keyword-input-container">
+                                                                                            <input type="date" class="keyword-input with-border" name="date" value="${job.dueDate}"/>
+											</div>
+											<div class="keywords-list"><!-- keywords go here --></div>
+											<div class="clearfix"></div>
+										</div>
 									</div>
-								</li>
-                                                            </c:forEach>
-							</ul>
+								</div>
+
+								<div class="col-xl-12">
+									<div class="submit-field">
+										<h5>Mô Tả Dự Án Của Bạn</h5>
+										<textarea cols="30" rows="5" class="with-border" name="description">${job.description}</textarea>
+									</div>
+								</div>
+
+							</div>
 						</div>
 					</div>
 				</div>
-                                
+
+                                <div class="col-xl-12" style="display: flex; flex-direction: column; align-items: center;">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td><button type="submit" class="button ripple-effect big margin-top-30" style="width: 350px; margin-left: 20px; margin-right: 20px;"><i class="icon-feather-plus"></i> Cập Nhật Công Việc</button></td>
+                                                <td><a href="CRUDJobServerlet?command=LIST"><button class="button ripple-effect big margin-top-30" style="width: 350px; margin-right: 20px; margin-left: 20px;"><i class="icon-feather-corner-up-left"></i>  Quay Lại Danh Sách Công Việc</button></a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+					
+				</div>
+                            </form>
 			</div>
 			<!-- Row / End -->
-                        
+
 			<!-- Footer -->
 			<div class="dashboard-footer-spacer"></div>
 			<div class="small-footer margin-top-15">
 				<div class="small-footer-copyrights">
-					© 2024 <strong>JOBTRANS</strong>. All Rights Reserved.
+					© 2019 <strong>Hireo</strong>. Bảo Lưu Mọi Quyền.
 				</div>
 				<ul class="footer-social-links">
 					<li>
@@ -545,32 +581,12 @@
 	<!-- Dashboard Content / End -->
 
 </div>
-
 <!-- Dashboard Container / End -->
 
 </div>
 <!-- Wrapper / End -->
-<div id="popup" class="popup">
-    <div id="overlay">
-        <button class="closebtn" style="width: 5px;" onclick="closePopup()"><i class="icon-feather-log-out"></i></button>
-        <!-- Nội dung trong Popup -->
-        <center>
-            <div class="overlay-content">
-                <h4>Xác nhận</h4>
-                <hr>
-                <h4 style="margin-top: 30px;"><i class="icon-feather-alert-circle" style="color: blue;"></i>Bạn xác nhận muốn xóa công việc này không.</h4>
-                <br><!-- comment -->
 
-                <table>
-                <tr>
-                        <td><button class="button full-width button-sliding-icon ripple-effect" onclick="closePopup()">Thoát<i class="icon-feather-log-outo"></i></button></td>
-                        <td><a id="confirmDeleteButton" href="#"><button class="button full-width button-sliding-icon ripple-effect">Xác Nhận <i class="icon-feather-trash-2"></i></button></a></td>
-                </tr>
-                </table>
-            </div>
-        </center>
-    </div>
-</div>
+
 <!-- Scripts
 ================================================== -->
 <script src="js/jquery-3.4.1.min.js"></script>
@@ -603,27 +619,109 @@ $('#snackbar-user-status label').click(function() {
 }); 
 </script>
 
+<!-- Chart.js // documentation: http://www.chartjs.org/docs/latest/ -->
+<script src="js/chart.min.js"></script>
 <script>
-            function openPopup(element) { // Click vào button thì gán style cho Popup là display:block để hiển thị lên
-                var jobId = element.getAttribute("data-jobid");
-                console.log("Job ID: " + jobId);
+	Chart.defaults.global.defaultFontFamily = "Nunito";
+	Chart.defaults.global.defaultFontColor = '#888';
+	Chart.defaults.global.defaultFontSize = '14';
 
-                // Cập nhật URL của nút "Xác Nhận"
-                var confirmButton = document.getElementById("confirmDeleteButton");
-                confirmButton.href = "CRUDJobServerlet?command=DELETE&jid=" + jobId;
-                document.getElementById("popup").style.display = "block";
-            }
+	var ctx = document.getElementById('chart').getContext('2d');
 
-            
+	var chart = new Chart(ctx, {
+		type: 'line',
+
+		// The data for our dataset
+		data: {
+			labels: ["January", "February", "March", "April", "May", "June"],
+			// Information about the dataset
+	   		datasets: [{
+				label: "Views",
+				backgroundColor: 'rgba(42,65,232,0.08)',
+				borderColor: '#2a41e8',
+				borderWidth: "3",
+				data: [196,132,215,362,210,252],
+				pointRadius: 5,
+				pointHoverRadius:5,
+				pointHitRadius: 10,
+				pointBackgroundColor: "#fff",
+				pointHoverBackgroundColor: "#fff",
+				pointBorderWidth: "2",
+			}]
+		},
+
+		// Configuration options
+		options: {
+
+		    layout: {
+		      padding: 10,
+		  	},
+
+			legend: { display: false },
+			title:  { display: false },
+
+			scales: {
+				yAxes: [{
+					scaleLabel: {
+						display: false
+					},
+					gridLines: {
+						 borderDash: [6, 10],
+						 color: "#d8d8d8",
+						 lineWidth: 1,
+	            	},
+				}],
+				xAxes: [{
+					scaleLabel: { display: false },  
+					gridLines:  { display: false },
+				}],
+			},
+
+		    tooltips: {
+		      backgroundColor: '#333',
+		      titleFontSize: 13,
+		      titleFontColor: '#fff',
+		      bodyFontColor: '#fff',
+		      bodyFontSize: 13,
+		      displayColors: false,
+		      xPadding: 10,
+		      yPadding: 10,
+		      intersect: false
+		    }
+		},
+
+
+});
+
 </script>
 
+
+<!-- Google Autocomplete -->
 <script>
-    function closePopup() { // Click vào close thì gán style cho Popup là display:none để ẩn đi
-                document.getElementById("popup").style.display = "none";
-            }
+	function initAutocomplete() {
+		 var options = {
+		  types: ['(cities)'],
+		  // componentRestrictions: {country: "us"}
+		 };
+
+		 var input = document.getElementById('autocomplete-input');
+		 var autocomplete = new google.maps.places.Autocomplete(input, options);
+
+		if ($('.submit-field')[0]) {
+		    setTimeout(function(){ 
+		        $(".pac-container").prependTo("#autocomplete-container");
+		    }, 300);
+		}
+	}
 </script>
+
+
+<!-- Google API & Maps -->
+<!-- Geting an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaoOT9ioUE4SA8h-anaFyU4K63a7H-7bc&amp;libraries=places"></script>
+
 
 </body>
 
-<!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-manage-tasks.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:48 GMT -->
+<!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-post-a-task.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:47 GMT -->
 </html>

@@ -1,0 +1,53 @@
+.row{
+   position: relative;
+}
+.popup{
+    height: 100%;
+    width: 100%;
+    background-color: rgba(161, 192, 222, 0.8); /* Đỏ với độ trong suốt 50% */
+    position: fixed;
+    z-index: 101;
+    left: 0;
+    top: 0;
+    display: none;
+}
+#overlay {
+    height: 35%;
+    width: 35%;
+    position: absolute;
+    margin: auto;
+    inset: 0;
+    border-style: double;
+    left: 0;
+    top: 0;
+    background-color: white;
+}
+
+.overlay-content {
+    color: white;
+    position: relative;
+    top: 25%;
+    width: 80%;
+    text-align: center;
+    margin-top: 5px;
+    font-family: Arial;
+}
+
+#overlay .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: black;
+}
+
+.overlay-content table{
+    position: absolute;
+    top: 160px;
+    width: 100%;
+}
+
+.overlay-content td{
+    width: 40%;
+    padding-left: 5px;
+    padding-right: 5px;
+}

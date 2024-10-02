@@ -169,3 +169,32 @@ GO
 ALTER TABLE [Transaction] ALTER COLUMN createdDate DATETIME;
 
 ALTER TABLE Job ALTER COLUMN status NVARCHAR(100);
+
+ALTER TABLE [Transaction] ADD description NVARCHAR(MAX);
+
+ALTER TABLE Job ADD secure_wallet INT;
+
+ALTER TABLE Job ADD doc_URL VARCHAR(MAX);
+
+ALTER TABLE Job ADD interview_URL VARCHAR(MAX);
+
+ALTER TABLE Job ADD interview_Date DATE;
+
+ALTER TABLE Job ADD address NVARCHAR(MAX);
+
+
+INSERT INTO JobCategory(category_name) values
+(N'Hỗ Trợ Quản Trị'),
+(N'Dịch Vụ Khách Hàng'),
+(N'Phân Tích Dữ Liệu'),
+(N'Thiết Kế & Sáng Tạo'),
+(N'Pháp Lý'),
+(N'Phát Triển Phần Mềm'),
+(N'Công Nghệ Thông Tin & Mạng'),
+(N'Soạn Thảo Văn Bản'),
+(N'Biên Dịch'),
+(N'Bán Hàng & Tiếp Thị'),
+(N'Không xác định');
+
+select * from Job where user_id = 4
+

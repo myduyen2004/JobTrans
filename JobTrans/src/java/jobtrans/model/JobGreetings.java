@@ -4,6 +4,8 @@
  */
 package jobtrans.model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author admin
@@ -17,6 +19,17 @@ public class JobGreetings {
     private float price;
     private boolean status;
 
+    public JobGreetings(int greetingId, int seekerId, int jobId, String introduction, String attachment, float price, boolean status) {
+        this.greetingId = greetingId;
+        this.seekerId = seekerId;
+        this.jobId = jobId;
+        this.introduction = introduction;
+        this.attachment = attachment;
+        this.price = price;
+        this.status = status;
+    }
+    
+    
     public JobGreetings() {
     }
 
@@ -77,5 +90,17 @@ public class JobGreetings {
         this.status = status;
     }
     
+    public int getNumberOfBidder(ArrayList<JobGreetings> jgList){
+        return jgList.size();
+    }
     
+    public float getAveragePrice(ArrayList<JobGreetings> jgList){
+        float total = 0;
+        for(JobGreetings jg : jgList){
+            total += jg.getPrice();
+        }
+        
+        int num = getNumberOfBidder(jgList);
+        return total/num;
+    }
 }

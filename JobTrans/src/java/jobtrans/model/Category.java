@@ -4,6 +4,9 @@
  */
 package jobtrans.model;
 
+import java.util.ArrayList;
+import jobtrans.dal.JobDAO;
+
 /**
  *
  * @author admin
@@ -16,6 +19,11 @@ public class Category {
     public Category() {
     }
 
+    public Category(int categoryId, String categoryName, String description) {
+        this.categoryId = categoryId;
+        this.categoryName = categoryName;
+        this.description = description;
+    }
     
     public int getCategoryId() {
         return categoryId;
@@ -41,5 +49,19 @@ public class Category {
         this.description = description;
     }
     
+    public String getCategoryNameById(int id){
+        JobDAO jdao = new JobDAO();
+        Category cate = jdao.getCateById(id);
+        
+        return cate.getCategoryName();
+    }
     
+    public ArrayList<String> getCategoryName(ArrayList<Category> cateList){
+        ArrayList<String> nameList = new ArrayList<>();
+        for(Category cate : cateList){
+            String name = cate.getCategoryName();
+            nameList.add(name);
+        }
+        return nameList;
+    }
 }

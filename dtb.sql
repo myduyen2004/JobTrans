@@ -162,3 +162,10 @@ CREATE TABLE Shipment (
 ALTER TABLE Users
 ADD CONSTRAINT chk_role CHECK (role IN ('Seeker', 'Employer', 'Admin'));
 GO
+
+
+--Chạy thêm 2 lệnh này
+
+ALTER TABLE [Transaction] ALTER COLUMN createdDate DATETIME;
+
+ALTER TABLE Job ALTER COLUMN status NVARCHAR(100);

@@ -23,6 +23,7 @@ public class Job {
     private String empFeedback;
     private String seekerFeedback;
     private double secureWallet;
+    
     public Job() {
     }
 

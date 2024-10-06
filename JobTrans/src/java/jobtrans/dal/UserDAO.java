@@ -15,6 +15,7 @@ import jobtrans.model.User;
 import jobtrans.utils.DBConnection;
 import java.sql.SQLException;
 import java.sql.*;
+import jobtrans.model.JobInFor;
 
 /**
  *
@@ -338,5 +339,114 @@ public class UserDAO {
         return 0;
         
     }
+     public List<User> getAllEmployUsers() {
+        List<User> userList = new ArrayList<>();
+        DBConnection db = DBConnection.getInstance();
+        String sql = "SELECT * FROM Users WHERE role = 'employer';";
+        try {
+            Connection con = db.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            System.out.println(rs);
+            while (rs.next()) {
+                int userId = rs.getInt(1);
+                String userName = rs.getNString(2);
+                String email = rs.getString(3);
+                String password = rs.getString(4);
+                String oauthProvider = rs.getString(5);
+                String oauthId = rs.getString(6);
+                String role = rs.getString(7);
+                int balance = rs.getInt(8);
+                String description = rs.getNString(9);
+                String specification = rs.getNString(10);
+                String address = rs.getNString(11);
+                String avatarUrl = rs.getString(12);
+                Boolean status = rs.getBoolean(13);
+                User user = new User(userId, userName, email, password, oauthProvider, oauthId, role, balance,
+                        description, specification, address, avatarUrl, status);
+                userList.add(user);
+            }
+            rs.close();
+            statement.close();
+            con.close();
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return userList;
+    }
+    public User getUserByID(String cid) {
+    DBConnection db = DBConnection.getInstance();
+    User user = null;
+    String sql = "SELECT * FROM [dbo].[Users] WHERE user_id = ?";
+
+    try (Connection con = db.openConnection();
+         PreparedStatement statement = con.prepareStatement(sql)) {
+
+        // Convert cid to integer
+        int userId = Integer.parseInt(cid);
+        statement.setInt(1, userId); // Bind the integer userId to the SQL query
+
+        ResultSet rs = statement.executeQuery();
+
+        if (rs.next()) {
+            String userName = rs.getNString("user_name");
+            String email = rs.getString("email");
+            String password = rs.getString("password");
+            String oauthProvider = rs.getString("oauth_provider");
+            String oauthId = rs.getString("oauth_id");
+            String role = rs.getString("role");
+            double balance = rs.getDouble("balance");
+            String description = rs.getNString("description");
+            String specification = rs.getNString("specification");
+            String address = rs.getNString("address");
+            String avatarUrl = rs.getNString("avatar_url");
+            boolean status = rs.getBoolean("status");
+
+            user = new User(userId, userName, email, password, oauthProvider, oauthId, role, balance, description, specification, address, avatarUrl, status);
+        }
+
+        rs.close();
+    } catch (NumberFormatException e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Invalid user ID format: " + cid, e);
+    } catch (Exception ex) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    return user;
+}
+     public List<JobInFor> EmployerList(){
+         List<JobInFor> employList = new ArrayList<>();
+         DBConnection db = DBConnection.getInstance();
+         String sql = "SELECT u.user_id,j.job_id,u.avatar_url, u.user_name, u.address, j.job_title, j.budget,j.due_date,j.category_id " +
+                         "FROM Users u " +
+                         "JOIN Job j ON u.user_id = j.user_id " +
+                         "WHERE u.role = 'employer'";
+          try {
+            Connection con = db.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            ResultSet rs = statement.executeQuery();
+            System.out.println(rs);
+            while (rs.next()) {
+                JobInFor job = new JobInFor(
+                        rs.getInt("user_id"),
+                        rs.getInt("job_id"),
+                        rs.getString("avatar_url"),
+                        rs.getString("user_name"),
+                        rs.getString("address"),
+                        rs.getString("job_title"),
+                        rs.getInt("budget"),
+                        rs.getDate("due_date"),
+                        rs.getInt("category_id")
+                );
+                employList.add(job);
+            }
+            rs.close();
+            statement.close();
+            con.close();
+          }catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+         return employList;
+     }
 
 }

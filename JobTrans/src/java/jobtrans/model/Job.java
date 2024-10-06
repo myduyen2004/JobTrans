@@ -25,6 +25,27 @@ public class Job {
     public Job() {
     }
 
+    public Job(int jobId, int userId, String jobTitle, boolean status) {
+        this.jobId = jobId;
+        this.userId = userId;
+        this.jobTitle = jobTitle;
+        this.status = status;
+    }
+    
+    
+    
+    public Job(int jobId, int userId, String jobTitle, float budget, String description, Date dueDate, boolean status, int categoryId, String empFeedback, String seekerFeedback) {
+        this.jobId = jobId;
+        this.userId = userId;
+        this.jobTitle = jobTitle;
+        this.budget = budget;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = status;
+        this.categoryId = categoryId;
+        this.empFeedback = empFeedback;
+        this.seekerFeedback = seekerFeedback;
+    }
     
     public int getJobId() {
         return jobId;
@@ -78,6 +99,10 @@ public class Job {
         return status;
     }
 
+    public boolean getStatus() {
+        return status;
+    }
+    
     public void setStatus(boolean status) {
         this.status = status;
     }
@@ -105,5 +130,10 @@ public class Job {
     public void setSeekerFeedback(String seekerFeedback) {
         this.seekerFeedback = seekerFeedback;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Job{" + "jobId=" + jobId + ", userId=" + userId + ", jobTitle=" + jobTitle + ", budget=" + budget + ", description=" + description + ", dueDate=" + dueDate + ", status=" + status + ", categoryId=" + categoryId + ", empFeedback=" + empFeedback + ", seekerFeedback=" + seekerFeedback + '}';
+    }
+
 }

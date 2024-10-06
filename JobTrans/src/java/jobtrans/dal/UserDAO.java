@@ -300,8 +300,31 @@ public class UserDAO {
         }catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return 0;
+        return quantityOfPostedJob;
         
     }
+    
+    public User getUserById(int userId) {
+    User user = null;
+    String sql = "SELECT * FROM Users WHERE user_id = ?"; 
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement statement = con.prepareStatement(sql);
+        statement.setInt(1, userId);
+        ResultSet rs = statement.executeQuery();
+        
+        if (rs.next()) {
+            String userName = rs.getString("userName"); // Thay đổi tên cột cho phù hợp
+            String email = rs.getString("email"); // Thay đổi tên cột cho phù hợp
+            String avatarUrl = rs.getString("avatarUrl"); // Thay đổi tên cột cho phù hợp
+            String role = rs.getString("role"); // Thay đổi tên cột cho phù hợp
+
+            user = new User(userId, userName, email, role, role, email, role, userId, email, email, role, avatarUrl, true);
+        }
+    } catch (Exception ex) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+    }
+    return user;
+}
 
 }

@@ -16,6 +16,17 @@ public class JobGreetings {
     private String attachment;
     private float price;
     private boolean status;
+    
+    public JobGreetings(int greetingId, int seekerId, int jobId, String introduction, String attachment, float price, boolean status) {
+        this.greetingId = greetingId;
+        this.seekerId = seekerId;
+        this.jobId = jobId;
+        this.introduction = introduction;
+        this.attachment = attachment;
+        this.price = price;
+        this.status = status;
+        
+    }
 
     public JobGreetings() {
     }
@@ -76,6 +87,6 @@ public class JobGreetings {
     public void setStatus(boolean status) {
         this.status = status;
     }
-    
+
     
 }

@@ -1,10 +1,15 @@
 <%-- 
-    Document   : manage-job
-    Created on : Sep 22, 2024, 11:51:30 AM
-    Author     : admin
+    Document   : dashboard-manage-seeker
+    Created on : Oct 1, 2024, 11:06:08 PM
+    Author     : qn407
 --%>
+
+<%@page import="jobtrans.dal.JobDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%
+    JobDAO jobDao = new JobDAO();
+%>
 <!doctype html>
 <html lang="en">
 
@@ -408,9 +413,9 @@
                                                 </li>
                                                 <li>
                                                     <form action="jobController?userId=${userId}" method="post" style="display:inline;">
-                                                        <input type="hidden" name="action" value="viewJobConfirmed">
+                                                        <input type="hidden" name="action" value="view">
                                                         <button type="submit">
-                                                            <a>Công Việc Của Tôi</a> 
+                                                            <a>Quản Lý Ứng Viên</a> 
                                                         </button>
                                                     </form>
                                                 </li>
@@ -474,65 +479,67 @@
 
                                     <!-- Headline -->
                                     <div class="headline">
-                                        <h3><i class="icon-material-outline-assignment"></i> Công Việc Của Tôi</h3>
-                                    </div>
+                                        <c:choose>
+                                            <c:when test="${not empty combinedList}">
+                                                <c:set var="job" value="${combinedList[0]}" />
 
-                                    <div class="content">
-                                        <ul class="dashboard-box-list">
-                                            <c:choose>
-                                                <c:when test="${not empty listJob}">
-                                                    <c:forEach var="job" items="${listJob}">
-                                                        <li>
-                                                            <div class="job-listing">
-                                                                <div class="job-listing-details">
-                                                                    <div class="job-listing-description">
-                                                                        <h3 class="job-listing-title"> <a href="#">${job.jobTitle}</a>
-                                                                            <c:choose>
-                                                                                <c:when test="${job.status == '1'}">
-                                                                                    <span class="dashboard-status-button yellow ">${job.status ? 'active' : 'inactive'}</span>
-                                                                                </c:when>
-                                                                                <c:otherwise>
-                                                                                    <span class="dashboard-status-button green">${job.status ? 'active' : 'inactive'}</span>
-                                                                                </c:otherwise>
-                                                                            </c:choose>
-                                                                        </h3>
+                                                <div class="job-listing">
+                                                    <div class="job-listing-details">
+                                                        <div class="job-listing-description">
+                                                            <h3 class="job-listing-title">
+                                                                <a href="#">${job.jobTitle}</a>
+                                                            </h3>
 
-                                                                        <div class="job-listing-footer">
-                                                                            <ul>
-                                                                                <li><i class="icon-material-outline-date-range"></i>Hạn nộp: ${job.dueDate}</li>
-                                                                                <li>Ngân sách: ${job.budget}</li> 
+                                                            <div class="job-listing-footer">
+                                                                <ul>
+                                                                    <li><i class="icon-material-outline-date-range"></i>Hạn nộp: ${job.dueDate}</li>
+                                                                    <li>Ngân sách: ${job.budget}</li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
 
-                                                                            </ul>
-                                                                            <p>Mô tả: ${job.description}</p> 
+                                                <div class="content">
+                                                    <ul class="dashboard-box-list">
+                                                        <c:forEach var="jg" items="${combinedList}" begin="1">
+                                                            <c:if test="${jg.status == false}"> 
+                                                                <li>
+                                                                    <div class="job-greetings-listing">
+                                                                        <div class="job-greetings-details">
+                                                                            <h4 class="greetings-title">
+                                                                                Chào bởi: 
+                                                                                <c:set var="user" value="${jobDao.getUserByJobGreeting(jg)}" /> 
+                                                                                ${user != null ? user.userName : 'Người gửi không xác định'}
+                                                                            </h4>
+                                                                            <p>
+                                                                                Email: ${user.email}
+                                                                            </p>
                                                                         </div>
 
+                                                                        <div>
+                                                                            <div class="flex-button" style="margin-top: 5px">
+                                                                                <a href="#small-dialog" class="popup-with-zoom-anim button button-sliding-icon">Xem CV<i class="icon-material-outline-arrow-right-alt"></i></a>
+                                                                                <a href="#small-dialog" class="popup-with-zoom-anim button button-sliding-icon" 
+                                                                                   data-job-id="${job.jobId}" 
+                                                                                   data-greeting-id="${jg.greetingId}">
+                                                                                    Chấp thuận công việc
+                                                                                    <i class="icon-material-outline-arrow-right-alt"></i>
+                                                                                </a>
+
+                                                                            </div>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="buttons-to-right always-visible">
-                                                                <form action="jobController?jobId=${job.jobId}" method="post" style="display:inline;">
-                                                                    <input type="hidden" name="action" value="manageSeeker">
-                                                                    <button type="submit" class="button ripple-effect">
-                                                                        <i class="icon-material-outline-supervisor-account"></i> Quản Lý Tuyển Dụng
-                                                                    </button>
-                                                                </form>
-
-                                                                <button class="button gray ripple-effect ico" title="Chỉnh Sửa" data-tippy-placement="top">
-                                                                    <i class="icon-feather-edit"></i>
-                                                                </button>
-                                                                <button class="button gray ripple-effect ico" title="Xóa" data-tippy-placement="top">
-                                                                    <i class="icon-feather-trash-2"></i>
-                                                                </button>
-                                                            </div>
-
-                                                        </li>
-                                                    </c:forEach>
-                                                </c:when>
-
-                                                <c:otherwise>
-                                                    <p>Không có công việc nào để hiển thị.</p>                                                            
-                                                </c:otherwise>
-                                            </c:choose>
+                                                                </li>
+                                                            </c:if>
+                                                        </c:forEach>
+                                                    </ul>
+                                                </div>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p>Không có công việc nào để hiển thị.</p>
+                                            </c:otherwise>
+                                        </c:choose>
 
 
                                         </ul>
@@ -585,42 +592,115 @@
             <!-- Dashboard Container / End -->
 
         </div>
-        <!-- Wrapper / End -->
+        <!-- Wrapper / End -->        
+        <!-- =========================Confirm popup========================= -->
+        <div id="small-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+            <!--Tabs -->
+            <div class="sign-in-form">
+
+                <ul class="popup-tabs-nav">
+                </ul>
+
+                <div class="popup-tabs-container">
+
+                    <!-- Tab -->
+                    <div class="popup-tab-content" id="tab">
+
+                        <!-- Welcome Text -->
+                        <div class="welcome-text">
+                            <h3>Bạn có chắc chắn không?</h3>
+                            <p style="margin-top: 8px">Hãy xem xét thật kĩ điều này</p>
+
+                            <!-- Button -->
+                            <form id="approvalForm" action="jobController" method="post">
+                                <input type="hidden" name="action" value="confirmSeeker">
+                                <input type="hidden" name="jobId" id="popupJobId"> 
+                                <input type="hidden" name="greetingId" id="popupGreetingId">
+
+                                <button class="button margin-top-35 full-width button-sliding-icon ripple-effect" type="submit">Xác Nhận<i class="icon-material-outline-arrow-right-alt"></i></button>
+                            </form>
 
 
-        <!-- Scripts
-        ================================================== -->
-        <script src="js/jquery-3.4.1.min.js"></script>
-        <script src="js/jquery-migrate-3.1.0.min.html"></script>
-        <script src="js/mmenu.min.js"></script>
-        <script src="js/tippy.all.min.js"></script>
-        <script src="js/simplebar.min.js"></script>
-        <script src="js/bootstrap-slider.min.js"></script>
-        <script src="js/bootstrap-select.min.js"></script>
-        <script src="js/snackbar.js"></script>
-        <script src="js/clipboard.min.js"></script>
-        <script src="js/counterup.min.js"></script>
-        <script src="js/magnific-popup.min.js"></script>
-        <script src="js/slick.min.js"></script>
-        <script src="js/custom.js"></script>
 
-        <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
-        <script>
-            // Snackbar for user status switcher
-            $('#snackbar-user-status label').click(function () {
-                Snackbar.show({
-                    text: 'Your status has been changed!',
-                    pos: 'bottom-center',
-                    showAction: false,
-                    actionText: "Dismiss",
-                    duration: 3000,
-                    textColor: '#fff',
-                    backgroundColor: '#383838'
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- =========================End Confirm popup========================= -->
+
+            <!-- Scripts
+            ================================================== -->
+            <script src="js/jquery-3.4.1.min.js"></script>
+            <script src="js/jquery-migrate-3.1.0.min.html"></script>
+            <script src="js/mmenu.min.js"></script>
+            <script src="js/tippy.all.min.js"></script>
+            <script src="js/simplebar.min.js"></script>
+            <script src="js/bootstrap-slider.min.js"></script>
+            <script src="js/bootstrap-select.min.js"></script>
+            <script src="js/snackbar.js"></script>
+            <script src="js/clipboard.min.js"></script>
+            <script src="js/counterup.min.js"></script>
+            <script src="js/magnific-popup.min.js"></script>
+            <script src="js/slick.min.js"></script>
+            <script src="js/custom.js"></script>
+
+            <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
+            <script>
+                // Snackbar for user status switcher
+                $('#snackbar-user-status label').click(function () {
+                    Snackbar.show({
+                        text: 'Your status has been changed!',
+                        pos: 'bottom-center',
+                        showAction: false,
+                        actionText: "Dismiss",
+                        duration: 3000,
+                        textColor: '#fff',
+                        backgroundColor: '#383838'
+                    });
                 });
-            });
-        </script>
+            </script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const approvalLinks = document.querySelectorAll('.popup-with-zoom-anim');
+
+                    approvalLinks.forEach(link => {
+                        link.addEventListener('click', function () {
+                            const jobId = this.getAttribute('data-job-id');
+                            const greetingId = this.getAttribute('data-greeting-id');
+
+                            // Gán giá trị vào các trường ẩn trong popup
+                            document.getElementById('popupJobId').value = jobId;
+                            document.getElementById('popupGreetingId').value = greetingId;
+                        });
+                    });
+                });
+
+            </script>
+
+            <script>
+                document.addEventListener('DOMContentLoaded', function () {
+                    const approvalLinks = document.querySelectorAll('.popup-with-zoom-anim');
+
+                    approvalLinks.forEach(link => {
+                        link.addEventListener('click', function () {
+                            const jobId = this.getAttribute('data-job-id');
+                            const greetingId = this.getAttribute('data-greeting-id');
+
+                            // Gán giá trị vào các trường ẩn trong popup
+                            document.getElementById('popupJobId').value = jobId;
+                            document.getElementById('popupGreetingId').value = greetingId;
+                        });
+                    });
+                });
+
+            </script>
 
     </body>
 
     <!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-manage-tasks.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:48 GMT -->
 </html>
+

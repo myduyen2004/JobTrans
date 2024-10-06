@@ -1,8 +1,9 @@
 <%-- 
-    Document   : manage-job
-    Created on : Sep 22, 2024, 11:51:30 AM
-    Author     : admin
+    Document   : dashboard-manage-seeker
+    Created on : Oct 1, 2024, 11:06:08 PM
+    Author     : qn407
 --%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
@@ -474,15 +475,11 @@
 
                                     <!-- Headline -->
                                     <div class="headline">
-                                        <h3><i class="icon-material-outline-assignment"></i> Công Việc Của Tôi</h3>
-                                    </div>
-
-                                    <div class="content">
                                         <ul class="dashboard-box-list">
                                             <c:choose>
-                                                <c:when test="${not empty listJob}">
-                                                    <c:forEach var="job" items="${listJob}">
-                                                        <li>
+                                                <c:when test="${not empty jobs}">
+                                                    <c:forEach var="job" items="${jobs}">
+                                                        <li >
                                                             <div class="job-listing">
                                                                 <div class="job-listing-details">
                                                                     <div class="job-listing-description">
@@ -509,20 +506,37 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             <div class="buttons-to-right always-visible">
+
                                                                 <form action="jobController?jobId=${job.jobId}" method="post" style="display:inline;">
                                                                     <input type="hidden" name="action" value="manageSeeker">
                                                                     <button type="submit" class="button ripple-effect">
-                                                                        <i class="icon-material-outline-supervisor-account"></i> Quản Lý Tuyển Dụng
+                                                                        Tiến trình
                                                                     </button>
                                                                 </form>
 
-                                                                <button class="button gray ripple-effect ico" title="Chỉnh Sửa" data-tippy-placement="top">
-                                                                    <i class="icon-feather-edit"></i>
-                                                                </button>
-                                                                <button class="button gray ripple-effect ico" title="Xóa" data-tippy-placement="top">
-                                                                    <i class="icon-feather-trash-2"></i>
-                                                                </button>
+                                                                <form action="jobController?jobId=${job.jobId}" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="action" value="manageSeeker">
+                                                                    <button type="submit" class="button ripple-effect">
+                                                                        Chat
+                                                                    </button>
+                                                                </form>
+
+                                                                <form action="jobController?jobId=${job.jobId}" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="action" value="manageSeeker">
+                                                                    <button type="submit" class="button ripple-effect">
+                                                                        Sản Phẩm
+                                                                    </button>
+                                                                </form>
+
+                                                                <form action="jobController?jobId=${job.jobId}" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="action" value="manageSeeker">
+                                                                    <button type="submit" class="button ripple-effect">
+                                                                        Báo cáo
+                                                                    </button>
+                                                                </form>
+
                                                             </div>
 
                                                         </li>
@@ -585,8 +599,7 @@
             <!-- Dashboard Container / End -->
 
         </div>
-        <!-- Wrapper / End -->
-
+        <!-- Wrapper / End -->        
 
         <!-- Scripts
         ================================================== -->
@@ -620,7 +633,40 @@
             });
         </script>
 
+        <script>
+            let confirmationPopup = document.querySelector("#popup-confirm-seeker");
+            let openPopup = document.querySelector(".open-popup");
+            let closePopupButton = document.querySelector(".close-popup");
+            let confirmButton = document.querySelector(".confirm-button");
+            let blurBg = document.querySelector(".blur-bg");
+
+            openPopup.addEventListener("click", function () {
+                confirmationPopup.classList.remove("hidden-modal");
+                blurBg.classList.remove("hidden-blur");
+            });
+
+            let closePopupFunction = function () {
+                confirmationPopup.classList.add("hidden-modal");
+                blurBg.classList.add("hidden-blur");
+            };
+
+            blurBg.addEventListener("click", closePopupFunction);
+            closePopupButton.addEventListener("click", closePopupFunction);
+
+            confirmButton.addEventListener("click", function () {
+                // Thực hiện chức năng xác nhận ở đây
+                closePopupFunction();
+            });
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape" && !confirmationPopup.classList.contains("hidden-modal")) {
+                    closePopupFunction();
+                }
+            });
+        </script>
+
     </body>
 
     <!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-manage-tasks.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:48 GMT -->
 </html>
+

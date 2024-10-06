@@ -1,4 +1,4 @@
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
 
@@ -365,12 +365,12 @@
 			<div class="col-md-12">
 				<div class="single-page-header-inner">
 					<div class="left-side">
-						<div class="header-image"><img src="images/browse-companies-03.png" alt=""></div>
+						<div class="header-image"><img src="${detail.avatarUrl}" alt=""></div>
 						<div class="header-details">
-							<h3>Acodia <span>Nhà Phát Triển Phần Mềm</span></h3>
+                                                    <h3>${detail.userName}<span></span></h3>
 							<ul>
-								<li><div class="star-rating" data-rating="4.9"></div></li>
-								<li><img class="flag" src="images/flags/de.svg" alt=""> Berlin</li>
+								<li><div class="star-rating" data-rating=""></div></li>
+								<li><img class="flag" src="images/flags/de.svg" alt=""> ${detail.address}</li>
 								<li><div class="verified-badge-with-title">Đã Xác Minh</div></li>
 							</ul>
 						</div>
@@ -381,7 +381,7 @@
 							<ul>
 								<li><a href="#">Trang Chủ</a></li>
 								<li><a href="#">Tìm Công Ty</a></li>
-								<li>Acodia</li>
+								<li>${detail.userName}</li>
 							</ul>
 						</nav>
 					</div>
@@ -401,9 +401,7 @@
 
 			<div class="single-page-section">
 				<h3 class="margin-bottom-25">Giới Thiệu Về Công Ty</h3>
-				<p>Sử dụng các khung làm việc linh hoạt để cung cấp một cái nhìn tổng quan mạnh mẽ cho các chiến lược cấp cao. Phương pháp tiếp cận lặp đi lặp lại trong chiến lược doanh nghiệp khuyến khích tư duy hợp tác nhằm nâng cao giá trị tổng thể. Phát triển toàn diện quan điểm toàn cầu về đổi mới mang tính đột phá thông qua đa dạng và trao quyền trong môi trường làm việc.</p>
-
-				<p>Tận dụng các cơ hội dễ dàng để xác định các hoạt động bổ sung giá trị nhằm thử nghiệm ban đầu. Vượt qua khoảng cách số với các nhấp chuột thêm từ DevOps. Ngập tràn trong công nghệ nano trên xa lộ thông tin sẽ khép lại vòng tròn tập trung duy nhất vào lợi nhuận cuối cùng.</p>
+                                <p>${detail.description}</p>
 			</div>
 			
 			<!-- Danh Sách Công Việc -->
@@ -526,8 +524,7 @@
 				<div class="sidebar-widget">
 					<h3>Địa Điểm</h3>
 					<div id="single-job-map-container">
-						<div id="singleListingMap" data-latitude="52.520007" data-longitude="13.404954" data-map-icon="im im-icon-Hamburger"></div>
-						<a href="#" id="streetView">Xem Phố</a>
+						<h3>---------------${detail.address}----------------</h3>
 					</div>
 				</div>
 
@@ -536,10 +533,8 @@
 					<h3>Mạng Xã Hội</h3>
 					<div class="freelancer-socials margin-top-25">
 						<ul>
-							<li><a href="#" title="Dribbble" data-tippy-placement="top"><i class="icon-brand-dribbble"></i></a></li>
-							<li><a href="#" title="Twitter" data-tippy-placement="top"><i class="icon-brand-twitter"></i></a></li>
-							<li><a href="#" title="Behance" data-tippy-placement="top"><i class="icon-brand-behance"></i></a></li>
-							<li><a href="#" title="GitHub" data-tippy-placement="top"><i class="icon-brand-github"></i></a></li>
+							<li><a href="" title="gmail" data-tippy-placement="top"><i class="icon-brand-dribbble"></i>${detail.email} </a></li>
+							
 						</ul>
 					</div>
 				</div>

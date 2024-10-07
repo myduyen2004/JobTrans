@@ -306,36 +306,7 @@ public class JobDAO {
             Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    public ArrayList<JobGreetings> getJobGreetingByJobId(int id){
-        ArrayList<JobGreetings> jgList = new ArrayList<>();
-        
-        String sql = "SELECT * FROM JobGreetings WHERE job_id=?";
-        
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            
-            while(rs.next()){
-                int greetingId = rs.getInt(1);
-                int seekerId = rs.getInt(2);
-                int jobId = rs.getInt(3);
-                String introduction = rs.getNString(4);
-                String attachment = rs.getString(5);
-                float price = rs.getInt(6);
-                boolean status = rs.getBoolean(7); 
-                
-                JobGreetings jg = new JobGreetings(greetingId, seekerId, jobId, introduction, attachment, price, status);
-                jgList.add(jg);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-        return jgList;
-    }
-    
+   
     public static void main(String[] args) {
         JobDAO jd = new JobDAO();
         Job jobList = new Job(3, "newTile", "abcde", "10-10-2024", 50000, 3, "Đà Nẵng");

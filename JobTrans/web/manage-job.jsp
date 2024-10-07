@@ -14,7 +14,8 @@
 
 <!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-manage-tasks.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:48 GMT -->
 <head>
-    <jsp:useBean id="jg" class="jobtrans.dal.JobDAO" scope="session"></jsp:useBean>
+    <jsp:useBean id="job" class="jobtrans.dal.JobDAO" scope="session"></jsp:useBean>
+    <jsp:useBean id="jg" class="jobtrans.dal.JobGreetingDAO" scope="session"></jsp:useBean>
     <jsp:useBean id="jgmodel" class="jobtrans.model.JobGreetings" scope="session"></jsp:useBean>
 <!-- Basic Page Needs
 ================================================== -->
@@ -455,7 +456,7 @@
 
 						<div class="content">
 							<ul class="dashboard-box-list">
-                                                            <c:forEach var="myJob" items="${jobList}">
+                                                            <c:forEach var="myJob" items="${job.getAllJobByUserEmail(sessionScope.email)}">
                                                                 <li>
 									<!-- Job Listing -->
 									<div class="job-listing width-adjustment">
@@ -485,7 +486,7 @@
 
 									<!-- Buttons -->
 									<div class="buttons-to-right always-visible">
-										<a href="dashboard-manage-bidders.html" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Quản Lý Đấu Thầu <span class="button-info">3</span></a>
+										<a href="jobController?jobId=${myJob.jobId}" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Quản Lý Tuyển Dụng </a>
 										<a href="CRUDJobServerlet?command=LOAD&jid=${myJob.jobId}" class="button gray ripple-effect ico" title="Chỉnh Sửa" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
 										<a class="button gray ripple-effect ico" title="Xóa" data-tippy-placement="top" onclick="openPopup(this)" data-jobid="${myJob.jobId}"><i class="icon-feather-trash-2"></i></a>
 									</div>

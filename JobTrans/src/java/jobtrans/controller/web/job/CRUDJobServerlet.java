@@ -175,7 +175,7 @@ public class CRUDJobServerlet extends HttpServlet {
         Job job = new Job(uid, title, budget, des, date, status, cateId, url, address);
         out.println(job);
         jobDAO.createJob(job);
-        
+        response.sendRedirect("manage-job.jsp");
     }
     
     public void viewJobList(HttpServletRequest request, HttpServletResponse response)

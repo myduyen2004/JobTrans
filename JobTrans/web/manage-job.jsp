@@ -439,15 +439,6 @@
 			<!-- Dashboard Headline -->
 			<div class="dashboard-headline">
 				<h3>Quản Lý Nhiệm Vụ</h3>
-
-				<!-- Breadcrumbs -->
-				<nav id="breadcrumbs" class="dark">
-					<ul>
-						<li><a href="#">Trang Chủ</a></li>
-						<li><a href="#">Bảng Điều Khiển</a></li>
-						<li>Quản Lý Nhiệm Vụ</li>
-					</ul>
-				</nav>
 			</div>
 	
 			<!-- Row -->
@@ -459,7 +450,7 @@
 
 						<!-- Headline -->
 						<div class="headline">
-							<h3><i class="icon-material-outline-assignment"></i> Nhiệm Vụ Của Tôi</h3>
+							<h3><i class="icon-material-outline-assignment"></i> Công Việc Của Tôi</h3>
 						</div>
 
 						<div class="content">

@@ -430,15 +430,6 @@
 			<!-- Dashboard Headline -->
 			<div class="dashboard-headline">
 				<h3>Đăng Nhiệm Vụ</h3>
-
-				<!-- Breadcrumbs -->
-				<nav id="breadcrumbs" class="dark">
-					<ul>
-						<li><a href="#">Trang Chủ</a></li>
-						<li><a href="#">Bảng Điều Khiển</a></li>
-						<li>Đăng Nhiệm Vụ</li>
-					</ul>
-				</nav>
 			</div>
 	
 			<!-- Row -->
@@ -533,7 +524,7 @@
 				</div>
 
 				<div class="col-xl-12">
-					<button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Đăng Nhiệm Vụ</button>
+					<button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Đăng Tin Tuyển Dụng</button>
 				</div>
                             </form>
 			</div>

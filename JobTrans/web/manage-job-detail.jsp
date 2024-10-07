@@ -378,8 +378,8 @@
 							<h5>Về nhà tuyển dụng</h5>
 							<ul>
 								<li><a href="single-company-profile.html"><i class="icon-material-outline-business"></i>${employer.userName}</a></li>
-								<li><div class="star-rating" data-rating="5.0"></div></li>
-								<li><div class="verified-badge-with-title">Đã xác minh</div></li>
+					
+                                                                <li><div class="dashboard-status-button yellow">Trạng thái: ${job.status}</div></li>
 							</ul>
 						</div>
 					</div>
@@ -441,7 +441,7 @@
 							<div class="bids-content">
 								<!-- Name -->
 								<div class="freelancer-name">
-									<h4><a href="single-freelancer-profile.html">Tom Smith </a></h4>
+									<h4><a href="single-freelancer-profile.html">${usermodel.getBidder(jobGreetings.seekerId).userName}</a></h4>
 								</div>
 							</div>
 							

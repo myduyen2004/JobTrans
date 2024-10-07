@@ -9,6 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.model.Job;
@@ -23,29 +24,25 @@ import jobtrans.utils.DBConnection;
  */
 public class JobDAO {
     private final DBConnection dbConnection;
-    private UserDAO userDao = new UserDAO();
-    private JobDAO jobDao = new JobDAO();
-
 
     public JobDAO() {
         dbConnection = DBConnection.getInstance();
     }
-    
-    
-    public Job getJobById(int jobId) {
-        Job job = null; 
-        JobCategory cat;
-        String sql = "SELECT * FROM Job WHERE job_id = ?";
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setInt(1, jobId);
-            
+    public ArrayList<Job> getAllJob(){
+        ArrayList<Job> jobs = new ArrayList<>();
+        DBConnection db = DBConnection.getInstance();
+        String sql = "SELECT * FROM [dbo].[Job]";
+        
+         try {
+            Connection con = db.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql); 
             ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                int employer = rs.getInt(2);
+            System.out.println(rs);
+            while (rs.next()) {
+                int jobId = rs.getInt(1);
+                int userId = rs.getInt(2);
                 String jobTitle = rs.getNString(3);
-                double budget = rs.getDouble(4);
+                float budget = rs.getFloat(4);
                 String description = rs.getNString(5);
                 Date date = rs.getDate(6);
                 String status = rs.getNString(7);
@@ -53,7 +50,39 @@ public class JobDAO {
                 String employerFeedback = rs.getNString(9);
                 String seekerFeedback = rs.getNString(10);
                 double secureWallet = rs.getInt(11);
-                job = new Job(jobId, jobId, jobTitle, jobId, description, date, status, category, seekerFeedback, seekerFeedback, secureWallet);
+                 Job job = new Job(jobId, userId, jobTitle, budget, description, date, status, category, employerFeedback, seekerFeedback, secureWallet);
+                jobs.add(job);
+               
+            }
+            rs.close();
+            statement.close();
+            con.close();
+        } catch (Exception ex) {
+    ex.getMessage();
+        }
+        return jobs;
+    }
+    
+    public Job getJobById(int jobId) {
+        Job job = null;  
+        String sql = "SELECT * FROM Job WHERE job_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setInt(1, jobId);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+                int employer = rs.getInt(2);
+                String jobTitle = rs.getNString(3);
+                float budget = rs.getFloat(4);
+                String description = rs.getNString(5);
+                Date date = rs.getDate(6);
+                String status = rs.getNString(7);
+                int category = rs.getInt(8);
+                String employerFeedback = rs.getNString(9);
+                String seekerFeedback = rs.getNString(10);
+                double secureWallet = rs.getInt(11);
+                job = new Job(jobId, jobId, jobTitle, budget, description, date, status, category, seekerFeedback, seekerFeedback, secureWallet);
             }
             rs.close();
             statement.close();
@@ -85,6 +114,7 @@ public class JobDAO {
         }
         return cat;
     }
+    
     
     public ArrayList<JobGreetings> getGreetingAcceptList(Job job){
         ArrayList<JobGreetings> greetings = new ArrayList<>();
@@ -175,6 +205,41 @@ public class JobDAO {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public void insertJGreeting(JobGreetings jg){
+         String sql = "INSERT INTO [dbo].[JobGreetings]\n" +
+"           ([job_seeker_id]\n" +
+"           ,[job_id]\n" +
+"           ,[introduction]\n" +
+"           ,[attachment]\n" +
+"           ,[price]\n" +
+"           ,[status]\n" +
+"           ,[expectedDay])\n" +
+"     VALUES\n" +
+"           (?,?,?,?,?,?,? )";
+         try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setInt(1, jg.getJobSeekerId());
+            statement.setInt(2, jg.getJobId());
+            statement.setNString(3, jg.getIntroduction());
+            statement.setString(4, jg.getAttachment());
+            statement.setDouble(5, jg.getPrice());
+            statement.setString(6, jg.getStatus());
+            statement.setInt(7, jg.getExpectedDay());
+            statement.executeUpdate();
+            statement.close();
+            con.close();
+        } catch (Exception ex) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
     
-    
+    public static void main(String[] args) {
+        JobDAO jdao = new JobDAO();
+        JobGreetings jg = new JobGreetings(1,2,"Test","Test",1000,"Test",5);
+     jdao.insertJGreeting(jg);
+        System.out.println("ok");
+    }
 }

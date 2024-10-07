@@ -298,7 +298,7 @@
                             <!-- Section Headline -->
                             <div class="section-headline margin-top-0 margin-bottom-35">
                                 <h3>Công Việc Nổi Bật</h3>
-                                <a href="jobs-list-layout-full-page-map.html" class="headline-link">Xem Tất Cả Công Việc</a>
+                                <a href="Jobinfor" class="headline-link">Xem Tất Cả Công Việc</a>
                             </div>
 
                             <!-- Jobs Container -->
@@ -757,7 +757,8 @@
                 }
             });
         </script>
-        <script>
+        
+         <script>
             // Thiết lập Toastr options
             toastr.options = {
                 "positionClass": "toast-bottom-right", // Vị trí hiển thị
@@ -775,7 +776,7 @@
     toastr.error('<%= request.getAttribute("error") %>');
             <% } %>
         </script>
-
+        
         <!-- Google API & Maps -->
         <!-- Geting an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaoOT9ioUE4SA8h-anaFyU4K63a7H-7bc&amp;libraries=places"></script>

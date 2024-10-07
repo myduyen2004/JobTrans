@@ -18,10 +18,22 @@ public class JobGreetings {
     private String attachment;
     private double price;
     private String status;
-
+private int expectedDay;
     // Constructors
     public JobGreetings() {
     }
+
+    public JobGreetings(int jobSeekerId, int jobId, String introduction, String attachment, double price, String status, int expectedDay) {
+        this.jobSeekerId = jobSeekerId;
+        this.jobId = jobId;
+        this.introduction = introduction;
+        this.attachment = attachment;
+        this.price = price;
+        this.status = status;
+        this.expectedDay = expectedDay;
+    }
+
+  
 
     public JobGreetings(int greetingId, int jobSeekerId, int jobId, String introduction, String attachment, double price, String status) {
         this.greetingId = greetingId;
@@ -87,6 +99,14 @@ public class JobGreetings {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getExpectedDay() {
+        return expectedDay;
+    }
+
+    public void setExpectedDay(int expectedDay) {
+        this.expectedDay = expectedDay;
     }
     
     

@@ -338,5 +338,10 @@ public class UserDAO {
         return 0;
         
     }
+    public static void main(String[] args) {
+        UserDAO ud = new UserDAO();
+        User u =ud.getUserByEmail("tranthib@gmail.com");
+        System.out.println(u);
+    }
 
 }

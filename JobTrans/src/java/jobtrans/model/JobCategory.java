@@ -4,6 +4,9 @@
  */
 package jobtrans.model;
 
+import java.util.ArrayList;
+import jobtrans.dal.JobDAO;
+
 /**
  *
  * @author admin
@@ -17,13 +20,21 @@ public class JobCategory {
     public JobCategory() {
     }
 
+<<<<<<< HEAD:JobTrans/src/java/jobtrans/model/JobCategory.java
     public JobCategory(int categoryId, String categoryName, String description) {
+=======
+    public Category(int categoryId, String categoryName, String description) {
+>>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1:JobTrans/src/java/jobtrans/model/Category.java
         this.categoryId = categoryId;
         this.categoryName = categoryName;
         this.description = description;
     }
+<<<<<<< HEAD:JobTrans/src/java/jobtrans/model/JobCategory.java
 
     // Getters and Setters
+=======
+    
+>>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1:JobTrans/src/java/jobtrans/model/Category.java
     public int getCategoryId() {
         return categoryId;
     }
@@ -47,6 +58,7 @@ public class JobCategory {
     public void setDescription(String description) {
         this.description = description;
     }
+<<<<<<< HEAD:JobTrans/src/java/jobtrans/model/JobCategory.java
 
     // toString() method for easy display
     @Override
@@ -56,6 +68,23 @@ public class JobCategory {
                 ", categoryName='" + categoryName + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+=======
+    
+    public String getCategoryNameById(int id){
+        JobDAO jdao = new JobDAO();
+        Category cate = jdao.getCateById(id);
+        
+        return cate.getCategoryName();
+    }
+    
+    public ArrayList<String> getCategoryName(ArrayList<Category> cateList){
+        ArrayList<String> nameList = new ArrayList<>();
+        for(Category cate : cateList){
+            String name = cate.getCategoryName();
+            nameList.add(name);
+        }
+        return nameList;
+>>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1:JobTrans/src/java/jobtrans/model/Category.java
     }
 }
 

@@ -1,25 +1,16 @@
-<%-- 
-    Document   : manage-job
-    Created on : Sep 22, 2024, 11:51:30 AM
-    Author     : admin
---%>
-
-<<<<<<< HEAD
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-=======
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="jobtrans.model.Job" %>
-<%@ page import="jobtrans.model.Category" %>
-<%@ page import="java.time.LocalDateTime, java.time.Duration" %>
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
+<%@ page import="jobtrans.model.User" %>
 <!doctype html>
 <html lang="en">
 
-<!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-manage-tasks.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:48 GMT -->
+<!-- Mirrored from www.vasterad.com/themes/hireo_21/single-task-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:44 GMT -->
 <head>
-    <jsp:useBean id="jg" class="jobtrans.dal.JobDAO" scope="session"></jsp:useBean>
-    <jsp:useBean id="jgmodel" class="jobtrans.model.JobGreetings" scope="session"></jsp:useBean>
+<jsp:useBean id="jg" class="jobtrans.dal.JobDAO" scope="session"></jsp:useBean>
+<jsp:useBean id="jgmodel" class="jobtrans.model.JobGreetings" scope="session"></jsp:useBean>
+<jsp:useBean id="usermodel" class="jobtrans.model.User" scope="session"></jsp:useBean>
 <!-- Basic Page Needs
 ================================================== -->
 <title>JobTrans</title>
@@ -33,7 +24,7 @@
 <link rel="stylesheet" href="css/popup.css">
 
 </head>
-<body class="gray">
+<body>
 
 <!-- Wrapper -->
 <div id="wrapper">
@@ -372,188 +363,416 @@
 <!-- Header Container / End -->
 
 
-<!-- Dashboard Container -->
-<div class="dashboard-container">
 
-	<!-- Dashboard Sidebar
-	================================================== -->
-	<div class="dashboard-sidebar">
-		<div class="dashboard-sidebar-inner" data-simplebar>
-			<div class="dashboard-nav-container">
-
-				<!-- Responsive Navigation Trigger -->
-				<a href="#" class="dashboard-responsive-nav-trigger">
-					<span class="hamburger hamburger--collapse" >
-						<span class="hamburger-box">
-							<span class="hamburger-inner"></span>
-						</span>
-					</span>
-					<span class="trigger-title">Điều Hướng Bảng Điều Khiển</span>
-				</a>
-				
-				<!-- Navigation -->
-				<div class="dashboard-nav">
-					<div class="dashboard-nav-inner">
-
-						<ul data-submenu-title="Bắt Đầu">
-							<li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Bảng Điều Khiển</a></li>
-							<li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Tin Nhắn <span class="nav-tag">2</span></a></li>
-							<li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Đánh Dấu</a></li>
-							<li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Đánh Giá</a></li>
-						</ul>
-						
-						<ul data-submenu-title="Tổ Chức và Quản Lý">
-							<li><a href="#"><i class="icon-material-outline-business-center"></i> Công Việc</a>
-								<ul>
-									<li><a href="dashboard-manage-jobs.html">Quản Lý Công Việc <span class="nav-tag">3</span></a></li>
-									<li><a href="dashboard-manage-candidates.html">Quản Lý Ứng Viên</a></li>
-									<li><a href="dashboard-post-a-job.html">Đăng Công Việc</a></li>
-								</ul>	
-							</li>
-							<li class="active-submenu"><a href="#"><i class="icon-material-outline-assignment"></i> Nhiệm Vụ</a>
-								<ul>
-									<li><a href="dashboard-manage-tasks.html">Quản Lý Nhiệm Vụ <span class="nav-tag">2</span></a></li>
-									<li><a href="dashboard-manage-bidders.html">Quản Lý Đấu Thầu</a></li>
-									<li><a href="dashboard-my-active-bids.html">Đấu Thầu Đang Hoạt Động <span class="nav-tag">4</span></a></li>
-									<li><a href="dashboard-post-a-task.html">Đăng Nhiệm Vụ</a></li>
-								</ul>	
-							</li>
-						</ul>
-
-						<ul data-submenu-title="Tài Khoản">
-							<li><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Cài Đặt</a></li>
-							<li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Đăng Xuất</a></li>
-						</ul>
-						
-					</div>
-				</div>
-				<!-- Navigation / End -->
-
-			</div>
-		</div>
-	</div>
-	<!-- Dashboard Sidebar / End -->
-
-
-	<!-- Dashboard Content
-	================================================== -->
-	<div class="dashboard-content-container" data-simplebar>
-		<div class="dashboard-content-inner" >
-			
-			<!-- Dashboard Headline -->
-			<div class="dashboard-headline">
-				<h3>Quản Lý Nhiệm Vụ</h3>
-
-				<!-- Breadcrumbs -->
-				<nav id="breadcrumbs" class="dark">
-					<ul>
-						<li><a href="#">Trang Chủ</a></li>
-						<li><a href="#">Bảng Điều Khiển</a></li>
-						<li>Quản Lý Nhiệm Vụ</li>
-					</ul>
-				</nav>
-			</div>
-	
-			<!-- Row -->
-			<div class="row">
-
-				<!-- Dashboard Box -->
-				<div class="col-xl-12">
-					<div class="dashboard-box margin-top-0">
-
-						<!-- Headline -->
-						<div class="headline">
-							<h3><i class="icon-material-outline-assignment"></i> Nhiệm Vụ Của Tôi</h3>
-						</div>
-
-						<div class="content">
-							<ul class="dashboard-box-list">
-                                                            <c:forEach var="myJob" items="${jobList}">
-                                                                <li>
-									<!-- Job Listing -->
-									<div class="job-listing width-adjustment">
-
-										<!-- Job Listing Details -->
-										<div class="job-listing-details">
-
-											<!-- Details -->
-											<div class="job-listing-description">
-												<h3 class="job-listing-title"><a href="CRUDJobServerlet?command=VIEW&jid=${myJob.jobId}">${myJob.jobTitle}</a> <span class="dashboard-status-button yellow">${myJob.status}</span></h3>
-
-												<!-- Job Listing Footer -->
-												<div class="job-listing-footer">
-													<ul>
-														<li><i class="icon-material-outline-access-time"></i>Ngày hết hạn: ${myJob.dueDate}</li>
-													</ul>
-												</div>
-											</div>
-										</div>
-									</div>
-									
-									<!-- Task Details -->
-									<ul class="dashboard-task-info">
-                                                                            <li><strong>${jgmodel.getNumberOfBidder(jg.getJobGreetingByJobId(myJob.jobId))}</strong><span>Lượt Đấu Thầu</span></li>
-                                                                            <li><strong><fmt:formatNumber value="${jgmodel.getAveragePrice(jg.getJobGreetingByJobId(myJob.jobId))}" type="currency" pattern="#,##0" currencySymbol="₫" groupingUsed="true" /></strong><span>Giá Thầu Trung Bình</span></li>
-									</ul>
-
-									<!-- Buttons -->
-									<div class="buttons-to-right always-visible">
-										<a href="dashboard-manage-bidders.html" class="button ripple-effect"><i class="icon-material-outline-supervisor-account"></i> Quản Lý Đấu Thầu <span class="button-info">3</span></a>
-										<a href="CRUDJobServerlet?command=LOAD&jid=${myJob.jobId}" class="button gray ripple-effect ico" title="Chỉnh Sửa" data-tippy-placement="top"><i class="icon-feather-edit"></i></a>
-										<a class="button gray ripple-effect ico" title="Xóa" data-tippy-placement="top" onclick="openPopup(this)" data-jobid="${myJob.jobId}"><i class="icon-feather-trash-2"></i></a>
-									</div>
-								</li>
-                                                            </c:forEach>
+<!-- Titlebar
+================================================== -->
+<div class="single-page-header" data-background-image="images/single-task.jpg">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="single-page-header-inner">
+					<div class="left-side">
+						<div class="header-image"><a href="#"><img src=${employer.avatarUrl} alt="avatar"></a></div>
+						<div class="header-details">
+							<h3>${job.jobTitle}</h3>
+							<h5>Về nhà tuyển dụng</h5>
+							<ul>
+								<li><a href="single-company-profile.html"><i class="icon-material-outline-business"></i>${employer.userName}</a></li>
+								<li><div class="star-rating" data-rating="5.0"></div></li>
+								<li><div class="verified-badge-with-title">Đã xác minh</div></li>
 							</ul>
 						</div>
 					</div>
+					<div class="right-side">
+						<div class="salary-box">
+							<div class="salary-type">Ngân sách dự án</div>
+							<div class="salary-amount"><fmt:formatNumber value="${job.budget}" type="currency" pattern="#,##0" currencySymbol="₫" groupingUsed="true" /></div>
+						</div>
+					</div>
 				</div>
-                                
 			</div>
-			<!-- Row / End -->
-                        
-			<!-- Footer -->
-			<div class="dashboard-footer-spacer"></div>
-			<div class="small-footer margin-top-15">
-				<div class="small-footer-copyrights">
-					© 2024 <strong>JOBTRANS</strong>. All Rights Reserved.
-				</div>
-				<ul class="footer-social-links">
-					<li>
-						<a href="#" title="Facebook" data-tippy-placement="top">
-							<i class="icon-brand-facebook-f"></i>
-						</a>
-					</li>
-					<li>
-						<a href="#" title="Twitter" data-tippy-placement="top">
-							<i class="icon-brand-twitter"></i>
-						</a>
-					</li>
-					<li>
-						<a href="#" title="Google Plus" data-tippy-placement="top">
-							<i class="icon-brand-google-plus-g"></i>
-						</a>
-					</li>
-					<li>
-						<a href="#" title="LinkedIn" data-tippy-placement="top">
-							<i class="icon-brand-linkedin-in"></i>
-						</a>
-					</li>
-				</ul>
-				<div class="clearfix"></div>
-			</div>
-			<!-- Footer / End -->
-
 		</div>
 	</div>
-	<!-- Dashboard Content / End -->
-
 </div>
 
-<!-- Dashboard Container / End -->
+
+<!-- Page Content
+================================================== -->
+<div class="container">
+	<div class="row">
+		
+		<!-- Content -->
+		<div class="col-xl-8 col-lg-8 content-right-offset">
+			
+			<!-- Description -->
+			<div class="single-page-section">
+				<h3 class="margin-bottom-25">Mô tả dự án</h3>
+				<p>${job.description}</p>
+			</div>
+
+			<!-- Atachments -->
+			<div class="single-page-section">
+				<h3>Tệp đính kèm</h3>
+				<div class="attachments-container">
+					<a href="${job.docURL}" class="attachment-box ripple-effect"><span>Tóm tắt dự án</span><i>PDF</i></a>
+				</div>
+			</div>
+                                
+			<div class="clearfix"></div>
+			
+			<!-- Freelancers Bidding -->
+			<div class="boxed-list margin-bottom-60">
+				<div class="boxed-list-headline">
+					<h3><i class="icon-material-outline-group"></i> Freelancers đấu thầu</h3>
+				</div>
+				<ul class="boxed-list-ul">
+                                    <c:forEach var="jobGreeting" items="${jg.getJobGreetingByJobId(job.jobId)}">
+                                        <li>
+						<div class="bid">
+							<!-- Avatar -->
+							<div class="bids-avatar">
+								<div class="freelancer-avatar">
+									<div class="verified-badge"></div>
+                                                                        <a href="#"><img src="${usermodel.getBidder(jobGreetings.seekerId).avatarUrl}" alt=""></a>
+								</div>
+							</div>
+							
+							<!-- Content -->
+							<div class="bids-content">
+								<!-- Name -->
+								<div class="freelancer-name">
+									<h4><a href="single-freelancer-profile.html">Tom Smith </a></h4>
+								</div>
+							</div>
+							
+							<!-- Bid -->
+							<div class="bids-bid">
+								<div class="bid-rate">
+									<div class="rate"><fmt:formatNumber value="${jobGreeting.price}" type="currency" pattern="#,##0" currencySymbol="₫" groupingUsed="true" /></div>
+								</div>
+							</div>
+						</div>
+					</li>
+                                    </c:forEach>
+				</ul>
+			</div>
+
+		</div>
+		
+
+		<!-- Sidebar -->
+		<div class="col-xl-4 col-lg-4">
+			<div class="sidebar-container">
+
+				<div class="countdown green margin-bottom-35">Ngày hết hạn: ${job.dueDate}</div>
+
+				<div class="sidebar-widget">
+					<div class="bidding-widget">
+				
+						<div class="bidding-inner">
+                                                        <!-- Button -->
+                                                        <a href="CRUDJobServerlet?command=LOAD&jid=${job.jobId}"><button class="button full-width button-sliding-icon ripple-effect">Cập nhật công việc <i class="icon-feather-edit"></i></button></a>
+							<!-- Button -->
+                                                        <button class="button full-width button-sliding-icon ripple-effect" title="Xóa" onclick="openPopup(this)" data-jobid="${job.jobId}">Xóa Công Việc <i class="icon-feather-trash-2"></i></button>
+                                                        <!-- Button -->
+                                                        <a href="CRUDJobServerlet?command=LOADINTERVIEW&jid=${job.jobId}"><button class="button full-width button-sliding-icon ripple-effect">Cập nhật phỏng vấn <i class="icon-feather-video"></i></button></a>
+						</div>
+					</div>
+				</div>
+
+				<!-- Sidebar Widget -->
+				<div class="sidebar-widget">
+					<h3>Thông tin</h3>
+					<ul class="task-info">
+						<li><strong>Ngày hết hạn:</strong> ${job.dueDate}</li>
+						<li><strong>Địa điểm:</strong> ${job.address}</li>
+						<li><strong>Ngân sách:</strong> <fmt:formatNumber value="${job.budget}" type="currency" pattern="#,##0" currencySymbol="₫" groupingUsed="true" /></li>
+                                                <li><strong>Đã đăng bởi:</strong> ${usermodel.getUserNameById(job.userId).userName}</li>
+                                                <li><strong>Trạng thái:</strong> ${job.status}</li>
+                                                <a href="${job.interviewURL}"><li><strong>Phỏng Vấn</strong></li></a>
+                                                <li><strong>Ngày phỏng vấn:</strong> ${job.interviewDate}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+
+
+
+<!-- Spacer -->
+<div class="margin-top-15"></div>
+<!-- Spacer / End-->
+
+<!-- Footer
+================================================== -->
+<div id="footer">
+	
+	<!-- Phần Trên Của Footer -->
+	<div class="footer-top-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+
+					<!-- Container Các Hàng Của Footer -->
+					<div class="footer-rows-container">
+						
+						<!-- Bên Trái -->
+						<div class="footer-rows-left">
+							<div class="footer-row">
+								<div class="footer-row-inner footer-logo">
+									<img src="images/logo2.png" alt="">
+								</div>
+							</div>
+						</div>
+						
+						<!-- Bên Phải -->
+						<div class="footer-rows-right">
+
+							<!-- Icon Mạng Xã Hội -->
+							<div class="footer-row">
+								<div class="footer-row-inner">
+									<ul class="footer-social-links">
+										<li>
+											<a href="#" title="Facebook" data-tippy-placement="bottom" data-tippy-theme="light">
+												<i class="icon-brand-facebook-f"></i>
+											</a>
+										</li>
+										<li>
+											<a href="#" title="Twitter" data-tippy-placement="bottom" data-tippy-theme="light">
+												<i class="icon-brand-twitter"></i>
+											</a>
+										</li>
+										<li>
+											<a href="#" title="Google Plus" data-tippy-placement="bottom" data-tippy-theme="light">
+												<i class="icon-brand-google-plus-g"></i>
+											</a>
+										</li>
+										<li>
+											<a href="#" title="LinkedIn" data-tippy-placement="bottom" data-tippy-theme="light">
+												<i class="icon-brand-linkedin-in"></i>
+											</a>
+										</li>
+									</ul>
+									<div class="clearfix"></div>
+								</div>
+							</div>
+							
+							<!-- Chuyển Đổi Ngôn Ngữ -->
+							<div class="footer-row">
+								<div class="footer-row-inner">
+									<select class="selectpicker language-switcher" data-selected-text-format="count" data-size="5">
+										<option selected>Tiếng Việt</option>
+										<option>Tiếng Anh</option>
+										<option>Tiếng Tây Ban Nha</option>
+										<option>Tiếng Hàn</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+					</div>
+					<!-- Container Các Hàng Của Footer / Kết Thúc -->
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Phần Trên Của Footer / Kết Thúc -->
+
+	<!-- Phần Giữa Của Footer -->
+	<div class="footer-middle-section">
+		<div class="container">
+			<div class="row">
+
+				<!-- Liên Kết -->
+				<div class="col-xl-2 col-lg-2 col-md-3">
+					<div class="footer-links">
+						<h3>Dành Cho Ứng Viên</h3>
+						<ul>
+							<li><a href="#"><span>Tìm Việc</span></a></li>
+							<li><a href="#"><span>Thêm Hồ Sơ</span></a></li>
+							<li><a href="#"><span>Thông Báo Việc Làm</span></a></li>
+							<li><a href="#"><span>Dấu Trang Của Tôi</span></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Liên Kết -->
+				<div class="col-xl-2 col-lg-2 col-md-3">
+					<div class="footer-links">
+						<h3>Dành Cho Nhà Tuyển Dụng</h3>
+						<ul>
+							<li><a href="#"><span>Tìm Ứng Viên</span></a></li>
+							<li><a href="#"><span>Đăng Tuyển Dụng</span></a></li>
+							<li><a href="#"><span>Đăng Công Việc</span></a></li>
+							<li><a href="#"><span>Kế Hoạch & Giá</span></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Liên Kết -->
+				<div class="col-xl-2 col-lg-2 col-md-3">
+					<div class="footer-links">
+						<h3>Liên Kết Hữu Ích</h3>
+						<ul>
+							<li><a href="#"><span>Liên Hệ</span></a></li>
+							<li><a href="#"><span>Chính Sách Bảo Mật</span></a></li>
+							<li><a href="#"><span>Điều Khoản Sử Dụng</span></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Liên Kết -->
+				<div class="col-xl-2 col-lg-2 col-md-3">
+					<div class="footer-links">
+						<h3>Tài Khoản</h3>
+						<ul>
+							<li><a href="#"><span>Đăng Nhập</span></a></li>
+							<li><a href="#"><span>Tài Khoản Của Tôi</span></a></li>
+						</ul>
+					</div>
+				</div>
+
+				<!-- Bản Tin -->
+				<div class="col-xl-4 col-lg-4 col-md-12">
+					<h3><i class="icon-feather-mail"></i> Đăng Ký Nhận Bản Tin</h3>
+					<p>Thông tin nóng hổi hàng tuần, phân tích và lời khuyên về tìm việc.</p>
+					<form action="#" method="get" class="newsletter">
+						<input type="text" name="fname" placeholder="Nhập địa chỉ email của bạn">
+						<button type="submit"><i class="icon-feather-arrow-right"></i></button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Phần Giữa Của Footer / Kết Thúc -->
+	
+	<!-- Bản Quyền Footer -->
+	<div class="footer-bottom-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-xl-12">
+					© 2024 <strong>JOBTRANS</strong>. All Rights Reserved.
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Bản Quyền Footer / Kết Thúc -->
+
+</div>
+<!-- Footer / End -->
 
 </div>
 <!-- Wrapper / End -->
+
+
+<!-- Sign In Popup
+================================================== -->
+<div id="sign-in-dialog" class="zoom-anim-dialog mfp-hide dialog-with-tabs">
+
+	<!--Tabs -->
+	<div class="sign-in-form">
+
+		<ul class="popup-tabs-nav">
+			<li><a href="#login">Đăng Nhập</a></li>
+			<li><a href="#register">Đăng Ký</a></li>
+		</ul>
+
+		<div class="popup-tabs-container">
+
+			<!-- Login -->
+			<div class="popup-tab-content" id="login">
+				
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3>Chúng tôi rất vui khi thấy bạn trở lại!</h3>
+					<span>Bạn chưa có tài khoản? <a href="#" class="register-tab">Đăng Ký!</a></span>
+				</div>
+					
+				<!-- Form -->
+				<form method="post" id="login-form">
+					<div class="input-with-icon-left">
+						<i class="icon-material-baseline-mail-outline"></i>
+						<input type="text" class="input-text with-border" name="emailaddress" id="emailaddress" placeholder="Địa chỉ Email" required/>
+					</div>
+
+					<div class="input-with-icon-left">
+						<i class="icon-material-outline-lock"></i>
+						<input type="password" class="input-text with-border" name="password" id="password" placeholder="Mật khẩu" required/>
+					</div>
+					<a href="#" class="forgot-password">Quên mật khẩu?</a>
+				</form>
+				
+				<!-- Button -->
+				<button class="button full-width button-sliding-icon ripple-effect" type="submit" form="login-form">Đăng Nhập <i class="icon-material-outline-arrow-right-alt"></i></button>
+				
+				<!-- Social Login -->
+				<div class="social-login-separator"><span>hoặc</span></div>
+				<div class="social-login-buttons">
+					<button class="facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Đăng Nhập qua Facebook</button>
+					<button class="google-login ripple-effect"><i class="icon-brand-google-plus-g"></i> Đăng Nhập qua Google</button>
+				</div>
+
+			</div>
+
+			<!-- Register -->
+			<div class="popup-tab-content" id="register">
+				
+				<!-- Welcome Text -->
+				<div class="welcome-text">
+					<h3>Hãy tạo tài khoản của bạn!</h3>
+				</div>
+
+				<!-- Account Type -->
+				<div class="account-type">
+					<div>
+						<input type="radio" name="account-type-radio" id="freelancer-radio" class="account-type-radio" checked/>
+						<label for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
+					</div>
+
+					<div>
+						<input type="radio" name="account-type-radio" id="employer-radio" class="account-type-radio"/>
+						<label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Nhà Tuyển Dụng</label>
+					</div>
+				</div>
+					
+				<!-- Form -->
+				<form method="post" id="register-account-form">
+					<div class="input-with-icon-left">
+						<i class="icon-material-baseline-mail-outline"></i>
+						<input type="text" class="input-text with-border" name="emailaddress-register" id="emailaddress-register" placeholder="Địa chỉ Email" required/>
+					</div>
+
+					<div class="input-with-icon-left" title="Mật khẩu nên có ít nhất 8 ký tự" data-tippy-placement="bottom">
+						<i class="icon-material-outline-lock"></i>
+						<input type="password" class="input-text with-border" name="password-register" id="password-register" placeholder="Mật khẩu" required/>
+					</div>
+
+					<div class="input-with-icon-left">
+						<i class="icon-material-outline-lock"></i>
+						<input type="password" class="input-text with-border" name="password-repeat-register" id="password-repeat-register" placeholder="Nhập lại mật khẩu" required/>
+					</div>
+				</form>
+				
+				<!-- Button -->
+				<button class="margin-top-10 button full-width button-sliding-icon ripple-effect" type="submit" form="register-account-form">Đăng Ký <i class="icon-material-outline-arrow-right-alt"></i></button>
+				
+				<!-- Social Login -->
+				<div class="social-login-separator"><span>hoặc</span></div>
+				<div class="social-login-buttons">
+					<button class="facebook-login ripple-effect"><i class="icon-brand-facebook-f"></i> Đăng Ký qua Facebook</button>
+					<button class="google-login ripple-effect"><i class="icon-brand-google-plus-g"></i> Đăng Ký qua Google+</button>
+				</div>
+
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- Sign In Popup / End -->
+
 <div id="popup" class="popup">
     <div id="overlay">
         <button class="closebtn" style="width: 5px;" onclick="closePopup()"><i class="icon-feather-log-out"></i></button>
@@ -605,6 +824,21 @@ $('#snackbar-user-status label').click(function() {
 		backgroundColor: '#383838'
 	}); 
 }); 
+
+// Snackbar for "place a bid" button
+$('#snackbar-place-bid').click(function() { 
+	Snackbar.show({
+		text: 'Your bid has been placed!',
+	}); 
+}); 
+
+
+// Snackbar for copy to clipboard button
+$('.copy-url-button').click(function() { 
+	Snackbar.show({
+		text: 'Copied to clipboard!',
+	}); 
+}); 
 </script>
 
 <script>
@@ -626,8 +860,7 @@ $('#snackbar-user-status label').click(function() {
                 document.getElementById("popup").style.display = "none";
             }
 </script>
-
 </body>
 
-<!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-manage-tasks.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:48 GMT -->
+<!-- Mirrored from www.vasterad.com/themes/hireo_21/single-task-page.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:44 GMT -->
 </html>

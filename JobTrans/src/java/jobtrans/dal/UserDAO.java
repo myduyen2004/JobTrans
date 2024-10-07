@@ -149,7 +149,11 @@ public class UserDAO {
         return user;
     }
     
+<<<<<<< HEAD
     public User getUserByUserId(int userId) {
+=======
+    public User getUserById(int id) {
+>>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
         DBConnection db = DBConnection.getInstance();
         User user = null;
         String sql = "SELECT * FROM [dbo].[Users] WHERE user_id = ?";
@@ -157,10 +161,16 @@ public class UserDAO {
         try {
             Connection con = db.openConnection();
             PreparedStatement statement = con.prepareStatement(sql);
+<<<<<<< HEAD
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
                 userId = rs.getInt(1);
+=======
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            if (rs.next()) {
+>>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
                 String userName = rs.getNString(2);
                 String email = rs.getString(3);
                 String password = rs.getString(4);
@@ -173,7 +183,11 @@ public class UserDAO {
                 String address = rs.getNString(11);
                 String avatarUrl = rs.getNString(12);
                 boolean status = rs.getBoolean(13);
+<<<<<<< HEAD
                 user = new User(userId, userName, email, password, oauthProvider, oauthId, role, balance, description, specification, address, avatarUrl, status);
+=======
+                user = new User(id, userName, email, password, oauthProvider, oauthId, role, balance, description, specification, address, avatarUrl, status);
+>>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
             }
             rs.close();
             statement.close();

@@ -4,6 +4,8 @@
  */
 package jobtrans.model;
 
+import jobtrans.dal.UserDAO;
+
 /**
  *
  * @author admin
@@ -197,7 +199,17 @@ public class User {
         this.quantityOfPostedJob = quantityOfPostedJob;
     }
     
-
+    public User getBidder(JobGreetings jg){
+        UserDAO udao = new UserDAO();
+        
+        return udao.getUserById(jg.getSeekerId());
+    }
+    
+    public User getUserNameById(int id){
+        UserDAO udao = new UserDAO();
+        
+        return udao.getUserById(id);
+    }
     // Overriding toString() method to display the User object
     @Override
     public String toString() {

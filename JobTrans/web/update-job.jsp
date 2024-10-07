@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-=======
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
 <!doctype html>
 <html lang="en">
 
@@ -448,14 +444,15 @@
 			<!-- Row -->
 			<div class="row">
                             <form action="CRUDJobServerlet" method="POST" enctype="multipart/form-data">
-                                <input type="hidden" name="command" value="CREATE">
+                                <input type="hidden" name="command" value="UPDATE">
+                                <input type="hidden" name="jid" value="${job.jobId}">
 				<!-- Dashboard Box -->
 				<div class="col-xl-12">
 					<div class="dashboard-box margin-top-0">
 
 						<!-- Headline -->
 						<div class="headline">
-							<h3><i class="icon-feather-folder-plus"></i> Biểu Mẫu Đăng Nhiệm Vụ</h3>
+							<h3><i class="icon-feather-folder-plus"></i> Cập nhật công việc</h3>
 						</div>
 
 						<div class="content with-padding padding-bottom-10">
@@ -464,7 +461,7 @@
 								<div class="col-xl-4">
 									<div class="submit-field">
 										<h5>Tên Dự Án</h5>
-                                                                                <input type="text" class="with-border" name="projectName" placeholder="Ví Dụ: Tạo trang web cho tôi">
+                                                                                <input type="text" class="with-border" name="projectName" value="${job.jobTitle}">
 									</div>
 								</div>
 
@@ -472,11 +469,12 @@
 									<div class="submit-field">
 										<h5>Danh Mục</h5>
                                                                                 <select class="selectpicker with-border" name="category" data-size="7" title="Chọn Danh Mục">
-                                                                                    
+                                                                                  
                                                                                     <c:forEach var="cateName" items="${categoryModel.getCategoryName(category.getAllCategory())}">
                                                                                         <option>${cateName}</option>
                                                                                     </c:forEach>
 										</select>
+                                                                                
 									</div>
 								</div>
 
@@ -485,7 +483,7 @@
 										<h5>Địa Điểm  <i class="help-icon" data-tippy-placement="right" title="Để trống nếu là công việc trực tuyến"></i></h5>
 										<div class="input-with-icon">
 											<div id="autocomplete-container">
-												<input id="autocomplete-input" class="with-border" type="text" name="address" placeholder="Bất Cứ Nơi Nào">
+                                                                                            <input id="autocomplete-input" class="with-border" type="text" name="address" value="${job.address}">
 											</div>
 											<i class="icon-material-outline-location-on"></i>
 										</div>
@@ -498,7 +496,7 @@
 										<div class="row">
 											<div class="col-xl-6">
 												<div class="input-with-icon">
-													<input class="with-border" type="text" name="budget" placeholder="">
+													<input class="with-border" type="text" name="budget" value="${job.budget}">
 													<i class="currency">VND</i>
 												</div>
 											</div>
@@ -511,7 +509,7 @@
                                                                                 <h5>Ngày hết hạn </h5>
 										<div class="keywords-container">
 											<div class="keyword-input-container">
-												<input type="date" class="keyword-input with-border" name="date"/>
+                                                                                            <input type="date" class="keyword-input with-border" name="date" value="${job.dueDate}"/>
 											</div>
 											<div class="keywords-list"><!-- keywords go here --></div>
 											<div class="clearfix"></div>
@@ -522,12 +520,7 @@
 								<div class="col-xl-12">
 									<div class="submit-field">
 										<h5>Mô Tả Dự Án Của Bạn</h5>
-										<textarea cols="30" rows="5" class="with-border" name="description"></textarea>
-										<div class="uploadButton margin-top-30">
-											<input class="uploadButton-input" type="file" accept=".png, .jpg, .jpeg, .doc, .docx, .pdf, .jar, .zip" id="upload" name="file" multiple/>
-											<label class="uploadButton-button ripple-effect" for="upload">Tải Lên Tập Tin</label>
-											<span class="uploadButton-file-name">Hình ảnh hoặc tài liệu giúp mô tả dự án của bạn</span>
-										</div>
+										<textarea cols="30" rows="5" class="with-border" name="description">${job.description}</textarea>
 									</div>
 								</div>
 
@@ -536,8 +529,16 @@
 					</div>
 				</div>
 
-				<div class="col-xl-12">
-					<button type="submit" class="button ripple-effect big margin-top-30"><i class="icon-feather-plus"></i> Đăng Nhiệm Vụ</button>
+                                <div class="col-xl-12" style="display: flex; flex-direction: column; align-items: center;">
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <td><button type="submit" class="button ripple-effect big margin-top-30" style="width: 350px; margin-left: 20px; margin-right: 20px;"><i class="icon-feather-plus"></i> Cập Nhật Công Việc</button></td>
+                                                <td><a href="CRUDJobServerlet?command=LIST"><button class="button ripple-effect big margin-top-30" style="width: 350px; margin-right: 20px; margin-left: 20px;"><i class="icon-feather-corner-up-left"></i>  Quay Lại Danh Sách Công Việc</button></a></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+					
 				</div>
                             </form>
 			</div>
@@ -713,6 +714,7 @@ $('#snackbar-user-status label').click(function() {
 		}
 	}
 </script>
+
 
 <!-- Google API & Maps -->
 <!-- Geting an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key -->

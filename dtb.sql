@@ -23,7 +23,6 @@ CREATE TABLE Notifications (
     noti_title NVARCHAR(200),
     content NVARCHAR(MAX),
     created_time DATE,
-    type VARCHAR(50),
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
 );
 GO
@@ -40,10 +39,15 @@ CREATE TABLE Job(
 	budget INT,
 	description NVARCHAR(MAX),
 	due_date DATE,
-	status BIT NOT NULL,
+	status NVARCHAR(100),
 	category_id INT FOREIGN KEY REFERENCES JobCategory(category_id),
 	employer_feedback NVARCHAR(MAX),
-	seeker_feedback NVARCHAR(MAX)
+	seeker_feedback NVARCHAR(MAX),
+	secure_wallet INT,
+	doc_URL VARCHAR(MAX),
+	interview_URL VARCHAR(MAX),
+	interview_Date DATE,
+	address VARCHAR(MAX)
 );
 GO
 CREATE TABLE JobGreetings (
@@ -53,32 +57,28 @@ CREATE TABLE JobGreetings (
     introduction NVARCHAR(MAX),
     attachment NVARCHAR(MAX),
     price INT,
-    status BIT,
+    status NVARCHAR(100),
+	expectedDay int,
     FOREIGN KEY (job_seeker_id) REFERENCES Users(user_id),
     FOREIGN KEY (job_id) REFERENCES Job(job_id)
 );
 GO
 CREATE TABLE CV (
     cv_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,   
-    user_id INT NOT NULL,             
     title NVARCHAR(100),
     summary NVARCHAR(MAX),
     created_at DATE,
-    
-    CONSTRAINT FK_user_id FOREIGN KEY (user_id) REFERENCES Users(user_id) 
-);
+	user_id INT FOREIGN KEY REFERENCES Users(user_id) 
+  );
 GO
  create table School(
 	 education_id INT not null IDENTITY(1,1) primary key ,
-	 field_of_study Nvarchar(100),
 	 school_name Nvarchar(100)
 );
 GO
  create table Skill(
 	 skill_id INT not null IDENTITY(1,1) primary key ,
-	 cv_id int ,
 	 skill_name Nvarchar(100),
-	 proficiency nVarchar(max)
 );
 GO
 create table Company(
@@ -103,7 +103,8 @@ CREATE TABLE CV_Education (
     cv_id INT NOT NULL,               
     education_id INT NOT NULL,        
     start_date DATE,                  
-    end_date DATE,                   
+    end_date DATE, 
+	field_of_study Nvarchar(100),
     degree NVARCHAR(50),              
     PRIMARY KEY (cv_id, education_id),
     
@@ -129,13 +130,12 @@ Create table dConversation(
  )
  
  CREATE TABLE dMESSAGE(
- message_id varchar primary key , 
+ message_id INT IDENTITY(1,1) PRIMARY KEY, 
  conversation_id varchar not null foreign key references dConversation(conversation_id) ,
- sender_id varchar,
+ sender_id INT FOREIGN KEY REFERENCES Users(user_id),
  attachment varchar(MAX),
  content nvarchar(MAX),
- sent_time time
-
+ sent_time DATETIME
  )
 CREATE TABLE [Transaction] (
     transactionId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -143,9 +143,10 @@ CREATE TABLE [Transaction] (
 	receiverId INT FOREIGN KEY REFERENCES Users(user_id),
 	adminId INT FOREIGN KEY REFERENCES Users(user_id),
     amount INT,
-    createdDate DATE,
+    createdDate DATETIME,
 	status BIT,
     transactionType NVARCHAR(50),
+	description NVARCHAR(MAX),
     jobId INT FOREIGN KEY REFERENCES Job(job_id)
 );
 
@@ -154,7 +155,7 @@ CREATE TABLE Shipment (
 	jobId INT FOREIGN KEY REFERENCES Job(job_id),
 	senderId INT FOREIGN KEY REFERENCES Users(user_id),
 	receiverId INT FOREIGN KEY REFERENCES Users(user_id),
-    status BIT,
+    status NVARCHAR(100),
     shipmentDate DATE,
 	description NVARCHAR(MAX)
 );
@@ -162,26 +163,6 @@ CREATE TABLE Shipment (
 ALTER TABLE Users
 ADD CONSTRAINT chk_role CHECK (role IN ('Seeker', 'Employer', 'Admin'));
 GO
-
-
---Chạy thêm 2 lệnh này
-
-ALTER TABLE [Transaction] ALTER COLUMN createdDate DATETIME;
-
-ALTER TABLE Job ALTER COLUMN status NVARCHAR(100);
-
-ALTER TABLE [Transaction] ADD description NVARCHAR(MAX);
-
-ALTER TABLE Job ADD secure_wallet INT;
-
-ALTER TABLE Job ADD doc_URL VARCHAR(MAX);
-
-ALTER TABLE Job ADD interview_URL VARCHAR(MAX);
-
-ALTER TABLE Job ADD interview_Date DATE;
-
-ALTER TABLE Job ADD address NVARCHAR(MAX);
-
 
 INSERT INTO JobCategory(category_name) values
 (N'Hỗ Trợ Quản Trị'),
@@ -196,5 +177,77 @@ INSERT INTO JobCategory(category_name) values
 (N'Bán Hàng & Tiếp Thị'),
 (N'Không xác định');
 
-select * from Job where user_id = 4
+GO
+INSERT INTO Company (company_name, description)
+VALUES 
+    ('VinGroup', 'Conglomerate in real estate, retail, and technology'),
+    ('Viettel', 'Telecommunications company and defense contractor'),
+    ('FPT Corporation', 'Technology and IT services company'),
+    ('PetroVietnam', 'State-owned petroleum company'),
+    ('Vinamilk', 'Dairy and beverage company'),
+    ('Masan Group', 'Consumer goods and retail conglomerate'),
+    ('Hoa Phat Group', 'Steel production and construction materials'),
+    ('BIDV', 'State-owned commercial bank'),
+    ('Vietcombank', 'Commercial bank and financial services company'),
+    ('Techcombank', 'Private commercial bank'),
+    ('Vietnam Airlines', 'National flag carrier of Vietnam'),
+    ('Thaco', 'Automobile manufacturer and distributor'),
+    ('Sabeco', 'Brewing company famous for Saigon Beer'),
+    ('Habeco', 'Beer production company'),
+    ('Novaland', 'Real estate development company'),
+    ('Sovico Group', 'Investment company in aviation, real estate, and banking'),
+    ('VPBank', 'Vietnam Prosperity Joint Stock Commercial Bank'),
+    ('Kido Group', 'Food production company'),
+    ('Vingroup Retail', 'Retail arm of Vingroup with malls and supermarkets'),
+    ('Saigon Co.op', 'Retail cooperative and supermarket chain');
+
+GO
+
+INSERT INTO Skill (skill_name)
+VALUES
+('Java Programming'),
+('SQL Server'),
+('HTML/CSS'),
+('JavaScript'),
+('Python Programming'),
+('Angular'),
+('React'),
+('Node.js'),
+('Spring Framework'),
+('Docker'),
+('Kubernetes'),
+('Git'),
+('Linux Administration'),
+('AWS Cloud'),
+('Azure Cloud'),
+('Agile Methodology'),
+('Machine Learning'),
+('Data Analysis'),
+('UI/UX Design'),
+('Cybersecurity');
+GO
+INSERT INTO School (school_name)
+VALUES
+('Vietnam National University Hanoi'),
+('Vietnam National University Ho Chi Minh City'),
+('Hanoi University of Science and Technology'),
+('University of Danang'),
+('Hue University'),
+('Foreign Trade University'),
+('University of Economics Ho Chi Minh City'),
+('University of Transport and Communications'),
+('Can Tho University'),
+('University of Medicine and Pharmacy Ho Chi Minh City'),
+('Hanoi Medical University'),
+('University of Social Sciences and Humanities Hanoi'),
+('University of Social Sciences and Humanities Ho Chi Minh City'),
+('Ton Duc Thang University'),
+('University of Law Ho Chi Minh City'),
+('University of Architecture Ho Chi Minh City'),
+('Ho Chi Minh City University of Technology'),
+('Ho Chi Minh City University of Education'),
+('FPT University'),
+('RMIT University Vietnam');
+
+
 

@@ -19,12 +19,9 @@ public class JobGreetings {
     private double price;
     private String status;
 
-<<<<<<< HEAD
-    // Constructors
-=======
-    public JobGreetings(int greetingId, int seekerId, int jobId, String introduction, String attachment, float price, boolean status) {
+    public JobGreetings(int greetingId, int seekerId, int jobId, String introduction, String attachment, float price, String status) {
         this.greetingId = greetingId;
-        this.seekerId = seekerId;
+        this.jobSeekerId = seekerId;
         this.jobId = jobId;
         this.introduction = introduction;
         this.attachment = attachment;
@@ -33,7 +30,6 @@ public class JobGreetings {
     }
     
     
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
     public JobGreetings() {
     }
 
@@ -107,7 +103,6 @@ public class JobGreetings {
         return jgList.size();
     }
     
-<<<<<<< HEAD
 
     @Override
     public String toString() {
@@ -126,7 +121,7 @@ public class JobGreetings {
         double deposit = 0;
         deposit = this.price * 0.1;
         return deposit;
-=======
+    }
     public float getAveragePrice(ArrayList<JobGreetings> jgList){
         float total = 0;
         for(JobGreetings jg : jgList){
@@ -135,6 +130,5 @@ public class JobGreetings {
         
         int num = getNumberOfBidder(jgList);
         return total/num;
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
     }
 }

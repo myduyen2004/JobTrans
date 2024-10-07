@@ -64,12 +64,6 @@ public class User {
         this.avatarUrl = avatarUrl;
         this.status = status;
     }
-
-    
-
-   
-    
-    
     public User(String email, String password) {
         this.email = email;
         this.password = password;
@@ -199,11 +193,11 @@ public class User {
         this.quantityOfPostedJob = quantityOfPostedJob;
     }
     
-    public User getBidder(JobGreetings jg){
-        UserDAO udao = new UserDAO();
-        
-        return udao.getUserById(jg.getSeekerId());
-    }
+//    public User getBidder(JobGreetings jg){
+//        UserDAO udao = new UserDAO();
+//        
+//        return udao.getUserById(jg.getSeekerId());
+//    }
     
     public User getUserNameById(int id){
         UserDAO udao = new UserDAO();

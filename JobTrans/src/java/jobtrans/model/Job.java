@@ -4,12 +4,9 @@
  */
 package jobtrans.model;
 
-<<<<<<< HEAD
 import java.util.ArrayList;
-=======
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
 import java.util.Date;
 
 /**
@@ -20,22 +17,15 @@ public class Job {
     private int jobId;
     private int userId;
     private String jobTitle;
-    private float budget;
+    private double budget;
     private String description;
     private Date dueDate;
     private String status;
     private int categoryId;
     private String empFeedback;
     private String seekerFeedback;
-<<<<<<< HEAD
-    private double secureWallet;
-    public Job() {
-    }
-
-    public Job(int jobId, int userId, String jobTitle, float budget, String description, Date dueDate, String status, int categoryId, String empFeedback, String seekerFeedback, double secureWallet) {
-=======
     private String docURL;
-    private float secureWallet;
+    private double secureWallet;
     private String interviewURL;
     private Date interviewDate;
     private String address;
@@ -43,7 +33,7 @@ public class Job {
     public Job() {
     }
 
-    public Job(int userId, String jobTitle, float budget, String description, String dueDate, String status, int categoryId, String docURL, String address) {
+    public Job(int userId, String jobTitle, double budget, String description, String dueDate, String status, int categoryId, String docURL, String address) {
         this.userId = userId;
         this.jobTitle = jobTitle;
         this.budget = budget;
@@ -55,8 +45,7 @@ public class Job {
         this.address = address;
     }
 
-    public Job(int jobId, int userId, String jobTitle, float budget, String description, Date dueDate, String status, int categoryId, String empFeedback, String seekerFeedback, String docURL, float secureWallet, String interviewURL, Date interviewDate, String address) {
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
+    public Job(int jobId, int userId, String jobTitle, double budget, String description, Date dueDate, String status, int categoryId, String empFeedback, String seekerFeedback, String docURL, float secureWallet, String interviewURL, Date interviewDate, String address) {
         this.jobId = jobId;
         this.userId = userId;
         this.jobTitle = jobTitle;
@@ -67,18 +56,12 @@ public class Job {
         this.categoryId = categoryId;
         this.empFeedback = empFeedback;
         this.seekerFeedback = seekerFeedback;
-<<<<<<< HEAD
-        this.secureWallet = secureWallet;
-    }
-
-=======
         this.docURL = docURL;
         this.secureWallet = secureWallet;
         this.interviewURL = interviewURL;
         this.interviewDate = interviewDate;
         this.address = address;
     }
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
     
     public Job(int jobId, String jobTitle, String description, String dueDate, float budget, int categoryId, String address) {
         this.jobId = jobId;
@@ -94,6 +77,20 @@ public class Job {
         this.jobId = jobId;
         this.interviewURL = interviewURL;
         setInterviewDate(interviewDate);
+    }
+
+    public Job(int jobId, int userId, String jobTitle, double budget, String description, Date dueDate, String status, int categoryId, String empFeedback, String seekerFeedback, double secureWallet) {
+        this.jobId = jobId;
+        this.userId = userId;
+        this.jobTitle = jobTitle;
+        this.budget = budget;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = status;
+        this.categoryId = categoryId;
+        this.empFeedback = empFeedback;
+        this.seekerFeedback = seekerFeedback;
+        this.secureWallet = secureWallet;
     }
     
     
@@ -122,11 +119,11 @@ public class Job {
         this.jobTitle = jobTitle;
     }
 
-    public float getBudget() {
+    public double getBudget() {
         return budget;
     }
 
-    public void setBudget(float budget) {
+    public void setBudget(double budget) {
         this.budget = budget;
     }
     
@@ -188,19 +185,6 @@ public class Job {
         this.seekerFeedback = seekerFeedback;
     }
 
-<<<<<<< HEAD
-    public double getSecureWallet() {
-        return secureWallet;
-    }
-
-    public void setSecureWallet(double secureWallet) {
-        this.secureWallet = secureWallet;
-    }
-
-    @Override
-    public String toString() {
-        return "Job{" + "jobId=" + jobId + ", userId=" + userId + ", jobTitle=" + jobTitle + ", budget=" + budget + ", description=" + description + ", dueDate=" + dueDate + ", status=" + status + ", categoryId=" + categoryId + ", empFeedback=" + empFeedback + ", seekerFeedback=" + seekerFeedback + ", secureWallet=" + secureWallet + '}';
-=======
     public String getDocURL() {
         return docURL;
     }
@@ -209,11 +193,11 @@ public class Job {
         this.docURL = docURL;
     }
 
-    public float getSecureWallet() {
+    public double getSecureWallet() {
         return secureWallet;
     }
 
-    public void setSecureWallet(float secureWallet) {
+    public void setSecureWallet(double secureWallet) {
         this.secureWallet = secureWallet;
     } 
 
@@ -253,7 +237,6 @@ public class Job {
     @Override
     public String toString() {
         return "Job{" + "jobId=" + jobId + ", userId=" + userId + ", jobTitle=" + jobTitle + ", budget=" + budget + ", description=" + description + ", dueDate=" + dueDate + ", status=" + status + ", categoryId=" + categoryId + ", empFeedback=" + empFeedback + ", seekerFeedback=" + seekerFeedback + ", docURL=" + docURL + ", secureWallet=" + secureWallet + '}';
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
     }
     
     public double calcTotalDeposit(double price, ArrayList<JobGreetings> list){

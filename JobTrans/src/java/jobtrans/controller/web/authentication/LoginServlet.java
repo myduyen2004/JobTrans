@@ -58,6 +58,7 @@ public class LoginServlet extends HttpServlet {
         User user = new User();
         if (userDao.checkExistEmail(email)) {
             user = userDao.getUserByEmail(email);
+            session.setAttribute("id", user.getUserId());
             session.setAttribute("account", email);
             session.setAttribute("userName", user.getUserName());
             session.setAttribute("email", user.getEmail());
@@ -67,6 +68,7 @@ public class LoginServlet extends HttpServlet {
         }else{
             user = new User(userName, email, "Google", code, avatar, true);
             userDao.addUserByLoginGoogle(user);
+            session.setAttribute("id", user.getUserId());
             session.setAttribute("account", email);
             session.setAttribute("userName", user.getUserName());
             session.setAttribute("email", user.getEmail());
@@ -120,6 +122,7 @@ public class LoginServlet extends HttpServlet {
             }
             session.setAttribute("account", mail);
             User u = userDAO.getUserByEmail(mail);
+            session.setAttribute("id", u.getUserId());
             session.setAttribute("userName", u.getUserName());
             session.setAttribute("email", u.getEmail());
             session.setAttribute("avatarUrl", u.getAvatarUrl());
@@ -142,6 +145,8 @@ public class LoginServlet extends HttpServlet {
         HttpSession session = request.getSession();
 
         User user = userDao.getUserByEmail(email);
+  
+        session.setAttribute("id", user.getUserId());
         session.setAttribute("account", email);
         session.setAttribute("userName", user.getUserName());
         session.setAttribute("email", user.getEmail());

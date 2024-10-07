@@ -4,12 +4,6 @@
  */
 package jobtrans.model;
 
-<<<<<<< HEAD
-import java.util.ArrayList;
-=======
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
 import java.util.Date;
 
 /**
@@ -23,40 +17,15 @@ public class Job {
     private float budget;
     private String description;
     private Date dueDate;
-    private String status;
+    private boolean status;
     private int categoryId;
     private String empFeedback;
     private String seekerFeedback;
-<<<<<<< HEAD
-    private double secureWallet;
-    public Job() {
-    }
-
-    public Job(int jobId, int userId, String jobTitle, float budget, String description, Date dueDate, String status, int categoryId, String empFeedback, String seekerFeedback, double secureWallet) {
-=======
-    private String docURL;
-    private float secureWallet;
-    private String interviewURL;
-    private Date interviewDate;
-    private String address;
 
     public Job() {
     }
 
-    public Job(int userId, String jobTitle, float budget, String description, String dueDate, String status, int categoryId, String docURL, String address) {
-        this.userId = userId;
-        this.jobTitle = jobTitle;
-        this.budget = budget;
-        this.description = description;
-        setDueDate(dueDate);
-        this.status = status;
-        this.categoryId = categoryId;
-        this.docURL = docURL;
-        this.address = address;
-    }
-
-    public Job(int jobId, int userId, String jobTitle, float budget, String description, Date dueDate, String status, int categoryId, String empFeedback, String seekerFeedback, String docURL, float secureWallet, String interviewURL, Date interviewDate, String address) {
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
+    public Job(int jobId, int userId, String jobTitle, float budget, String description, Date dueDate, boolean status, int categoryId, String empFeedback, String seekerFeedback) {
         this.jobId = jobId;
         this.userId = userId;
         this.jobTitle = jobTitle;
@@ -67,37 +36,9 @@ public class Job {
         this.categoryId = categoryId;
         this.empFeedback = empFeedback;
         this.seekerFeedback = seekerFeedback;
-<<<<<<< HEAD
-        this.secureWallet = secureWallet;
     }
 
-=======
-        this.docURL = docURL;
-        this.secureWallet = secureWallet;
-        this.interviewURL = interviewURL;
-        this.interviewDate = interviewDate;
-        this.address = address;
-    }
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
     
-    public Job(int jobId, String jobTitle, String description, String dueDate, float budget, int categoryId, String address) {
-        this.jobId = jobId;
-        this.jobTitle = jobTitle;
-        this.budget = budget;
-        this.description = description;
-        setDueDate(dueDate);
-        this.categoryId = categoryId;
-        this.address = address;
-    }
-
-    public Job(int jobId, String interviewURL, String interviewDate) {
-        this.jobId = jobId;
-        this.interviewURL = interviewURL;
-        setInterviewDate(interviewDate);
-    }
-    
-    
-
     public int getJobId() {
         return jobId;
     }
@@ -129,7 +70,7 @@ public class Job {
     public void setBudget(float budget) {
         this.budget = budget;
     }
-    
+
     public String getDescription() {
         return description;
     }
@@ -145,25 +86,15 @@ public class Job {
     public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
-    
-    public void setDueDate(String date) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-        try {
-            this.dueDate = df.parse(date);
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
-    }
 
-    public String getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
 
-    
     public int getCategoryId() {
         return categoryId;
     }
@@ -188,83 +119,9 @@ public class Job {
         this.seekerFeedback = seekerFeedback;
     }
 
-<<<<<<< HEAD
-    public double getSecureWallet() {
-        return secureWallet;
-    }
-
-    public void setSecureWallet(double secureWallet) {
-        this.secureWallet = secureWallet;
-    }
-
     @Override
     public String toString() {
-        return "Job{" + "jobId=" + jobId + ", userId=" + userId + ", jobTitle=" + jobTitle + ", budget=" + budget + ", description=" + description + ", dueDate=" + dueDate + ", status=" + status + ", categoryId=" + categoryId + ", empFeedback=" + empFeedback + ", seekerFeedback=" + seekerFeedback + ", secureWallet=" + secureWallet + '}';
-=======
-    public String getDocURL() {
-        return docURL;
-    }
-
-    public void setDocURL(String docURL) {
-        this.docURL = docURL;
-    }
-
-    public float getSecureWallet() {
-        return secureWallet;
-    }
-
-    public void setSecureWallet(float secureWallet) {
-        this.secureWallet = secureWallet;
-    } 
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getInterviewURL() {
-        return interviewURL;
-    }
-
-    public void setInterviewURL(String interviewURL) {
-        this.interviewURL = interviewURL;
-    }
-
-    public Date getInterviewDate() {
-        return interviewDate;
-    }
-
-    public void setInterviewDate(Date interviewDate) {
-        this.interviewDate = interviewDate;
+        return "Job{" + "jobId=" + jobId + ", userId=" + userId + ", jobTitle=" + jobTitle + ", budget=" + budget + ", description=" + description + ", dueDate=" + dueDate + ", status=" + status + ", categoryId=" + categoryId + ", empFeedback=" + empFeedback + ", seekerFeedback=" + seekerFeedback + '}';
     }
     
-    public void setInterviewDate(String date) {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-mm-dd");
-        try {
-            this.interviewDate = df.parse(date);
-        } catch (ParseException e) {
-            System.out.println(e.getMessage());
-        }
-    }
-    
-    @Override
-    public String toString() {
-        return "Job{" + "jobId=" + jobId + ", userId=" + userId + ", jobTitle=" + jobTitle + ", budget=" + budget + ", description=" + description + ", dueDate=" + dueDate + ", status=" + status + ", categoryId=" + categoryId + ", empFeedback=" + empFeedback + ", seekerFeedback=" + seekerFeedback + ", docURL=" + docURL + ", secureWallet=" + secureWallet + '}';
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
-    }
-    
-    public double calcTotalDeposit(double price, ArrayList<JobGreetings> list){
-        double totalDeposit = 0;
-        totalDeposit = price + (0.1 * price)*list.size();
-        return totalDeposit;
-    }
-    
-    public double getDepositEmployer(double price){
-        double depositEmployer = 0;
-        depositEmployer = price;
-        return depositEmployer;
-    }
 }

@@ -4,8 +4,6 @@
  */
 package jobtrans.model;
 
-import jobtrans.dal.UserDAO;
-
 /**
  *
  * @author admin
@@ -65,6 +63,16 @@ public class User {
         this.status = status;
     }
 
+        public User(int userId, String userName, String email, String description, String address, String avatarUrl, int quantityOfPostedJob) {
+        this.userId = userId;
+        this.userName = userName;
+        this.email = email;
+        this.description = description;
+        this.address = address;
+        this.avatarUrl = avatarUrl;
+        this.quantityOfPostedJob = quantityOfPostedJob;
+    }
+    
     
 
    
@@ -199,35 +207,14 @@ public class User {
         this.quantityOfPostedJob = quantityOfPostedJob;
     }
     
-    public User getBidder(JobGreetings jg){
-        UserDAO udao = new UserDAO();
-        
-        return udao.getUserById(jg.getSeekerId());
-    }
-    
-    public User getUserNameById(int id){
-        UserDAO udao = new UserDAO();
-        
-        return udao.getUserById(id);
-    }
+
     // Overriding toString() method to display the User object
+
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", oauthProvider='" + oauthProvider + '\'' +
-                ", oauthId='" + oauthId + '\'' +
-                ", role='" + role + '\'' +
-                ", balance=" + balance +
-                ", description='" + description + '\'' +
-                ", specification='" + specification + '\'' +
-                ", address='" + address + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
-                ", status=" + status +
-                '}';
+        return "User{" + "userId=" + userId + ", userName=" + userName + ", email=" + email + ", description=" + description + ", address=" + address + ", avatarUrl=" + avatarUrl + ", quantityOfPostedJob=" + quantityOfPostedJob + '}';
     }
+    
+    
     
 }

@@ -4,49 +4,23 @@
  */
 package jobtrans.model;
 
-import java.util.ArrayList;
-
 /**
  *
  * @author admin
  */
 public class JobGreetings {
     private int greetingId;
-    private int jobSeekerId;
+    private int seekerId;
     private int jobId;
     private String introduction;
     private String attachment;
-    private double price;
-    private String status;
+    private float price;
+    private boolean status;
 
-<<<<<<< HEAD
-    // Constructors
-=======
-    public JobGreetings(int greetingId, int seekerId, int jobId, String introduction, String attachment, float price, boolean status) {
-        this.greetingId = greetingId;
-        this.seekerId = seekerId;
-        this.jobId = jobId;
-        this.introduction = introduction;
-        this.attachment = attachment;
-        this.price = price;
-        this.status = status;
-    }
-    
-    
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
     public JobGreetings() {
     }
 
-    public JobGreetings(int greetingId, int jobSeekerId, int jobId, String introduction, String attachment, double price, String status) {
-        this.greetingId = greetingId;
-        this.jobSeekerId = jobSeekerId;
-        this.jobId = jobId;
-        this.introduction = introduction;
-        this.attachment = attachment;
-        this.price = price;
-        this.status = status;
-    }
-
+    
     public int getGreetingId() {
         return greetingId;
     }
@@ -55,12 +29,12 @@ public class JobGreetings {
         this.greetingId = greetingId;
     }
 
-    public int getJobSeekerId() {
-        return jobSeekerId;
+    public int getSeekerId() {
+        return seekerId;
     }
 
-    public void setJobSeekerId(int jobSeekerId) {
-        this.jobSeekerId = jobSeekerId;
+    public void setSeekerId(int seekerId) {
+        this.seekerId = seekerId;
     }
 
     public int getJobId() {
@@ -87,54 +61,21 @@ public class JobGreetings {
         this.attachment = attachment;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 
-    public String getStatus() {
+    public boolean isStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(boolean status) {
         this.status = status;
     }
     
-    public int getNumberOfBidder(ArrayList<JobGreetings> jgList){
-        return jgList.size();
-    }
     
-<<<<<<< HEAD
-
-    @Override
-    public String toString() {
-        return "JobGreeting{" + "greetingId=" + greetingId + ", jobSeekerId=" + jobSeekerId + ", jobId=" + jobId + ", introduction=" + introduction + ", attachment=" + attachment + ", price=" + price + ", status=" + status + '}';
-    }
-
-    public double getSumPrice(ArrayList<JobGreetings> greetings){
-        double sum = 0;
-        for (JobGreetings greeting : greetings) {
-            sum += greeting.getPrice();
-        }
-        return sum;
-    }
-    
-    public double getDepositSeeker(){
-        double deposit = 0;
-        deposit = this.price * 0.1;
-        return deposit;
-=======
-    public float getAveragePrice(ArrayList<JobGreetings> jgList){
-        float total = 0;
-        for(JobGreetings jg : jgList){
-            total += jg.getPrice();
-        }
-        
-        int num = getNumberOfBidder(jgList);
-        return total/num;
->>>>>>> 72ac6630f53865b5681c0ae8befb6375603639c1
-    }
 }

@@ -54,7 +54,7 @@
 							<li><a href="#"><i class="icon-material-outline-business-center"></i> Quản Lí Công Việc</a>
 								<ul>
 									<li><a href="dashboard-manage-jobs.html">Danh Sách Các Việc Đã Ứng Tuyển <span class="nav-tag">3</span></a></li>
-									<li><a href="dashboard-manage-candidates.html">Tạo CV</a></li>
+									<li><a href="create?action=load&cid=${sessionScope.id}">Tạo CV</a></li>
                                                                         <li><a href="dashboard-manage-candidates.html">Update CV</a></li>
 								</ul>	
 							</li>

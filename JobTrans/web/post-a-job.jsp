@@ -317,7 +317,7 @@
 								<div class="user-details">
 									<div class="user-avatar status-online"><img src="images/user-avatar-small-01.jpg" alt=""></div>
 									<div class="user-name">
-										${userName} <span>Freelancer</span>
+										${userName} <span>${role}</span>
 									</div>
 								</div>
 								
@@ -394,21 +394,21 @@
 						</ul>
 						
 						<ul data-submenu-title="Tổ Chức và Quản Lý">
-							<li><a href="#"><i class="icon-material-outline-business-center"></i> Công Việc</a>
+							<li class="active-submenu"><a href="#"><i class="icon-material-outline-business-center"></i> Công Việc</a>
 								<ul>
-									<li><a href="dashboard-manage-jobs.html">Quản Lý Công Việc <span class="nav-tag">3</span></a></li>
-									<li><a href="dashboard-manage-candidates.html">Quản Lý Ứng Viên</a></li>
-									<li><a href="dashboard-post-a-job.html">Đăng Công Việc</a></li>
+									<li><a href="manage-job.jsp">Quản Lý Công Việc <span class="nav-tag">3</span></a></li>
+									<li><a href="manage-bidder.jsp">Quản Lý Ứng Viên</a></li>
+									<li><a href="post-a-job.jsp">Đăng Công Việc</a></li>
 								</ul>	
 							</li>
-							<li class="active-submenu"><a href="#"><i class="icon-material-outline-assignment"></i> Nhiệm Vụ</a>
+                                                        <!-- <li ><a href="#"><i class="icon-material-outline-assignment"></i> Nhiệm Vụ</a>
 								<ul>
-									<li><a href="dashboard-manage-tasks.html">Quản Lý Nhiệm Vụ <span class="nav-tag">2</span></a></li>
-									<li><a href="dashboard-manage-bidders.html">Quản Lý Người Đấu Thầu</a></li>
-									<li><a href="dashboard-my-active-bids.html">Các Đấu Thầu Hoạt Động Của Tôi <span class="nav-tag">4</span></a></li>
-									<li><a href="dashboard-post-a-task.html">Đăng Nhiệm Vụ</a></li>
+									<li><a href="manage-job.jsp">Quản Lý Nhiệm Vụ <span class="nav-tag">2</span></a></li>
+									<li><a href="manage-bidder.jsp">Quản Lý Đấu Thầu</a></li>
+									<li><a href="dashboard-my-active-bids.html">Đấu Thầu Đang Hoạt Động <span class="nav-tag">4</span></a></li>
+									<li><a href="post-a-job.jsp">Đăng Công Việc</li>
 								</ul>	
-							</li>
+							</li> -->	
 						</ul>
 
 						<ul data-submenu-title="Tài Khoản">

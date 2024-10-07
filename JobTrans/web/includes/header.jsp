@@ -27,19 +27,14 @@
                 <!-- Main Navigation -->
                 <nav id="navigation">
                     <ul id="responsive">
-                        <li><a href="#" class="current">Trang Chủ</a>
-                        </li>
-
-                        <li><a href="#">Việc làm</a>
-                        </li>
-
-                        <li><a href="#">Nhà tuyển dụng</a>
-                        </li>
-
-                        <li><a href="#">Liên Hệ</a>
-                        </li>
+                        <li><a href="#" class="current">Trang Chủ</a></li>
+                        <li><a href="#">Việc làm</a></li>
+                        <li><a href="#">Nhà tuyển dụng</a></li>
+                        <li><a href="jobController?userId=${userId}">Quản Lý Công Việc</a></li> 
+                        <li><a href="#">Liên Hệ</a></li>
                     </ul>
                 </nav>
+
                 <div class="clearfix"></div>
                 <!-- Main Navigation / End -->
 

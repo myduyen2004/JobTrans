@@ -91,9 +91,7 @@ public class Job {
         this.empFeedback = empFeedback;
         this.seekerFeedback = seekerFeedback;
         this.secureWallet = secureWallet;
-    }
-    
-    
+    }    
 
     public int getJobId() {
         return jobId;
@@ -155,7 +153,7 @@ public class Job {
     public String getStatus() {
         return status;
     }
-
+    
     public void setStatus(String status) {
         this.status = status;
     }

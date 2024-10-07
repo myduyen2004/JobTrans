@@ -28,8 +28,6 @@ public class JobGreetings {
         this.price = price;
         this.status = status;
     }
-    
-    
     public JobGreetings() {
     }
 

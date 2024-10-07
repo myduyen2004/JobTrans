@@ -1,23 +1,17 @@
 <%-- 
-    Document   : manage-job
-    Created on : Sep 22, 2024, 11:51:30 AM
-    Author     : admin
+    Document   : dashboard-manage-seeker
+    Created on : Oct 1, 2024, 11:06:08 PM
+    Author     : qn407
 --%>
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-=======
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ page import="jobtrans.model.Job" %>
-<%@ page import="jobtrans.model.Category" %>
-<%@ page import="java.time.LocalDateTime, java.time.Duration" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!doctype html>
 <html lang="en">
 
     <!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-manage-tasks.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:48 GMT -->
     <head>
-    <jsp:useBean id="jg" class="jobtrans.dal.JobDAO" scope="session"></jsp:useBean>
-    <jsp:useBean id="jgmodel" class="jobtrans.model.JobGreetings" scope="session"></jsp:useBean>
+
         <!-- Basic Page Needs
         ================================================== -->
         <title>JobTrans</title>
@@ -28,7 +22,6 @@
         ================================================== -->  
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/colors/blue.css">
-<link rel="stylesheet" href="css/popup.css">
 
     </head>
     <body class="gray">
@@ -482,15 +475,11 @@
 
                                     <!-- Headline -->
                                     <div class="headline">
-                                        <h3><i class="icon-material-outline-assignment"></i> Công Việc Của Tôi</h3>
-                                    </div>
-
-                                    <div class="content">
                                         <ul class="dashboard-box-list">
                                             <c:choose>
-                                                <c:when test="${not empty listJob}">
-                                                    <c:forEach var="job" items="${listJob}">
-                                                        <li>
+                                                <c:when test="${not empty jobs}">
+                                                    <c:forEach var="job" items="${jobs}">
+                                                        <li >
                                                             <div class="job-listing">
                                                                 <div class="job-listing-details">
                                                                     <div class="job-listing-description">
@@ -517,20 +506,37 @@
                                                                     </div>
                                                                 </div>
                                                             </div>
+
                                                             <div class="buttons-to-right always-visible">
+
                                                                 <form action="jobController?jobId=${job.jobId}" method="post" style="display:inline;">
                                                                     <input type="hidden" name="action" value="manageSeeker">
                                                                     <button type="submit" class="button ripple-effect">
-                                                                        <i class="icon-material-outline-supervisor-account"></i> Quản Lý Tuyển Dụng
+                                                                        Tiến trình
                                                                     </button>
                                                                 </form>
 
-                                                                <button class="button gray ripple-effect ico" title="Chỉnh Sửa" data-tippy-placement="top">
-                                                                    <i class="icon-feather-edit"></i>
-                                                                </button>
-                                                                <button class="button gray ripple-effect ico" title="Xóa" data-tippy-placement="top">
-                                                                    <i class="icon-feather-trash-2"></i>
-                                                                </button>
+                                                                <form action="jobController?jobId=${job.jobId}" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="action" value="manageSeeker">
+                                                                    <button type="submit" class="button ripple-effect">
+                                                                        Chat
+                                                                    </button>
+                                                                </form>
+
+                                                                <form action="jobController?jobId=${job.jobId}" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="action" value="manageSeeker">
+                                                                    <button type="submit" class="button ripple-effect">
+                                                                        Sản Phẩm
+                                                                    </button>
+                                                                </form>
+
+                                                                <form action="jobController?jobId=${job.jobId}" method="post" style="display:inline;">
+                                                                    <input type="hidden" name="action" value="manageSeeker">
+                                                                    <button type="submit" class="button ripple-effect">
+                                                                        Báo cáo
+                                                                    </button>
+                                                                </form>
+
                                                             </div>
 
                                                         </li>
@@ -593,28 +599,8 @@
             <!-- Dashboard Container / End -->
 
         </div>
-        <!-- Wrapper / End -->
-<div id="popup" class="popup">
-    <div id="overlay">
-        <button class="closebtn" style="width: 5px;" onclick="closePopup()"><i class="icon-feather-log-out"></i></button>
-        <!-- Nội dung trong Popup -->
-        <center>
-            <div class="overlay-content">
-                <h4>Xác nhận</h4>
-                <hr>
-                <h4 style="margin-top: 30px;"><i class="icon-feather-alert-circle" style="color: blue;"></i>Bạn xác nhận muốn xóa công việc này không.</h4>
-                <br><!-- comment -->
+        <!-- Wrapper / End -->        
 
-                <table>
-                <tr>
-                        <td><button class="button full-width button-sliding-icon ripple-effect" onclick="closePopup()">Thoát<i class="icon-feather-log-outo"></i></button></td>
-                        <td><a id="confirmDeleteButton" href="#"><button class="button full-width button-sliding-icon ripple-effect">Xác Nhận <i class="icon-feather-trash-2"></i></button></a></td>
-                </tr>
-                </table>
-            </div>
-        </center>
-    </div>
-</div>
         <!-- Scripts
         ================================================== -->
         <script src="js/jquery-3.4.1.min.js"></script>
@@ -647,27 +633,40 @@
             });
         </script>
 
-<script>
-            function openPopup(element) { // Click vào button thì gán style cho Popup là display:block để hiển thị lên
-                var jobId = element.getAttribute("data-jobid");
-                console.log("Job ID: " + jobId);
+        <script>
+            let confirmationPopup = document.querySelector("#popup-confirm-seeker");
+            let openPopup = document.querySelector(".open-popup");
+            let closePopupButton = document.querySelector(".close-popup");
+            let confirmButton = document.querySelector(".confirm-button");
+            let blurBg = document.querySelector(".blur-bg");
 
-                // Cập nhật URL của nút "Xác Nhận"
-                var confirmButton = document.getElementById("confirmDeleteButton");
-                confirmButton.href = "CRUDJobServerlet?command=DELETE&jid=" + jobId;
-                document.getElementById("popup").style.display = "block";
-            }
+            openPopup.addEventListener("click", function () {
+                confirmationPopup.classList.remove("hidden-modal");
+                blurBg.classList.remove("hidden-blur");
+            });
 
-            
-</script>
+            let closePopupFunction = function () {
+                confirmationPopup.classList.add("hidden-modal");
+                blurBg.classList.add("hidden-blur");
+            };
 
-<script>
-    function closePopup() { // Click vào close thì gán style cho Popup là display:none để ẩn đi
-                document.getElementById("popup").style.display = "none";
-            }
-</script>
+            blurBg.addEventListener("click", closePopupFunction);
+            closePopupButton.addEventListener("click", closePopupFunction);
+
+            confirmButton.addEventListener("click", function () {
+                // Thực hiện chức năng xác nhận ở đây
+                closePopupFunction();
+            });
+
+            document.addEventListener("keydown", function (event) {
+                if (event.key === "Escape" && !confirmationPopup.classList.contains("hidden-modal")) {
+                    closePopupFunction();
+                }
+            });
+        </script>
 
     </body>
 
     <!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-manage-tasks.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:48 GMT -->
 </html>
+

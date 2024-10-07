@@ -15,3 +15,4 @@ public interface Configuration {
     public static String pass = "1";
     public static String templatePath = null ;
 }
+    

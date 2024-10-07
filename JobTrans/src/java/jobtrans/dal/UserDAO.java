@@ -29,45 +29,41 @@ public class UserDAO {
         dbConnection = DBConnection.getInstance();
     }
 
-    public List<User> getAllUSer() {
-        List<User> userList = new ArrayList<>();
-        DBConnection db = DBConnection.getInstance();
-        String sql = "Select * from [dbo].[Users]";
+     public List<User> getAllUsers(){
+        
+        List<User> users = new ArrayList<>();
+        String query = "SELECT * FROM Users";
+        
         try {
-            Connection con = db.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            System.out.println(rs);
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                int userId = rs.getInt(1);
-                String userName = rs.getNString(2);
-                String email = rs.getString(3);
-                String password = rs.getString(4);
-                String oauthProvider = rs.getString(5);
-                String oauthId = rs.getString(6);
-                String role = rs.getString(7);
-                int balance = rs.getInt(8);
-                String description = rs.getNString(9);
-                String specification = rs.getNString(10);
-                String address = rs.getNString(11);
-                String avatarUrl = rs.getString(12);
-                Boolean status = rs.getBoolean(13);
-                User user = new User(userId, userName, email, password, oauthProvider, oauthId, role, balance,
-                        description, specification, address, avatarUrl, status);
-                userList.add(user);
+                User user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setUserName(rs.getString("user_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setOauthProvider(rs.getString("oauth_provider"));
+                user.setOauthId(rs.getString("oauth_id"));
+                user.setRole(rs.getString("role"));
+                user.setBalance(rs.getInt("balance"));
+                user.setDescription(rs.getString("description"));
+                user.setSpecification(rs.getString("specification"));
+                user.setAddress(rs.getString("address"));
+                user.setAvatarUrl(rs.getString("avatar_url"));
+                user.setStatus(rs.getBoolean("status"));
+                users.add(user);
             }
-            rs.close();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        return userList;
+        return users;
     }
 
     public User checkLogin(User user) {
         User temp = null;
-        for (User u : new UserDAO().getAllUSer()) {
+        for (User u : new UserDAO().getAllUsers()) {
             if (u.getEmail().equals(user.getEmail())
                     && u.getPassword().equals(user.getPassword()) && u.isStatus()) {
                 temp = user;
@@ -127,19 +123,20 @@ public class UserDAO {
             statement.setString(1, email);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                int userId = rs.getInt(1);
-                String userName = rs.getNString(2);
-                String password = rs.getString(4);
-                String oauthProvider = rs.getString(5);
-                String oauthId = rs.getString(6);
-                String role = rs.getString(7);
-                double balance = rs.getDouble(8);
-                String description = rs.getNString(9);
-                String specification = rs.getNString(10);
-                String address = rs.getNString(11);
-                String avatarUrl = rs.getNString(12);
-                boolean status = rs.getBoolean(13);
-                user = new User(userId, userName, email, password, oauthProvider, oauthId, role, balance, description, specification, address, avatarUrl, status);
+                user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setUserName(rs.getString("user_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setOauthProvider(rs.getString("oauth_provider"));
+                user.setOauthId(rs.getString("oauth_id"));
+                user.setRole(rs.getString("role"));
+                user.setBalance(rs.getInt("balance"));
+                user.setDescription(rs.getString("description"));
+                user.setSpecification(rs.getString("specification"));
+                user.setAddress(rs.getString("address"));
+                user.setAvatarUrl(rs.getString("avatar_url"));
+                user.setStatus(rs.getBoolean("status"));
             }
             rs.close();
             statement.close();
@@ -161,19 +158,20 @@ public class UserDAO {
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             if (rs.next()) {
-                String userName = rs.getNString(2);
-                String email = rs.getString(3);
-                String password = rs.getString(4);
-                String oauthProvider = rs.getString(5);
-                String oauthId = rs.getString(6);
-                String role = rs.getString(7);
-                double balance = rs.getDouble(8);
-                String description = rs.getNString(9);
-                String specification = rs.getNString(10);
-                String address = rs.getNString(11);
-                String avatarUrl = rs.getNString(12);
-                boolean status = rs.getBoolean(13);
-                user = new User(id, userName, email, password, oauthProvider, oauthId, role, balance, description, specification, address, avatarUrl, status);
+                user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setUserName(rs.getString("user_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setOauthProvider(rs.getString("oauth_provider"));
+                user.setOauthId(rs.getString("oauth_id"));
+                user.setRole(rs.getString("role"));
+                user.setBalance(rs.getInt("balance"));
+                user.setDescription(rs.getString("description"));
+                user.setSpecification(rs.getString("specification"));
+                user.setAddress(rs.getString("address"));
+                user.setAvatarUrl(rs.getString("avatar_url"));
+                user.setStatus(rs.getBoolean("status"));
             }
             rs.close();
             statement.close();
@@ -373,79 +371,5 @@ public class UserDAO {
         }
         return userList;
     }
-    public User getUserByID(String cid) {
-    DBConnection db = DBConnection.getInstance();
-    User user = null;
-    String sql = "SELECT * FROM [dbo].[Users] WHERE user_id = ?";
-
-    try (Connection con = db.openConnection();
-         PreparedStatement statement = con.prepareStatement(sql)) {
-
-        // Convert cid to integer
-        int userId = Integer.parseInt(cid);
-        statement.setInt(1, userId); // Bind the integer userId to the SQL query
-
-        ResultSet rs = statement.executeQuery();
-
-        if (rs.next()) {
-            String userName = rs.getNString("user_name");
-            String email = rs.getString("email");
-            String password = rs.getString("password");
-            String oauthProvider = rs.getString("oauth_provider");
-            String oauthId = rs.getString("oauth_id");
-            String role = rs.getString("role");
-            double balance = rs.getDouble("balance");
-            String description = rs.getNString("description");
-            String specification = rs.getNString("specification");
-            String address = rs.getNString("address");
-            String avatarUrl = rs.getNString("avatar_url");
-            boolean status = rs.getBoolean("status");
-
-            user = new User(userId, userName, email, password, oauthProvider, oauthId, role, balance, description, specification, address, avatarUrl, status);
-        }
-
-        rs.close();
-    } catch (NumberFormatException e) {
-        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Invalid user ID format: " + cid, e);
-    } catch (Exception ex) {
-        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-    }
-
-    return user;
-}
-     public List<JobInFor> EmployerList(){
-         List<JobInFor> employList = new ArrayList<>();
-         DBConnection db = DBConnection.getInstance();
-         String sql = "SELECT u.user_id,j.job_id,u.avatar_url, u.user_name, u.address, j.job_title, j.budget,j.due_date,j.category_id " +
-                         "FROM Users u " +
-                         "JOIN Job j ON u.user_id = j.user_id " +
-                         "WHERE u.role = 'employer'";
-          try {
-            Connection con = db.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            System.out.println(rs);
-            while (rs.next()) {
-                JobInFor job = new JobInFor(
-                        rs.getInt("user_id"),
-                        rs.getInt("job_id"),
-                        rs.getString("avatar_url"),
-                        rs.getString("user_name"),
-                        rs.getString("address"),
-                        rs.getString("job_title"),
-                        rs.getInt("budget"),
-                        rs.getDate("due_date"),
-                        rs.getInt("category_id")
-                );
-                employList.add(job);
-            }
-            rs.close();
-            statement.close();
-            con.close();
-          }catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         return employList;
-     }
 
 }

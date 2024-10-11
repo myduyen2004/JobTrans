@@ -9,6 +9,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -22,7 +24,7 @@ import jobtrans.model.User;
  * @author ADM
  */
 public class CRUDJobServerlet extends HttpServlet {
-   
+    public static final int BUFFER_SIZE = 1024*1000;
     /** 
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * @param request servlet request
@@ -74,6 +76,9 @@ public class CRUDJobServerlet extends HttpServlet {
                 break;
             case "LOADINTERVIEW":
                 loadInterview(request, response);
+                break;
+            case "DOWNLOAD":
+                downloadFile(request, response);
                 break;
             default:
                 break;
@@ -279,5 +284,35 @@ public class CRUDJobServerlet extends HttpServlet {
         
         jobDAO.updateJobInterview(j);
         viewJobDetail(request, response);
+    }
+    
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException{
+        String fileName = request.getParameter("fileName");
+        String path = getServletContext().getRealPath("")+"job-docs"+File.separator+fileName;
+//        System.out.println(path);
+
+        File file = new File(path);
+        OutputStream os = null;
+        FileInputStream fis = null;
+        
+        
+        
+        response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
+        response.setContentType("application/octet-stream");
+        
+        if(file.exists()){
+            os=response.getOutputStream();
+            fis = new FileInputStream(file);
+            byte[] bf = new byte[BUFFER_SIZE];
+            int byteRead = -1;
+            while((byteRead = fis.read(bf))!=-1){
+                os.write(bf, 0, byteRead);
+            }
+        }else{
+            System.out.println("File Not Found: "+fileName);
+        }
+        
+        response.sendRedirect("manage-job-detail.jsp");
     }
 }

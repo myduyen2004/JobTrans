@@ -414,7 +414,7 @@
 			<div class="single-page-section">
 				<h3>Tệp đính kèm</h3>
 				<div class="attachments-container">
-					<a href="${job.docURL}" class="attachment-box ripple-effect"><span>Tóm tắt dự án</span><i>PDF</i></a>
+					<a href="CRUDJobServerlet?fileName=${job.docURL}&command=DOWNLOAD" class="attachment-box ripple-effect"><span>Tóm tắt dự án</span><i>PDF</i></a>
 				</div>
 			</div>
                                 

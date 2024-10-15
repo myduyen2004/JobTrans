@@ -1,5 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
 <!doctype html>
 <html lang="en">
 
@@ -391,7 +393,7 @@
 
                         </div>
                     </div>
-                    <div class="col-xl-9 col-lg-8 content-left-offset">
+                    <div class="col-xl-9 col-lg-8 content-left-offset" style="margin-bottom: 109px">
 
                         <h3 class="page-title">Search Results</h3>
 
@@ -412,38 +414,40 @@
                         </div>
 
                         <!-- Tasks Container -->
-   <div class="container tasks-list-container margin-top-15">
-    <div class="row">
-        <!-- Task -->
-        <c:forEach items="${jobList}" var="o">
-            <div class="col-12"> <!-- Mỗi nhiệm vụ chiếm 12 cột, tức là 1 hàng -->
-                <a href="JobDetail?jobId=${o.jobId}" class="task-listing">
-                    <div class="task-listing-details row">
-                        
-                        <!-- Details -->
-                        <div class="task-listing-description col-8"> <!-- Chiếm 8 cột -->
-                            <h3 class="task-listing-title">${o.jobTitle}</h3>
-                            <ul class="task-icons">
-                                <li>${o.dueDate}</li>
-                            </ul>
-                        </div>
+  <div class="container tasks-list-container margin-top-15">
+    <table id="jobTable" class="display" style="width:100%">
+        <thead>
+            <tr>
+                <th>Tiêu đề công việc</th>
+                <th>Thời hạn</th>
+                <th>Ngân sách</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${jobList}" var="o">
+                <tr>
+                    <td>
+                        <h3 class="task-listing-title">${o.jobTitle}</h3>
+                    </td>
+                    <td><fmt:formatDate value="${o.dueDate}" pattern="dd/MM/yyyy"/></td>
 
-                        <div class="task-listing-bid col-4"> <!-- Chiếm 4 cột -->
-                            <div class="task-listing-bid-inner">
-                                <div class="task-offers">
-                                    <strong id="salaryAmount-${o.jobId}">${o.budget}</strong>
-                                    <span>Fixed Price</span>
-                                </div>
+                    <td id="salaryAmount-${o.jobId}">${o.budget}</td>
+                    <td>
+                        <div class="task-listing-bid-inner">
+                            <a href="JobDetail?jobId=${o.jobId}" class="task-listing">
                                 <span class="button button-sliding-icon ripple-effect">Chào giá<i class="icon-material-outline-arrow-right-alt"></i></span>
-                            </div>
+                            </a>
                         </div>
 
-                    </div>
-                </a>
-            </div>
-        </c:forEach>
-    </div>
+                    </td>
+                </tr>
+            </c:forEach>
+                
+        </tbody>
+    </table>
 </div>
+
 
 
 
@@ -455,18 +459,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <!-- Pagination -->
-                                <div class="pagination-container margin-top-60 margin-bottom-60">
-                                    <nav class="pagination">
-                                        <ul>
-                                            <li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-left"></i></a></li>
-                                            <li><a href="#" class="ripple-effect">1</a></li>
-                                            <li><a href="#" class="current-page ripple-effect">2</a></li>
-                                            <li><a href="#" class="ripple-effect">3</a></li>
-                                            <li><a href="#" class="ripple-effect">4</a></li>
-                                            <li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
-                                        </ul>
-                                    </nav>
-                                </div>
+                                
                             </div>
                         </div>
                         <!-- Pagination / End -->
@@ -480,158 +473,158 @@
             ================================================== -->
             <div id="footer">
 
-                <!-- Footer Top Section -->
-                <div class="footer-top-section">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-12">
+    <!-- Phần Trên Của Footer -->
+    <div class="footer-top-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
 
-                                <!-- Footer Rows Container -->
-                                <div class="footer-rows-container">
+                    <!-- Container Các Hàng Của Footer -->
+                    <div class="footer-rows-container">
 
-                                    <!-- Left Side -->
-                                    <div class="footer-rows-left">
-                                        <div class="footer-row">
-                                            <div class="footer-row-inner footer-logo">
-                                                <img src="images/logo2.png" alt="">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Right Side -->
-                                    <div class="footer-rows-right">
-
-                                        <!-- Social Icons -->
-                                        <div class="footer-row">
-                                            <div class="footer-row-inner">
-                                                <ul class="footer-social-links">
-                                                    <li>
-                                                        <a href="#" title="Facebook" data-tippy-placement="bottom" data-tippy-theme="light">
-                                                            <i class="icon-brand-facebook-f"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" title="Twitter" data-tippy-placement="bottom" data-tippy-theme="light">
-                                                            <i class="icon-brand-twitter"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" title="Google Plus" data-tippy-placement="bottom" data-tippy-theme="light">
-                                                            <i class="icon-brand-google-plus-g"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" title="LinkedIn" data-tippy-placement="bottom" data-tippy-theme="light">
-                                                            <i class="icon-brand-linkedin-in"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Language Switcher -->
-                                        <div class="footer-row">
-                                            <div class="footer-row-inner">
-                                                <select class="selectpicker language-switcher" data-selected-text-format="count" data-size="5">
-                                                    <option selected>English</option>
-                                                    <option>Français</option>
-                                                    <option>Español</option>
-                                                    <option>Deutsch</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
+                        <!-- Bên Trái -->
+                        <div class="footer-rows-left">
+                            <div class="footer-row">
+                                <div class="footer-row-inner footer-logo">
+                                    <img src="images/logo2.png" alt="">
                                 </div>
-                                <!-- Footer Rows Container / End -->
                             </div>
                         </div>
-                    </div>
-                </div>
-                <!-- Footer Top Section / End -->
 
-                <!-- Footer Middle Section -->
-                <div class="footer-middle-section">
-                    <div class="container">
-                        <div class="row">
+                        <!-- Bên Phải -->
+                        <div class="footer-rows-right">
 
-                            <!-- Links -->
-                            <div class="col-xl-2 col-lg-2 col-md-3">
-                                <div class="footer-links">
-                                    <h3>For Candidates</h3>
-                                    <ul>
-                                        <li><a href="#"><span>Browse Jobs</span></a></li>
-                                        <li><a href="#"><span>Add Resume</span></a></li>
-                                        <li><a href="#"><span>Job Alerts</span></a></li>
-                                        <li><a href="#"><span>My Bookmarks</span></a></li>
+                            <!-- Icon Mạng Xã Hội -->
+                            <div class="footer-row">
+                                <div class="footer-row-inner">
+                                    <ul class="footer-social-links">
+                                        <li>
+                                            <a href="#" title="Facebook" data-tippy-placement="bottom" data-tippy-theme="light">
+                                                <i class="icon-brand-facebook-f"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" title="Twitter" data-tippy-placement="bottom" data-tippy-theme="light">
+                                                <i class="icon-brand-twitter"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" title="Google Plus" data-tippy-placement="bottom" data-tippy-theme="light">
+                                                <i class="icon-brand-google-plus-g"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" title="LinkedIn" data-tippy-placement="bottom" data-tippy-theme="light">
+                                                <i class="icon-brand-linkedin-in"></i>
+                                            </a>
+                                        </li>
                                     </ul>
+                                    <div class="clearfix"></div>
                                 </div>
                             </div>
 
-                            <!-- Links -->
-                            <div class="col-xl-2 col-lg-2 col-md-3">
-                                <div class="footer-links">
-                                    <h3>For Employers</h3>
-                                    <ul>
-                                        <li><a href="#"><span>Browse Candidates</span></a></li>
-                                        <li><a href="#"><span>Post a Job</span></a></li>
-                                        <li><a href="#"><span>Post a Task</span></a></li>
-                                        <li><a href="#"><span>Plans & Pricing</span></a></li>
-                                    </ul>
+                            <!-- Chuyển Đổi Ngôn Ngữ -->
+                            <div class="footer-row">
+                                <div class="footer-row-inner">
+                                    <select class="selectpicker language-switcher" data-selected-text-format="count" data-size="5">
+                                        <option selected>Tiếng Việt</option>
+                                        <option>Tiếng Anh</option>
+                                        <option>Tiếng Tây Ban Nha</option>
+                                        <option>Tiếng Hàn</option>
+                                    </select>
                                 </div>
-                            </div>
-
-                            <!-- Links -->
-                            <div class="col-xl-2 col-lg-2 col-md-3">
-                                <div class="footer-links">
-                                    <h3>Helpful Links</h3>
-                                    <ul>
-                                        <li><a href="#"><span>Contact</span></a></li>
-                                        <li><a href="#"><span>Privacy Policy</span></a></li>
-                                        <li><a href="#"><span>Terms of Use</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Links -->
-                            <div class="col-xl-2 col-lg-2 col-md-3">
-                                <div class="footer-links">
-                                    <h3>Account</h3>
-                                    <ul>
-                                        <li><a href="#"><span>Log In</span></a></li>
-                                        <li><a href="#"><span>My Account</span></a></li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <!-- Newsletter -->
-                            <div class="col-xl-4 col-lg-4 col-md-12">
-                                <h3><i class="icon-feather-mail"></i> Sign Up For a Newsletter</h3>
-                                <p>Weekly breaking news, analysis and cutting edge advices on job searching.</p>
-                                <form action="#" method="get" class="newsletter">
-                                    <input type="text" name="fname" placeholder="Enter your email address">
-                                    <button type="submit"><i class="icon-feather-arrow-right"></i></button>
-                                </form>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <!-- Footer Middle Section / End -->
 
-                <!-- Footer Copyrights -->
-                <div class="footer-bottom-section">
-                    <div class="container">
-                        <div class="row">
-                            <div class="col-xl-12">
-                                © 2019 <strong>Hireo</strong>. All Rights Reserved.
-                            </div>
-                        </div>
                     </div>
+                    <!-- Container Các Hàng Của Footer / Kết Thúc -->
                 </div>
-                <!-- Footer Copyrights / End -->
-
             </div>
+        </div>
+    </div>
+    <!-- Phần Trên Của Footer / Kết Thúc -->
+
+    <!-- Phần Giữa Của Footer -->
+    <div class="footer-middle-section">
+        <div class="container">
+            <div class="row">
+
+                <!-- Liên Kết -->
+                <div class="col-xl-2 col-lg-2 col-md-3">
+                    <div class="footer-links">
+                        <h3>Dành Cho Ứng Viên</h3>
+                        <ul>
+                            <li><a href="#"><span>Tìm Việc</span></a></li>
+                            <li><a href="#"><span>Thêm Hồ Sơ</span></a></li>
+                            <li><a href="#"><span>Thông Báo Việc Làm</span></a></li>
+                            <li><a href="#"><span>Dấu Trang Của Tôi</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Liên Kết -->
+                <div class="col-xl-2 col-lg-2 col-md-3">
+                    <div class="footer-links">
+                        <h3>Dành Cho Nhà Tuyển Dụng</h3>
+                        <ul>
+                            <li><a href="#"><span>Tìm Ứng Viên</span></a></li>
+                            <li><a href="#"><span>Đăng Tuyển Dụng</span></a></li>
+                            <li><a href="#"><span>Đăng Công Việc</span></a></li>
+                            <li><a href="#"><span>Kế Hoạch & Giá</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Liên Kết -->
+                <div class="col-xl-2 col-lg-2 col-md-3">
+                    <div class="footer-links">
+                        <h3>Liên Kết Hữu Ích</h3>
+                        <ul>
+                            <li><a href="#"><span>Liên Hệ</span></a></li>
+                            <li><a href="#"><span>Chính Sách Bảo Mật</span></a></li>
+                            <li><a href="#"><span>Điều Khoản Sử Dụng</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Liên Kết -->
+                <div class="col-xl-2 col-lg-2 col-md-3">
+                    <div class="footer-links">
+                        <h3>Tài Khoản</h3>
+                        <ul>
+                            <li><a href="#"><span>Đăng Nhập</span></a></li>
+                            <li><a href="#"><span>Tài Khoản Của Tôi</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Bản Tin -->
+                <div class="col-xl-4 col-lg-4 col-md-12">
+                    <h3><i class="icon-feather-mail"></i> Đăng Ký Nhận Bản Tin</h3>
+                    <p>Thông tin nóng hổi hàng tuần, phân tích và lời khuyên về tìm việc.</p>
+                    <form action="#" method="get" class="newsletter">
+                        <input type="text" name="fname" placeholder="Nhập địa chỉ email của bạn">
+                        <button type="submit"><i class="icon-feather-arrow-right"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Phần Giữa Của Footer / Kết Thúc -->
+
+    <!-- Bản Quyền Footer -->
+    <div class="footer-bottom-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    © 2024 <strong>JOBTRANS</strong>. All Rights Reserved.
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bản Quyền Footer / Kết Thúc -->
+
+</div>
             <!-- Footer / End -->
 
         </div>
@@ -652,6 +645,12 @@
         <script src="js/magnific-popup.min.js"></script>
         <script src="js/slick.min.js"></script>
         <script src="js/custom.js"></script>
+        <!-- Bao gồm jQuery -->
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<!-- Bao gồm DataTables CSS và JS -->
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css"/>
+<script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+
 
         <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
         <script>
@@ -701,7 +700,32 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
         </script>
-
+        <script>
+            //phân trang và tìm kiếm
+$(document).ready(function () {
+    $('#jobTable').DataTable({
+        "pageLength": 3,  // Số hàng trên mỗi trang
+        "ordering": true, // Cho phép sắp xếp
+        "searching": true, // Cho phép tìm kiếm
+        lengthChange: false,
+        "pagingType": "simple_numbers", // Phân trang kiểu số
+        "language": {
+            
+            "zeroRecords": "Không tìm thấy kết quả",
+            "info": "Hiển thị trang _PAGE_ của _PAGES_",
+            "infoEmpty": "Không có công việc nào",
+            "infoFiltered": "(lọc từ _MAX_ công việc)",
+            "search": "Tìm kiếm:",
+            "paginate": {
+                "first": "Đầu",
+                "last": "Cuối",
+                "next": "Tiếp",
+                "previous": "Trước"
+            }
+        }
+    });
+});
+</script>
         <!-- Google API & Maps -->
         <!-- Geting an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key -->
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaoOT9ioUE4SA8h-anaFyU4K63a7H-7bc&amp;libraries=places"></script>

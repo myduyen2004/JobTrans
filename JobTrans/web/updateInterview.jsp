@@ -429,16 +429,8 @@
 			
 			<!-- Dashboard Headline -->
 			<div class="dashboard-headline">
-				<h3>Đăng Nhiệm Vụ</h3>
-
-				<!-- Breadcrumbs -->
-				<nav id="breadcrumbs" class="dark">
-					<ul>
-						<li><a href="#">Trang Chủ</a></li>
-						<li><a href="#">Bảng Điều Khiển</a></li>
-						<li>Đăng Nhiệm Vụ</li>
-					</ul>
-				</nav>
+				<h3>Phỏng Vấn</h3>
+                                
 			</div>
 	
 			<!-- Row -->

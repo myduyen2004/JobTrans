@@ -12,6 +12,7 @@ import java.io.File;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import jobtrans.dal.CategoryDAO;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.Job;
@@ -124,6 +125,7 @@ public class CRUDJobServerlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         UserDAO userDAO = new UserDAO();
         JobDAO jobDAO = new JobDAO();
+        CategoryDAO catDao = new CategoryDAO();
         
         String email = (String)session.getAttribute("email");
         out.println(email);
@@ -143,7 +145,7 @@ public class CRUDJobServerlet extends HttpServlet {
         if(cate==null || cate.isEmpty()){
             cate = "Không xác định";
         }
-        int cateId = jobDAO.getCateByName(cate).getCategoryId();
+        int cateId = catDao.getCateByName(cate).getCategoryId();
         out.println(cateId);
         String address = request.getParameter("address");
         //UploadFile
@@ -203,7 +205,7 @@ public class CRUDJobServerlet extends HttpServlet {
         JobDAO jobDAO = new JobDAO();
         String email = (String)session.getAttribute("email");
         User u = userDAO.getUserByEmail(email);
-        Job job = jobDAO.getJobByJobId(id);
+        Job job = jobDAO.getJobById(id);
         out.print(email);
         request.setAttribute("employer", u);
         request.setAttribute("job", job);
@@ -226,7 +228,7 @@ public class CRUDJobServerlet extends HttpServlet {
         String sid = request.getParameter("jid");
         int id = Integer.parseInt(sid);
         JobDAO jobDAO = new JobDAO();
-        Job job = jobDAO.getJobByJobId(id);
+        Job job = jobDAO.getJobById(id);
         request.setAttribute("job", job);
         request.getRequestDispatcher("update-job.jsp").forward(request, response);
     }
@@ -237,7 +239,7 @@ public class CRUDJobServerlet extends HttpServlet {
         String sid = request.getParameter("jid");
         int id = Integer.parseInt(sid);
         JobDAO jobDAO = new JobDAO();
-        Job job = jobDAO.getJobByJobId(id);
+        Job job = jobDAO.getJobById(id);
         request.setAttribute("job", job);
         request.getRequestDispatcher("updateInterview.jsp").forward(request, response);
     }
@@ -249,6 +251,7 @@ public class CRUDJobServerlet extends HttpServlet {
         HttpSession session = request.getSession(true);
         UserDAO userDAO = new UserDAO();
         JobDAO jobDAO = new JobDAO();
+        CategoryDAO catDao = new CategoryDAO();
         
         int id = Integer.parseInt(request.getParameter("jid"));        
         String title = request.getParameter("projectName");
@@ -259,7 +262,7 @@ public class CRUDJobServerlet extends HttpServlet {
         if(cate==null || cate.isEmpty()){
             cate = "Không xác định";
         }
-        int cateId = jobDAO.getCateByName(cate).getCategoryId();
+        int cateId = catDao.getCateByName(cate).getCategoryId();
         String address = request.getParameter("address");
         
         Job j = new Job(id, title, des, date, budget, cateId, address);

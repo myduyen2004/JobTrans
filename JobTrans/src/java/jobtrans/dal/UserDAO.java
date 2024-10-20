@@ -60,6 +60,30 @@ public class UserDAO {
         }
         return users;
     }
+//      public User getUserByJobGreeting(JobGreetings jobGreeting) {
+//        User user = null;
+//        DBConnection db = DBConnection.getInstance();
+//        String sql = "SELECT u.user_id, u.user_name, u.email FROM [Users] u "
+//                + "JOIN JobGreetings jg ON u.user_id = jg.job_seeker_id "
+//                + "WHERE jg.job_seeker_id = ?"; // Sử dụng tham số để truyền vào seekerId
+//
+//        try (Connection con = db.openConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
+//            statement.setInt(1, jobGreeting.getSeekerId()); // Lấy seekerId từ jobGreeting
+//            ResultSet rs = statement.executeQuery();
+//
+//            if (rs.next()) {
+//                user = new User();
+//                user.setUserId(rs.getInt("user_id"));
+//                user.setUserName(rs.getString("user_name"));
+//                user.setEmail(rs.getString("email"));
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        return user;
+//    }
 
     public User checkLogin(User user) {
         User temp = null;
@@ -371,5 +395,6 @@ public class UserDAO {
         }
         return userList;
     }
-
 }
+
+

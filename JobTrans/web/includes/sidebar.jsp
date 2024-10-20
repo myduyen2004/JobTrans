@@ -38,9 +38,9 @@
 						<ul data-submenu-title="Organize and Manage">
 							<li><a href="#"><i class="icon-material-outline-business-center"></i> Quản Lí Công Việc</a>
 								<ul>
-									<li><a href="dashboard-manage-jobs.html">Các Việc Đã Đăng <span class="nav-tag">3</span></a></li>
-									<li><a href="dashboard-manage-candidates.html">Danh Sách Ứng Viên Chào Giá</a></li>
-									<li><a href="dashboard-post-a-job.html">Đăng Tin Tuyển Dụng</a></li>
+									<li><a href="manageJob?command=LIST">Các Việc Đã Đăng <span class="nav-tag">3</span></a></li>
+									<li><a href="">Danh Sách Ứng Viên Chào Giá</a></li>
+									<li><a href="post-a-job.jsp">Đăng Tin Tuyển Dụng</a></li>
 								</ul>	
 							</li>
 							

@@ -42,8 +42,8 @@ public class JobDetail extends HttpServlet {
         String c = request.getParameter("category");
         String id=request.getParameter("pid"); 
         String jd=request.getParameter("pjd");
-        Job job = jo.getJobByID(jd);
-        User userbyid = dao.getUserByID(id);
+        Job job = jo.getJobById(Integer.parseInt(jd));
+        User userbyid = dao.getUserById(Integer.parseInt(id));
         List<Job> category =jo.getJobsByCategoryIdExcludingJobId(c,jd);
         request.setAttribute("c", category);
         request.setAttribute("u", userbyid);

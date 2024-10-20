@@ -429,16 +429,7 @@
 			
 			<!-- Dashboard Headline -->
 			<div class="dashboard-headline">
-				<h3>Đăng Nhiệm Vụ</h3>
-
-				<!-- Breadcrumbs -->
-				<nav id="breadcrumbs" class="dark">
-					<ul>
-						<li><a href="#">Trang Chủ</a></li>
-						<li><a href="#">Bảng Điều Khiển</a></li>
-						<li>Đăng Nhiệm Vụ</li>
-					</ul>
-				</nav>
+				<h3>Cập Nhật Công Việc</h3>
 			</div>
 	
 			<!-- Row -->
@@ -452,7 +443,7 @@
 
 						<!-- Headline -->
 						<div class="headline">
-							<h3><i class="icon-feather-folder-plus"></i> Cập nhật công việc</h3>
+							<h3><i class="icon-feather-folder-plus"></i> Biểu Mẫu Cập Nhật Công Việc</h3>
 						</div>
 
 						<div class="content with-padding padding-bottom-10">

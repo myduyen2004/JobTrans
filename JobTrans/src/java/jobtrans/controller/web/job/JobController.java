@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import jobtrans.dal.JobDAO;
+import jobtrans.dal.JobGreetingDAO;
 import jobtrans.model.Job;
 
 @WebServlet(name = "JobController", urlPatterns = {"/jobController"})
@@ -108,7 +109,7 @@ public class JobController extends HttpServlet {
             int greetingId = Integer.parseInt(greetingIdStr); // Chuyển đổi thành số nguyên
             int jobId = Integer.parseInt(jobIdStr); // Chuyển đổi thành số nguyên
 
-            JobDAO jobDao = new JobDAO(); // Khởi tạo JobService
+            JobGreetingDAO jobDao = new JobGreetingDAO(); // Khởi tạo JobService
             jobDao.confirmSeekerForJob(greetingId, jobId); // Gọi hàm chấp nhận seeker
             response.sendRedirect("jobController"); // Chuyển hướng đến trang manage-seeker.jsp
         } catch (IOException e) {

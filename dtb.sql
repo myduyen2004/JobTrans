@@ -14,6 +14,7 @@ CREATE TABLE Users (
     specification NVARCHAR(100),
     address NVARCHAR(100),
     avatar_url NVARCHAR(MAX),
+	date_of_birth DATE,
     status BIT NOT NULL
 );
 GO
@@ -47,8 +48,16 @@ CREATE TABLE Job(
 	doc_URL VARCHAR(MAX),
 	interview_URL VARCHAR(MAX),
 	interview_Date DATE,
-	address VARCHAR(MAX)
+	address NVARCHAR(MAX)
 );
+GO
+CREATE TABLE CV (
+    cv_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,   
+    job_position NVARCHAR(200),
+    summary NVARCHAR(MAX),
+    created_at DATE,
+	user_id INT FOREIGN KEY REFERENCES Users(user_id) 
+  );
 GO
 CREATE TABLE JobGreetings (
     greeting_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
@@ -59,46 +68,18 @@ CREATE TABLE JobGreetings (
     price INT,
     status NVARCHAR(100),
 	expectedDay int,
+	cv_id INT,
+	FOREIGN KEY (cv_id) REFERENCES CV(cv_id),
     FOREIGN KEY (job_seeker_id) REFERENCES Users(user_id),
     FOREIGN KEY (job_id) REFERENCES Job(job_id)
 );
 GO
-CREATE TABLE CV (
-    cv_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,   
-    title NVARCHAR(100),
-    summary NVARCHAR(MAX),
-    created_at DATE,
-	user_id INT FOREIGN KEY REFERENCES Users(user_id) 
-  );
-GO
- create table School(
+
+create table School(
 	 education_id INT not null IDENTITY(1,1) primary key ,
 	 school_name Nvarchar(100)
 );
 GO
- create table Skill(
-	 skill_id INT not null IDENTITY(1,1) primary key ,
-	 skill_name Nvarchar(100),
-);
-GO
-create table Company(
-	 experience_id INT not null IDENTITY(1,1) primary key ,
-	 company_name Nvarchar(100),
-	 description Nvarchar(max)
-);
-GO
-
-CREATE TABLE CV_Skill (
-    cv_id INT NOT NULL,              
-    skill_id INT NOT NULL,            
-    proficiency NVARCHAR(100),
-  
-    PRIMARY KEY (cv_id, skill_id),    
-  
-    CONSTRAINT FK_cv_id FOREIGN KEY (cv_id) REFERENCES CV(cv_id), 
-  
-    CONSTRAINT FK_skill_id FOREIGN KEY (skill_id) REFERENCES Skill(skill_id)
-);
 CREATE TABLE CV_Education (
     cv_id INT NOT NULL,               
     education_id INT NOT NULL,        
@@ -112,26 +93,60 @@ CREATE TABLE CV_Education (
     
     CONSTRAINT FK_cv_education_education_id FOREIGN KEY (education_id) REFERENCES School(education_id) 
 );
+GO
+ create table Skill(
+	 skill_id INT not null IDENTITY(1,1) primary key ,
+	 skill_name Nvarchar(100),
+);
+GO
+CREATE TABLE CV_Skill (
+    cv_id INT NOT NULL,              
+    skill_id INT NOT NULL,            
+    PRIMARY KEY (cv_id, skill_id),    
+    CONSTRAINT FK_cv_id FOREIGN KEY (cv_id) REFERENCES CV(cv_id), 
+    CONSTRAINT FK_skill_id FOREIGN KEY (skill_id) REFERENCES Skill(skill_id)
+);
+GO
+create table Company(
+	 experience_id INT not null IDENTITY(1,1) primary key ,
+	 company_name Nvarchar(100),
+	 description Nvarchar(max)
+);
+GO
 CREATE TABLE CV_Experience (
     cv_id INT NOT NULL,              
     experience_id INT NOT NULL,       
     years_of_experience INT,         
-    achievement NVARCHAR(100),        
+    job_position NVARCHAR(100),  
+	address NVARCHAR(100),
+	description NVARCHAR(MAX),
     PRIMARY KEY (cv_id, experience_id),
-    
     CONSTRAINT FK_cv_experience_cv_id FOREIGN KEY (cv_id) REFERENCES CV(cv_id),
-    
     CONSTRAINT FK_cv_experience_experience_id FOREIGN KEY (experience_id) REFERENCES Company(experience_id)
 );
+GO
+create table Certification(
+	 certification_id INT not null IDENTITY(1,1) primary key ,
+	 certification_name Nvarchar(100),
+);
+GO
+create table CV_Certification(
+	 cv_id INT NOT NULL,
+	 certification_id INT NOT NULL ,
+	 year DATE,
+	 description NVARCHAR(MAX)
+);
+GO
+
 Create table dConversation(
- conversation_id varchar primary key,
+ conversation_id INT primary key,
  job_id INT FOREIGN KEY REFERENCES Job(job_id) ,
- start_date Date ,
+ start_date DATETIME ,
  )
- 
+GO
  CREATE TABLE dMESSAGE(
  message_id INT IDENTITY(1,1) PRIMARY KEY, 
- conversation_id varchar not null foreign key references dConversation(conversation_id) ,
+ conversation_id INT not null foreign key references dConversation(conversation_id) ,
  sender_id INT FOREIGN KEY REFERENCES Users(user_id),
  attachment varchar(MAX),
  content nvarchar(MAX),
@@ -157,8 +172,30 @@ CREATE TABLE Shipment (
 	receiverId INT FOREIGN KEY REFERENCES Users(user_id),
     status NVARCHAR(100),
     shipmentDate DATE,
+	province NVARCHAR(200),
+	district NVARCHAR(200),
+	ward NVARCHAR(200),
+	detail_address NVARCHAR(MAX),
 	description NVARCHAR(MAX)
 );
+
+CREATE TABLE UserReport(
+	user_report_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	reported_user INT FOREIGN KEY REFERENCES Users(user_id),
+	report_by INT FOREIGN KEY REFERENCES Users(user_id),
+	content_report NVARCHAR(MAX),
+	attachment NVARCHAR(MAX),
+	status NVARCHAR(100)
+)
+
+CREATE TABLE JobReport(
+	job_report_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
+	reported_job INT FOREIGN KEY REFERENCES Job(job_id),
+	report_by INT FOREIGN KEY REFERENCES Users(user_id),
+	content_report NVARCHAR(MAX),
+	attachment NVARCHAR(MAX),
+	status NVARCHAR(100)
+)
 
 ALTER TABLE Users
 ADD CONSTRAINT chk_role CHECK (role IN ('Seeker', 'Employer', 'Admin'));
@@ -177,77 +214,51 @@ INSERT INTO JobCategory(category_name) values
 (N'Bán Hàng & Tiếp Thị'),
 (N'Không xác định');
 
+--Sửa bảng Job
+ALTER TABLE Job
+ADD CONSTRAINT chk_job_status CHECK (status IN (N'Đã trả lương',N'Đã hoàn tiền',N'Đã hoàn thành',N'Đã nộp sản phẩm',N'Bị khiếu nại',N'Đang làm việc',N'Chờ đặt cọc',N'Đang tuyển'));
+
+ALTER TABLE Job
+ADD label_verify NVARCHAR(100);
+
+--Sửa CV_Experience
+ALTER TABLE CV_Experience
+ADD start_at DATE;
+
+ALTER TABLE CV_Experience
+ADD end_at DATE;
+
+ALTER TABLE CV_Experience
+DROP COLUMN years_of_experience
+
+ALTER TABLE CV_Experience
+ADD company_custom NVARCHAR(200)
+--Sửa CV_Edu
+ALTER TABLE CV_Education
+ADD school_custom NVARCHAR(200)
+--Sửa CV_Skill
+ALTER TABLE CV_Skill
+ADD skill_custom NVARCHAR(200)
+--Sửa CV_Certification
+ALTER TABLE CV_Certification
+ADD certification_custom NVARCHAR(200)
+
+--Thêm CV_id trong JobGreeting
+ALTER TABLE JobGreetings
+ADD cv_id INT FOREIGN KEY REFERENCES CV(cv_id)
+
+--Thêm Constraint cho JobGreeting
+ALTER TABLE JobGreetings
+ADD CONSTRAINT chk_jobgreeting_status CHECK (status IN (N'Bị từ chối',N'Được chấp nhận',N'Chưa phản hồi',N'Chờ phỏng vấn'));
+
+CREATE PROCEDURE UpdateJobGreetingsStatus
+AS
+BEGIN
+    -- Cập nhật status của JobGreetings thành 'Bị từ chối' khi Job đã quá hạn
+    UPDATE JobGreetings
+    SET status = N'Bị từ chối'
+    FROM JobGreetings JG
+    INNER JOIN Job J ON JG.job_id = J.job_id
+    WHERE J.due_date < GETDATE() AND JG.status != N'Bị từ chối';
+END;
 GO
-INSERT INTO Company (company_name, description)
-VALUES 
-    ('VinGroup', 'Conglomerate in real estate, retail, and technology'),
-    ('Viettel', 'Telecommunications company and defense contractor'),
-    ('FPT Corporation', 'Technology and IT services company'),
-    ('PetroVietnam', 'State-owned petroleum company'),
-    ('Vinamilk', 'Dairy and beverage company'),
-    ('Masan Group', 'Consumer goods and retail conglomerate'),
-    ('Hoa Phat Group', 'Steel production and construction materials'),
-    ('BIDV', 'State-owned commercial bank'),
-    ('Vietcombank', 'Commercial bank and financial services company'),
-    ('Techcombank', 'Private commercial bank'),
-    ('Vietnam Airlines', 'National flag carrier of Vietnam'),
-    ('Thaco', 'Automobile manufacturer and distributor'),
-    ('Sabeco', 'Brewing company famous for Saigon Beer'),
-    ('Habeco', 'Beer production company'),
-    ('Novaland', 'Real estate development company'),
-    ('Sovico Group', 'Investment company in aviation, real estate, and banking'),
-    ('VPBank', 'Vietnam Prosperity Joint Stock Commercial Bank'),
-    ('Kido Group', 'Food production company'),
-    ('Vingroup Retail', 'Retail arm of Vingroup with malls and supermarkets'),
-    ('Saigon Co.op', 'Retail cooperative and supermarket chain');
-
-GO
-
-INSERT INTO Skill (skill_name)
-VALUES
-('Java Programming'),
-('SQL Server'),
-('HTML/CSS'),
-('JavaScript'),
-('Python Programming'),
-('Angular'),
-('React'),
-('Node.js'),
-('Spring Framework'),
-('Docker'),
-('Kubernetes'),
-('Git'),
-('Linux Administration'),
-('AWS Cloud'),
-('Azure Cloud'),
-('Agile Methodology'),
-('Machine Learning'),
-('Data Analysis'),
-('UI/UX Design'),
-('Cybersecurity');
-GO
-INSERT INTO School (school_name)
-VALUES
-('Vietnam National University Hanoi'),
-('Vietnam National University Ho Chi Minh City'),
-('Hanoi University of Science and Technology'),
-('University of Danang'),
-('Hue University'),
-('Foreign Trade University'),
-('University of Economics Ho Chi Minh City'),
-('University of Transport and Communications'),
-('Can Tho University'),
-('University of Medicine and Pharmacy Ho Chi Minh City'),
-('Hanoi Medical University'),
-('University of Social Sciences and Humanities Hanoi'),
-('University of Social Sciences and Humanities Ho Chi Minh City'),
-('Ton Duc Thang University'),
-('University of Law Ho Chi Minh City'),
-('University of Architecture Ho Chi Minh City'),
-('Ho Chi Minh City University of Technology'),
-('Ho Chi Minh City University of Education'),
-('FPT University'),
-('RMIT University Vietnam');
-
-
-

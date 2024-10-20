@@ -18,14 +18,6 @@ nbproject/Makefile-Release.mk
 *.iml
 *.log
 
-# Bỏ qua các tệp JAR
-*.jar
-
-# Bỏ qua các thư mục phụ thuộc
-/lib/
-*.zip
-*.tar.gz
-
 # Bỏ qua các tệp được tạo bởi hệ điều hành
 .DS_Store
 Thumbs.db

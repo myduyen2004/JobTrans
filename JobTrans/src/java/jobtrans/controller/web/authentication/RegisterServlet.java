@@ -15,11 +15,10 @@ import jakarta.servlet.http.HttpSession;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.User;
 import java.util.logging.Logger;
+import static jobtrans.dal.UserDAO.getMd5;
 import jobtrans.utils.Gmail;
 import jobtrans.utils.RandomGenerator;
 
@@ -113,12 +112,13 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("emailaddress-register");
         String password = request.getParameter("password-register");
         String role = request.getParameter("account-type-radio");
+        String hashedPassword = getMd5(password);
         if(role.equals("freelancer")){
             role = "Seeker";
         }else{
             role = "Employer";
         }
-        u = new User(username, email, password, role, 0, true);
+        u = new User(username, email, hashedPassword, role, 0, true);
         u.setAvatarUrl("images/default-avatar.jpg");
         if(ud.checkExistEmail(email)==false){
             String otpvalue = RandomGenerator.randString(RandomGenerator.NUMERIC_CHARACTER, 6);

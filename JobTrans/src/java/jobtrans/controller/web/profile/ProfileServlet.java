@@ -1,6 +1,5 @@
 package jobtrans.controller.web.profile;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -22,13 +21,14 @@ import java.util.logging.Logger;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.model.User;
 import jobtrans.dal.UserDAO;
+import static jobtrans.dal.UserDAO.getMd5;
 import jobtrans.model.Transaction;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-    maxFileSize = 1024 * 1024 * 10,      // 10MB
-    maxRequestSize = 1024 * 1024 * 50    // 50MB
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 public class ProfileServlet extends HttpServlet {
 
@@ -52,8 +52,8 @@ public class ProfileServlet extends HttpServlet {
             case "addWallet":
                 addWallet(request, response);
                 break;
-            case "load":
-                loadProfile(request, response);
+            case "editProfile":
+                editProfile(request, response);
                 break;
             default:
                 response.sendRedirect("viewProfile.jsp"); // Trang lỗi nếu action không hợp lệ
@@ -83,7 +83,7 @@ public class ProfileServlet extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         String baseUploadPath = "D:/FALL24/JobTrans/web/images/";
         String uniqueFolderName = "avatar_" + System.currentTimeMillis();
         File uploadDir = new File(baseUploadPath + uniqueFolderName);
@@ -105,9 +105,9 @@ public class ProfileServlet extends HttpServlet {
             user.setUserName(userName);
             user.setAddress(address);
             user.setDescription(description);
-            if(avatarUrl == null){
+            if (avatarUrl == null) {
                 user.setAvatarUrl(request.getParameter("avatemp"));
-            }else{
+            } else {
                 user.setAvatarUrl(avatarUrl);
             }
             user.setSpecification(specification);
@@ -146,7 +146,7 @@ public class ProfileServlet extends HttpServlet {
         }
     }
 
-    private void loadProfile(HttpServletRequest request, HttpServletResponse response)
+    private void editProfile(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         UserDAO uDao = new UserDAO();
@@ -176,7 +176,7 @@ public class ProfileServlet extends HttpServlet {
     }
 
     private void addWallet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("account");
         UserDAO userDao = new UserDAO();
@@ -235,33 +235,40 @@ public class ProfileServlet extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
         String repeatNewPassword = request.getParameter("repeatNewPassword");
 
+        String hashedCurrentPassword = getMd5(currentPassword);
+        String hashedNewPassword = getMd5(newPassword);
+
         UserDAO userDao = new UserDAO();
         User user = userDao.getUserByEmail(email);
-        if (user != null && user.getPassword() != null && user.getPassword().equals(currentPassword) && newPassword.equals(repeatNewPassword)) {
-            if(repeatNewPassword.length() >=8){
-                user.setPassword(newPassword);
-                userDao.changePassword(email, newPassword);
+        if (user != null && user.getPassword() != null && user.getPassword().equals(hashedCurrentPassword) && newPassword.equals(repeatNewPassword)) {
+            if (newPassword.equals(currentPassword)) {
+                request.setAttribute("error", "Mật khẩu mới không được trùng với mật khẩu cũ");
+                request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
+            } else if (repeatNewPassword.length() >= 8) {
+                user.setPassword(hashedNewPassword);
+                userDao.changePassword(email, hashedNewPassword);
                 request.setAttribute("success", "Đổi mật khẩu thành công");
                 request.getRequestDispatcher("profile?action=view").forward(request, response);
-            }else{
+            } else {
                 request.setAttribute("error", "Mật khẩu phải nhiều hơn hoặc 8 kí tự");
-                request.getRequestDispatcher("profile?action=view").forward(request, response);
-
+                request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
             }
-        } else if(user.getPassword() == null && newPassword.equals(repeatNewPassword)) {
-            if(repeatNewPassword.length() >=8){
-                user.setPassword(newPassword);
-                userDao.changePassword(email, newPassword);
+        } else if (user.getPassword() == null && newPassword.equals(repeatNewPassword)) {
+            if (newPassword.equals(currentPassword)) {
+                request.setAttribute("error", "Mật khẩu mới không được trùng với mật khẩu cũ");
+                request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
+            } else if (repeatNewPassword.length() >= 8) {
+                user.setPassword(hashedNewPassword);
+                userDao.changePassword(email, hashedNewPassword);
                 request.setAttribute("success", "Đổi mật khẩu thành công");
                 request.getRequestDispatcher("profile?action=view").forward(request, response);
-            }else{
+            } else {
                 request.setAttribute("error", "Mật khẩu phải nhiều hơn hoặc 8 kí tự");
-                request.getRequestDispatcher("profile?action=view").forward(request, response);
-
+                request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
             }
-        }else{
+        } else {
             request.setAttribute("error", "Mật khẩu không khớp");
-            request.getRequestDispatcher("profile?action=view").forward(request, response);
+            request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
         }
     }
 

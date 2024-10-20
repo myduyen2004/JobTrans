@@ -13,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jobtrans.dal.UserDAO;
+import static jobtrans.dal.UserDAO.getMd5;
 import jobtrans.model.GoogleAccount;
 import jobtrans.model.User;
 import jobtrans.utils.CookieUtils;
@@ -106,11 +107,12 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
         String mail = request.getParameter("emailaddress");
         String password = request.getParameter("password");
+        String hashedPassword = getMd5(password);
         HttpSession session = request.getSession();
         response.getWriter().print(mail);
 
         UserDAO userDAO = new UserDAO();
-        User user = userDAO.checkLogin(mail, password);
+        User user = userDAO.checkLogin(mail, hashedPassword);
         response.getWriter().print(user);
         if (user != null) {
             if (request.getParameter("remember") != null) {

@@ -60,20 +60,6 @@ public class RoleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
         String role = request.getParameter("role");
         String email = request.getParameter("email");
         UserDAO userDao = new UserDAO();
@@ -87,7 +73,34 @@ public class RoleServlet extends HttpServlet {
         session.setAttribute("avatarUrl", user.getAvatarUrl());
         session.setAttribute("oauthId", user.getOauthId());
         session.setAttribute("role", user.getRole());
-        request.getRequestDispatcher("home.jsp").forward(request, response);
+        request.getRequestDispatcher("home").forward(request, response);
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+//        String role = request.getParameter("role");
+//        String email = request.getParameter("email");
+//        UserDAO userDao = new UserDAO();
+//        userDao.updateRole(role, email);
+//        HttpSession session = request.getSession();
+//
+//        User user = userDao.getUserByEmail(email);
+//        session.setAttribute("account", email);
+//        session.setAttribute("userName", user.getUserName());
+//        session.setAttribute("email", user.getEmail());
+//        session.setAttribute("avatarUrl", user.getAvatarUrl());
+//        session.setAttribute("oauthId", user.getOauthId());
+//        session.setAttribute("role", user.getRole());
+//        request.getRequestDispatcher("home").forward(request, response);
     }
 
     /**

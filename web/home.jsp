@@ -58,7 +58,7 @@
                                 <!-- Search Field -->
                                 <div class="intro-search-field with-autocomplete">
                                     <label for="autocomplete-input" class="field-title ripple-effect">Bạn muốn trở thành: </label>
-                                    <form action="role" method="post">
+                                    <form action="role" method="GET">
                                         <!--<div class="button-group">-->
                                         <input name="email" value="${email}" type="hidden"><!-- comment -->
                                         <button type="submit" name="role" value="Seeker" class="btn seeker">Người tìm việc</button>

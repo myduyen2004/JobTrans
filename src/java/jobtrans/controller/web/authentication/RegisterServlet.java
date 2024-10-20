@@ -90,21 +90,6 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
-    }
-
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
         String cmd = request.getParameter("cmd");
         HttpSession mySession = request.getSession();
         User u = new User();
@@ -128,11 +113,11 @@ public class RegisterServlet extends HttpServlet {
             request.setAttribute("email", email);
             request.setAttribute("success", "Vui lòng kiểm tra email để xác nhận đăng kí!");
             mySession.setAttribute(email, otpvalue);
-            mySession.setAttribute("user", u);
+            mySession.setAttribute("u", u);
             request.getRequestDispatcher("authentication/verify-otp_1.jsp").forward(request, response);
         }else{
             request.setAttribute("error", "Email đã được đăng kí. Thất bại");
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            request.getRequestDispatcher("home").forward(request, response);
         }
         }
         else if(cmd.equals("2")){
@@ -140,17 +125,31 @@ public class RegisterServlet extends HttpServlet {
             String otp = request.getParameter("otp1")+request.getParameter("otp2")+request.getParameter("otp3")+request.getParameter("otp4")
                     +request.getParameter("otp5")+request.getParameter("otp6");
             String code = (String) mySession.getAttribute(emailReceive);
-            User user = (User) mySession.getAttribute("user");
+            User user = (User) mySession.getAttribute("u");
             if (otp.equals(code)) {
                 ud.addUserByRegister(user);
                 request.setAttribute("success", "Thành công! Hãy đăng nhập để tiếp tục");
-                response.getWriter().print(user);
                 request.getRequestDispatcher("home").forward(request, response);
             } else {
                 request.setAttribute("error", "Xác minh mã OTP thất bại! Vui lòng thử lại");
                 request.getRequestDispatcher("home").forward(request, response);
             }
         }
+    }
+
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     *
+     * @param request servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException if an I/O error occurs
+     */
+    @Override
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html;charset=UTF-8");
+        
     }
 
     /**

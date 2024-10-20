@@ -57,20 +57,27 @@ public class LoginServlet extends HttpServlet {
         String code = request.getParameter("code");
         String error = request.getParameter("error");
         HttpSession session = request.getSession();
-        response.getWriter().print("In ra and check");
-        // neu nguoi dung huy uy quyen
+        
         if (error != null) {
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            request.getRequestDispatcher("home").forward(request, response);
+            return;
         }
+        if (code == null) {
+            
+            request.getRequestDispatcher("home").forward(request, response);
+            return;
+        }
+
         GoogleLogin gg = new GoogleLogin();
-        String accessToken = gg.getToken(code);
-        GoogleAccount acc = gg.getUserInfo(accessToken);
+        String accessToken = GoogleLogin.getToken(code);
+        GoogleAccount acc = GoogleLogin.getUserInfo(accessToken);
         // check tk da dky chua
         String email = acc.getEmail();
         String userName = acc.getName();
         String avatar = acc.getPicture();
         UserDAO userDao = new UserDAO();
         User user = new User();
+        response.getWriter().print(error);
         if (userDao.checkExistEmail(email)) {
             user = userDao.getUserByEmail(email);
             session.setAttribute("userId", user.getUserId());
@@ -79,7 +86,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("email", user.getEmail());
             session.setAttribute("avatarUrl", user.getAvatarUrl());
             session.setAttribute("role",user.getRole());
-            request.getRequestDispatcher("home").forward(request, response);
+            response.sendRedirect("home");
         }else{
             user = new User(userName, email, "Google", code, 0, avatar, true);
             userDao.addUserByLoginGoogle(user);
@@ -89,7 +96,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("userName", user.getUserName());
             session.setAttribute("email", user.getEmail());
             session.setAttribute("avatarUrl", user.getAvatarUrl());
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            response.sendRedirect("home");
         }
     }
 

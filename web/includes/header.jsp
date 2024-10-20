@@ -323,7 +323,7 @@
 
 
                         <!-- Form -->
-                        <form method="post" id="register-account-form" action="./Register">
+                        <form method="GET" id="register-account-form" action="./Register">
                             <div class="account-type">
                                 <div>
                                     <input type="radio" name="account-type-radio" id="freelancer-radio" value = "freelancer" class="account-type-radio" checked/>

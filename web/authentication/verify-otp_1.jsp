@@ -121,7 +121,7 @@
                 <i class="bx bxs-check-shield"></i>
             </header>
             <h4>XÁC THỰC MÃ OTP</h4>
-            <form action="./Register" method="POST">
+            <form action="./Register" method="GET">
                 Mã xác thực đã được gửi đến email của bạn ${email}
                 <input type="hidden" name="email" value="${email}">
                 <br><br>

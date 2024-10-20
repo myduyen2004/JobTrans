@@ -77,7 +77,7 @@ public class RoleServlet extends HttpServlet {
         String role = request.getParameter("role");
         String email = request.getParameter("email");
         UserDAO userDao = new UserDAO();
-        userDao.updateAfterLoginGoogle(role, email);
+        userDao.updateRole(role, email);
         HttpSession session = request.getSession();
 
         User user = userDao.getUserByEmail(email);

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="6.0" xmlns="https://jakarta.ee/xml/ns/jakartaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd">
     <servlet>
-        <servlet-name>UpdateServlet</servlet-name>
-        <servlet-class>jobtrans.controller.web.profile.UpdateServlet</servlet-class>
+        <servlet-name>ProfileServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.profile.ProfileServlet</servlet-class>
         <multipart-config>
             <max-file-size>1048576</max-file-size>
             <!-- 1MB -->
@@ -13,25 +13,76 @@
         </multipart-config>
     </servlet>
     <servlet>
-        <servlet-name>CRUDJobServerlet</servlet-name>
-        <servlet-class>jobtrans.controller.web.job.CRUDJobServerlet</servlet-class>
+        <servlet-name>JobServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.job.JobServlet</servlet-class>
         <multipart-config>
-            <max-file-size>1048576</max-file-size> <!-- 1MB -->
-            <max-request-size>2097152</max-request-size> <!-- 2MB -->
-            <file-size-threshold>512000</file-size-threshold> <!-- 500KB -->
+            <max-file-size>10485760</max-file-size>
+            <!-- 10MB -->
+            <max-request-size>15728640</max-request-size>
+            <!-- 15MB -->
+            <file-size-threshold>1024</file-size-threshold>
+            <!-- 1KB -->
         </multipart-config>
     </servlet>
+    <servlet>
+        <servlet-name>CVServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.profile.CVServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>JobApplicationServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.job.JobApplicationServlet</servlet-class>
+        <multipart-config>
+            <max-file-size>10485760</max-file-size>
+            <!-- 10MB -->
+            <max-request-size>15728640</max-request-size>
+            <!-- 15MB -->
+            <file-size-threshold>1024</file-size-threshold>
+            <!-- 1KB -->
+        </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>JobProcessingServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.job.JobProcessingServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>JobManagement</servlet-name>
+        <servlet-class>jobtrans.controller.admin.management.JobManagement</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AccountManagement</servlet-name>
+        <servlet-class>jobtrans.controller.admin.management.AccountManagement</servlet-class>
+    </servlet>
     <servlet-mapping>
-        <servlet-name>UpdateServlet</servlet-name>
-        <url-pattern>/UpdateServlet</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CRUDJobServerlet</servlet-name>
-        <url-pattern>/manageJob</url-pattern>
+        <servlet-name>ProfileServlet</servlet-name>
+        <url-pattern>/profile</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>home</welcome-file>
     </welcome-file-list>
+    <servlet-mapping>
+        <servlet-name>JobServlet</servlet-name>
+        <url-pattern>/job</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CVServlet</servlet-name>
+        <url-pattern>/CV</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JobApplicationServlet</servlet-name>
+        <url-pattern>/apply</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JobProcessingServlet</servlet-name>
+        <url-pattern>/myjob</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>JobManagement</servlet-name>
+        <url-pattern>/JobManagement</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AccountManagement</servlet-name>
+        <url-pattern>/AccountManagement</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>
     </session-config>

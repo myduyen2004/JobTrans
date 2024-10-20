@@ -1,3 +1,39 @@
 /JobTrans/build/
 /JobTrans/dist/
 /JobTrans/nbproject/private/
+# Bỏ qua các tệp class Java
+*.class
+
+# Bỏ qua thư mục biên dịch
+/build/
+dist/
+
+# Bỏ qua thư mục tạm thời của NetBeans
+/nbproject/private/
+nbproject/Makefile-Debug.mk
+nbproject/Makefile-Release.mk
+
+# Bỏ qua các tệp cụ thể của IDE
+/.nb-gradle/
+*.iml
+*.log
+
+# Bỏ qua các tệp JAR
+*.jar
+
+# Bỏ qua các thư mục phụ thuộc
+/lib/
+*.zip
+*.tar.gz
+
+# Bỏ qua các tệp được tạo bởi hệ điều hành
+.DS_Store
+Thumbs.db
+
+# Bỏ qua các tệp sao lưu
+*~
+*.bak
+*.swp
+
+# Bỏ qua các tệp cục bộ
+/local.properties

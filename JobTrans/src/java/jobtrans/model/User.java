@@ -1,15 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package jobtrans.model;
+import java.util.Date;
 
-import jobtrans.dal.UserDAO;
-
-/**
- *
- * @author admin
- */
 public class User {
     private int userId;
     private String userName;
@@ -18,21 +9,19 @@ public class User {
     private String oauthProvider;
     private String oauthId;
     private String role;
-    private double balance;
+    private int balance;
     private String description;
     private String specification;
     private String address;
     private String avatarUrl;
+    private Date dateOfBirth;
     private boolean status;
-    private int quantityOfAppliedJob;
-    private int quantityOfPostedJob;
-    // Default constructor
-    public User() {
-    }
-    
-    // Parameterized constructor
-    public User(int userId, String userName, String email, String password, String oauthProvider, String oauthId,
-                String role, double balance, String description, String specification, String address, String avatarUrl, boolean status) {
+
+    public User() {}
+
+    public User(int userId, String userName, String email, String password, String oauthProvider, 
+                String oauthId, String role, int balance, String description, 
+                String specification, String address, String avatarUrl, Date dateOfBirth, boolean status) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
@@ -45,31 +34,32 @@ public class User {
         this.specification = specification;
         this.address = address;
         this.avatarUrl = avatarUrl;
+        this.dateOfBirth = dateOfBirth;
         this.status = status;
     }
-    
-    public User(String userName, String email, String oauthProvider, String oauthId, String avatarUrl, boolean status) {
+
+    public User(String userName, String email, String oauthProvider, String oauthId, int balance, String avatarUrl, boolean status) {
         this.userName = userName;
         this.email = email;
         this.oauthProvider = oauthProvider;
         this.oauthId = oauthId;
+        this.balance = balance;
         this.avatarUrl = avatarUrl;
         this.status = status;
     }
 
-    public User(String userName, String email, String password, String avatarUrl, boolean status) {
+    public User(String userName, String email, String password, String role, int balance, boolean status) {
         this.userName = userName;
         this.email = email;
         this.password = password;
-        this.avatarUrl = avatarUrl;
+        this.role = role;
+        this.balance = balance;
         this.status = status;
     }
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
+    
+    
+    
 
-    // Getters and Setters for each field
     public int getUserId() {
         return userId;
     }
@@ -126,11 +116,11 @@ public class User {
         this.role = role;
     }
 
-    public double getBalance() {
+    public int getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(int balance) {
         this.balance = balance;
     }
 
@@ -161,12 +151,17 @@ public class User {
     public String getAvatarUrl() {
         return avatarUrl;
     }
-    public String getDefaultAvatarUrl() {
-        return "images/default-avatar.jpg";
-    }
 
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public Date getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(Date dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
     public boolean isStatus() {
@@ -177,51 +172,9 @@ public class User {
         this.status = status;
     }
 
-    public int getQuantityOfAppliedJob() {
-        return quantityOfAppliedJob;
-    }
-
-    public void setQuantityOfAppliedJob(int quantityOfAppliedJob) {
-        this.quantityOfAppliedJob = quantityOfAppliedJob;
-    }
-
-    public int getQuantityOfPostedJob() {
-        return quantityOfPostedJob;
-    }
-
-    public void setQuantityOfPostedJob(int quantityOfPostedJob) {
-        this.quantityOfPostedJob = quantityOfPostedJob;
-    }
-    
-//    public User getBidder(JobGreetings jg){
-//        UserDAO udao = new UserDAO();
-//        
-//        return udao.getUserById(jg.getSeekerId());
-//    }
-    
-    public User getUserNameById(int id){
-        UserDAO udao = new UserDAO();
-        
-        return udao.getUserById(id);
-    }
-    // Overriding toString() method to display the User object
     @Override
     public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", userName='" + userName + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", oauthProvider='" + oauthProvider + '\'' +
-                ", oauthId='" + oauthId + '\'' +
-                ", role='" + role + '\'' +
-                ", balance=" + balance +
-                ", description='" + description + '\'' +
-                ", specification='" + specification + '\'' +
-                ", address='" + address + '\'' +
-                ", avatarUrl='" + avatarUrl + '\'' +
-                ", status=" + status +
-                '}';
+        return "User{" + "userId=" + userId + ", userName=" + userName + ", email=" + email + ", password=" + password + ", oauthProvider=" + oauthProvider + ", oauthId=" + oauthId + ", role=" + role + ", balance=" + balance + ", description=" + description + ", specification=" + specification + ", address=" + address + ", avatarUrl=" + avatarUrl + ", dateOfBirth=" + dateOfBirth + ", status=" + status + '}';
     }
     
 }

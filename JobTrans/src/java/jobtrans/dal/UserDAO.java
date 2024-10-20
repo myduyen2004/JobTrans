@@ -13,9 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.model.User;
 import jobtrans.utils.DBConnection;
-import java.sql.SQLException;
-import java.sql.*;
-import jobtrans.model.JobInFor;
 
 /**
  *
@@ -29,11 +26,11 @@ public class UserDAO {
         dbConnection = DBConnection.getInstance();
     }
 
-     public List<User> getAllUsers(){
-        
+    public List<User> getAllUsers() {
+
         List<User> users = new ArrayList<>();
         String query = "SELECT * FROM Users";
-        
+
         try {
             Connection con = dbConnection.openConnection();
             PreparedStatement ps = con.prepareStatement(query);
@@ -52,283 +49,311 @@ public class UserDAO {
                 user.setSpecification(rs.getString("specification"));
                 user.setAddress(rs.getString("address"));
                 user.setAvatarUrl(rs.getString("avatar_url"));
+                user.setDateOfBirth(rs.getDate("date_of_birth"));
                 user.setStatus(rs.getBoolean("status"));
                 users.add(user);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+
         }
         return users;
     }
-//      public User getUserByJobGreeting(JobGreetings jobGreeting) {
-//        User user = null;
-//        DBConnection db = DBConnection.getInstance();
-//        String sql = "SELECT u.user_id, u.user_name, u.email FROM [Users] u "
-//                + "JOIN JobGreetings jg ON u.user_id = jg.job_seeker_id "
-//                + "WHERE jg.job_seeker_id = ?"; // Sử dụng tham số để truyền vào seekerId
-//
-//        try (Connection con = db.openConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
-//            statement.setInt(1, jobGreeting.getSeekerId()); // Lấy seekerId từ jobGreeting
-//            ResultSet rs = statement.executeQuery();
-//
-//            if (rs.next()) {
-//                user = new User();
-//                user.setUserId(rs.getInt("user_id"));
-//                user.setUserName(rs.getString("user_name"));
-//                user.setEmail(rs.getString("email"));
-//            }
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        return user;
-//    }
 
-    public User checkLogin(User user) {
-        User temp = null;
-        for (User u : new UserDAO().getAllUsers()) {
-            if (u.getEmail().equals(user.getEmail())
-                    && u.getPassword().equals(user.getPassword()) && u.isStatus()) {
-                temp = user;
-                break;
+    public User getUserById(int id) {
+        User user = null;
+        String query = "SELECT * FROM Users WHERE user_id = ?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, id);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setUserName(rs.getString("user_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setOauthProvider(rs.getString("oauth_provider"));
+                user.setOauthId(rs.getString("oauth_id"));
+                user.setRole(rs.getString("role"));
+                user.setBalance(rs.getInt("balance"));
+                user.setDescription(rs.getString("description"));
+                user.setSpecification(rs.getString("specification"));
+                user.setAddress(rs.getString("address"));
+                user.setAvatarUrl(rs.getString("avatar_url"));
+                user.setDateOfBirth(rs.getDate("date_of_birth"));
+                user.setStatus(rs.getBoolean("status"));
             }
+        } catch (Exception e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
         }
-        return temp;
-    }
-    public void addUserByLoginGoogle(User user) {
-        String sql = "INSERT INTO Users(user_name, email, oauth_provider, oauth_id, avatar_url, status)"
-                + " VALUES (?,?,?,?,?,?)";
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setNString(1, user.getUserName());
-            statement.setString(2, user.getEmail());
-            statement.setString(3, user.getOauthProvider());
-            statement.setString(4, user.getOauthId());
-            statement.setString(5, user.getAvatarUrl());
-            statement.setBoolean(6, user.isStatus());
-            statement.execute();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void addUserByRegister(User user) {
-        String sql = "INSERT INTO Users(user_name,email,password,role,avatar_url, status)"
-                + " VALUES (?,?,?,?,?,?)";
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setNString(1, user.getUserName());
-            statement.setString(2, user.getEmail());
-            statement.setString(3, user.getPassword());
-            statement.setString(4, user.getRole());
-            statement.setString(5, user.getDefaultAvatarUrl());
-            statement.setBoolean(6, user.isStatus());
-            statement.executeUpdate();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        return user;
     }
 
     public User getUserByEmail(String email) {
-        DBConnection db = DBConnection.getInstance();
-        User user = null;
-        String sql = "SELECT * FROM [dbo].[Users] WHERE email = ?";
-
-        try {
-            Connection con = db.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, email);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                user = new User();
-                user.setUserId(rs.getInt("user_id"));
-                user.setUserName(rs.getString("user_name"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setOauthProvider(rs.getString("oauth_provider"));
-                user.setOauthId(rs.getString("oauth_id"));
-                user.setRole(rs.getString("role"));
-                user.setBalance(rs.getInt("balance"));
-                user.setDescription(rs.getString("description"));
-                user.setSpecification(rs.getString("specification"));
-                user.setAddress(rs.getString("address"));
-                user.setAvatarUrl(rs.getString("avatar_url"));
-                user.setStatus(rs.getBoolean("status"));
-            }
-            rs.close();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+    User user = null;
+    String query = "SELECT * FROM Users WHERE email = ?";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            user = new User();
+            user.setUserId(rs.getInt("user_id"));
+            user.setUserName(rs.getString("user_name"));
+            user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
+            user.setOauthProvider(rs.getString("oauth_provider"));
+            user.setOauthId(rs.getString("oauth_id"));
+            user.setRole(rs.getString("role"));
+            user.setBalance(rs.getInt("balance"));
+            user.setDescription(rs.getString("description"));
+            user.setSpecification(rs.getString("specification"));
+            user.setAddress(rs.getString("address"));
+            user.setAvatarUrl(rs.getString("avatar_url"));
+            user.setDateOfBirth(rs.getDate("date_of_birth"));
+            user.setStatus(rs.getBoolean("status"));
         }
-        return user;
+    } catch (Exception e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+    }
+    return user;
+}
+    
+    public int getNumberOfUsers() {
+    int count = 0;
+    String query = "SELECT COUNT(*) FROM Users";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            count = rs.getInt(1);
+        }
+    } catch (Exception e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+    }
+    return count;
+}
+
+    public User checkLogin(String email, String password) {
+    User user = null;
+    String query = "SELECT * FROM Users WHERE email = ? AND password = ?";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, email);
+        ps.setString(2, password);
+        
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            user = new User();
+            user.setUserId(rs.getInt("user_id"));
+            user.setUserName(rs.getString("user_name"));
+            user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
+            user.setOauthProvider(rs.getString("oauth_provider"));
+            user.setOauthId(rs.getString("oauth_id"));
+            user.setRole(rs.getString("role"));
+            user.setBalance(rs.getInt("balance"));
+            user.setDescription(rs.getString("description"));
+            user.setSpecification(rs.getString("specification"));
+            user.setAddress(rs.getString("address"));
+            user.setAvatarUrl(rs.getString("avatar_url"));
+            user.setDateOfBirth(rs.getDate("date_of_birth"));
+            user.setStatus(rs.getBoolean("status"));
+        }
+    } catch (Exception e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
     }
     
-    public User getUserById(int id) {
-        DBConnection db = DBConnection.getInstance();
-        User user = null;
-        String sql = "SELECT * FROM [dbo].[Users] WHERE user_id = ?";
-
-        try {
-            Connection con = db.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setInt(1, id);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                user = new User();
-                user.setUserId(rs.getInt("user_id"));
-                user.setUserName(rs.getString("user_name"));
-                user.setEmail(rs.getString("email"));
-                user.setPassword(rs.getString("password"));
-                user.setOauthProvider(rs.getString("oauth_provider"));
-                user.setOauthId(rs.getString("oauth_id"));
-                user.setRole(rs.getString("role"));
-                user.setBalance(rs.getInt("balance"));
-                user.setDescription(rs.getString("description"));
-                user.setSpecification(rs.getString("specification"));
-                user.setAddress(rs.getString("address"));
-                user.setAvatarUrl(rs.getString("avatar_url"));
-                user.setStatus(rs.getBoolean("status"));
-            }
-            rs.close();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return user;
+    return user;
     }
-
+    
     public boolean checkExistEmail(String email) {
-        DBConnection db = DBConnection.getInstance();
-        User user = null;
-        String sql = "SELECT * FROM [dbo].[Users] WHERE email = ?";
-        boolean check = false;
-        try {
-            Connection con = db.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, email);
-            ResultSet rs = statement.executeQuery();
-            if (rs.next() == true) {
-                check = true;
-            }
-            rs.close();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return check;
-    }
-
-    public void changePassword(String password, String email) {
-        String sql = "UPDATE [dbo].[Users] SET password = ? WHERE email = ?";
-        ResultSet rs = null;
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, password);
-            statement.setString(2, email);
-            statement.executeQuery();
-            statement.close();
-            con.close();
-            System.out.println("Sucess!");
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void updateAfterLoginGoogle(String role, String email) {
-        String sql = "UPDATE [dbo].[Users] SET role = ? WHERE email = ?";
-        ResultSet rs = null;
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, role);
-            statement.setString(2, email);
-            statement.executeQuery();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    // Cập nhật thông tin user, bao gồm cả mật khẩu mới
-    public void changePassword(User user) {
-        Connection con = null; // Khởi tạo Connection là null
-        try {
-            // Mở kết nối thông qua lớp DBConnection
-            con = DBConnection.getInstance().openConnection();
-
-            String query = "UPDATE Users SET password = ? WHERE email = ?";
-            PreparedStatement ps = con.prepareStatement(query);
-            ps.setString(1, user.getPassword());
-            ps.setString(2, user.getEmail());
-
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace(); // Bắt các lỗi khác nếu có
-        } finally {
-            // Đóng kết nối
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-    public  boolean editProfile(User user) {
-       DBConnection db = DBConnection.getInstance(); 
-       
-    boolean isUpdated = false;
-    try  {
-        Connection con = db.openConnection();
-        // SQL query to update the user's profile
-        String query = "UPDATE Users SET user_name = ?, role = ?, description = ?, specification = ?, address = ?, avatar_url=? WHERE email = ?";
+    String query = "SELECT * FROM Users WHERE email = ?";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, email);
         
-        PreparedStatement stmt = con.prepareStatement(query);
-        // Set the parameters based on the User object
-        stmt.setString(1, user.getUserName());         // user_name
-        stmt.setString(2, user.getRole());              // role
-        stmt.setString(3, user.getDescription());       // description
-        stmt.setString(4, user.getSpecification());     // specification
-        stmt.setString(5, user.getAddress());           // address
-        stmt.setString(6, user.getAvatarUrl());
-        stmt.setString(7, user.getEmail());              // user_id (for the WHERE condition)
-
-        // Execute the update query
-        int rowsAffected = stmt.executeUpdate();
-        
-        if (rowsAffected > 0) {
-            isUpdated = true;  // Update was successful
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return true;
         }
-        
-        con.close();
-    } catch (IllegalArgumentException e) {
-        System.out.println("Error in input parameters: " + e.getMessage());
     } catch (Exception e) {
-        Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, e);
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
     }
-    return isUpdated;  // Return true if the profile was updated, false otherwise
+    
+    return false;
 }
-    public int getQuantityOfAppliedJob(User u){
+
+    public boolean changePassword(String email, String newPassword) {
+    String query = "UPDATE Users SET password = ? WHERE email = ?";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, newPassword); 
+        ps.setString(2, email); 
+        
+        int rowsUpdated = ps.executeUpdate();
+        if (rowsUpdated > 0) {
+            return true; 
+        }
+    } catch (Exception e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+    }
+    
+    return false;
+    }
+
+    public boolean addUserByRegister(User user) {
+    String query = "INSERT INTO Users (user_name, email, password, role, balance, avatar_url, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        
+        ps.setString(1, user.getUserName());
+        ps.setString(2, user.getEmail());
+        ps.setString(3, user.getPassword());
+        ps.setString(4, user.getRole());
+        ps.setInt(5, user.getBalance());
+        ps.setString(6, user.getAvatarUrl());
+        ps.setBoolean(7, user.isStatus());
+        
+        int rowsInserted = ps.executeUpdate();
+        if (rowsInserted > 0) {
+            return true; 
+        }
+    } catch (Exception e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+    }
+    
+    return false;
+}
+
+    public boolean addUserByLoginGoogle(User user) {
+    String query = "INSERT INTO Users (user_name, email, oauth_provider, oauth_id, balance, avatar_url, status) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        
+        ps.setString(1, user.getUserName());
+        ps.setString(2, user.getEmail());
+        ps.setString(3, user.getOauthProvider());
+        ps.setString(4, user.getOauthId());
+        ps.setInt(5, user.getBalance());
+        ps.setString(6, user.getAvatarUrl());
+        ps.setBoolean(7, user.isStatus());
+        
+        int rowsInserted = ps.executeUpdate();
+        if (rowsInserted > 0) {
+            return true; 
+        }
+    } catch (Exception e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+    }
+    
+    return false; 
+}
+
+    public boolean updateRole(String role, String email) {
+    String query = "UPDATE Users SET role = ? WHERE email = ?";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        
+        ps.setString(1, role);
+        ps.setString(2, email);
+        
+        int rowsUpdated = ps.executeUpdate();
+        if (rowsUpdated > 0) {
+            return true; 
+        }
+    } catch (Exception e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+    }
+    
+    return false; 
+}
+
+    public boolean editProfile(User user) {
+    String query = "UPDATE Users SET user_name = ?, description = ?, specification = ?, address = ?, avatar_url = ?, date_of_birth = ? WHERE email = ?";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        
+        ps.setString(1, user.getUserName());
+        ps.setString(2, user.getDescription());
+        ps.setString(3, user.getSpecification());
+        ps.setString(4, user.getAddress());
+        ps.setString(5, user.getAvatarUrl());
+        ps.setDate(6, new java.sql.Date(user.getDateOfBirth().getTime())); // Chuyển đổi sang java.sql.Date
+        ps.setString(7, user.getEmail()); 
+        
+        int rowsUpdated = ps.executeUpdate();
+        if (rowsUpdated > 0) {
+            return true; 
+        }
+    } catch (Exception e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+    }
+    
+    return false; 
+}
+
+    public List<User> getAllEmployers() {
+    List<User> employers = new ArrayList<>();
+    String query = "SELECT * FROM Users WHERE role = 'Employer'";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            User user = new User();
+            user.setUserId(rs.getInt("user_id"));
+            user.setUserName(rs.getString("user_name"));
+            user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
+            user.setOauthProvider(rs.getString("oauth_provider"));
+            user.setOauthId(rs.getString("oauth_id"));
+            user.setRole(rs.getString("role"));
+            user.setBalance(rs.getInt("balance"));
+            user.setDescription(rs.getString("description"));
+            user.setSpecification(rs.getString("specification"));
+            user.setAddress(rs.getString("address"));
+            user.setAvatarUrl(rs.getString("avatar_url"));
+            user.setDateOfBirth(rs.getDate("date_of_birth"));
+            user.setStatus(rs.getBoolean("status"));
+            employers.add(user);
+        }
+    } catch (Exception e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+    }
+    return employers;
+}
+
+    ///Xem xét
+
+    public int getQuantityOfAppliedJob(User u) {
         String sql = """
                      SELECT COUNT(*) AS TotalApplications FROM JobGreetings
                      WHERE job_seeker_id = ?;""";
         int quantityOfAppliedJob = 0;
-        try{
+        try {
             Connection con = dbConnection.openConnection();
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, u.getUserId());
@@ -336,65 +361,50 @@ public class UserDAO {
             while (rs.next()) {
                 quantityOfAppliedJob = rs.getInt(1);
             }
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return quantityOfAppliedJob;
     }
-    public int getQuantityOfPostedJob(User u){
+
+    public int getQuantityOfPostedJob(User u) {
         String sql = """
                      SELECT COUNT(*) AS TotalPost FROM Job
                      WHERE user_id = ?;""";
         int quantityOfPostedJob = 0;
-        try{
+        try {
             Connection con = dbConnection.openConnection();
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, u.getUserId());
             ResultSet rs = statement.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 quantityOfPostedJob = rs.getInt(1);
             }
-        }catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return 0;
-        
-    }
-     public List<User> getAllEmployUsers() {
-        List<User> userList = new ArrayList<>();
-        DBConnection db = DBConnection.getInstance();
-        String sql = "SELECT * FROM Users WHERE role = 'employer';";
-        try {
-            Connection con = db.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            ResultSet rs = statement.executeQuery();
-            System.out.println(rs);
-            while (rs.next()) {
-                int userId = rs.getInt(1);
-                String userName = rs.getNString(2);
-                String email = rs.getString(3);
-                String password = rs.getString(4);
-                String oauthProvider = rs.getString(5);
-                String oauthId = rs.getString(6);
-                String role = rs.getString(7);
-                int balance = rs.getInt(8);
-                String description = rs.getNString(9);
-                String specification = rs.getNString(10);
-                String address = rs.getNString(11);
-                String avatarUrl = rs.getString(12);
-                Boolean status = rs.getBoolean(13);
-                User user = new User(userId, userName, email, password, oauthProvider, oauthId, role, balance,
-                        description, specification, address, avatarUrl, status);
-                userList.add(user);
-            }
-            rs.close();
-            statement.close();
-            con.close();
         } catch (Exception ex) {
             Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return userList;
+        return quantityOfPostedJob;
+
     }
+    
+    public boolean updateBalance(User user) {
+        String sql = "UPDATE Users SET balance = ? WHERE email = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, user.getBalance()); // Đặt giá trị mới cho balance
+            ps.setString(2, user.getEmail()); // Đặt email để tìm người dùng
+
+            int rowsUpdated = ps.executeUpdate(); // Thực hiện cập nhật
+            return rowsUpdated > 0; // Trả về true nếu cập nhật thành công
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra thông báo lỗi
+            return false; // Trả về false nếu có lỗi
+        }
+    }
+    public static void main(String[] args) {
+        UserDAO u = new UserDAO();
+        System.out.println(u.getUserByEmail("myduyenvt31@gmail.com"));
+    }
+
 }
-
-

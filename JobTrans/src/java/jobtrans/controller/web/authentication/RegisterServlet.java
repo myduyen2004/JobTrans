@@ -118,10 +118,9 @@ public class RegisterServlet extends HttpServlet {
         }else{
             role = "Employer";
         }
-        u = new User(username, email, password, u.getDefaultAvatarUrl(), true);
-        u.setRole(role);
+        u = new User(username, email, password, role, 0, true);
+        u.setAvatarUrl("images/default-avatar.jpg");
         if(ud.checkExistEmail(email)==false){
-            
             String otpvalue = RandomGenerator.randString(RandomGenerator.NUMERIC_CHARACTER, 6);
             new Thread(() -> {
                         sendVerificationMail(username, "Xác thực đăng kí", email, otpvalue);
@@ -146,10 +145,10 @@ public class RegisterServlet extends HttpServlet {
                 ud.addUserByRegister(user);
                 request.setAttribute("success", "Thành công! Hãy đăng nhập để tiếp tục");
                 response.getWriter().print(user);
-                request.getRequestDispatcher("home.jsp").forward(request, response);
+                request.getRequestDispatcher("home").forward(request, response);
             } else {
                 request.setAttribute("error", "Xác minh mã OTP thất bại! Vui lòng thử lại");
-                request.getRequestDispatcher("home.jsp").forward(request, response);
+                request.getRequestDispatcher("home").forward(request, response);
             }
         }
     }

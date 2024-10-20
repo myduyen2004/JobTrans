@@ -4,22 +4,43 @@
  */
 package jobtrans.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 
-/**
- *
- * @author admin
- */
 public class CV {
+
     private int cvId;
-    private int educationId;
-    private Date createDate;
-    private String titile;
+    private String title;
     private String summary;
+    private Date createdAt;
+    private int userId;
+    private ArrayList<Certification> listCertification;
+    private ArrayList<Education> listEdu;
+    private ArrayList<Skill> listSkill;
+    private ArrayList<Experience> listExperience;
 
     public CV() {
     }
-    
+
+    public CV(int cvId, String title, String summary, Date createdAt, int userId) {
+        this.cvId = cvId;
+        this.title = title;
+        this.summary = summary;
+        this.createdAt = createdAt;
+        this.userId = userId;
+    }
+
+    public CV(int cvId, String title, String summary, Date createdAt, int userId, ArrayList<Certification> listCertification, ArrayList<Education> listEdu, ArrayList<Skill> listSkill, ArrayList<Experience> listExperience) {
+        this.cvId = cvId;
+        this.title = title;
+        this.summary = summary;
+        this.createdAt = createdAt;
+        this.userId = userId;
+        this.listCertification = listCertification;
+        this.listEdu = listEdu;
+        this.listSkill = listSkill;
+        this.listExperience = listExperience;
+    }
     
 
     public int getCvId() {
@@ -30,28 +51,12 @@ public class CV {
         this.cvId = cvId;
     }
 
-    public int getEducationId() {
-        return educationId;
+    public String getTitle() {
+        return title;
     }
 
-    public void setEducationId(int educationId) {
-        this.educationId = educationId;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
-    }
-
-    public String getTitile() {
-        return titile;
-    }
-
-    public void setTitile(String titile) {
-        this.titile = titile;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getSummary() {
@@ -61,6 +66,58 @@ public class CV {
     public void setSummary(String summary) {
         this.summary = summary;
     }
-    
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    public ArrayList<Certification> getListCertification() {
+        return listCertification;
+    }
+
+    public void setListCertification(ArrayList<Certification> listCertification) {
+        this.listCertification = listCertification;
+    }
+
+    public ArrayList<Education> getListEdu() {
+        return listEdu;
+    }
+
+    public void setListEdu(ArrayList<Education> listEdu) {
+        this.listEdu = listEdu;
+    }
+
+    public ArrayList<Skill> getListSkill() {
+        return listSkill;
+    }
+
+    public void setListSkill(ArrayList<Skill> listSkill) {
+        this.listSkill = listSkill;
+    }
+
+    public ArrayList<Experience> getListExperience() {
+        return listExperience;
+    }
+
+    public void setListExperience(ArrayList<Experience> listExperience) {
+        this.listExperience = listExperience;
+    }
+
+    @Override
+    public String toString() {
+        return "CV{" + "cvId=" + cvId + ", title=" + title + ", summary=" + summary + ", createdAt=" + createdAt + ", userId=" + userId + ", listCertification=" + listCertification + ", listEdu=" + listEdu + ", listSkill=" + listSkill + ", listExperience=" + listExperience + '}';
+    }
     
 }

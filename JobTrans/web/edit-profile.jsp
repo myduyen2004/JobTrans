@@ -5,247 +5,109 @@
 --%>
 
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="en">
-
-    <!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-settings.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:35:14 GMT -->
     <head>
-
-        <!-- Basic Page Needs
-        ================================================== -->
-        <title>JobTrans</title>
+        <title>Chỉnh sửa hồ sơ</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-        <!-- CSS
-        ================================================== -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/colors/blue.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
     </head>
     <body class="gray">
-
-        <!-- Wrapper -->
         <div id="wrapper">
-
-            <!-- Header Container
-            ================================================== -->
             <%@include file="/includes/header.jsp" %>
-            <div class="clearfix"></div>
-            <!-- Header Container / End -->
-
-
-            <!-- Dashboard Container -->
             <div class="dashboard-container">
-
-                <!-- Dashboard Sidebar
-                ================================================== -->
-                <div class="dashboard-sidebar">
-                    <div class="dashboard-sidebar-inner" data-simplebar>
-                            <div class="dashboard-nav-container">
-
-                                    <!-- Responsive Navigation Trigger -->
-                                    <a href="#" class="dashboard-responsive-nav-trigger">
-                                            <span class="hamburger hamburger--collapse">
-                                                    <span class="hamburger-box">
-                                                            <span class="hamburger-inner"></span>
-                                                    </span>
-                                            </span>
-                                            <span class="trigger-title">Điều Hướng</span>
-                                    </a>
-
-                                    <!-- Navigation -->
-                                    <div class="dashboard-nav">
-                                            <div class="dashboard-nav-inner">
-
-                                                    <ul data-submenu-title="Bắt đầu">
-                                                            <li><a href="dashboard.html"><i class="icon-material-outline-dashboard"></i> Bảng Điều Khiển</a></li>
-                                                            <li><a href="dashboard-messages.html"><i class="icon-material-outline-question-answer"></i> Tin Nhắn <span class="nav-tag">2</span></a></li>
-                                                            <li><a href="dashboard-bookmarks.html"><i class="icon-material-outline-star-border"></i> Đánh Dấu</a></li>
-                                                            <li><a href="dashboard-reviews.html"><i class="icon-material-outline-rate-review"></i> Đánh Giá</a></li>
-                                                    </ul>
-
-                                                    <ul data-submenu-title="Tổ chức và Quản lý">
-                                                            <li><a href="#"><i class="icon-material-outline-business-center"></i> Công Việc</a>
-                                                                    <ul>
-                                                                            <li><a href="dashboard-manage-jobs.html">Quản Lý Công Việc <span class="nav-tag">3</span></a></li>
-                                                                            <li><a href="dashboard-manage-candidates.html">Quản Lý Ứng Viên</a></li>
-                                                                            <li><a href="dashboard-post-a-job.html">Đăng Vông Việc</a></li>
-                                                                    </ul>	
-                                                            </li>
-                                                            <li><a href="#"><i class="icon-material-outline-assignment"></i> Nhiệm Vụ</a>
-                                                                    <ul>
-                                                                            <li><a href="dashboard-manage-tasks.html">Quản Lý Nhiệm Vụ <span class="nav-tag">2</span></a></li>
-                                                                            <li><a href="dashboard-manage-bidders.html">Quản Lý Người Đấu Thầu</a></li>
-                                                                            <li><a href="dashboard-my-active-bids.html">Đấu Thầu Đang Hoạt Động <span class="nav-tag">4</span></a></li>
-                                                                            <li><a href="dashboard-post-a-task.html">Đăng Nhiệm Vụ</a></li>
-                                                                    </ul>	
-                                                            </li>
-                                                    </ul>
-
-                                                    <ul data-submenu-title="Tài khoản">
-                                                            <li class="active"><a href="dashboard-settings.html"><i class="icon-material-outline-settings"></i> Cài Đặt</a></li>
-                                                            <li><a href="index-logged-out.html"><i class="icon-material-outline-power-settings-new"></i> Đăng Xuất</a></li>
-                                                    </ul>
-
-                                            </div>
-                                    </div>
-                                    <!-- Navigation / End -->
-
-                            </div>
-                    </div>
-                </div>
-                <!-- Dashboard Sidebar / End -->
-
-
-                <!-- Dashboard Content
-                ================================================== -->
+                <%@include file="/includes/sidebar.jsp" %>
                 <div class="dashboard-content-container" data-simplebar>
-                    <form action="UpdateServlet" method="post" enctype="multipart/form-data">
-                    <div class="dashboard-content-inner" >
+                    <form action="profile" method="post" enctype="multipart/form-data">
+                        <div class="dashboard-content-inner" >
+                            <div class="dashboard-headline">
+                                <h3>Sửa thông tin</h3>
+                            </div>
+                            <div class="row">
 
-                        <!-- Dashboard Headline -->
-                        <div class="dashboard-headline">
-                            <h3>Cài Đặt</h3>
-
-                            <!-- Breadcrumbs -->
-                            <nav id="breadcrumbs" class="dark">
-                                <ul>
-                                    <li><a href="#">Trang Chủ</a></li>
-                                    <li><a href="#">Bảng Điều Khiển</a></li>
-                                    <li>Cài Đặt</li>
-                                </ul>
-                            </nav>
-                        </div>
-
-                        <!-- Row -->
-                        <div class="row">
-
-                            <!-- Dashboard Box -->
-                            <div class="col-xl-12">
-                                <div class="dashboard-box margin-top-0">
-
-                                    <!-- Headline -->
-                                    <div class="headline">
-                                        <h3><i class="icon-material-outline-account-circle"></i> Tài Khoản Của Tôi</h3>
-                                    </div>
-
-                                    <div class="content with-padding padding-bottom-0">
-                                        
-                                        <div class="row">
-
-                                            <div class="col-auto">
-                                                <div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
-                                                    <img class="profile-pic" src="${User.avatarUrl != null ? User.avatarUrl : 'images/user-avatar-placeholder.png'}" alt="" />
-                                                    <div class="upload-button"></div>
-                                                    <input class="file-upload" type="file" name="avatar" accept="image/*"/>
+                                <div class="col-xl-12">
+                                    <div class="dashboard-box margin-top-0">
+                                        <div class="headline">
+                                            <h3><i class="icon-material-outline-account-circle"></i> Tài Khoản Của Tôi</h3>
+                                        </div>
+                                        <div class="content with-padding padding-bottom-0">
+                                            <div class="row">
+                                                <div class="col-auto">
+                                                    <div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
+                                                        <img class="profile-pic" src="${User.avatarUrl}" alt="" />
+                                                        <div class="upload-button"></div>
+                                                        <input class="file-upload" type="file" name="avatar" value="${User.avatarUrl}" accept="image/*"/>
+                                                        <input type="hidden" name="avatemp" value="${User.avatarUrl}" accept="image/*"/>
+                                                    </div>
                                                 </div>
-                                            </div>
+                                                <div class="col">
+                                                    <div class="row">
 
-                                            <div class="col">
-                                                <div class="row">
-
-                                                    <div class="col-xl-6">
-                                                        <div class="submit-field">
-                                                            <h5>Tên Người Dùng: </h5>
-                                                            <input type="text" class="with-border" name="user_name" value="${User.userName}">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-6">
-                                                        <div class="submit-field">
-                                                            <h5>Chuyên Môn: </h5>
-                                                            <input type="text" name="specification" class="with-border" }">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-xl-6">
-                                                        <div class="submit-field">
-                                                            <h5>Địa Chỉ: </h5>
-                                                            <input type="text" name="address" class="with-border" }">
-                                                        </div>
-                                                    </div>
-
-
-                                                    <div class="col-xl-6">
-                                                        <!-- Account Type -->
-                                                        <div class="submit-field">
-                                                            <h5>Loại tài khoản</h5>
-                                                            <div class="account-type">
-                                                                <div>
-                                                                    <input type="radio" name="account-type-radio" value ="Seeker" id="freelancer-radio" class="account-type-radio" checked/>
-                                                                    <label for="freelancer-radio" class="ripple-effect-dark"><i class="icon-material-outline-account-circle"></i> Freelancer</label>
-                                                                </div>
-
-                                                                <div>
-                                                                    <input type="radio" name="account-type-radio" value ="Employer" id="employer-radio" class="account-type-radio"/>
-                                                                    <label for="employer-radio" class="ripple-effect-dark"><i class="icon-material-outline-business-center"></i> Nhà Tuyển Dụng</label>
-                                                                </div>
+                                                        <div class="col-xl-6">
+                                                            <div class="submit-field">
+                                                                <h5>Tên Người Dùng: </h5>
+                                                                <input type="text" class="with-border" name="user_name" value="${User.userName}">
                                                             </div>
                                                         </div>
+                                                        <div class="col-xl-6">
+                                                            <div class="submit-field">
+                                                                <h5>Chuyên Môn: </h5>
+                                                                <input type="text" name="specification" class="with-border" value="${User.specification}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6">
+                                                            <div class="submit-field">
+                                                                <h5>Địa Chỉ: </h5>
+                                                                <input type="text" name="address" class="with-border" value="${User.address}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xl-6">
+                                                            <div class="submit-field">
+                                                                <h5>Ngày Sinh: </h5>
+                                                                <input type="date" name="birthdate" class="with-border" value="${User.dateOfBirth}">
+                                                            </div>
+                                                        </div>
+
+
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                                        
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Dashboard Box -->
-                            <div class="col-xl-12">
-                                <div class="dashboard-box">
-                                    <div class="col-xl-12">
-                                        <div class="submit-field">
-                                            <h5>Giới Thiệu Bản Thân</h5>
-                                            <textarea cols="30" rows="5"  placeholder="Nhập mô tả" name="description" class="with-border"}"></textarea>
                                         </div>
                                     </div>
-
                                 </div>
-                                </li>
-                                </ul>
+
+                                <div class="col-xl-12">
+                                    <div class="dashboard-box">
+                                        <div class="col-xl-12">
+                                            <div class="submit-field">
+                                                <h5>Giới Thiệu Bản Thân</h5>
+                                                <textarea cols="30" rows="5"  placeholder="Nhập mô tả" name="description" class="with-border" value="${User.description}"></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-12">
-                        <input type="submit" class="button ripple-effect big margin-top-30"></a>
-                    </div>
-</form>
+                        <div class="col-xl-12">
+                            <input type="submit" class="button ripple-effect big margin-top-30" value="Thay đổi"></a>
+                        </div>
+                    </form>
+                    <%@include file="/includes/subfooter.jsp" %>
                 </div>
                 <!-- Row / End -->
 
                 <!-- Footer -->
-                <div class="dashboard-footer-spacer"></div>
-                <div class="small-footer margin-top-15">
-                    <div class="small-footer-copyrights">
-                        © 2024 <strong>JOBTRANS</strong>. All Rights Reserved.
-                    </div>
-                    <ul class="footer-social-links">
-                        <li>
-                            <a href="#" title="Facebook" data-tippy-placement="top">
-                                <i class="icon-brand-facebook-f"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" title="Twitter" data-tippy-placement="top">
-                                <i class="icon-brand-twitter"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" title="Google Plus" data-tippy-placement="top">
-                                <i class="icon-brand-google-plus-g"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" title="LinkedIn" data-tippy-placement="top">
-                                <i class="icon-brand-linkedin-in"></i>
-                            </a>
-                        </li>
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
+
                 <!-- Footer / End -->
 
             </div>
@@ -389,13 +251,13 @@
 <!-- Google API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaoOT9ioUE4SA8h-anaFyU4K63a7H-7bc&amp;libraries=places&amp;callback=initAutocomplete"></script>
 <script>
-        // Kiểm tra xem có thông báo thành công hay không
-            <% if (request.getAttribute("success") != null) { %>
-                toastr.success('<%= request.getAttribute("success") %>');
-            <% } %>
-            <% if (request.getAttribute("error") != null) { %>
-                toastr.error('<%= request.getAttribute("error") %>');
-            <% } %>
+    // Kiểm tra xem có thông báo thành công hay không
+    <% if (request.getAttribute("success") != null) { %>
+    toastr.success('<%= request.getAttribute("success") %>');
+    <% } %>
+    <% if (request.getAttribute("error") != null) { %>
+    toastr.error('<%= request.getAttribute("error") %>');
+    <% } %>
 </script>
 
 </body>

@@ -6,7 +6,11 @@ package jobtrans.utils;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -26,4 +30,10 @@ public class DateTimeUtils {
         String formattedDateTime = currentDateTime.format(formatter);
         return formattedDateTime;
     }
+    public long countdownDays(Date dueDate) {
+    Date currentDate = new Date(); // Lấy ngày hiện tại
+    long diffInMillies = dueDate.getTime() - currentDate.getTime();
+    return TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS); 
+}
+
 }

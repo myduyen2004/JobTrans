@@ -1,63 +1,30 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page import="jobtrans.model.User" %>
 <!doctype html>
 <html lang="en">
-
-    <!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-settings.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:35:14 GMT -->
     <head>
-
-        <!-- Basic Page Needs
-        ================================================== -->
-        <title>JobTrans</title>
+        <jsp:useBean id="userDAO" class="jobtrans.dal.UserDAO" scope="session"></jsp:useBean>
+        <title>Hồ sơ của tôi</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-        <!-- CSS
-        ================================================== -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/colors/blue.css">
-
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     </head>
     <body class="gray">
-
         <!-- Wrapper -->
         <div id="wrapper">
 
-            <!-- Header Container
-            ================================================== -->
             <%@include file="/includes/header.jsp" %>
-            <div class="clearfix"></div>
-            <!-- Header Container / End -->
-
-
-            <!-- Dashboard Container -->
             <div class="dashboard-container">
-
-                <!-- Dashboard Sidebar
-                ================================================== -->
                 <%@include file="/includes/sidebar.jsp" %>
-
-                <!-- Dashboard Sidebar / End -->
-
-
-                <!-- Dashboard Content
-                ================================================== -->
                 <div class="dashboard-content-container" data-simplebar>
                     <div class="dashboard-content-inner" >
-
-                        <!-- Dashboard Headline -->
                         <div class="dashboard-headline">
-                            <h3>Settings</h3>
-
-                            <!-- Breadcrumbs -->
-                            <nav id="breadcrumbs" class="dark">
-                                <ul>
-                                    <li><a href="#">Trang Chủ</a></li>
-                                    <li><a href="#">Bảng Điều Khiển</a></li>
-                                    <li>Cài Đặt</li>
-                                </ul>
-                            </nav>
+                            <h3>Thông tin</h3>
                         </div>
-
                         <!-- Row -->
                         <div class="row">
 
@@ -73,13 +40,11 @@
                                     <div class="content with-padding padding-bottom-0">
 
                                         <div class="row">
+
                                             <div class="col-auto">
-                                                <div class="avatar-wrapper" data-tippy-placement="bottom" title="Change Avatar">
-
-                                                    <img class="profile-pic" src="${user.avatarUrl != null ? user.avatarUrl : 'images/user-avatar-placeholder.png'}" alt="Profile Picture" />
-
-                                                    <div class="upload-button"></div>
-                                                    <input class="file-upload" type="file" accept="image/*"/>
+                                                <div class="avatar-wrapper" data-tippy-placement="bottom">
+                                                    <img class="profile-pic" src="${user.avatarUrl}" alt="Profile Picture" />
+                                                
                                                 </div>
                                             </div>
 
@@ -87,7 +52,6 @@
                                                 <div class="row">
                                                     <div class="col-xl-6">
                                                         <div class="submit-field">
-
                                                             <% 
                                                              role = session.getAttribute("role");
                                                             if (role.equals("Employer")) { 
@@ -118,14 +82,23 @@
                                                             <div class="account-type">
                                                                 <div>
                                                                     <span class="with-border">
-                                                                        <i class="icon-material-outline-account-circle"></i> 
-                                                                        ${user.role}
+                                                                        <%if (role.equals("Employer")) { %>
+                                                                        <i class="icon-material-outline-account-circle"></i> Nhà tuyển dụng
+                                                                        <%}%>
+                                                                        <%if (role.equals("Seeker")) { %>
+                                                                        <i class="icon-material-outline-account-circle"></i> Người tìm việc
+                                                                        <%}%>
                                                                     </span>
                                                                 </div>
                                                             </div>
                                                         </div>
+
                                                     </div>
                                                     <div class="col-xl-6">
+                                                        <div class="submit-field">
+                                                            <h5>Địa chỉ</h5>
+                                                            <span class="with-border">${user.address}</span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -150,17 +123,16 @@
                                                 <div class="row">
                                                     <div class="col-xl-4">
                                                         <div class="submit-field">
-                                                            <div class="bidding-widget">
-                                                                <!-- Headline -->
-                                                                <%if (role.equals("Employer")) { %>
-                                                                <span class="bidding-detail">Số Lượng <strong>Công Việc Đã Đăng</strong></span>
-                                                                <span class="with-border">${user.getQuantityOfPostedJob()}</span>
-                                                                <%}%>
-                                                                <%if (role.equals("Seeker")) { %>
-                                                                <span class="bidding-detail">Số Lượng <strong>Công Việc Đã Ứng Tuyển</strong></span>
-                                                                <span class="with-border">${user.getQuantityOfAppliedJob()}</span>
-                                                                <%}%>
-                                                            </div>
+
+                                                            <!-- Headline -->
+                                                            <%if (role.equals("Employer")) { %>
+                                                            <h5>Số Lượng Công Việc Đã Đăng</h5>
+                                                            <span class="with-border">${userDAO.getQuantityOfPostedJob(user)}</span>
+                                                            <%}%>
+                                                            <%if (role.equals("Seeker")) { %>
+                                                            <h5>Số Lượng Công Việc Đã Ứng Tuyển</h5>
+                                                            <span class="with-border">${userDAO.getQuantityOfAppliedJob(user)}</span>
+                                                            <%}%>
                                                         </div>
                                                     </div>
 
@@ -190,23 +162,6 @@
                                             <li>
                                                 <div class="row">
 
-                                                    <!-- Tagline Field -->
-                                                    <div class="col-xl-6">
-                                                        <div class="submit-field">
-                                                            <h5>Vai Trò</h5>
-                                                            <span class="with-border">${user.role}</span>  
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Nationality Field -->
-                                                    <div class="col-xl-6">
-                                                        <div class="submit-field">
-                                                            <h5>Địa Chỉ</h5>
-                                                            <span class="with-border">${user.address}</span>
-                                                        </div>
-                                                    </div>
-
-                                                    <!-- Introduction Field -->
                                                     <div class="col-xl-12">
                                                         <div class="submit-field">
                                                             <h5>Mô Tả Về Chúng Tôi</h5>
@@ -221,65 +176,14 @@
                                     </div>
                                 </div>
                             </div>
-
-
-                            <!-- Button -->
-                            <div class="col-xl-6">
-                                <a href="profile?action=loadPassword" class="button ripple-effect big margin-top-30">Đổi Mật Khẩu</a>
-                            </div>
-
-                            <div class="col-xl-6">
-                                <a href="UpdateServlet?action=load" class="button ripple-effect big margin-top-30">Chỉnh Sửa Thông Tin</a>
-                            </div>
                         </div>
-
-                        <!-- Row / End -->
-
-                        <!-- Footer -->
-                        <div class="dashboard-footer-spacer"></div>
-                        <div class="small-footer margin-top-15">
-                            <div class="small-footer-copyrights">
-                                © 2024<strong>JOBTRANS</strong>. All Rights Reserved.
-                            </div>
-                            <ul class="footer-social-links">
-                                <li>
-                                    <a href="#" title="Facebook" data-tippy-placement="top">
-                                        <i class="icon-brand-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" title="Twitter" data-tippy-placement="top">
-                                        <i class="icon-brand-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" title="Google Plus" data-tippy-placement="top">
-                                        <i class="icon-brand-google-plus-g"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" title="LinkedIn" data-tippy-placement="top">
-                                        <i class="icon-brand-linkedin-in"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <!-- Footer / End -->
-
+                        <%@include file="/includes/subfooter.jsp" %>
                     </div>
                 </div>
-                <!-- Dashboard Content / End -->
 
             </div>
-            <!-- Dashboard Container / End -->
 
         </div>
-        <!-- Wrapper / End -->
-
-
-        <!-- Scripts
-        ================================================== -->
         <script src="js/jquery-3.4.1.min.js"></script>
         <script src="js/jquery-migrate-3.1.0.min.html"></script>
         <script src="js/mmenu.min.js"></script>
@@ -404,24 +308,15 @@
                 }
             }
         </script>
-
-
-        <!-- Ẩn và hiện mật khẩu -->
         <script>
-            document.getElementById('togglePassword').addEventListener('click', function () {
-                var passwordField = document.getElementById('password');
-                var passwordIcon = document.getElementById('passwordIcon');
-                if (passwordField.type === 'password') {
-                    passwordField.type = 'text';
-                    passwordIcon.classList.remove('fa-eye');
-                    passwordIcon.classList.add('fa-eye-slash');
-                } else {
-                    passwordField.type = 'password';
-                    passwordIcon.classList.remove('fa-eye-slash');
-                    passwordIcon.classList.add('fa-eye');
-                }
-            });
-        </script>
+    // Kiểm tra xem có thông báo thành công hay không
+    <% if (request.getAttribute("success") != null) { %>
+    toastr.success('<%= request.getAttribute("success") %>');
+    <% } %>
+    <% if (request.getAttribute("error") != null) { %>
+    toastr.error('<%= request.getAttribute("error") %>');
+    <% } %>
+</script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaoOT9ioUE4SA8h-anaFyU4K63a7H-7bc&amp;libraries=places&amp;callback=initAutocomplete"></script>
     </body>
 </html>

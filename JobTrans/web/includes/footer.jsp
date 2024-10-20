@@ -22,7 +22,7 @@
 						<div class="footer-rows-left">
 							<div class="footer-row">
 								<div class="footer-row-inner footer-logo">
-									<img src="images/logo2.png" alt="">
+									<img src="images/logo.png" alt="">
 								</div>
 							</div>
 						</div>
@@ -58,22 +58,9 @@
 									<div class="clearfix"></div>
 								</div>
 							</div>
-							
-							<!-- Chuyển Đổi Ngôn Ngữ -->
-							<div class="footer-row">
-								<div class="footer-row-inner">
-									<select class="selectpicker language-switcher" data-selected-text-format="count" data-size="5">
-										<option selected>Tiếng Việt</option>
-										<option>Tiếng Anh</option>
-										<option>Tiếng Tây Ban Nha</option>
-										<option>Tiếng Hàn</option>
-									</select>
-								</div>
-							</div>
 						</div>
 
 					</div>
-					<!-- Container Các Hàng Của Footer / Kết Thúc -->
 				</div>
 			</div>
 		</div>
@@ -84,47 +71,18 @@
 	<div class="footer-middle-section">
 		<div class="container">
 			<div class="row">
-
-				<!-- Liên Kết -->
-				<div class="col-xl-2 col-lg-2 col-md-3">
-					<div class="footer-links">
-						<h3>Dành Cho Ứng Viên</h3>
-						<ul>
-							<li><a href="#"><span>Tìm Việc</span></a></li>
-							<li><a href="#"><span>Thêm Hồ Sơ</span></a></li>
-							<li><a href="#"><span>Thông Báo Việc Làm</span></a></li>
-							<li><a href="#"><span>Dấu Trang Của Tôi</span></a></li>
-						</ul>
-					</div>
-				</div>
-
-				<!-- Liên Kết -->
-				<div class="col-xl-2 col-lg-2 col-md-3">
-					<div class="footer-links">
-						<h3>Dành Cho Nhà Tuyển Dụng</h3>
-						<ul>
-							<li><a href="#"><span>Tìm Ứng Viên</span></a></li>
-							<li><a href="#"><span>Đăng Tuyển Dụng</span></a></li>
-							<li><a href="#"><span>Đăng Công Việc</span></a></li>
-							<li><a href="#"><span>Kế Hoạch & Giá</span></a></li>
-						</ul>
-					</div>
-				</div>
-
-				<!-- Liên Kết -->
-				<div class="col-xl-2 col-lg-2 col-md-3">
+				<div class="col-xl-6 col-lg-6 col-md-6">
 					<div class="footer-links">
 						<h3>Liên Kết Hữu Ích</h3>
 						<ul>
 							<li><a href="#"><span>Liên Hệ</span></a></li>
-							<li><a href="#"><span>Chính Sách Bảo Mật</span></a></li>
 							<li><a href="#"><span>Điều Khoản Sử Dụng</span></a></li>
 						</ul>
 					</div>
 				</div>
 
 				<!-- Liên Kết -->
-				<div class="col-xl-2 col-lg-2 col-md-3">
+				<div class="col-xl-6 col-lg-6 col-md-6">
 					<div class="footer-links">
 						<h3>Tài Khoản</h3>
 						<ul>
@@ -133,22 +91,9 @@
 						</ul>
 					</div>
 				</div>
-
-				<!-- Bản Tin -->
-				<div class="col-xl-4 col-lg-4 col-md-12">
-					<h3><i class="icon-feather-mail"></i> Đăng Ký Nhận Bản Tin</h3>
-					<p>Thông tin nóng hổi hàng tuần, phân tích và lời khuyên về tìm việc.</p>
-					<form action="#" method="get" class="newsletter">
-						<input type="text" name="fname" placeholder="Nhập địa chỉ email của bạn">
-						<button type="submit"><i class="icon-feather-arrow-right"></i></button>
-					</form>
-				</div>
 			</div>
 		</div>
 	</div>
-	<!-- Phần Giữa Của Footer / Kết Thúc -->
-	
-	<!-- Bản Quyền Footer -->
 	<div class="footer-bottom-section">
 		<div class="container">
 			<div class="row">

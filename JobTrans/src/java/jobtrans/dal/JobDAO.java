@@ -5,27 +5,26 @@ package jobtrans.dal;
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import jobtrans.model.Job;
-import jobtrans.model.Category;
-import jobtrans.model.JobGreetings;
-import jobtrans.model.User;
 import jobtrans.utils.DBConnection;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import jobtrans.model.User;
 
 /**
  *
  * @author admin
  */
 public class JobDAO {
-    private static final Logger logger = Logger.getLogger(JobDAO.class.getName());
     private final DBConnection dbConnection;
     private UserDAO userDao = new UserDAO();
     private JobGreetingDAO jobGreetingDao = new JobGreetingDAO();
@@ -33,87 +32,14 @@ public class JobDAO {
     public JobDAO() {
         dbConnection = DBConnection.getInstance();
     }
-    public List<Job> getAllJobs() {
-    DBConnection db = DBConnection.getInstance();
-    List<Job> jobs = new ArrayList<>();
-    String sql = "SELECT * FROM Job;";
-
-    try (Connection con = db.openConnection();
-         PreparedStatement statement = con.prepareStatement(sql);
-         ResultSet rs = statement.executeQuery()) {
-
-        while (rs.next()) {
-            // Extract data from each row and create a Job object
-            int jobId = rs.getInt("job_id");
-            int userId = rs.getInt("user_id");
-            String jobTitle = rs.getString("job_title");
-            int budget = rs.getInt("budget");
-            String description = rs.getString("description");
-            java.sql.Date dueDate = rs.getDate("due_date");
-            String status = rs.getString("status");
-            int categoryId = rs.getInt("category_id");
-            String employerFeedback = rs.getString("employer_feedback");
-            String seekerFeedback = rs.getString("seeker_feedback");
-            double secureWallet = rs.getInt(11);
-            // Add the Job object to the list
-            Job job = new Job(userId, jobId, jobTitle, budget, description, dueDate, status, categoryId, employerFeedback, seekerFeedback,secureWallet);
-            jobs.add(job);
-        }
-
-    } catch (SQLException ex) {
-        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "SQL error while fetching all jobs", ex);
-    } catch (Exception ex) {
-        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Unexpected error while fetching all jobs", ex);
-    }
-
-    return jobs;
-}
-    public Job getJobById(int jobId) {
-        Job job = null;
-        Category cat;
-        String sql = "SELECT * FROM Job WHERE job_id = ?";
+    public List<Job> getAllJob() {
+        List<Job> jobs = new ArrayList<>();
+        String query = "SELECT * FROM Job";
+        
         try {
             Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setInt(1, jobId);
-
-            ResultSet rs = statement.executeQuery();
-            if (rs.next()) {
-                job = new Job();
-                job.setJobId(rs.getInt("job_id"));
-                job.setUserId(rs.getInt("user_id"));
-                job.setJobTitle(rs.getString("job_title"));
-                job.setBudget(rs.getInt("budget"));
-                job.setDescription(rs.getString("description"));
-                job.setDueDate(rs.getDate("due_date"));
-                job.setStatus(rs.getString("status"));
-                job.setCategoryId(rs.getInt("category_id"));
-                job.setEmpFeedback(rs.getString("employer_feedback"));
-                job.setSeekerFeedback(rs.getString("seeker_feedback"));
-                job.setSecureWallet(rs.getInt("secure_wallet"));
-                job.setDocURL(rs.getString("doc_URL"));
-                job.setInterviewURL(rs.getString("interview_URL"));
-                job.setInterviewDate(rs.getDate("interview_Date"));
-                job.setAddress(rs.getString("address"));
-            }
-            rs.close();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return job;
-    }
-    public List<Job> getJobsByUserId(int userId) {
-        List<Job> listJob = new ArrayList<>();
-        DBConnection db = DBConnection.getInstance();
-        String sql = "SELECT * FROM [dbo].[Job] WHERE user_id = ?";
-
-        try (Connection con = db.openConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
-
-            statement.setInt(1, userId);
-            ResultSet rs = statement.executeQuery();
-
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Job job = new Job();
                 job.setJobId(rs.getInt("job_id"));
@@ -124,172 +50,218 @@ public class JobDAO {
                 job.setDueDate(rs.getDate("due_date"));
                 job.setStatus(rs.getString("status"));
                 job.setCategoryId(rs.getInt("category_id"));
-                job.setEmpFeedback(rs.getString("employer_feedback"));
+                job.setEmployerFeedback(rs.getString("employer_feedback"));
                 job.setSeekerFeedback(rs.getString("seeker_feedback"));
                 job.setSecureWallet(rs.getInt("secure_wallet"));
-                job.setDocURL(rs.getString("doc_URL"));
-                job.setInterviewURL(rs.getString("interview_URL"));
+                job.setDocUrl(rs.getString("doc_URL"));
+                job.setInterviewUrl(rs.getString("interview_URL"));
                 job.setInterviewDate(rs.getDate("interview_Date"));
                 job.setAddress(rs.getString("address"));
-                
-                listJob.add(job); // Thêm job vào danh sách
+                job.setLabelVerify(rs.getString("label_verify"));
+                jobs.add(job);
             }
-            rs.close();
-            statement.close();
-            con.close();
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error while fetching jobs for user ID " + userId, ex);
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, "An unexpected error occurred while fetching jobs for user ID " + userId, ex);
+        } catch (Exception e) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
         }
-
-        return listJob;
+        return jobs;
     }
-
-    public void updateJobStatusAndDeposit(Job job) {
-        String sql = "UPDATE Job SET status = ? AND secure_wallet = secure_wallet + ? WHERE job_id = ?";
+    
+    public Job getJobByJobId(int jobId) {
+        Job job = null;
+        String query = "SELECT * FROM Job WHERE job_id = ?";
+        
         try {
             Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, job.getStatus());
-            statement.setDouble(2, job.getSecureWallet());
-            statement.setInt(3, job.getJobId());
-            statement.execute();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                job = new Job();
+                job.setJobId(rs.getInt("job_id"));
+                job.setUserId(rs.getInt("user_id"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setBudget(rs.getInt("budget"));
+                job.setDescription(rs.getString("description"));
+                job.setDueDate(rs.getDate("due_date"));
+                job.setStatus(rs.getString("status"));
+                job.setCategoryId(rs.getInt("category_id"));
+                job.setEmployerFeedback(rs.getString("employer_feedback"));
+                job.setSeekerFeedback(rs.getString("seeker_feedback"));
+                job.setSecureWallet(rs.getInt("secure_wallet"));
+                job.setDocUrl(rs.getString("doc_URL"));
+                job.setInterviewUrl(rs.getString("interview_URL"));
+                job.setInterviewDate(rs.getDate("interview_Date"));
+                job.setAddress(rs.getString("address"));
+                job.setLabelVerify(rs.getString("label_verify"));
+            }
+        } catch (Exception e) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
         }
+        return job;
     }
-    public void updateJobStatus(Job job) {
-        String sql = "UPDATE Job SET status = ? WHERE job_id = ?";
+
+    public List<Job> getJobByUserId(int userId) {
+        List<Job> jobs = new ArrayList<>();
+        String query = "SELECT * FROM Job WHERE user_id = ?";
+        
         try {
             Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, job.getStatus());
-            statement.setInt(2, job.getJobId());
-            statement.execute();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job();
+                job.setJobId(rs.getInt("job_id"));
+                job.setUserId(rs.getInt("user_id"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setBudget(rs.getInt("budget"));
+                job.setDescription(rs.getString("description"));
+                job.setDueDate(rs.getDate("due_date"));
+                job.setStatus(rs.getString("status"));
+                job.setCategoryId(rs.getInt("category_id"));
+                job.setEmployerFeedback(rs.getString("employer_feedback"));
+                job.setSeekerFeedback(rs.getString("seeker_feedback"));
+                job.setSecureWallet(rs.getInt("secure_wallet"));
+                job.setDocUrl(rs.getString("doc_URL"));
+                job.setInterviewUrl(rs.getString("interview_URL"));
+                job.setInterviewDate(rs.getDate("interview_Date"));
+                job.setAddress(rs.getString("address"));
+                job.setLabelVerify(rs.getString("label_verify"));
+                jobs.add(job);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return jobs;
+    }
+    
+    public List<Job> getJobByCategory(int categoryId) {
+        List<Job> jobs = new ArrayList<>();
+        String query = "SELECT * FROM Job WHERE category_id = ?";
+        
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, categoryId);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job();
+                job.setJobId(rs.getInt("job_id"));
+                job.setUserId(rs.getInt("user_id"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setBudget(rs.getInt("budget"));
+                job.setDescription(rs.getString("description"));
+                job.setDueDate(rs.getDate("due_date"));
+                job.setStatus(rs.getString("status"));
+                job.setCategoryId(rs.getInt("category_id"));
+                job.setEmployerFeedback(rs.getString("employer_feedback"));
+                job.setSeekerFeedback(rs.getString("seeker_feedback"));
+                job.setSecureWallet(rs.getInt("secure_wallet"));
+                job.setDocUrl(rs.getString("doc_URL"));
+                job.setInterviewUrl(rs.getString("interview_URL"));
+                job.setInterviewDate(rs.getDate("interview_Date"));
+                job.setAddress(rs.getString("address"));
+                job.setLabelVerify(rs.getString("label_verify"));
+                jobs.add(job);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return jobs;
+    }
+
+    public boolean updateInterview(int jobId, String interviewUrl, Date interviewDate) {
+        String query = "UPDATE Job SET interview_URL = ?, interview_Date = ? WHERE job_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, interviewUrl);
+            ps.setDate(2, new java.sql.Date(interviewDate.getTime()));
+            ps.setInt(3, jobId);
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0; // Trả về true nếu có bản ghi được cập nhật
+        } catch (Exception e) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
         }
     }
-     
-    public List<Job> getJobsByCategoryIdExcludingJobId(String categoryIdStr, String excludeJobIdStr) {
-    DBConnection db = DBConnection.getInstance();
-    List<Job> jobs = new ArrayList<>();
-    String sql = "SELECT * FROM Job WHERE category_id = ? AND job_id != ?;";
-
-    try (Connection con = db.openConnection();
-         PreparedStatement statement = con.prepareStatement(sql)) {
-
-        // Convert categoryIdStr and excludeJobIdStr to integers
-        int categoryId = Integer.parseInt(categoryIdStr);
-        int excludeJobId = Integer.parseInt(excludeJobIdStr);
-
-        // Bind categoryId and excludeJobId to the SQL query
-        statement.setInt(1, categoryId);
-        statement.setInt(2, excludeJobId);
-
-        ResultSet rs = statement.executeQuery();
-
-        while (rs.next()) {
-            // Extract data from result set and create Job object
-            int userId = rs.getInt("user_id");
-            int jobId = rs.getInt("job_id");
-            String jobTitle = rs.getString("job_title");
-            int budget = rs.getInt("budget");
-            String description = rs.getString("description");
-            java.sql.Date dueDate = rs.getDate("due_date");
-            String  status = rs.getString("status");
-            String employerFeedback = rs.getString("employer_feedback");
-            String seekerFeedback = rs.getString("seeker_feedback");
-            double secureWallet = rs.getInt(11);
-            // Create a Job object using the data
-            Job job = new Job(userId, jobId, jobTitle, budget, description, dueDate, status, categoryId, employerFeedback, seekerFeedback,secureWallet);
-            jobs.add(job); // Add job to the list
+    
+    public boolean createJob(Job job) {
+        String query = "INSERT INTO Job (user_id, job_title, budget, description, due_date, status, category_id, doc_URL, address) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, job.getUserId());
+            ps.setString(2, job.getJobTitle());
+            ps.setInt(3, job.getBudget());
+            ps.setString(4, job.getDescription());
+            ps.setDate(5, new java.sql.Date(job.getDueDate().getTime()));
+            ps.setString(6, job.getStatus());
+            ps.setInt(7, job.getCategoryId());
+            ps.setString(8, job.getDocUrl());
+            ps.setString(9, job.getAddress());
+            int rowsInserted = ps.executeUpdate();
+            return rowsInserted > 0;
+        } catch (Exception e) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
         }
-
-        rs.close();
-    } catch (NumberFormatException e) {
-        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Invalid ID format: categoryId=" + categoryIdStr + ", excludeJobId=" + excludeJobIdStr, e);
-    } catch (SQLException ex) {
-        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "SQL error while fetching jobs by category ID, excluding job ID", ex);
-    } catch (Exception ex) {
-        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, "Unexpected error while fetching jobs by category ID, excluding job ID", ex);
     }
-
-    return jobs;
+    
+    public boolean updateJob(Job job) {
+        String query = "UPDATE Job SET job_title = ?, budget = ?, description = ?, due_date = ?, category_id = ?, doc_URL = ?, address = ? " +
+                       "WHERE job_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setString(1, job.getJobTitle());
+            ps.setInt(2, job.getBudget());
+            ps.setString(3, job.getDescription());
+            ps.setDate(4, new java.sql.Date(job.getDueDate().getTime()));
+            ps.setInt(5, job.getCategoryId());
+            ps.setString(6, job.getDocUrl());
+            ps.setString(7, job.getAddress());
+            ps.setInt(8, job.getJobId());
+            int rowsUpdated = ps.executeUpdate();
+            return rowsUpdated > 0; // Trả về true nếu có bản ghi được cập nhật
+        } catch (Exception e) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+    
+    
+    
+    public boolean updateJobStatusAndWallet(int jobId, String status, int secureWallet) {
+    String query = "UPDATE Job SET status = ?, secure_wallet+=? WHERE job_id = ?";
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setNString(1, status);
+        ps.setInt(2, secureWallet);
+        ps.setInt(3, jobId);
+        int rowsUpdated = ps.executeUpdate();
+        return rowsUpdated > 0; // Trả về true nếu có bản ghi được cập nhật
+    } catch (Exception e) {
+        Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
+        return false;
+    }
 }
 
-    public void createJob(Job j) {
-        String sql = "INSERT INTO \n" +
-                " Job(user_id, job_title, budget, description, due_date, status, category_id, doc_URL, address)\n" +
-                " VALUES (?,?,?,?,?,?,?,?,?)";
-
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setInt(1, j.getUserId());
-            statement.setNString(2, j.getJobTitle());
-            statement.setInt(3, (int) j.getBudget());
-            statement.setNString(4, j.getDescription());
-            statement.setDate(5, new java.sql.Date(j.getDueDate().getTime()));
-            statement.setNString(6, j.getStatus());
-            statement.setInt(7, j.getCategoryId());
-            statement.setString(8, j.getDocURL());
-            statement.setNString(9, j.getAddress());
-            statement.execute();
-            statement.close();
-            con.close();
-        } catch (Exception ex) {
-            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
+    public boolean updateJobStatus(int jobId, String status) {
+    String query = "UPDATE Job SET status = ? WHERE job_id = ?";
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, status);
+        ps.setInt(2, jobId);
+        int rowsUpdated = ps.executeUpdate();
+        return rowsUpdated > 0; 
+    } catch (Exception e) {
+        Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
+        return false;
     }
-
-    public ArrayList<Job> getAllJobByUserEmail(String Email) {
-        ArrayList<Job> jobList = new ArrayList<>();
-
-        UserDAO userDAO = new UserDAO();
-
-        int uId = userDAO.getUserByEmail(Email).getUserId();
-
-        String sql = "select * from Job where user_id = ?";
-
-        Connection con;
-        try {
-            con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setInt(1, uId);
-            ResultSet rs = statement.executeQuery();
-
-            while (rs.next()) {
-                int jobId = rs.getInt(1);
-                int userId = rs.getInt(2);
-                String title = rs.getNString(3);
-                String des = rs.getNString(4);
-                Date date = rs.getDate(5);
-                String status = rs.getNString(6);
-                int cateId = rs.getInt(7);
-                String empFeedback = rs.getNString(8);
-                String seekerFeedback = rs.getNString(9);
-                float secureWallet = rs.getInt(10);
-                String docURL = rs.getString(11);
-                float budget = rs.getInt(12);
-                String inURL = rs.getString(13);
-                Date inDate = rs.getDate(14);
-                String address = rs.getNString(15);
-                Job j = new Job(jobId, userId, title, budget, des, date, status, cateId, empFeedback, seekerFeedback,
-                        docURL, secureWallet, inURL, inDate, address);
-
-                jobList.add(j);
-            }
-        } catch (Exception ex) {
-            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return jobList;
     }
 
     public void deleteJobById(int id) {
@@ -305,121 +277,283 @@ public class JobDAO {
             Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    public List<Job> get5Job() {
+    List<Job> jobs = new ArrayList<>();
+    String query = "SELECT j.*, COUNT(jg.greeting_id) AS greeting_count " +
+                   "FROM Job j " +
+                   "LEFT JOIN JobGreetings jg ON j.job_id = jg.job_id " +
+                   "GROUP BY j.job_id " +
+                   "ORDER BY greeting_count DESC " +
+                   "OFFSET 0 ROWS FETCH NEXT 5 ROWS ONLY;";
 
-    public void updateJob(Job job) {
-        String sql = "UPDATE Job\n" +
-                "SET job_title = ?, description = ?, due_date = ?, budget = ?, address = ?, category_id = ? \n" +
-                "WHERE job_id = ?";
+    try (Connection con = dbConnection.openConnection();
+         PreparedStatement ps = con.prepareStatement(query);
+         ResultSet rs = ps.executeQuery()) {
+
+        while (rs.next()) {
+            Job job = new Job();
+            job.setJobId(rs.getInt("job_id"));
+            job.setUserId(rs.getInt("user_id"));
+            job.setJobTitle(rs.getString("job_title"));
+            job.setBudget(rs.getInt("budget"));
+            job.setDescription(rs.getString("description"));
+            job.setDueDate(rs.getDate("due_date"));
+            job.setStatus(rs.getString("status"));
+            job.setCategoryId(rs.getInt("category_id"));
+            job.setEmployerFeedback(rs.getString("employer_feedback"));
+            job.setSeekerFeedback(rs.getString("seeker_feedback"));
+            job.setSecureWallet(rs.getInt("secure_wallet"));
+            job.setDocUrl(rs.getString("doc_URL"));
+            job.setInterviewUrl(rs.getString("interview_URL"));
+            job.setInterviewDate(rs.getDate("interview_Date"));
+            job.setAddress(rs.getString("address"));
+            job.setLabelVerify(rs.getString("label_verify"));
+            jobs.add(job);
+        }
+    } catch (Exception e) {
+        Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, e);
+    }
+    return jobs;
+}
+    public List<Job> getJobsByCategoryIds(List<Integer> categoryIds) {
+    List<Job> jobList = new ArrayList<>();
+    
+    String sql = "SELECT * FROM Job WHERE category_id IN (" + categoryIds.stream()
+                 .map(String::valueOf)
+                 .collect(Collectors.joining(",")) + ")";
+    
+    try (Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(sql);
+         ResultSet rs = ps.executeQuery()) {
+        while (rs.next()) {
+            Job job = new Job();
+            job.setJobId(rs.getInt("job_id"));
+            job.setJobTitle(rs.getString("job_title"));
+            job.setCategoryId(rs.getInt("category_id"));
+            job.setDescription(rs.getString("description"));
+            job.setBudget(rs.getInt("budget"));
+            job.setDueDate(rs.getDate("due_date"));
+            job.setLabelVerify(rs.getString("label_verify"));
+            
+            jobList.add(job);
+        }
+        
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    
+    return jobList;
+}
+    public List<String> getEmployerFeedbackByUserId(int userId) {
+        List<String> feedbackList = new ArrayList<>();
+        String query = "SELECT employer_feedback FROM Job WHERE user_id = ?";
+
         try {
             Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setNString(1, job.getJobTitle());
-            statement.setNString(2, job.getDescription());
-            statement.setDate(3, new java.sql.Date(job.getDueDate().getTime()));
-            statement.setInt(4, (int) job.getBudget());
-            statement.setNString(5, job.getAddress());
-            statement.setInt(6, job.getCategoryId());
-            statement.setInt(7, job.getJobId());
-            statement.execute();
-        } catch (Exception ex) {
-            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void updateJobInterview(Job job) {
-        String sql = "UPDATE Job\n" +
-                "SET interview_URL = ?, interview_Date = ? \n" +
-                "WHERE job_id = ?";
-        try {
-            Connection con = dbConnection.openConnection();
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setNString(1, job.getInterviewURL());
-            statement.setDate(2, new java.sql.Date(job.getInterviewDate().getTime()));
-            statement.setInt(3, job.getJobId());
-            statement.execute();
-        } catch (Exception ex) {
-            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public int findJobIdByUserId(int userId) {
-        int jobId = 0;  // Nếu không có job, trả về 0
-        DBConnection db = DBConnection.getInstance(); // Lấy instance của kết nối DB
-        String sql = "SELECT job_id FROM Job WHERE user_id = ?;"; // SQL lấy job_id theo user_id
-
-        try (Connection con = db.openConnection(); PreparedStatement preStatement = con.prepareStatement(sql)) {
-            preStatement.setInt(1, userId); // Set tham số userId vào câu truy vấn
-            ResultSet resultSet = preStatement.executeQuery(); // Thực hiện câu truy vấn
-
-            // Trả về job_id nếu tìm thấy
-            if (resultSet.next()) {
-                jobId = resultSet.getInt("job_id");
-            }
-            resultSet.close(); // Đóng ResultSet sau khi sử dụng
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error while fetching jobs for user ID " + userId, ex);
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, "An unexpected error occurred while fetching jobs for user ID " + userId, ex);
-        }
-
-        return jobId; // Trả về jobId
-    }
-
-   
-    public List<Object> getJobAndGreetingsByJobId(int jobId) {
-        List<Object> combinedList = new ArrayList<>();
-
-        // Lấy Job bằng jobId và thêm vào danh sách
-        Job job = getJobById(jobId);
-        if (job != null) {
-            combinedList.add(job);
-        }
-
-        // Lấy danh sách JobGreetings bằng jobId và thêm tất cả vào danh sách
-        List<JobGreetings> greetingsList = jobGreetingDao.getJobGreetingByJobId(jobId);
-        combinedList.addAll(greetingsList);
-
-        return combinedList;
-    }
-    public List<Job> getJobsConfirmedByUserId(int userId) {
-        List<Job> listJob = new ArrayList<>();
-        DBConnection db = DBConnection.getInstance();
-        String sql = "SELECT * FROM [dbo].[Job] WHERE user_id = ? AND status IS NOT NULL";
-        try (Connection con = db.openConnection(); PreparedStatement statement = con.prepareStatement(sql)) {
-
+            PreparedStatement statement = con.prepareStatement(query);
             statement.setInt(1, userId);
             ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String feedback = rs.getString("employer_feedback");
+                feedbackList.add(feedback);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return feedbackList;
+    }
+    
+    public int getMaxJobId() {
+        int maxJobId = -1; 
+        String sql = "SELECT MAX(job_id) AS max_job_id FROM Job";
+        
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                maxJobId = resultSet.getInt("max_job_id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return maxJobId;
+    }
+    public int addJobAndGetId(Job job) throws Exception {
+        int newJobId = -1;  // Khởi tạo giá trị mặc định
+
+        // Truy vấn SQL để thêm job và lấy job_id
+        String sql = "INSERT INTO Job (user_id, job_title, budget, description, due_date, status, category_id, secure_wallet, doc_URL, address) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            
+            // Thiết lập các tham số cho câu lệnh insert
+            preparedStatement.setInt(1, job.getUserId());
+            preparedStatement.setNString(2, job.getJobTitle());
+            preparedStatement.setInt(3, job.getBudget());
+            preparedStatement.setNString(4, job.getDescription());
+            preparedStatement.setDate(5, new java.sql.Date(job.getDueDate().getTime()));
+            preparedStatement.setNString(6, job.getStatus());
+            preparedStatement.setInt(7, job.getCategoryId());
+            preparedStatement.setInt(8, 0);
+            preparedStatement.setNString(9, job.getDocUrl());
+            preparedStatement.setNString(10, job.getAddress());
+            int affectedRows = preparedStatement.executeUpdate();
+            if (affectedRows > 0) {
+                ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    newJobId = generatedKeys.getInt(1); 
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return newJobId;
+    }
+    
+     public List<Job> selectJobsExcludingHiring(User u) throws SQLException, Exception {
+        String sql = "SELECT * FROM Job WHERE status != ? AND user_id = ?";
+        List<Job> jobs = new ArrayList<>();
+
+        try (PreparedStatement preparedStatement = dbConnection.openConnection().prepareStatement(sql)) {
+            preparedStatement.setNString(1, "Đang tuyển");
+            preparedStatement.setInt(2, u.getUserId());
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+
+            while (resultSet.next()) {
+                // Tạo một đối tượng Job từ kết quả truy vấn
+                Job job = new Job();
+                job.setJobId(resultSet.getInt("job_id"));
+                job.setUserId(resultSet.getInt("user_id"));
+                job.setJobTitle(resultSet.getString("job_title"));
+                job.setBudget(resultSet.getInt("budget"));
+                job.setDescription(resultSet.getString("description"));
+                job.setDueDate(resultSet.getDate("due_date"));
+                job.setStatus(resultSet.getString("status"));
+                job.setCategoryId(resultSet.getInt("category_id"));
+                job.setEmployerFeedback(resultSet.getString("employer_feedback"));
+                job.setSeekerFeedback(resultSet.getString("seeker_feedback"));
+                job.setSecureWallet(resultSet.getInt("secure_wallet"));
+                job.setDocUrl(resultSet.getString("doc_URL"));
+                job.setInterviewUrl(resultSet.getString("interview_URL"));
+                job.setInterviewDate(resultSet.getDate("interview_Date"));
+                job.setAddress(resultSet.getString("address"));
+                job.setLabelVerify(resultSet.getString("label_verify"));
+
+                jobs.add(job);
+            }
+        }
+
+        return jobs;
+    }
+     
+    public List<Job> getAcceptedJobOfSeeker(int jobSeekerId) throws SQLException, Exception {
+        String sql = "SELECT * " +
+                     "FROM Job j " +
+                     "JOIN JobGreetings jg ON j.job_id = jg.job_id " +
+                     "WHERE jg.job_seeker_id = ? AND jg.status = N'Được chấp nhận'";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Job job = null;
+        List<Job> jobs = new ArrayList<>();
+
+        try {
+            ps = dbConnection.openConnection().prepareStatement(sql);
+            ps.setInt(1, jobSeekerId);
+            rs = ps.executeQuery();
 
             while (rs.next()) {
-                 Job job = new Job();
+                job = new Job();
                 job.setJobId(rs.getInt("job_id"));
-                job.setUserId(rs.getInt("user_id"));
                 job.setJobTitle(rs.getString("job_title"));
                 job.setBudget(rs.getInt("budget"));
                 job.setDescription(rs.getString("description"));
                 job.setDueDate(rs.getDate("due_date"));
                 job.setStatus(rs.getString("status"));
                 job.setCategoryId(rs.getInt("category_id"));
-                job.setEmpFeedback(rs.getString("employer_feedback"));
+                job.setEmployerFeedback(rs.getString("employer_feedback"));
                 job.setSeekerFeedback(rs.getString("seeker_feedback"));
                 job.setSecureWallet(rs.getInt("secure_wallet"));
-                job.setDocURL(rs.getString("doc_URL"));
-                job.setInterviewURL(rs.getString("interview_URL"));
+                job.setDocUrl(rs.getString("doc_URL"));
+                job.setInterviewUrl(rs.getString("interview_URL"));
                 job.setInterviewDate(rs.getDate("interview_Date"));
                 job.setAddress(rs.getString("address"));
+                job.setLabelVerify(rs.getString("label_verify"));
                 
-                listJob.add(job); // Thêm job vào danh sách
+                jobs.add(job);
             }
-            rs.close();
-            statement.close();
-            con.close();
-        } catch (SQLException ex) {
-            logger.log(Level.SEVERE, "Error while fetching jobs for user ID " + userId, ex);
-        } catch (Exception ex) {
-            logger.log(Level.SEVERE, "An unexpected error occurred while fetching jobs for user ID " + userId, ex);
+
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
         }
 
-        return listJob;
+        return jobs;
     }
+    
+    public List<Job> searchJobsByKeyword(String keyword) throws SQLException, Exception {
+        String sql = "SELECT * " +
+                     "FROM Job " +
+                     "WHERE LOWER(job_title) LIKE LOWER(?) OR LOWER(description) LIKE LOWER(?)";
+
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        List<Job> jobList = new ArrayList<>();
+
+        try {
+            ps = dbConnection.openConnection().prepareStatement(sql);
+            String searchKeyword = "%" + keyword.toLowerCase() + "%";  // Chuyển từ khóa về chữ thường và thêm ký tự đại diện
+            ps.setString(1, searchKeyword); // Gán từ khóa cho job_title
+            ps.setString(2, searchKeyword); // Gán từ khóa cho description
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Job job = new Job();
+                job.setJobId(rs.getInt("job_id"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setBudget(rs.getInt("budget"));
+                job.setDescription(rs.getString("description"));
+                job.setDueDate(rs.getDate("due_date"));
+                job.setStatus(rs.getString("status"));
+                job.setCategoryId(rs.getInt("category_id"));
+                job.setEmployerFeedback(rs.getString("employer_feedback"));
+                job.setSeekerFeedback(rs.getString("seeker_feedback"));
+                job.setSecureWallet(rs.getInt("secure_wallet"));
+                job.setDocUrl(rs.getString("doc_URL"));
+                job.setInterviewUrl(rs.getString("interview_URL"));
+                job.setInterviewDate(rs.getDate("interview_Date"));
+                job.setAddress(rs.getString("address"));
+                job.setLabelVerify(rs.getString("label_verify"));
+
+                jobList.add(job);  // Thêm từng job vào danh sách kết quả
+            }
+
+        } finally {
+            if (rs != null) rs.close();
+            if (ps != null) ps.close();
+        }
+
+        return jobList;  
+    }
+    
+    
+    
+    public static void main(String[] args) {
+        JobDAO dao = new JobDAO();
+//        List<String> list = new ArrayList<>();
+//        list = dao.getEmployerFeedbackByUserId(1);
+//        for (String string : list) {
+//            System.out.println(string);
+//        }
+
+        System.out.println(dao.updateJobStatusAndWallet(1, "Chờ đặt cọc", 10000));
+    }
+    
+    
     
 }

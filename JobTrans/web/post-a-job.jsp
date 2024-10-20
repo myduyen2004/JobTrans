@@ -2,57 +2,33 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-
+<%@page import="jobtrans.model.JobCategory" %>
 <!doctype html>
 <html lang="en">
 <head>
-<jsp:useBean id="category" class="jobtrans.dal.CategoryDAO" scope="session"></jsp:useBean>
-<jsp:useBean id="categoryModel" class="jobtrans.model.Category" scope="session"></jsp:useBean>
-<!-- Basic Page Needs
-================================================== -->
-<title>JobTrans</title>
+<jsp:useBean id="categoryDAO" class="jobtrans.dal.JobCategoryDAO" scope="session"></jsp:useBean>
+<title>Đăng tin tuyển dụng</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-<!-- CSS
-================================================== -->
 <link rel="stylesheet" href="css/style.css">
 <link rel="stylesheet" href="css/colors/blue.css">
-
 </head>
 <body class="gray">
-
-<!-- Wrapper -->
 <div id="wrapper">
-
-<!-- Header Container
-================================================== -->
-
+<%@include file="/includes/header.jsp" %>
 <div class="clearfix"></div>
-<!-- Header Container / End -->
-
-
-<!-- Dashboard Container -->
 <div class="dashboard-container">
 
-	<!-- Dashboard Sidebar
-	================================================== -->
-	<!-- Dashboard Sidebar / End -->
-
-
-	<!-- Dashboard Content
-	================================================== -->
+        <%@include file="/includes/sidebar.jsp" %>
 	<div class="dashboard-content-container" data-simplebar>
 		<div class="dashboard-content-inner" >
 			
-			<!-- Dashboard Headline -->
 			<div class="dashboard-headline">
 				<h3>Đăng Nhiệm Vụ</h3>
 			</div>
 	
-			<!-- Row -->
 			<div class="row">
-                            <form action="CRUDJobServerlet" method="POST" enctype="multipart/form-data">
+                            <form action="job" method="POST" enctype="multipart/form-data">
                                 <input type="hidden" name="command" value="CREATE">
 				<!-- Dashboard Box -->
 				<div class="col-xl-12">
@@ -78,8 +54,8 @@
 										<h5>Danh Mục</h5>
                                                                                 <select class="selectpicker with-border" name="category" data-size="7" title="Chọn Danh Mục">
                                                                                     
-                                                                                    <c:forEach var="cateName" items="${categoryModel.getCategoryName(category.getAllCategory())}">
-                                                                                        <option>${cateName}</option>
+                                                                                    <c:forEach var="category" items="${categoryDAO.getAllCategory()}">
+                                                                                        <option>${category.categoryName}</option>
                                                                                     </c:forEach>
 										</select>
 									</div>
@@ -149,50 +125,16 @@
 			<!-- Row / End -->
 
 			<!-- Footer -->
-			<div class="dashboard-footer-spacer"></div>
-			<div class="small-footer margin-top-15">
-				<div class="small-footer-copyrights">
-					© 2019 <strong>Hireo</strong>. Bảo Lưu Mọi Quyền.
-				</div>
-				<ul class="footer-social-links">
-					<li>
-						<a href="#" title="Facebook" data-tippy-placement="top">
-							<i class="icon-brand-facebook-f"></i>
-						</a>
-					</li>
-					<li>
-						<a href="#" title="Twitter" data-tippy-placement="top">
-							<i class="icon-brand-twitter"></i>
-						</a>
-					</li>
-					<li>
-						<a href="#" title="Google Plus" data-tippy-placement="top">
-							<i class="icon-brand-google-plus-g"></i>
-						</a>
-					</li>
-					<li>
-						<a href="#" title="LinkedIn" data-tippy-placement="top">
-							<i class="icon-brand-linkedin-in"></i>
-						</a>
-					</li>
-				</ul>
-				<div class="clearfix"></div>
-			</div>
+                        <%@include file="includes/subfooter.jsp" %>
 			<!-- Footer / End -->
 
 		</div>
 	</div>
-	<!-- Dashboard Content / End -->
 
 </div>
-<!-- Dashboard Container / End -->
 
 </div>
-<!-- Wrapper / End -->
 
-
-<!-- Scripts
-================================================== -->
 <script src="js/jquery-3.4.1.min.js"></script>
 <script src="js/jquery-migrate-3.1.0.min.html"></script>
 <script src="js/mmenu.min.js"></script>
@@ -319,12 +261,9 @@ $('#snackbar-user-status label').click(function() {
 	}
 </script>
 
-<!-- Google API & Maps -->
 <!-- Geting an API Key: https://developers.google.com/maps/documentation/javascript/get-api-key -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaoOT9ioUE4SA8h-anaFyU4K63a7H-7bc&amp;libraries=places"></script>
 
 
 </body>
-
-<!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-post-a-task.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:47 GMT -->
 </html>

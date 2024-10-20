@@ -4,47 +4,25 @@
 
 <!doctype html>
 <html lang="en">
-
-    <!-- Mirrored from www.vasterad.com/themes/hireo_21/dashboard-settings.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:35:14 GMT -->
     <head>
-
-        <!-- Basic Page Needs
-        ================================================== -->
         <title>Ví của tôi</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-        <!-- CSS
-        ================================================== -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/colors/blue.css">
         <link rel="stylesheet" href="css/wallet-style.css">
-
     </head>
     <body class="gray">
 
-        <!-- Wrapper -->
         <div id="wrapper">
 
-            <!-- Header Container
-            ================================================== -->
             <%@include file="/includes/header.jsp" %>
             <div class="clearfix"></div>
-            <!-- Header Container / End -->
 
-
-            <!-- Dashboard Container -->
             <div class="dashboard-container">
 
-                <!-- Dashboard Sidebar
-                ================================================== -->
                 <%@include file="/includes/sidebar.jsp" %>
 
-                <!-- Dashboard Sidebar / End -->
-
-
-                <!-- Dashboard Content
-                ================================================== -->
                 <div class="dashboard-content-container" data-simplebar>
                     <div class="dashboard-content-inner" >
                         <div class="wallet-container">
@@ -81,7 +59,7 @@
                                     <tbody>
                                         <c:forEach var="trans" items = "${transList}">
                                             <tr>
-                                                <td>${trans.getCreatedDateTime()}</td>
+                                                <td>${trans.createdDate}</td>
                                                 <td><fmt:formatNumber value="${trans.getAmount()}" type="currency" currencySymbol="₫" pattern="#,##0" groupingUsed="true" /></td>
                                                 <td>${trans.getTransactionType()}</td>
                                                 <td>${trans.getDescription()}</td>
@@ -96,50 +74,13 @@
                         <!-- Row / End -->
 
                         <!-- Footer -->
-                        <div class="dashboard-footer-spacer"></div>
-                        <div class="small-footer margin-top-15">
-                            <div class="small-footer-copyrights">
-                                © 2024<strong>JOBTRANS</strong>. All Rights Reserved.
-                            </div>
-                            <ul class="footer-social-links">
-                                <li>
-                                    <a href="#" title="Facebook" data-tippy-placement="top">
-                                        <i class="icon-brand-facebook-f"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" title="Twitter" data-tippy-placement="top">
-                                        <i class="icon-brand-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" title="Google Plus" data-tippy-placement="top">
-                                        <i class="icon-brand-google-plus-g"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" title="LinkedIn" data-tippy-placement="top">
-                                        <i class="icon-brand-linkedin-in"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                            <div class="clearfix"></div>
-                        </div>
-                        <!-- Footer / End -->
+                        <%@include file="/includes/subfooter.jsp" %>
 
                     </div>
                 </div>
-                <!-- Dashboard Content / End -->
-
             </div>
-            <!-- Dashboard Container / End -->
 
         </div>
-        <!-- Wrapper / End -->
-
-
-        <!-- Scripts
-        ================================================== -->
         <script src="js/jquery-3.4.1.min.js"></script>
         <script src="js/jquery-migrate-3.1.0.min.html"></script>
         <script src="js/mmenu.min.js"></script>
@@ -263,24 +204,6 @@
                     }, 300);
                 }
             }
-        </script>
-
-
-        <!-- Ẩn và hiện mật khẩu -->
-        <script>
-            document.getElementById('togglePassword').addEventListener('click', function () {
-                var passwordField = document.getElementById('password');
-                var passwordIcon = document.getElementById('passwordIcon');
-                if (passwordField.type === 'password') {
-                    passwordField.type = 'text';
-                    passwordIcon.classList.remove('fa-eye');
-                    passwordIcon.classList.add('fa-eye-slash');
-                } else {
-                    passwordField.type = 'password';
-                    passwordIcon.classList.remove('fa-eye-slash');
-                    passwordIcon.classList.add('fa-eye');
-                }
-            });
         </script>
         <script>
             // Lọc theo ngày

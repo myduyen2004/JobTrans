@@ -37,14 +37,30 @@ public class LoginServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
+    // + sign on the left to edit the code.">
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     * 
+     * @param request  servlet request
+     * @param response servlet response
+     * @throws ServletException if a servlet-specific error occurs
+     * @throws IOException      if an I/O error occurs
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String code = request.getParameter("code");
         String error = request.getParameter("error");
         HttpSession session = request.getSession();
-        response.getWriter().print(code);
+        response.getWriter().print("In ra and check");
         // neu nguoi dung huy uy quyen
         if (error != null) {
-            request.getRequestDispatcher("login.jsp").forward(request, response);
+            request.getRequestDispatcher("home.jsp").forward(request, response);
         }
         GoogleLogin gg = new GoogleLogin();
         String accessToken = gg.getToken(code);
@@ -63,9 +79,9 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("email", user.getEmail());
             session.setAttribute("avatarUrl", user.getAvatarUrl());
             session.setAttribute("role",user.getRole());
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            request.getRequestDispatcher("home").forward(request, response);
         }else{
-            user = new User(userName, email, "Google", code, avatar, true);
+            user = new User(userName, email, "Google", code, 0, avatar, true);
             userDao.addUserByLoginGoogle(user);
             user = userDao.getUserByEmail(email);
             session.setAttribute("userId", user.getUserId());
@@ -74,24 +90,7 @@ public class LoginServlet extends HttpServlet {
             session.setAttribute("email", user.getEmail());
             session.setAttribute("avatarUrl", user.getAvatarUrl());
             request.getRequestDispatcher("home.jsp").forward(request, response);
-
         }
-    }
-
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the
-    // + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     * 
-     * @param request  servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException      if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**
@@ -111,9 +110,8 @@ public class LoginServlet extends HttpServlet {
         response.getWriter().print(mail);
 
         UserDAO userDAO = new UserDAO();
-        User user = userDAO.checkLogin(new User(mail, password));
+        User user = userDAO.checkLogin(mail, password);
         response.getWriter().print(user);
-
         if (user != null) {
             if (request.getParameter("remember") != null) {
                 String remember = request.getParameter("remember");
@@ -142,17 +140,15 @@ public class LoginServlet extends HttpServlet {
         String role = request.getParameter("role");
         String email = request.getParameter("email");
         UserDAO userDao = new UserDAO();
-        userDao.updateAfterLoginGoogle(role, email);
+        userDao.updateRole(role, email);
         HttpSession session = request.getSession();
-
         User user = userDao.getUserByEmail(email);
         session.setAttribute("account", email);
         session.setAttribute("userId", user.getUserId());
         session.setAttribute("userName", user.getUserName());
         session.setAttribute("email", user.getEmail());
         session.setAttribute("avatarUrl", user.getAvatarUrl());
-//        request.getRequestDispatcher("home.jsp").forward(request, response);
-        response.getWriter().print("Something login");
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
     
     /**

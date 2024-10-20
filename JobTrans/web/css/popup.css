@@ -1,36 +1,35 @@
-.row{
-   position: relative;
+.row {
+    position: relative;
 }
-.popup{
+
+.popup {
     height: 100%;
     width: 100%;
-    background-color: rgba(161, 192, 222, 0.8); /* Đỏ với độ trong suốt 50% */
+    background-color: rgba(161, 192, 222, 0.8); /* Màu nền */
     position: fixed;
     z-index: 101;
     left: 0;
     top: 0;
     display: none;
 }
+
 #overlay {
-    height: 35%;
-    width: 35%;
+    height: 300px;
+    width: 500px; /* Đặt chiều rộng cụ thể cho popup */
     position: absolute;
     margin: auto;
     inset: 0;
     border-style: double;
-    left: 0;
-    top: 0;
     background-color: white;
+    padding: 20px;
+    border-radius: 10px; /* Bo góc */
 }
 
 .overlay-content {
-    color: white;
-    position: relative;
-    top: 25%;
-    width: 80%;
+    color: black; /* Đổi màu chữ thành đen để dễ đọc hơn */
+    width: 100%;
     text-align: center;
-    margin-top: 5px;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
 }
 
 #overlay .closebtn {
@@ -38,16 +37,26 @@
     top: 10px;
     right: 15px;
     color: black;
+    font-size: 20px;
+    background: none;
+    border: none;
 }
 
-.overlay-content table{
-    position: absolute;
-    top: 160px;
+.overlay-content table {
     width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
 }
 
-.overlay-content td{
-    width: 40%;
-    padding-left: 5px;
-    padding-right: 5px;
+.overlay-content td {
+    padding: 10px;
+}
+
+.btn-custom {
+    width: 150px; /* Đặt chiều rộng cho nút */
+    height: 70px; /* Đặt chiều cao cho nút */
+    line-height: 40px;
+    text-align: center;
+    border-radius: 5px; /* Bo góc */
 }

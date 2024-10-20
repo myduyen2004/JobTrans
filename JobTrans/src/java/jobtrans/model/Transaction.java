@@ -5,51 +5,41 @@
 package jobtrans.model;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 import jobtrans.utils.DateTimeUtils;
 
 /**
  *
  * @author admin
  */
+import java.util.Date;
+
 public class Transaction {
-    private DateTimeUtils dateTime = new DateTimeUtils();
     private int transactionId;
     private int senderId;
     private int receiverId;
     private int adminId;
-    private double amount;
-    private LocalDateTime createdDate;
-    private boolean status;
+    private int amount;
+    private Date createdDate;
+    private boolean status; // sử dụng boolean cho BIT
     private String transactionType;
-    private int jobId;
     private String description;
+    private int jobId;
 
-    // Constructor
     public Transaction() {
     }
 
-    public Transaction(int transactionId, int senderId, int receiverId, int adminId, double amount, LocalDateTime createdDate, boolean status, String transactionType, int jobId, String description) {
-        this.transactionId = transactionId;
+    public Transaction(int senderId, int amount, Date createdDate, boolean status, String transactionType, String description, int jobId) {
         this.senderId = senderId;
-        this.receiverId = receiverId;
-        this.adminId = adminId;
         this.amount = amount;
         this.createdDate = createdDate;
         this.status = status;
         this.transactionType = transactionType;
-        this.jobId = jobId;
         this.description = description;
+        this.jobId = jobId;
     }
-
-    public DateTimeUtils getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(DateTimeUtils dateTime) {
-        this.dateTime = dateTime;
-    }
-
+    
+    
+    // Getters and Setters
     public int getTransactionId() {
         return transactionId;
     }
@@ -82,19 +72,19 @@ public class Transaction {
         this.adminId = adminId;
     }
 
-    public double getAmount() {
+    public int getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(int amount) {
         this.amount = amount;
     }
 
-    public LocalDateTime getCreatedDate() {
+    public Date getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(LocalDateTime createdDate) {
+    public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -114,14 +104,6 @@ public class Transaction {
         this.transactionType = transactionType;
     }
 
-    public int getJobId() {
-        return jobId;
-    }
-
-    public void setJobId(int jobId) {
-        this.jobId = jobId;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -130,17 +112,18 @@ public class Transaction {
         this.description = description;
     }
 
-    
-    public String getCreatedDateTime(){
-        return dateTime.formatDateTime(createdDate);
+    public int getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(int jobId) {
+        this.jobId = jobId;
     }
 
     @Override
     public String toString() {
-        return "Transaction{" + "dateTime=" + dateTime + ", transactionId=" + transactionId + ", senderId=" + senderId + ", receiverId=" + receiverId + ", adminId=" + adminId + ", amount=" + amount + ", createdDate=" + createdDate + ", status=" + status + ", transactionType=" + transactionType + ", jobId=" + jobId + ", description=" + description + '}';
+        return "Transaction{" + "transactionId=" + transactionId + ", senderId=" + senderId + ", receiverId=" + receiverId + ", adminId=" + adminId + ", amount=" + amount + ", createdDate=" + createdDate + ", status=" + status + ", transactionType=" + transactionType + ", description=" + description + ", jobId=" + jobId + '}';
     }
-
     
-
     
 }

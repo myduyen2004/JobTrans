@@ -72,7 +72,7 @@
                     <ul data-submenu-title="Quản lí">
                         <li><a href="#"><i class="icon-material-outline-business-center"></i> Quản Lí</a>
                             <ul>
-                                <li><a href="dashboard-manage-jobs.html">Quản lí người dùng</a></li>
+                                <li><a href="AccountManagement">Quản lí người dùng</a></li>
                                 <li><a href="dashboard-manage-candidates.html">Quản lí bài đăng tuyển</a></li>
                             </ul>	
                         </li>

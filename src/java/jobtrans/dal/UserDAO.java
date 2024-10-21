@@ -153,6 +153,12 @@ public class UserDAO {
         
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
+                // Kiểm tra status trước khi tạo đối tượng User
+            boolean status = rs.getBoolean("status");
+            if (!status) {
+                // Nếu status bằng false (0), đăng nhập thất bại
+                return null;
+            }
             user = new User();
             user.setUserId(rs.getInt("user_id"));
             user.setUserName(rs.getString("user_name"));
@@ -345,7 +351,37 @@ public class UserDAO {
     }
     return employers;
 }
-
+public List<User> getAllSeeker() {
+    List<User> employers = new ArrayList<>();
+    String query = "SELECT * FROM Users WHERE role = 'Seeker'";
+    
+    try {
+        Connection con = dbConnection.openConnection();
+        PreparedStatement ps = con.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            User user = new User();
+            user.setUserId(rs.getInt("user_id"));
+            user.setUserName(rs.getString("user_name"));
+            user.setEmail(rs.getString("email"));
+            user.setPassword(rs.getString("password"));
+            user.setOauthProvider(rs.getString("oauth_provider"));
+            user.setOauthId(rs.getString("oauth_id"));
+            user.setRole(rs.getString("role"));
+            user.setBalance(rs.getInt("balance"));
+            user.setDescription(rs.getString("description"));
+            user.setSpecification(rs.getString("specification"));
+            user.setAddress(rs.getString("address"));
+            user.setAvatarUrl(rs.getString("avatar_url"));
+            user.setDateOfBirth(rs.getDate("date_of_birth"));
+            user.setStatus(rs.getBoolean("status"));
+            employers.add(user);
+        }
+    } catch (Exception e) {
+        Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+    }
+    return employers;
+}
     ///Xem xét
 
     public int getQuantityOfAppliedJob(User u) {
@@ -402,9 +438,61 @@ public class UserDAO {
             return false; // Trả về false nếu có lỗi
         }
     }
+    public boolean updateStatus(User user){
+        String sql = "UPDATE Users SET status = ? WHERE user_id = ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setBoolean(1, user.isStatus()); // Đặt giá trị mới cho status
+            ps.setInt(2, user.getUserId()); // Đặt email để tìm người dùng
+
+            int rowsUpdated = ps.executeUpdate(); // Thực hiện cập nhật
+            return rowsUpdated > 0; // Trả về true nếu cập nhật thành công
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra thông báo lỗi
+            return false; // Trả về false nếu có lỗi
+        }
+    }
+      public List<User> getAllBanUser() {
+
+        List<User> users = new ArrayList<>();
+        String query = "SELECT * FROM Users WHERE STATUS = 0";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setUserId(rs.getInt("user_id"));
+                user.setUserName(rs.getString("user_name"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setOauthProvider(rs.getString("oauth_provider"));
+                user.setOauthId(rs.getString("oauth_id"));
+                user.setRole(rs.getString("role"));
+                user.setBalance(rs.getInt("balance"));
+                user.setDescription(rs.getString("description"));
+                user.setSpecification(rs.getString("specification"));
+                user.setAddress(rs.getString("address"));
+                user.setAvatarUrl(rs.getString("avatar_url"));
+                user.setDateOfBirth(rs.getDate("date_of_birth"));
+                user.setStatus(rs.getBoolean("status"));
+                users.add(user);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+
+        }
+        return users;
+    }
+    
     public static void main(String[] args) {
         UserDAO u = new UserDAO();
-        System.out.println(u.getUserByEmail("myduyenvt31@gmail.com"));
+      User user = new User(7, true);
+      u.updateStatus(user);
+       
+        System.out.println("hehe");
     }
 
 }

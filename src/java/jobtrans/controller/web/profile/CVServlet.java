@@ -66,10 +66,8 @@ public class CVServlet extends HttpServlet {
             case "create":
             {
                 try {
-                    response.getWriter().print("In ra j đó");
                     createCV(request, response);
                 } catch (ParseException ex) {
-                    response.getWriter().print("Lỗi à"+ex);
                     Logger.getLogger(CVServlet.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
@@ -98,7 +96,6 @@ public class CVServlet extends HttpServlet {
                 }
             }
                 break;
-
             default:
                 response.getWriter().print("Ủaaa alo");
                 break;

@@ -97,7 +97,7 @@
 
         <!-- Snackbar // documentation: https://www.polonel.com/snackbar/ -->
         <script>
-        // Snackbar for user status switcher
+            // Snackbar for user status switcher
             $('#snackbar-user-status label').click(function () {
                 Snackbar.show({
                     text: 'Your status has been changed!',
@@ -186,7 +186,6 @@
 
         </script>
 
-
         <!-- Google Autocomplete -->
         <script>
             function initAutocomplete() {
@@ -205,5 +204,25 @@
                 }
             }
         </script>
+
+        <script>
+            // Thiết lập Toastr options
+            toastr.options = {
+                "positionClass": "toast-bottom-right", // Vị trí hiển thị
+                "timeOut": "3000", // Thời gian tự động đóng (tính bằng ms)
+                "closeButton": true, // Hiển thị nút đóng
+                "progressBar": true // Hiển thị thanh tiến trình
+            };
+
+            <% if (request.getAttribute("success") != null) { %>
+    toastr.success('<%= request.getAttribute("success") %>');
+            <% } %>
+
+            <% if (request.getAttribute("error") != null) { %>
+            // Thiết lập lại vị trí cho error nếu bị ghi đè
+    toastr.error('<%= request.getAttribute("error") %>');
+            <% } %>
+        </script>
+
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaoOT9ioUE4SA8h-anaFyU4K63a7H-7bc&amp;libraries=places&amp;callback=initAutocomplete"></script>
     </body>

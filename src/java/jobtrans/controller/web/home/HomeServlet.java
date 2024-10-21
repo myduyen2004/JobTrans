@@ -124,37 +124,66 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("jobList", filteredJobs);
         request.getRequestDispatcher("filter-job-list.jsp").forward(request, response);
     }
+//    public void downloadFile(HttpServletRequest request, HttpServletResponse response)
+//    throws ServletException, IOException{
+//        String fileName = request.getParameter("fileName");
+//        int jobId = Integer.parseInt(request.getParameter("jobId"));
+//        JobDAO jobDao = new JobDAO();
+//        if(fileName != null && !fileName.isEmpty() && !fileName.isBlank()){
+//        String path = getServletContext().getRealPath("")+"job-docs"+File.separator+fileName;
+////        System.out.println(path);
+//
+//        File file = new File(path);
+//        OutputStream os = null;
+//        FileInputStream fis = null;
+//        
+//        response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
+//        response.setContentType("application/octet-stream");
+//        
+//        if(file.exists()){
+//            os=response.getOutputStream();
+//            fis = new FileInputStream(file);
+//            byte[] bf = new byte[BUFFER_SIZE];
+//            int byteRead = -1;
+//            while((byteRead = fis.read(bf))!=-1){
+//                os.write(bf, 0, byteRead);
+//            }
+//            
+//        }else{
+//            System.out.println("File Not Found: "+fileName);
+//        }
+//        }else{
+//            request.setAttribute("job", jobDao.getJobByJobId(jobId));
+//            request.getRequestDispatcher("job-page.jsp").forward(request, response);
+//        }
+//    }
+    
     public void downloadFile(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException{
+            throws ServletException, IOException {
         String fileName = request.getParameter("fileName");
-        int jobId = Integer.parseInt(request.getParameter("jobId"));
-        JobDAO jobDao = new JobDAO();
-        if(fileName != null && !fileName.isEmpty() && !fileName.isBlank()){
-        String path = getServletContext().getRealPath("")+"job-docs"+File.separator+fileName;
+        if (fileName != null) {
+            String path = getServletContext().getRealPath("") + "job_docs" + File.separator + fileName;
 //        System.out.println(path);
+//        response.getWriter().print(path);
 
-        File file = new File(path);
-        OutputStream os = null;
-        FileInputStream fis = null;
-        
-        response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
-        response.setContentType("application/octet-stream");
-        
-        if(file.exists()){
-            os=response.getOutputStream();
-            fis = new FileInputStream(file);
-            byte[] bf = new byte[BUFFER_SIZE];
-            int byteRead = -1;
-            while((byteRead = fis.read(bf))!=-1){
-                os.write(bf, 0, byteRead);
+            File file = new File(path);
+            OutputStream os = null;
+            FileInputStream fis = null;
+
+            response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
+            response.setContentType("application/octet-stream");
+
+            if (file.exists()) {
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                byte[] bf = new byte[BUFFER_SIZE];
+                int byteRead = -1;
+                while ((byteRead = fis.read(bf)) != -1) {
+                    os.write(bf, 0, byteRead);
+                }
+            } else {
+                System.out.println("File Not Found: " + fileName);
             }
-            
-        }else{
-            System.out.println("File Not Found: "+fileName);
-        }
-        }else{
-            request.setAttribute("job", jobDao.getJobByJobId(jobId));
-            request.getRequestDispatcher("job-page.jsp").forward(request, response);
         }
     }
     
@@ -195,35 +224,28 @@ public class HomeServlet extends HttpServlet {
     }
     
     public void downloadJG(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException{
+            throws ServletException, IOException {
         String fileName = request.getParameter("fileName");
-        int jobId = Integer.parseInt(request.getParameter("jobId"));
-        JobDAO jobDao = new JobDAO();
-        if(fileName != null && !fileName.isEmpty() && !fileName.isBlank()){
-        String path = getServletContext().getRealPath("")+"job-docs"+File.separator+fileName;
-//        System.out.println(path);
+        if (fileName != null) {
+            String path = getServletContext().getRealPath("") + "job_greetings" + File.separator + fileName;
+            File file = new File(path);
+            OutputStream os = null;
+            FileInputStream fis = null;
 
-        File file = new File(path);
-        OutputStream os = null;
-        FileInputStream fis = null;
-        
-        response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
-        response.setContentType("application/octet-stream");
-        
-        if(file.exists()){
-            os=response.getOutputStream();
-            fis = new FileInputStream(file);
-            byte[] bf = new byte[BUFFER_SIZE];
-            int byteRead = -1;
-            while((byteRead = fis.read(bf))!=-1){
-                os.write(bf, 0, byteRead);
+            response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
+            response.setContentType("application/octet-stream");
+
+            if (file.exists()) {
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                byte[] bf = new byte[BUFFER_SIZE];
+                int byteRead = -1;
+                while ((byteRead = fis.read(bf)) != -1) {
+                    os.write(bf, 0, byteRead);
+                }
+            } else {
+                System.out.println("File Not Found: " + fileName);
             }
-        }else{
-            System.out.println("File Not Found: "+fileName);
-        }
-        }else{
-            request.setAttribute("job", jobDao.getJobByJobId(jobId));
-            request.getRequestDispatcher("job-page.jsp").forward(request, response);
         }
     }
     

@@ -319,9 +319,6 @@
                             <h3>Tạo Tài Khoản Của Bạn Ngây Bây Giờ!</h3>
                         </div>
 
-                        <!-- Account Type -->
-
-
                         <!-- Form -->
                         <form method="GET" id="register-account-form" action="./Register">
                             <div class="account-type">

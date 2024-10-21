@@ -257,3 +257,6 @@ INSERT INTO Users (user_name, email, password, oauth_provider, oauth_id, role, b
 VALUES 
 ('Nguyen Van A', 'nguyenvana@example.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Employer', 10000, 'User description A', null, '123 Main St', null, '1990-05-10', 1);
 GO
+
+ALTER TABLE [dbo].[Users]
+ALTER COLUMN password VARCHAR(32);

@@ -5,12 +5,25 @@
 
 package jobtrans.controller.admin.management;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import jobtrans.controller.web.job.JobServlet;
+import jobtrans.dal.JobCategoryDAO;
+import jobtrans.dal.JobDAO;
+import jobtrans.dal.JobGreetingDAO;
+import jobtrans.model.Job;
+import jobtrans.model.JobCategory;
+import jobtrans.model.JobGreeting;
 
 /**
  *
@@ -53,7 +66,21 @@ public class JobManagement extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
-        processRequest(request, response);
+        String command = request.getParameter("command");
+        
+        switch(command){
+            case "LIST": 
+                viewListJob(request, response);
+                break;
+            case "filterJobsByStatus":
+                filterJobByStatuses(request, response);
+                break;
+            case "DELETE":
+                deleteJob(request, response);
+                break;
+            default:
+                break;
+        }
     } 
 
     /** 
@@ -77,5 +104,49 @@ public class JobManagement extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
+    
+    public void viewListJob(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException {
+        JobDAO jobDao = new JobDAO();
+        
+        List<Job> jobList = jobDao.getAllJob();
+        
+        request.setAttribute("jobList", jobList);
+        request.getRequestDispatcher("manage-job-admin.jsp").forward(request, response);
+    }
+    
+    private void filterJobByStatuses(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        String statusesJson = request.getParameter("statuses");
+        
+        List<String> statuses = new Gson().fromJson(statusesJson, new TypeToken<List<String>>(){}.getType());
+        
+        JobDAO jobDAO = new JobDAO();
+        List<Job> filteredJobs = jobDAO.getJobsByStatuses(statuses);
+        request.setAttribute("jobList", filteredJobs);
+        request.getRequestDispatcher("filter-manage-job-admin.jsp").forward(request, response);
+    }
+    
+    public void deleteJob(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        JobGreetingDAO greetingDao = new JobGreetingDAO();
+        JobDAO jobDAO = new JobDAO();
+        String sid = request.getParameter("jid");
+        int id = Integer.parseInt(sid);
+        List<JobGreeting> greetingList = new ArrayList<>();
+        try {
+            greetingDao.getJobGreetingByJobId(id);
+        } catch (Exception ex) {
+            Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if (!greetingList.isEmpty()) {
+            try {
+                greetingDao.deleteJobGreetingByJobId(id);
+            } catch (Exception ex) {
+                Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            jobDAO.deleteJobById(id);
+        } else {
+            jobDAO.deleteJobById(id);
+        }
+        viewListJob(request, response);
+    }
 }

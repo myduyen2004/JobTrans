@@ -9,8 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,8 +78,12 @@ public class ProfileServlet extends HttpServlet {
         String specification = request.getParameter("specification");
         String address = request.getParameter("address");
         String birthdateStr = request.getParameter("birthdate");
-        String avatarUrl = request.getParameter("avatar");
-
+//        String avatarUrl = request.getParameter("avatar");
+        Part filePart = request.getPart("avatar");
+        String fileName = getFileName(filePart);
+        InputStream imageInputStream = filePart.getInputStream();
+        String typeOfImage = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String newImageName = "";
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
             birthdate = formatter.parse(birthdateStr);
@@ -83,19 +91,24 @@ public class ProfileServlet extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        String baseUploadPath = "D:/FALL24/JobTrans/web/images/";
-        String uniqueFolderName = "avatar_" + System.currentTimeMillis();
-        File uploadDir = new File(baseUploadPath + uniqueFolderName);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+        String uploadDir = getServletContext().getRealPath("/images");
+        File uploadDirFile = new File(uploadDir);
+        if (!uploadDirFile.exists()) {
+            uploadDirFile.mkdir();
         }
-        Collection<Part> parts = request.getParts();
-        for (Part part : parts) {
-            if (part.getSubmittedFileName() != null && !part.getSubmittedFileName().isEmpty()) {
-                String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-                part.write(uploadDir.getAbsolutePath() + File.separator + fileName);
-                avatarUrl = "images/" + uniqueFolderName + "/" + fileName;
+        if (containsExtension(typeOfImage)) {
+            Time timeObj = new Time(System.currentTimeMillis());
+            newImageName = timeObj.getTime() + "_" + fileName;
+
+            String uploadPath = getServletContext().getRealPath("") + File.separator + "images";
+            File uploadDirectory = new File(uploadPath);
+            if (!uploadDirectory.exists()) {
+                uploadDirectory.mkdir();
+            }
+
+            Path destinationPath = Paths.get(uploadDirectory.getAbsolutePath());
+            try (FileOutputStream fout = new FileOutputStream(destinationPath.resolve(newImageName).toString())) {
+                fout.write(imageInputStream.readAllBytes());
             }
         }
 
@@ -105,15 +118,16 @@ public class ProfileServlet extends HttpServlet {
             user.setUserName(userName);
             user.setAddress(address);
             user.setDescription(description);
-            if (avatarUrl == null) {
+            if (newImageName == null) {
                 user.setAvatarUrl(request.getParameter("avatemp"));
             } else {
-                user.setAvatarUrl(avatarUrl);
+                user.setAvatarUrl("images/" + newImageName);
             }
             user.setSpecification(specification);
             user.setDateOfBirth(birthdate);
             request.setAttribute("user", user);
             if (dao.editProfile(user)) {
+                session.setAttribute("avatarUrl", user.getAvatarUrl());
                 request.setAttribute("success", "Cập nhật thành công");
                 request.getRequestDispatcher("viewProfile.jsp").forward(request, response);
             } else {
@@ -270,6 +284,27 @@ public class ProfileServlet extends HttpServlet {
             request.setAttribute("error", "Mật khẩu không khớp");
             request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
         }
+    }
+
+    private String getFileName(Part part) {
+        String contentDispositionHeader = part.getHeader("content-disposition");
+        String[] elements = contentDispositionHeader.split(";");
+        for (String element : elements) {
+            if (element.trim().startsWith("filename")) {
+                return element.substring(element.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return "unknown.jpg";
+    }
+
+    private boolean containsExtension(String uploadedFileExtension) {
+        String[] extensions = {"png", "jpg", "jpeg"};
+        for (String value : extensions) {
+            if (value.equalsIgnoreCase(uploadedFileExtension)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

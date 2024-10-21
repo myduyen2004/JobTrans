@@ -204,7 +204,7 @@
 
                             <ul class="user-menu-small-nav">
                                 <li><a href="profile?action=view"><i class="icon-material-outline-dashboard"></i> Thông tin</a></li>
-                                <li><a href="profile?action=load"><i class="icon-material-outline-settings"></i> Sửa hồ sơ</a></li>
+                                <li><a href="profile?action=editProfile"><i class="icon-material-outline-settings"></i> Sửa hồ sơ</a></li>
                                 <li><a href="profile?action=loadPassword"><i class="icon-line-awesome-futbol-o"></i> Đổi mật khẩu</a></li>
                                 <li><a href="profile?action=wallet"><i class="icon-line-awesome-dollar"></i> Nạp thêm tiền</a></li>
                                 <li><a href="logout"><i class="icon-material-outline-power-settings-new"></i> Đăng Xuất</a></li>

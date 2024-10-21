@@ -161,7 +161,7 @@
                                     <div class="sidebar-widget">
                                         <h3>Thông tin</h3>
                                         <ul class="task-info">
-                                            <li><strong>Ngày hết hạn:</strong> ${job.dueDate}</li>
+                                            <li><strong>Ngày hết hạn:</strong> <fmt:formatDate value="${job.dueDate}" pattern="dd/MM/yyyy" /></li>
                                             <li><strong>Địa điểm:</strong> ${job.address}</li>
                                             <li><strong>Ngân sách:</strong> <fmt:formatNumber value="${job.budget}" type="currency" pattern="#,##0" currencySymbol="₫" groupingUsed="true" /></li>
                                             <li><strong>Đã đăng bởi:</strong> ${employer.userName}</li>

@@ -12,17 +12,14 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static jobtrans.controller.web.home.HomeServlet.BUFFER_SIZE;
-import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
@@ -148,7 +145,6 @@ public class JobServlet extends HttpServlet {
                 createJob(request, response);
                 break;
             case "UPDATE":
-                response.getWriter().print(command);
                 updateJob(request, response);
                 break;
             case "INTERVIEW":
@@ -330,20 +326,19 @@ public class JobServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         JobDAO jobDAO = new JobDAO();
         JobCategoryDAO catDao = new JobCategoryDAO();
+        DateTimeUtils utilDate = new DateTimeUtils();
+
         int id = Integer.parseInt(request.getParameter("jid"));
         String title = request.getParameter("projectName");
         String des = request.getParameter("description");
         String date = request.getParameter("date");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        out.print(des);
         Date dueDate = new Date();
         try {
             dueDate = dateFormat.parse(date);
         } catch (ParseException ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        out.print(dueDate);
-
         int budget = Integer.parseInt(request.getParameter("budget"));
         String cate = request.getParameter("category");
         if (cate == null || cate.isEmpty()) {
@@ -351,7 +346,6 @@ public class JobServlet extends HttpServlet {
         }
         int cateId = catDao.getJobCategoryByName(cate).getCategoryId();
         String address = request.getParameter("address");
-        out.print(cateId);
         Part p=request.getPart("file");
         String fileName = p.getSubmittedFileName();
         //Luu file vao folder job_docs
@@ -377,8 +371,10 @@ public class JobServlet extends HttpServlet {
             job.setCategoryId(cateId);
         }
         jobDAO.updateJob(job);
-        response.getWriter().print(job);
-        viewJobDetail(request, response);
+        request.setAttribute("due", utilDate.countdownDays(job.getDueDate()));
+        request.setAttribute("job", job);
+        
+        response.sendRedirect("job?command=VIEW&jid="+id);
     }
 
     public void updateJobInterview(HttpServletRequest request, HttpServletResponse response)

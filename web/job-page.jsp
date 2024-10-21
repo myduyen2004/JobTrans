@@ -124,9 +124,9 @@
                             </div>
 
                             <div class="sidebar-widget">
-                                <h3 style="font-weight: bold">Thông tin chào giá</h3>
+                                <h3 style="font-weight: bold">Chào giá cho công việc này</h3>
                                 <div>
-                                    
+                                    <c:if test="${due > 0}">
                                     <c:if test="${user != null && user.role == 'Seeker'}">
                                         
                                         <c:if test="${cvDAO.getCVByUserId(user.userId).isEmpty()}">
@@ -161,7 +161,7 @@
                                                               style="width: 316px; height: 182px; text-align: left;" 
                                                               placeholder="- Tôi đã có ... năm kinh nghiệm&#10;- Tôi đã thành thạo ...&#10;- Hãy liên hệ tôi qua...." required></textarea>
                                                     <label for="fileUpload"><strong>Chọn tệp đính kèm:</strong></label>
-                                                    <input type="file" id="fileUpload" name="fileUpload" accept=".jpg, .jpeg, .png, .pdf">
+                                                    <input class="uploadButton-input" type="file" id="upload" name="file" multiple/>
                                                     <br>
                                                     <input type="submit" value="Ứng tuyển">
                                                 </form>
@@ -191,6 +191,11 @@
                                     <c:if test="${user == null}">
                                         <p>Vui lòng đăng nhập để thực hiện ứng tuyển</p>
                                     </c:if>
+                                        
+                                        </c:if>
+                                        <c:if test="${due <= 0}">
+                                            <p>Không thể chào giá vì công việc đã quá hạn</p>
+                                        </c:if>
                                 </div>
                             </div>
 

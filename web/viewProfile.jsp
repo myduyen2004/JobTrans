@@ -34,7 +34,7 @@
 
                                     <!-- Headline -->
                                     <div class="headline">
-                                        <h3><i class="icon-material-outline-account-circle"></i> Trang Cá Nhân Của Tôi</h3>
+                                        <h3><i class="icon-material-outline-account-circle"></i> Trang Cá Nhân Của Tôi </h3>
                                     </div>
 
                                     <div class="content with-padding padding-bottom-0">

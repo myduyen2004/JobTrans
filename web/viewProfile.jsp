@@ -4,18 +4,18 @@
 <html lang="en">
     <head>
         <jsp:useBean id="userDAO" class="jobtrans.dal.UserDAO" scope="session"></jsp:useBean>
-        <title>Hồ sơ của tôi</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/colors/blue.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    </head>
-    <body class="gray">
-        <!-- Wrapper -->
-        <div id="wrapper">
+            <title>Hồ sơ của tôi</title>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+            <link rel="stylesheet" href="css/style.css">
+            <link rel="stylesheet" href="css/colors/blue.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        </head>
+        <body class="gray">
+            <!-- Wrapper -->
+            <div id="wrapper">
 
             <%@include file="/includes/header.jsp" %>
             <div class="dashboard-container">
@@ -44,7 +44,7 @@
                                             <div class="col-auto">
                                                 <div class="avatar-wrapper" data-tippy-placement="bottom">
                                                     <img class="profile-pic" src="${user.avatarUrl}" alt="Profile Picture" />
-                                                
+
                                                 </div>
                                             </div>
 
@@ -52,9 +52,9 @@
                                                 <div class="row">
                                                     <div class="col-xl-6">
                                                         <div class="submit-field">
-                                                            <% 
-                                                             role = session.getAttribute("role");
-                                                            if (role.equals("Employer")) { 
+                                                            <%
+                                                                role = session.getAttribute("role");
+                                                                if (role.equals("Employer")) {
                                                             %>
                                                             <h5>Tên Nhà Tuyển Dụng</h5>
                                                             <%}%>
@@ -165,7 +165,8 @@
                                                     <div class="col-xl-12">
                                                         <div class="submit-field">
                                                             <h5>Mô Tả Về Chúng Tôi</h5>
-                                                            <span class="with-border">${user.description}</span>
+                                                                <p class="with-border" style="word-wrap: break-word;">${user.description}</p>
+
                                                         </div>
                                                     </div>
 
@@ -175,6 +176,14 @@
                                         </ul>
                                     </div>
                                 </div>
+                            </div>
+                            <!-- Button -->
+                            <div class="col-xl-6">
+                                <a href="profile?action=loadPassword" class="button ripple-effect big margin-top-30">Đổi Mật Khẩu</a>
+                            </div>
+
+                            <div class="col-xl-6">
+                                <a href="profile?action=editProfile" class="button ripple-effect big margin-top-30">Chỉnh Sửa Thông Tin</a>
                             </div>
                         </div>
                         <%@include file="/includes/subfooter.jsp" %>
@@ -308,15 +317,25 @@
                 }
             }
         </script>
+        
         <script>
-    // Kiểm tra xem có thông báo thành công hay không
-    <% if (request.getAttribute("success") != null) { %>
+            // Thiết lập Toastr options
+            toastr.options = {
+                "positionClass": "toast-bottom-right", // Vị trí hiển thị
+                "timeOut": "3000", // Thời gian tự động đóng (tính bằng ms)
+                "closeButton": true, // Hiển thị nút đóng
+                "progressBar": true // Hiển thị thanh tiến trình
+            };
+
+            <% if (request.getAttribute("success") != null) { %>
     toastr.success('<%= request.getAttribute("success") %>');
-    <% } %>
-    <% if (request.getAttribute("error") != null) { %>
+            <% } %>
+
+            <% if (request.getAttribute("error") != null) { %>
+            // Thiết lập lại vị trí cho error nếu bị ghi đè
     toastr.error('<%= request.getAttribute("error") %>');
-    <% } %>
-</script>
+            <% } %>
+        </script>
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaoOT9ioUE4SA8h-anaFyU4K63a7H-7bc&amp;libraries=places&amp;callback=initAutocomplete"></script>
     </body>
 </html>

@@ -85,37 +85,39 @@
 
                                 <div class="col-xl-12">
                                     <div class="dashboard-box">
+                                        <div class="headline submit-field">
+                                            <h3>Giới Thiệu Bản Thân</h3>
+                                        </div>
                                         <div class="col-xl-12">
-                                            <div class="submit-field">
-                                                <h5>Giới Thiệu Bản Thân</h5>
+                                            <div class="content" style="padding-bottom: 1px"> 
                                                 <textarea cols="30" rows="5"  placeholder="Nhập mô tả" name="description" class="with-border" value="${User.description}"></textarea>
                                             </div>
                                         </div>
-
                                     </div>
-                                    </li>
-                                    </ul>
+                                </div>
+                                <div class="col-xl-12">
+                                    <input type="submit" class="button ripple-effect big margin-top-30" value="Thay đổi"></a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-12">
-                            <input type="submit" class="button ripple-effect big margin-top-30" value="Thay đổi"></a>
-                        </div>
+
                     </form>
-                    <%@include file="/includes/subfooter.jsp" %>
                 </div>
-                <!-- Row / End -->
 
-                <!-- Footer -->
-
-                <!-- Footer / End -->
-
+                <%@include file="/includes/subfooter.jsp" %>
             </div>
-        </div>
-        <!-- Dashboard Content / End -->
+            <!-- Row / End -->
 
+            <!-- Footer -->
+
+            <!-- Footer / End -->
+
+        </div>
     </div>
-    <!-- Dashboard Container / End -->
+    <!-- Dashboard Content / End -->
+
+</div>
+<!-- Dashboard Container / End -->
 
 </div>
 <!-- Wrapper / End -->
@@ -252,12 +254,12 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAaoOT9ioUE4SA8h-anaFyU4K63a7H-7bc&amp;libraries=places&amp;callback=initAutocomplete"></script>
 <script>
     // Kiểm tra xem có thông báo thành công hay không
-    <% if (request.getAttribute("success") != null) { %>
-    toastr.success('<%= request.getAttribute("success") %>');
+    <% if (request.getAttribute("success") != null) {%>
+    toastr.success('<%= request.getAttribute("success")%>');
     <% } %>
-    <% if (request.getAttribute("error") != null) { %>
-    toastr.error('<%= request.getAttribute("error") %>');
-    <% } %>
+    <% if (request.getAttribute("error") != null) {%>
+    toastr.error('<%= request.getAttribute("error")%>');
+    <% }%>
 </script>
 
 </body>

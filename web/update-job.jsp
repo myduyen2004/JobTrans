@@ -111,7 +111,7 @@
 										<h5>Mô Tả Dự Án Của Bạn</h5>
 										<textarea cols="30" rows="5" class="with-border" name="description">${job.description}</textarea>
                                                                                 <div class="uploadButton margin-top-30">
-											<input class="uploadButton-input" type="file" accept=".png, .jpg, .jpeg, .doc, .docx, .pdf, .jar, .zip" id="upload" name="file" multiple/>
+											<input class="uploadButton-input" type="file" id="upload" name="file" multiple/>
 											<label class="uploadButton-button ripple-effect" for="upload">Tải Lên Tập Tin Mới</label>
 											<span class="uploadButton-file-name">Hình ảnh hoặc tài liệu giúp mô tả dự án của bạn</span>
 										</div>

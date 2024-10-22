@@ -1,5 +1,12 @@
 package jobtrans.dal;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import jobtrans.model.JobGreeting;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -9,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static jobtrans.controller.web.home.HomeServlet.BUFFER_SIZE;
 import jobtrans.utils.DBConnection;
 
 /**
@@ -243,10 +251,49 @@ public class JobGreetingDAO {
         return jobGreeting;
     }
     
+    public JobGreeting getJobGreetingBySeekerID(int jobSeekerId) throws Exception {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        JobGreeting jobGreeting = null;
+
+        try {
+            String sql = "SELECT * FROM JobGreetings WHERE job_seeker_id = ?";
+
+            // Chuẩn bị câu truy vấn
+            pstmt = dbConnection.openConnection().prepareStatement(sql);
+            pstmt.setInt(1, jobSeekerId);
+
+            // Thực hiện truy vấn
+            rs = pstmt.executeQuery();
+
+            // Nếu tìm thấy kết quả
+            if (rs.next()) {
+                jobGreeting = new JobGreeting();
+                jobGreeting.setGreetingId(rs.getInt("greeting_id"));
+                jobGreeting.setJobSeekerId(rs.getInt("job_seeker_id"));
+                jobGreeting.setJobId(rs.getInt("job_id"));
+                jobGreeting.setIntroduction(rs.getString("introduction"));
+                jobGreeting.setAttachment(rs.getString("attachment"));
+                jobGreeting.setPrice(rs.getInt("price"));
+                jobGreeting.setStatus(rs.getString("status"));
+                jobGreeting.setExpectedDay(rs.getInt("expectedDay"));
+                jobGreeting.setCvId(rs.getInt("cv_id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+
+        return jobGreeting;
+    }
+    
+    
+    
     public static void main(String[] args) throws Exception {
         JobGreeting j = new JobGreeting(3, 1, "ahjajfsj", "hjssd", 10000000, "Đang tuyển", 5, 1);
         JobGreetingDAO dao = new JobGreetingDAO();
-        dao.addJobGreeting(j);
+       
+        System.out.println( dao.getJobGreetingBySeekerAndJob(3, 2));
     }
 
 }

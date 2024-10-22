@@ -48,7 +48,7 @@
 
                         <div class="single-page-section">
                             <h3 class="margin-bottom-25">Giới Thiệu Về Nhà Tuyển Dụng</h3>
-                            <p>${detail.description}</p>
+                            <p style="word-wrap: break-word;">${detail.description}</p>
                         </div>
 
                         <!-- Danh Sách Công Việc -->
@@ -107,7 +107,7 @@
                                 
                                 </c:forEach>
                             </ul>
-
+                            
                             <div class="centered-button margin-top-35">
                                 <a href="#small-dialog" class="popup-with-zoom-anim button button-sliding-icon">Để Lại Đánh Giá <i class="icon-material-outline-arrow-right-alt"></i></a>
                             </div>

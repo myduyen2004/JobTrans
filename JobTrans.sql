@@ -255,5 +255,32 @@ GO
 
 INSERT INTO Users (user_name, email, password, oauth_provider, oauth_id, role, balance, description, specification, address, avatar_url, date_of_birth, status)
 VALUES 
-('Nguyen Van A', 'nguyenvana@example.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Employer', 10000, 'User description A', null, '123 Main St', null, '1990-05-10', 1);
+('Nguyen Van x', 'x@gmail.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Employer', 10000, 'User description A', null, '123 Main St', null, '1990-05-10', 1),
+('Nguyen Van A', 'a@gmail.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Employer', 10000, 'User description A', null, '123 Main St', null, '1990-05-10', 1),
+('Le Thi B', 'b@gmail.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Seeker', 5000, 'Seeker B description', null, '456 Second St', null, '1992-07-15', 1),
+('Tran Van C', 'c@gmail.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Seeker', 7500, 'Seeker C description', null, '789 Third St', null, '1994-08-22', 1),
+('Nguyen Thi D', 'd@gmail.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Seeker', 3000, 'Seeker D description', null, '101 Fourth St', null, '1996-10-02', 1),
+('Pham Van E', 'e@gmail.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Seeker', 2000, 'Seeker E description', null, '102 Fifth St', null, '1988-11-30', 1),
+('Hoang Thi F', 'f@gmail.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Seeker', 4000, 'Seeker F description', null, '123 Sixth St', null, '1993-12-19', 1);
 GO
+
+INSERT INTO JobGreetings (job_seeker_id, job_id, introduction, attachment, price, status, expectedDay, cv_id)
+VALUES 
+(2, 1, 'Tôi là Le Thi B, tôi có kinh nghiệm trong lĩnh vực phát triển phần mềm.', NULL, 5000, N'Chưa phản hồi', 10, NULL),
+(3, 1, 'Tôi là Tran Van C, tôi đã làm việc với nhiều dự án và có khả năng hoàn thành công việc đúng hạn.', NULL, 7500, N'Chưa phản hồi', 12, NULL),
+(4, 1, 'Tôi là Nguyen Thi D, tôi có kỹ năng tốt trong việc phát triển web.', NULL, 3000, N'Chưa phản hồi', 14, NULL),
+(5, 1, 'Tôi là Pham Van E, tôi sẵn sàng học hỏi và phát triển.', NULL, 2000, N'Chưa phản hồi', 8, NULL),
+(6, 1, 'Tôi là Hoang Thi F, tôi có đam mê trong lĩnh vực công nghệ thông tin.', NULL, 4000, N'Chưa phản hồi', 9, NULL),
+(2, 2, 'Tôi là Le Thi B, tôi có kinh nghiệm trong lĩnh vực phát triển phần mềm.', NULL, 5000, N'Chưa phản hồi', 10, NULL),
+(3, 2, 'Tôi là Tran Van C, tôi đã làm việc với nhiều dự án và có khả năng hoàn thành công việc đúng hạn.', NULL, 7500, N'Chưa phản hồi', 12, NULL),
+(4, 2, 'Tôi là Nguyen Thi D, tôi có kỹ năng tốt trong việc phát triển web.', NULL, 3000, N'Chưa phản hồi', 14, NULL),
+(5, 2, 'Tôi là Pham Van E, tôi sẵn sàng học hỏi và phát triển.', NULL, 2000, N'Chưa phản hồi', 8, NULL),
+(6, 2, 'Tôi là Hoang Thi F, tôi có đam mê trong lĩnh vực công nghệ thông tin.', NULL, 4000, N'Chưa phản hồi', 9, NULL);
+GO
+
+SELECT * FROM Users;
+SELECT * FROM Job;
+SELECT * FROM JobGreetings;
+GO
+
+SELECT * FROM Job WHERE user_id = 3;

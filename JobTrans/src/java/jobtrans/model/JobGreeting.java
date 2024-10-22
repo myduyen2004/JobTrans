@@ -35,10 +35,7 @@ public class JobGreeting {
     public int getGreetingId() {
         return greetingId;
     }
-
     
-    
-
     public void setGreetingId(int greetingId) {
         this.greetingId = greetingId;
     }

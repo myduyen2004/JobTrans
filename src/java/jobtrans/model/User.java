@@ -19,6 +19,12 @@ public class User {
 
     public User() {}
 
+    public User(int userId, boolean status) {
+        this.userId = userId;
+        this.status = status;
+    }
+    
+
     public User(int userId, String userName, String email, String password, String oauthProvider, 
                 String oauthId, String role, int balance, String description, 
                 String specification, String address, String avatarUrl, Date dateOfBirth, boolean status) {

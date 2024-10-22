@@ -207,21 +207,15 @@ public class JobServlet extends HttpServlet {
         }
         int cateId = catDao.getJobCategoryByName(cate).getCategoryId();
         String address = request.getParameter("address");
-        String url = null;
-        String baseUploadPath = "D:/FALL24/JobTrans/web/job_docs/";
-        String uniqueFolderName = "job_docs_" + System.currentTimeMillis();
-        File uploadDir = new File(baseUploadPath + uniqueFolderName);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-        Collection<Part> parts = request.getParts();
-        for (Part part : parts) {
-            if (part.getSubmittedFileName() != null && !part.getSubmittedFileName().isEmpty()) {
-                String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-                part.write(uploadDir.getAbsolutePath() + File.separator + fileName);
-                url = "job_docs/" + uniqueFolderName + "/" + fileName;
-            }
-        }
+        Part p=request.getPart("file");
+        String fileName = p.getSubmittedFileName();
+        //Luu file vao folder imgs
+        String path = getServletContext().getRealPath("") + "job_docs";
+        File file = new File(path);
+        p.write(path + File.separator + fileName);
+        System.out.println(path);
+        String url = fileName;
+        
         Job job = new Job();
         job.setUserId(uid);
         job.setJobTitle(title);
@@ -358,21 +352,15 @@ public class JobServlet extends HttpServlet {
         int cateId = catDao.getJobCategoryByName(cate).getCategoryId();
         String address = request.getParameter("address");
         out.print(cateId);
-        String url = null;
-        String baseUploadPath = "D:/FALL24/JobTrans/web/job_docs/";
-        String uniqueFolderName = "job_docs_" + System.currentTimeMillis();
-        File uploadDir = new File(baseUploadPath + uniqueFolderName);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-        Collection<Part> parts = request.getParts();
-        for (Part part : parts) {
-            if (part.getSubmittedFileName() != null && !part.getSubmittedFileName().isEmpty()) {
-                String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-                part.write(uploadDir.getAbsolutePath() + File.separator + fileName);
-                url = "job_docs/" + uniqueFolderName + "/" + fileName;
-            }
-        }
+        Part p=request.getPart("file");
+        String fileName = p.getSubmittedFileName();
+        //Luu file vao folder job_docs
+        String path = getServletContext().getRealPath("") + "job_docs";
+        File file = new File(path);
+        p.write(path + File.separator + fileName);
+        System.out.println(path);
+        String url = fileName;
+        
         Job job = jobDAO.getJobByJobId(id);
 
         job.setJobId(id);
@@ -441,7 +429,7 @@ public class JobServlet extends HttpServlet {
             throws ServletException, IOException {
         String fileName = request.getParameter("fileName");
         if (fileName != null) {
-            String path = getServletContext().getRealPath("") + "job-docs" + File.separator + fileName;
+            String path = getServletContext().getRealPath("") + "job_docs" + File.separator + fileName;
 //        System.out.println(path);
 //        response.getWriter().print(path);
 

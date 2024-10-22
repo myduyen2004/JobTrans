@@ -316,34 +316,72 @@ public class JobDAO {
     return jobs;
 }
     public List<Job> getJobsByCategoryIds(List<Integer> categoryIds) {
-    List<Job> jobList = new ArrayList<>();
-    
-    String sql = "SELECT * FROM Job WHERE category_id IN (" + categoryIds.stream()
-                 .map(String::valueOf)
-                 .collect(Collectors.joining(",")) + ")";
-    
+        List<Job> jobList = new ArrayList<>();
+
+        String sql = "SELECT * FROM Job WHERE category_id IN (" + categoryIds.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(",")) + ")";
+
     try (Connection con = dbConnection.openConnection();
         PreparedStatement ps = con.prepareStatement(sql);
          ResultSet rs = ps.executeQuery()) {
-        while (rs.next()) {
-            Job job = new Job();
-            job.setJobId(rs.getInt("job_id"));
-            job.setJobTitle(rs.getString("job_title"));
-            job.setCategoryId(rs.getInt("category_id"));
-            job.setDescription(rs.getString("description"));
-            job.setBudget(rs.getInt("budget"));
-            job.setDueDate(rs.getDate("due_date"));
-            job.setLabelVerify(rs.getString("label_verify"));
-            
-            jobList.add(job);
+            while (rs.next()) {
+                Job job = new Job();
+                job.setJobId(rs.getInt("job_id"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setCategoryId(rs.getInt("category_id"));
+                job.setDescription(rs.getString("description"));
+                job.setBudget(rs.getInt("budget"));
+                job.setDueDate(rs.getDate("due_date"));
+                job.setLabelVerify(rs.getString("label_verify"));
+
+                jobList.add(job);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-    } catch (Exception e) {
-        e.printStackTrace();
+
+        return jobList;
     }
     
-    return jobList;
-}
+    public List<Job> getJobsByStatuses(List<String> statuses) {
+        List<Job> jobList = new ArrayList<>();
+
+        String sql = "SELECT * FROM Job WHERE status IN (N'" + statuses.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining("',N'")) + "')";
+
+        try (Connection con = dbConnection.openConnection(); PreparedStatement ps = con.prepareStatement(sql); ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+                Job job = new Job();
+                job.setJobId(rs.getInt("job_id"));
+                job.setUserId(rs.getInt("user_id"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setBudget(rs.getInt("budget"));
+                job.setDescription(rs.getString("description"));
+                job.setDueDate(rs.getDate("due_date"));
+                job.setStatus(rs.getString("status"));
+                job.setCategoryId(rs.getInt("category_id"));
+                job.setEmployerFeedback(rs.getString("employer_feedback"));
+                job.setSeekerFeedback(rs.getString("seeker_feedback"));
+                job.setSecureWallet(rs.getInt("secure_wallet"));
+                job.setDocUrl(rs.getString("doc_URL"));
+                job.setInterviewUrl(rs.getString("interview_URL"));
+                job.setInterviewDate(rs.getDate("interview_Date"));
+                job.setAddress(rs.getString("address"));
+                job.setLabelVerify(rs.getString("label_verify"));
+
+                jobList.add(job);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return jobList;
+    }
+    
     public List<String> getEmployerFeedbackByUserId(int userId) {
         List<String> feedbackList = new ArrayList<>();
         String query = "SELECT employer_feedback FROM Job WHERE user_id = ?";
@@ -545,13 +583,12 @@ public class JobDAO {
     
     public static void main(String[] args) {
         JobDAO dao = new JobDAO();
-//        List<String> list = new ArrayList<>();
-//        list = dao.getEmployerFeedbackByUserId(1);
-//        for (String string : list) {
-//            System.out.println(string);
-//        }
-
-        System.out.println(dao.updateJobStatusAndWallet(1, "Chờ đặt cọc", 10000));
+        List<String> statuses = new ArrayList<>();
+        statuses.add("Đang tuyển");
+        statuses.add("Đã trả lương");
+        List<Integer> l = new ArrayList<>();
+        l.add(11);
+        System.out.println(dao.getJobsByStatuses(statuses));
     }
     
     

@@ -243,6 +243,38 @@ public class JobGreetingDAO {
         return jobGreeting;
     }
     
+    public JobGreeting getJobGreetingsByJGId(int jobGreetingId) throws Exception {
+        String query = "SELECT * " +
+                       "FROM [dbo].[JobGreetings] " +
+                       "WHERE greeting_id = ?";
+        JobGreeting jobGreeting = new JobGreeting();
+
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, jobGreetingId);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            
+            while (resultSet.next()) {
+                jobGreeting.setGreetingId(resultSet.getInt("greeting_id"));
+                jobGreeting.setJobSeekerId(resultSet.getInt("job_seeker_id"));
+                jobGreeting.setJobId(resultSet.getInt("job_id"));
+                jobGreeting.setIntroduction(resultSet.getString("introduction"));
+                jobGreeting.setAttachment(resultSet.getString("attachment"));
+                jobGreeting.setPrice(resultSet.getInt("price"));
+                jobGreeting.setStatus(resultSet.getString("status"));
+                jobGreeting.setExpectedDay(resultSet.getInt("expectedDay"));
+                jobGreeting.setCvId(resultSet.getInt("cv_id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return jobGreeting;
+    }
+    
     public static void main(String[] args) throws Exception {
         JobGreeting j = new JobGreeting(3, 1, "ahjajfsj", "hjssd", 10000000, "Đang tuyển", 5, 1);
         JobGreetingDAO dao = new JobGreetingDAO();

@@ -250,6 +250,7 @@ BEGIN
     FROM JobGreetings JG
     INNER JOIN Job J ON JG.job_id = J.job_id
     WHERE J.due_date < GETDATE() AND JG.status = N'Chưa phản hồi';
+    WHERE J.due_date < GETDATE() AND JG.status = N'Chưa phản hồi';
 END;
 GO
 
@@ -258,6 +259,8 @@ INSERT INTO Users (user_name, email, password, oauth_provider, oauth_id, role, b
 VALUES 
 ('Nguyen Van A', 'nguyenvana@example.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Employer', 10000, 'User description A', null, '123 Main St', null, '1990-05-10', 1);
 GO
+
+--Chạy thêm sau ngày 21/10
 
 --Chạy thêm sau ngày 21/10
 
@@ -281,3 +284,8 @@ CREATE TABLE dMESSAGE(
  job_id INT FOREIGN KEY REFERENCES Job(job_id) ,
  );
 GO
+
+
+ALTER TABLE dMESSAGE
+ADD isRead BIT;
+

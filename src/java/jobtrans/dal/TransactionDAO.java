@@ -128,6 +128,17 @@ public class TransactionDAO {
     public static void main(String[] args) throws Exception {
         TransactionDAO dao = new TransactionDAO();
         System.out.println(dao.getTransactionBySenderId(1));
+        
+        Transaction trans = new Transaction();
+            trans.setSenderId(1);
+            trans.setAmount(200000);
+            trans.setStatus(true);
+            trans.setTransactionType("Thêm tiền");
+            trans.setDescription("Nộp tiền vào ví");
+            Date createdDate = new Date();
+            trans.setCreatedDate(createdDate);
+//            user.setBalance(user.getBalance() + Integer.parseInt(amount));
+dao.addTransaction(trans);
     }
 
     

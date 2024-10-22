@@ -499,6 +499,7 @@ public class JobDAO {
             while (rs.next()) {
                 job = new Job();
                 job.setJobId(rs.getInt("job_id"));
+                job.setUserId(rs.getInt("user_id"));
                 job.setJobTitle(rs.getString("job_title"));
                 job.setBudget(rs.getInt("budget"));
                 job.setDescription(rs.getString("description"));

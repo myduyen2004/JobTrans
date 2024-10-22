@@ -23,9 +23,11 @@ import static jobtrans.controller.web.home.HomeServlet.BUFFER_SIZE;
 import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
+import jobtrans.dal.NotificationDAO;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.Job;
 import jobtrans.model.JobGreeting;
+import jobtrans.model.Notification;
 import jobtrans.model.User;
 import jobtrans.utils.DateTimeUtils;
 
@@ -461,14 +463,19 @@ public class JobServlet extends HttpServlet {
         int jobId = Integer.parseInt(request.getParameter("jobId"));
         int jobGreetingId = Integer.parseInt(request.getParameter("jgId"));
         JobGreetingDAO jgDao = new JobGreetingDAO();
+        NotificationDAO notiDao = new NotificationDAO();
+        JobDAO jobDao = new JobDAO();
         try {
             jgDao.updateStatus(jobGreetingId, "Chờ phỏng vấn");
+            Notification notification = new Notification(jgDao.getJobGreetingsByJGId(jobGreetingId).getJobSeekerId(), "Chào giá của bạn được chấp nhận", "Bạn có một chào giá được chấp nhận từ công việc "+jobDao.getJobByJobId(jobId).getJobTitle()+". Hãy chuẩn bị cho phỏng vấn!", new Date(), false);
+            notiDao.insertNotification(notification);
         } catch (Exception ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         ArrayList<JobGreeting> jobGreetings = new ArrayList<>();
         try {
             jobGreetings = (ArrayList<JobGreeting>) jgDao.getJobGreetingByJobId(jobId);
+            
         } catch (Exception ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -480,14 +487,19 @@ public class JobServlet extends HttpServlet {
         int jobId = Integer.parseInt(request.getParameter("jobId"));
         int jobGreetingId = Integer.parseInt(request.getParameter("jgId"));
         JobGreetingDAO jgDao = new JobGreetingDAO();
+        NotificationDAO notiDao = new NotificationDAO();
+        JobDAO jobDao = new JobDAO();
         try {
             jgDao.updateStatus(jobGreetingId, "Bị từ chối");
+            Notification notification = new Notification(jgDao.getJobGreetingsByJGId(jobGreetingId).getJobSeekerId(), "Chào giá của bạn bị từ chối", "Rất tiếc! Bạn có một chào giá đã bị từ chối từ công việc "+jobDao.getJobByJobId(jobId).getJobTitle()+". Hãy chào giá công việc khác!", new Date(), false);
+            notiDao.insertNotification(notification);
         } catch (Exception ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         ArrayList<JobGreeting> jobGreetings = new ArrayList<>();
         try {
             jobGreetings = (ArrayList<JobGreeting>) jgDao.getJobGreetingByJobId(jobId);
+            
         } catch (Exception ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -501,6 +513,7 @@ public class JobServlet extends HttpServlet {
         JobDAO jobDao = new JobDAO();
         JobGreetingDAO jgDao = new JobGreetingDAO();
         boolean check = false;
+        NotificationDAO notiDao = new NotificationDAO();
         try {
             check = jgDao.checkJobHasAcceptedGreeting(jobId);
         } catch (Exception ex) {
@@ -509,6 +522,8 @@ public class JobServlet extends HttpServlet {
         if (check == false) {
             try {
                 jgDao.updateStatus(jobGreetingId, "Được chấp nhận");
+                Notification notification = new Notification(jgDao.getJobGreetingsByJGId(jobGreetingId).getJobSeekerId(), "Phỏng vấn thành công", "Bạn đã được chấp nhận qua phỏng vấn công việc "+jobDao.getJobByJobId(jobId).getJobTitle()+". Để chính thức làm việc, vui lòng đặt cọc trước để đảm bảo!", new Date(), false);
+                notiDao.insertNotification(notification);
             } catch (Exception ex) {
                 Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -531,8 +546,12 @@ public class JobServlet extends HttpServlet {
         int jobId = Integer.parseInt(request.getParameter("jobId"));
         int jobGreetingId = Integer.parseInt(request.getParameter("jgId"));
         JobGreetingDAO jgDao = new JobGreetingDAO();
+        NotificationDAO notiDao = new NotificationDAO();
+        JobDAO jobDao = new JobDAO();
         try {
             jgDao.updateStatus(jobGreetingId, "Bị từ chối");
+            Notification notification = new Notification(jgDao.getJobGreetingsByJGId(jobGreetingId).getJobSeekerId(), "Phỏng vấn thất bại", "Rất tiếc! Bạn đã bị từ chối sau phỏng vấn công việc "+jobDao.getJobByJobId(jobId).getJobTitle()+". Hãy chào giá cho công việc khác!", new Date(), false);
+            notiDao.insertNotification(notification);
         } catch (Exception ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

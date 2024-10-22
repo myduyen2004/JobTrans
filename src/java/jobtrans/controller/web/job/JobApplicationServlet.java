@@ -18,13 +18,16 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.nio.file.Paths;
 import java.util.Collection;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
+import jobtrans.dal.NotificationDAO;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.Job;
 import jobtrans.model.JobGreeting;
+import jobtrans.model.Notification;
 import jobtrans.model.User;
 import jobtrans.utils.DateTimeUtils;
 
@@ -94,7 +97,9 @@ public class JobApplicationServlet extends HttpServlet {
         UserDAO userDao = new UserDAO();
         User user = userDao.getUserByEmail(email);
         JobDAO jdao = new JobDAO();
+        NotificationDAO notiDao = new NotificationDAO();
         JobGreetingDAO jgDao = new JobGreetingDAO();
+        
         int jobId = Integer.parseInt(request.getParameter("jobId"));
         int userId = user.getUserId();
         int price = Integer.parseInt(request.getParameter("price"));
@@ -114,7 +119,9 @@ public class JobApplicationServlet extends HttpServlet {
         
         JobGreeting jg = new JobGreeting(userId, jobId, intro, url, price, status, exday, cvId);
         try {
-            response.getWriter().print(jgDao.addJobGreeting(jg));
+            jgDao.addJobGreeting(jg);
+            Notification notification = new Notification(jdao.getJobByJobId(jobId).getUserId(), "Công việc bạn đăng có chào giá mới", "Bạn có một chào giá mới cho công việc "+jdao.getJobByJobId(jobId).getJobTitle(), new Date(), false);
+            notiDao.insertNotification(notification);
         } catch (Exception ex) {
             Logger.getLogger(JobApplicationServlet.class.getName()).log(Level.SEVERE, null, ex);
             response.getWriter().print(ex);

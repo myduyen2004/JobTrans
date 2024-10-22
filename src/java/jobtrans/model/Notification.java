@@ -12,7 +12,31 @@ public class Notification {
     private String notiTitle;
     private String content;
     private Date createdTime;
+    private boolean readStatus;
 
+    public Notification() {
+    }
+    
+    
+    public Notification(int notificationId, int userId, String notiTitle, String content, Date createdTime, boolean readStatus) {
+        this.notificationId = notificationId;
+        this.userId = userId;
+        this.notiTitle = notiTitle;
+        this.content = content;
+        this.createdTime = createdTime;
+        this.readStatus = readStatus;
+    }
+
+    public Notification(int userId, String notiTitle, String content, Date createdTime, boolean readStatus) {
+        this.userId = userId;
+        this.notiTitle = notiTitle;
+        this.content = content;
+        this.createdTime = createdTime;
+        this.readStatus = readStatus;
+    }
+    
+    
+    
     // Getters and Setters
     public int getNotificationId() {
         return notificationId;
@@ -53,4 +77,13 @@ public class Notification {
     public void setCreatedTime(Date createdTime) {
         this.createdTime = createdTime;
     }
+
+    public boolean isReadStatus() {
+        return readStatus;
+    }
+
+    public void setReadStatus(boolean readStatus) {
+        this.readStatus = readStatus;
+    }
+    
 }

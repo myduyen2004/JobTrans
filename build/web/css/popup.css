@@ -1,0 +1,62 @@
+.row {
+    position: relative;
+}
+
+.popup {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(161, 192, 222, 0.8); /* Màu nền */
+    position: fixed;
+    z-index: 101;
+    left: 0;
+    top: 0;
+    display: none;
+}
+
+#overlay {
+    height: 300px;
+    width: 500px; /* Đặt chiều rộng cụ thể cho popup */
+    position: absolute;
+    margin: auto;
+    inset: 0;
+    border-style: double;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px; /* Bo góc */
+}
+
+.overlay-content {
+    color: black; /* Đổi màu chữ thành đen để dễ đọc hơn */
+    width: 100%;
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+#overlay .closebtn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    color: black;
+    font-size: 20px;
+    background: none;
+    border: none;
+}
+
+.overlay-content table {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.overlay-content td {
+    padding: 10px;
+}
+
+.btn-custom {
+    width: 150px; /* Đặt chiều rộng cho nút */
+    height: 70px; /* Đặt chiều cao cho nút */
+    line-height: 40px;
+    text-align: center;
+    border-radius: 5px; /* Bo góc */
+}

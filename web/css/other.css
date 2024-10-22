@@ -1,0 +1,57 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/ClientSide/css.css to edit this template
+*/
+/* 
+    Created on : Sep 17, 2024, 4:20:46 PM
+    Author     : admin
+*/
+
+.google-login {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #db4437; /* Màu đỏ của Google */
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+  width: 100%;
+}
+
+.google-login:hover {
+  background-color: #c23321; /* Màu tối hơn khi hover */
+}
+
+.google-login:active {
+  background-color: #a52a1a; /* Màu tối hơn khi click */
+}
+
+.ripple-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-effect::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(255, 255, 255, 0.3);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.ripple-effect:hover::after {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.icon-brand-google-plus-g {
+  margin-right: 10px;
+}

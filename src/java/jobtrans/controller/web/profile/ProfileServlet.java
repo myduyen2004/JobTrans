@@ -204,7 +204,7 @@ public class ProfileServlet extends HttpServlet {
             trans.setAmount(Integer.parseInt(amount));
             trans.setStatus(true);
             trans.setTransactionType("Thêm tiền");
-            trans.setDescription("Nộp tiền vào ví");
+            trans.setDescription("Nộp vào ví");
             Date createdDate = new Date();
             trans.setCreatedDate(createdDate);
             user.setBalance(user.getBalance() + Integer.parseInt(amount));

@@ -12,6 +12,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,10 +22,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
+import jobtrans.dal.MessageDAO;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.Job;
 import jobtrans.model.JobGreeting;
+import jobtrans.model.Message;
 import jobtrans.model.Transaction;
 import jobtrans.model.User;
 
@@ -90,6 +95,21 @@ public class JobProcessingServlet extends HttpServlet {
             case "prepay-employer":
                 prepayForJob(request, response);
                 break;
+                
+            case "load-chat":
+            {
+                try {
+                    loadChat(request, response);
+                } catch (Exception ex) {
+                    Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                break;
+
+//            case "prepay-employer":
+//                prepayForJob(request, response);
+//                break;
+
 
 //            case "prepay-employer":
 //                prepayForJob(request, response);
@@ -108,7 +128,11 @@ public class JobProcessingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        switch(action){
+            case "sendMessages":
+                break;
+        }
     }
 
     /**
@@ -326,4 +350,23 @@ public class JobProcessingServlet extends HttpServlet {
         }
 
     }
+    
+    public void loadChat(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("account");
+        UserDAO userDao = new UserDAO();
+        User u = userDao.getUserByEmail(email);
+        int jobId = Integer.parseInt(request.getParameter("jobId"));
+        JobDAO jobDao = new JobDAO();
+        Job job = jobDao.getJobByJobId(jobId);
+        MessageDAO msgDao = new MessageDAO();
+        List<Message> msgList = msgDao.getMessagesByJobId(jobId);
+        for (Message message : msgList) {
+            response.getWriter().print(message);
+        }
+        
+    }
+    
+    
+    
 }

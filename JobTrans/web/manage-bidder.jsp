@@ -62,7 +62,7 @@
                                                                         <a href="${userDao.getUserById(greeting.jobSeekerId).avatarUrl}"><img src="${userDao.getUserById(greeting.jobSeekerId).avatarUrl}" alt=""></a>
                                                                     </div>
                                                                     <div class="freelancer-name">
-                                                                        <h4><a href="job?command=bidderDetail&userId=${greeting.jobSeekerId}&jobId=${job.jobId}">Ứng Viên: ${userDao.getUserById(greeting.getJobSeekerId()).userName}</a></h4>
+                                                                        <h4><a href="job?command=bidderDetail&userId=${greeting.jobSeekerId}">Ứng Viên: ${userDao.getUserById(greeting.getJobSeekerId()).userName}</a></h4>
                                                                         <span class="freelancer-detail-item"><a href="#"><i class="icon-feather-mail"></i> Trạng thái: ${greeting.status}</a></span>
 
                                                                         <ul class="dashboard-task-info bid-info">
@@ -225,3 +225,4 @@
     </body>
 
 </html>
+x

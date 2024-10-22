@@ -585,15 +585,12 @@ public class JobServlet extends HttpServlet {
 
     public void bidderDetail(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        String jobIdParam = request.getParameter("jobId");
         int userId = Integer.parseInt(request.getParameter("userId"));
-        int jobId = Integer.parseInt(jobIdParam);
         
         UserDAO userDAO = new UserDAO();
         User user = userDAO.getUserById(userId);
         
         if (user != null) {
-            request.setAttribute("jobId", jobId);
             request.setAttribute("user", user);
             request.getRequestDispatcher("seeker-infor.jsp").forward(request, response);
         } else {

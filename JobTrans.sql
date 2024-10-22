@@ -249,14 +249,35 @@ BEGIN
     SET status = N'Bị từ chối'
     FROM JobGreetings JG
     INNER JOIN Job J ON JG.job_id = J.job_id
-    WHERE J.due_date < GETDATE() AND JG.status != N'Bị từ chối';
+    WHERE J.due_date < GETDATE() AND JG.status = N'Chưa phản hồi';
 END;
 GO
+
 
 INSERT INTO Users (user_name, email, password, oauth_provider, oauth_id, role, balance, description, specification, address, avatar_url, date_of_birth, status)
 VALUES 
 ('Nguyen Van A', 'nguyenvana@example.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Employer', 10000, 'User description A', null, '123 Main St', null, '1990-05-10', 1);
 GO
 
+--Chạy thêm sau ngày 21/10
+
 ALTER TABLE [dbo].[Users]
 ALTER COLUMN password VARCHAR(32);
+
+ALTER TABLE [dbo].[Notifications]
+ADD isRead BIT;
+
+
+DROP TABLE [dbo].[dMESSAGE]
+DROP TABLE [dbo].[dConversation]
+
+CREATE TABLE dMESSAGE(
+ message_id INT IDENTITY(1,1) PRIMARY KEY, 
+ sender_id INT FOREIGN KEY REFERENCES Users(user_id),
+ receiver_id INT FOREIGN KEY REFERENCES Users(user_id),
+ attachment varchar(MAX),
+ content nvarchar(MAX),
+ sent_time DATETIME,
+ job_id INT FOREIGN KEY REFERENCES Job(job_id) ,
+ );
+GO

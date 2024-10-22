@@ -34,7 +34,7 @@
                                     <div class="sidebar-container">
                                         <div class="sidebar-widget">
                                             <h3>Trạng Thái</h3>
-                                            <select class="selectpicker default" multiple data-selected-text-format="count" data-size="11" title="Tất cả trạng thái" onchange="filterJobsByCategory()">
+                                            <select class="selectpicker default" multiple data-selected-text-format="count" data-size="8" title="Tất cả trạng thái" onchange="filterJobsByCategory()">
                                                 <option value="Đã trả lương">Đã trả lương</option>
                                                 <option value="Đã hoàn tiền">Đã hoàn tiền</option>
                                                 <option value="Đã hoàn thành">Đã hoàn thành</option>
@@ -106,7 +106,7 @@
 
                     <!-- Footer
                     ================================================== -->
-                    <%@include file="includes/footer.jsp" %>
+                    <%@include file="includes/subfooter.jsp" %>
                     <!-- Footer / End -->
                 </div>
             </div>

@@ -16,6 +16,15 @@
             <link rel="stylesheet" href="css/colors/blue.css">
             <link rel="stylesheet" href="css/other.css">
             <link rel="stylesheet" href="css/popup.css">
+            
+            <style>
+                #job tr:nth-child(even){background-color: #DCDCDC;}
+                
+                .dropdown-toggle::after {
+                    content: none; /* Loại bỏ nội dung */
+                    display: none; /* Ẩn phần tử */
+                }
+            </style>
         </head>
         <body class="gray">
 
@@ -30,11 +39,11 @@
                         <div class="margin-top-20"></div>
                         <div class="container">
                             <div class="row">
-                                <div class="col-xl-2 col-lg-4">
+                                <div class="col-xl-2 col-lg-3">
                                     <div class="sidebar-container">
                                         <div class="sidebar-widget">
                                             <h3>Trạng Thái</h3>
-                                            <select class="selectpicker default" multiple data-selected-text-format="count" data-size="11" title="Tất cả trạng thái" onchange="filterJobsByCategory()">
+                                            <select class="selectpicker default" multiple data-selected-text-format="count" data-size="11" title="Trạng thái" onchange="filterJobsByCategory()">
                                                 <option value="Đã trả lương">Đã trả lương</option>
                                                 <option value="Đã hoàn tiền">Đã hoàn tiền</option>
                                                 <option value="Đã hoàn thành">Đã hoàn thành</option>
@@ -48,46 +57,46 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-xl-10 col-lg-8 content-left-offset">
+                                <div class="col-xl-10 col-lg-9 content-left-offset">
 
                                     <h3 class="page-title">Quản Lý Công Việc</h3>
                                     <div class="container tasks-list-container margin-top-15">
                                         <div class="row" id="jobListContainer">
                                             <!-- Task -->
-                                            <table class="table table-bordered border-primary">
+                                            <table id="job" class="align-content-center table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col">Tên Công Việc</th>
-                                                        <th scope="col">Phân Loại</th>
-                                                        <th scope="col">Tình Trạng</th>
-                                                        <th scope="col">Hành Động</th>
-                                                        <th scope="col">Duyệt</th>
+                                                        <th scope="col" style="color: white; background-color: #007bff;">Tên Công Việc</th>
+                                                        <th scope="col" style="color: white; background-color: #007bff;">Phân Loại</th>
+                                                        <th scope="col" style="color: white; background-color: #007bff;">Tình Trạng</th>
+                                                        <th scope="col" style="color: white; background-color: #007bff;">Hành Động</th>
+                                                        <th scope="col" style="color: white; background-color: #007bff;">Duyệt</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <c:forEach items="${jobList}" var="o">
                                                         <tr>
-                                                            <td><h4>${o.jobTitle}</h4></td>
-                                                            <td><h4>${category.getCategoryById(o.categoryId).categoryName}</h4></td>
-                                                            <td><h4>${o.status}</h4></td>
-                                                            <td>
+                                                            <td class="align-content-center" ><h4>${o.jobTitle}</h4></td>
+                                                            <td class="align-content-center" ><h4>${category.getCategoryById(o.categoryId).categoryName}</h4></td>
+                                                            <td class="align-content-center" ><h4>${o.status}</h4></td>
+                                                            <td class="align-content-center" >
                                                                 <table>
                                                                     <tr>
-                                                                        <td>
-                                                                            <a href="#"><button class="btn btn-secondary btn-custom">Xem chi tiết</button></a>
+                                                                        <td class="align-content-center" >
+                                                                            <a href="JobManagement?jid=${o.jobId}&command=DETAIL"><button class="btn btn-secondary" style="font-size: 14px; padding: 10px 5px 10px 5px;">Xem chi tiết</button></a>
                                                                         </td>
-                                                                        <td>
-                                                                            <a class="button gray ripple-effect ico" title="Xóa" data-tippy-placement="top" onclick="openPopup(this)" data-jobid="${o.jobId}"><i class="icon-feather-trash-2"></i></a>
+                                                                        <td class="align-content-center" >
+                                                                            <a class="button gray ripple-effect ico border border-primary" title="Xóa" data-tippy-placement="top" onclick="openPopup(this)" data-jobid="${o.jobId}"><i class="icon-feather-trash-2"></i></a>
                                                                         </td>
                                                                     </tr>
                                                                 </table>
                                                             </td>
-                                                            <td>
+                                                            <td class="align-content-center" >
                                                                 <c:if test="${o.labelVerify == 'Được duyệt'}">
-                                                                    <button type="button" style="background-color: green" class="btn btn-success">Đã Duyệt</button>
+                                                                    <button type="button" style="background-color: green; font-size: 14px; padding: 10px 5px 10px 5px;" class="btn btn-success">Đã Duyệt</button>
                                                                 </c:if>
                                                                 <c:if test="${o.labelVerify != 'Được duyệt'}">
-                                                                    <button type="button" style="background-color: red" class="btn btn-danger">Chưa Duyệt</button>
+                                                                    <button type="button" style="background-color: red; font-size: 14px; padding: 10px 5px 10px 5px;" class="btn btn-danger">Chưa Duyệt</button>
                                                                 </c:if>
                                                             </td>
                                                         </tr>

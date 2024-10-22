@@ -356,11 +356,20 @@ public class JobDAO {
             while (rs.next()) {
                 Job job = new Job();
                 job.setJobId(rs.getInt("job_id"));
+                job.setUserId(rs.getInt("user_id"));
                 job.setJobTitle(rs.getString("job_title"));
-                job.setCategoryId(rs.getInt("category_id"));
-                job.setDescription(rs.getString("description"));
                 job.setBudget(rs.getInt("budget"));
+                job.setDescription(rs.getString("description"));
                 job.setDueDate(rs.getDate("due_date"));
+                job.setStatus(rs.getString("status"));
+                job.setCategoryId(rs.getInt("category_id"));
+                job.setEmployerFeedback(rs.getString("employer_feedback"));
+                job.setSeekerFeedback(rs.getString("seeker_feedback"));
+                job.setSecureWallet(rs.getInt("secure_wallet"));
+                job.setDocUrl(rs.getString("doc_URL"));
+                job.setInterviewUrl(rs.getString("interview_URL"));
+                job.setInterviewDate(rs.getDate("interview_Date"));
+                job.setAddress(rs.getString("address"));
                 job.setLabelVerify(rs.getString("label_verify"));
 
                 jobList.add(job);

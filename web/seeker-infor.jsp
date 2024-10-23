@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="en">
@@ -19,6 +20,47 @@
             ================================================== -->
             <link rel="stylesheet" href="css/style.css">
             <link rel="stylesheet" href="css/colors/blue.css">
+            <style>
+                .pagination-controls ul {
+                    list-style: none;
+                    padding: 0;
+                    display: flex;
+                    justify-content: center;
+                    margin-top: 20px;
+                }
+
+                .pagination-controls ul li {
+                    margin: 0 5px;
+                }
+
+                .pagination-controls ul li a,
+                .pagination-controls ul li span {
+                    display: block;
+                    padding: 10px 15px;
+                    background-color: #f8f9fa;
+                    border: 1px solid #dee2e6;
+                    color: #007bff;
+                    text-decoration: none;
+                    border-radius: 4px;
+                    transition: background-color 0.3s, color 0.3s;
+                }
+
+                .pagination-controls ul li a:hover {
+                    background-color: #007bff;
+                    color: #fff;
+                }
+
+                .pagination-controls ul li span.active {
+                    background-color: #007bff;
+                    color: #fff;
+                    cursor: default;
+                }
+
+                .pagination-controls ul li a.current-page {
+                    font-weight: bold;
+                }
+            </style>
+
 
         </head>
         <body>
@@ -73,15 +115,10 @@
                         <div class="single-page-section">
                             <h3>Tệp đính kèm</h3>
                             <div class="attachments-container"> 
-                                <c:if test="${not empty jobGreetingDao.getJobGreetingBySeekerAndJob(user.userId, 
-                                                    jobGreetingDao.getJobIdBySeekerId(user.userId).jobId).attachment}">
-                                    <a href="job?command=downloadJG&fileName=${jobGreetingDao.getJobGreetingBySeekerAndJob(user.userId, 
-                                                                               jobGreetingDao.getJobIdBySeekerId(user.userId).jobId).attachment}" 
-                                       class="attachment-box ripple-effect">
-                                        <span>Tóm tắt dự án</span><i>PDF</i>
-                                    </a>
-                                </c:if>
-
+                                <a href="job?command=downloadJG&fileName=" 
+                                   class="attachment-box ripple-effect">
+                                    <span>Tóm tắt dự án</span><i>PDF</i>
+                                </a>
                             </div>
                         </div>
 
@@ -91,11 +128,27 @@
                                 <h3><i class="icon-material-outline-business"></i> Lịch sử việc làm</h3>
                             </div>
 
-
                             <c:choose>
                                 <c:when test="${not empty jobDao.getJobsByJobSeekerId(user.userId)}">
                                     <ul class="boxed-list-ul">
-                                        <c:forEach var="job" items="${jobDao.getJobsByJobSeekerId(user.userId)}">
+                                        <!-- Số công việc hiển thị trên mỗi trang -->
+                                        <c:set var="jobsPerPage" value="5" />
+                                        <!-- Tổng số công việc -->
+                                        <c:set var="totalJobs" value="${fn:length(jobDao.getJobsByJobSeekerId(user.userId))}" />
+                                        <!-- Tổng số trang -->
+                                        <c:set var="totalPages" value="${(totalJobs / jobsPerPage) + (totalJobs % jobsPerPage > 0 ? 1 : 0)}" />
+                                        <!-- Trang hiện tại -->
+                                        <c:set var="currentPage" value="${param.page != null ? param.page : 1}" />
+                                        <!-- Chỉ số bắt đầu -->
+                                        <c:set var="start" value="${(currentPage - 1) * jobsPerPage}" />
+                                        <!-- Chỉ số kết thúc -->
+                                        <c:set var="end" value="${start + jobsPerPage}" />
+                                        <c:if test="${end > totalJobs}">
+                                            <c:set var="end" value="${totalJobs}" />
+                                        </c:if>
+
+                                        <!-- Hiển thị công việc trong khoảng từ start đến end -->
+                                        <c:forEach var="job" begin="${start}" end="${end - 1}" items="${jobDao.getJobsByJobSeekerId(user.userId)}">
                                             <li>
                                                 <div class="boxed-list-item">
                                                     <div class="item-content">
@@ -112,84 +165,48 @@
                                         </c:forEach>
                                     </ul>
 
-                                    <!-- Hiển thị các liên kết phân trang -->
-                                    <div class="pagination">
-
+                                    <!-- Hiển thị liên kết phân trang -->
+                                    <div id="paginationControls" class="pagination-controls">
+                                        <c:if test="${totalPages > 1}">
+                                            <ul>
+                                                <c:forEach var="i" begin="1" end="${totalPages}">
+                                                    <li>
+                                                        <c:choose>
+                                                            <c:when test="${i == currentPage}">
+                                                                <span class="active current-page">${i}</span>
+                                                            </c:when>
+                                                            <c:otherwise>
+                                                                <a href="?page=${i}" class="ripple-effect">${i}</a>
+                                                            </c:otherwise>
+                                                        </c:choose>
+                                                    </li>
+                                                </c:forEach>
+                                            </ul>
+                                        </c:if>
                                     </div>
-
                                 </c:when>
                                 <c:otherwise>
                                     <p>Chưa có công việc nào trước đây.</p>
                                 </c:otherwise>
                             </c:choose>
 
-                            <!-- Phân trang -->
-                            <div class="clearfix"></div>
-                            <div class="pagination-container margin-top-40 margin-bottom-10">
-                                <nav class="pagination">
-                                    <ul>
-                                        <li><a href="#" class="ripple-effect current-page">1</a></li>
-                                        <li><a href="#" class="ripple-effect">2</a></li>
-                                        <li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
-                                    </ul>
-                                </nav>
-                            </div>
+
+                            <!--                             Phân trang 
+                                                        <div class="clearfix"></div>
+                                                        <div class="pagination-container margin-top-40 margin-bottom-10">
+                                                            <nav class="pagination">
+                                                                <ul>
+                                                                    <li><a href="#" class="ripple-effect current-page">1</a></li>
+                                                                    <li><a href="#" class="ripple-effect">2</a></li>
+                                                                    <li class="pagination-arrow"><a href="#" class="ripple-effect"><i class="icon-material-outline-keyboard-arrow-right"></i></a></li>
+                                                                </ul>
+                                                            </nav>
+                                                        </div>-->
                             <div class="clearfix"></div>
                             <!-- Phân trang / Kết thúc -->
 
                         </div>
                         <!-- Danh sách đóng gói / Kết thúc -->
-
-                        <!-- Danh sách đóng gói -->
-                        <!--                        <div class="boxed-list margin-bottom-60">
-                                                    <div class="boxed-list-headline">
-                                                        <h3><i class="icon-material-outline-business"></i> Lịch sử việc làm</h3>
-                                                    </div>
-                                                    <ul class="boxed-list-ul">
-                                                        <li>
-                                                            <div class="boxed-list-item">
-                                                                 Hình đại diện 
-                                                                <div class="item-image">
-                                                                    <img src="images/browse-companies-03.png" alt="">
-                                                                </div>
-                        
-                                                                 Nội dung 
-                                                                <div class="item-content">
-                                                                    <h4>Trưởng nhóm phát triển</h4>
-                                                                    <div class="item-details margin-top-7">
-                                                                        <div class="detail-item"><a href="#"><i class="icon-material-   outline-business"></i> Acodia</a></div>
-                                                                        <div class="detail-item"><i class="icon-material-outline-date-range"></i> Tháng 5 năm 2019 - Hiện tại</div>
-                                                                    </div>
-                                                                    <div class="item-description">
-                                                                        <p>Tập trung đội ngũ vào các nhiệm vụ hiện tại hoặc yêu cầu của khách hàng bên trong và bên ngoài.</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="boxed-list-item">
-                                                                 Hình đại diện 
-                                                                <div class="item-image">
-                                                                    <img src="images/browse-companies-04.png" alt="">
-                                                                </div>
-                        
-                                                                 Nội dung 
-                                                                <div class="item-content">
-                                                                    <h4><a href="#">Trưởng bộ phận thiết kế UX/UI</a></h4>
-                                                                    <div class="item-details margin-top-7">
-                                                                        <div class="detail-item"><a href="#"><i class="icon-material-outline-business"></i> Acorta</a></div>
-                                                                        <div class="detail-item"><i class="icon-material-outline-date-range"></i> Tháng 4 năm 2014 - Tháng 5 năm 2019</div>
-                                                                    </div>
-                                                                    <div class="item-description">
-                                                                        <p>Tôi đã thiết kế và triển khai hơn 10 hệ thống CRM dựa trên web, hệ thống quy trình công việc, giải pháp thanh toán và ứng dụng di động tùy chỉnh.</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>-->
-                        <!-- Danh sách đóng gói / Kết thúc -->
-
                     </div>
 
 
@@ -198,8 +215,11 @@
                         <div class="sidebar-container">
 
                             <!-- Button -->
-                            <c:out value="jobid: ${jobDao.getAJobByUserId(user.userId).jobId}" />
-                            <a href="CV?action=view-applied-cv&jobId=${jobDao.getAJobByUserId(user.userId).jobId}" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Xem CV</a>
+
+                            <c:if test="not empty ${jobGreetingDao.getJobGreetingBySeekerID(user.userId).cvId}">
+                                <!--href="CV?action=view&cvId={cvDao.getCVByUserId(user.userId).cvId}"-->
+                                <a href="CV?action=view&cvId=${jobGreetingDao.getJobGreetingBySeekerID(user.userId).cvId}" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Xem CV</a>
+                            </c:if>
 
                             <!-- Tổng quan hồ sơ -->
                             <div class="profile-overview">
@@ -213,7 +233,24 @@
                                 <ul class="dashboard-box-list">
                                     <c:choose>
                                         <c:when test="${not empty userDao.getEmployersOfSeeker(user.userId)}">
-                                            <c:forEach var="employer" items="${userDao.getEmployersOfSeeker(user.userId)}">
+                                            <!-- Số khách hàng hiển thị trên mỗi trang -->
+                                            <c:set var="employersPerPage" value="5" />
+                                            <!-- Tổng số khách hàng -->
+                                            <c:set var="totalEmployers" value="${fn:length(userDao.getEmployersOfSeeker(user.userId))}" />
+                                            <!-- Tổng số trang -->
+                                            <c:set var="totalPages" value="${(totalEmployers / employersPerPage) + (totalEmployers % employersPerPage > 0 ? 1 : 0)}" />
+                                            <!-- Trang hiện tại -->
+                                            <c:set var="currentPage" value="${param.page != null ? param.page : 1}" />
+                                            <!-- Chỉ số bắt đầu -->
+                                            <c:set var="start" value="${(currentPage - 1) * employersPerPage}" />
+                                            <!-- Chỉ số kết thúc -->
+                                            <c:set var="end" value="${start + employersPerPage}" />
+                                            <c:if test="${end > totalEmployers}">
+                                                <c:set var="end" value="${totalEmployers}" />
+                                            </c:if>
+
+                                            <!-- Hiển thị danh sách khách hàng trong khoảng từ start đến end -->
+                                            <c:forEach var="employer" begin="${start}" end="${end - 1}" items="${userDao.getEmployersOfSeeker(user.userId)}">
                                                 <li>
                                                     <div class="dashboard-box-list-item">
                                                         <img src="${employer.avatarUrl}" alt="">
@@ -223,17 +260,34 @@
                                                         </div>
                                                     </div>
                                                 </li>
-
-
                                             </c:forEach>
+
+                                        </ul>
+
+                                        <!-- Hiển thị các liên kết phân trang -->
+                                        <div id="paginationControls" class="pagination-controls">
+                                            <c:if test="${totalPages > 1}">
+                                                <ul>
+                                                    <c:forEach var="i" begin="1" end="${totalPages}">
+                                                        <li>
+                                                            <c:choose>
+                                                                <c:when test="${i == currentPage}">
+                                                                    <span class="active current-page">${i}</span>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <a href="?page=${i}" class="ripple-effect">${i}</a>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </li>
+                                                    </c:forEach>
+                                                </ul>
+                                            </c:if>
                                         </c:when>
                                         <c:otherwise>
                                             <p>Chưa có khách hàng nào làm việc cùng.</p>
                                         </c:otherwise>
                                     </c:choose>
-                                </ul>
-
-
+                                </div>
                             </div>
 
                         </div>
@@ -396,7 +450,85 @@
             });
         </script>
 
-    </body>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const rowsPerPage = 5; // Số hàng trên mỗi trang
+                const table = document.getElementById('UserTable');
+                const tbody = document.getElementById('tableBody');
+                const paginationControls = document.getElementById('paginationControls');
 
-    <!-- Mirrored from www.vasterad.com/themes/hireo_21/single-freelancer-profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:45 GMT -->
-</html>
+                let currentPage = 1;
+                const rows = Array.from(tbody.getElementsByTagName('tr'));
+                const totalPages = Math.ceil(rows.length / rowsPerPage);
+
+                function displayRows(page) {
+                    const start = (page - 1) * rowsPerPage;
+                    const end = start + rowsPerPage;
+
+                    rows.forEach((row, index) => {
+                        row.style.display = (index >= start && index < end) ? '' : 'none';
+                    });
+                }
+
+                function setupPagination() {
+                    paginationControls.innerHTML = '';
+                    for (let i = 1; i <= totalPages; i++) {
+                        const button = document.createElement('button');
+                        button.textContent = i;
+                        button.classList.add('pagination-button');
+                        if (i === currentPage) {
+                            button.classList.add('active');
+                        }
+                        button.addEventListener('click', function () {
+                            currentPage = i;
+                            displayRows(currentPage);
+                            updatePaginationButtons();
+                        });
+                        paginationControls.appendChild(button);
+                    }
+                }
+
+                function updatePaginationButtons() {
+                    const buttons = paginationControls.getElementsByTagName('button');
+                    for (let button of buttons) {
+                        button.classList.remove('active');
+                    }
+                    buttons[currentPage - 1].classList.add('active');
+                }
+
+                displayRows(currentPage);
+                setupPagination();
+            });
+
+
+            document.addEventListener('DOMContentLoaded', function () {
+            const rowsPerPageBan = 5; // Số hàng trên mỗi trang
+                    const tableBodyBan = document.getElementById('tableBodyBan');
+                    const paginationControlsBan = document.getElementById('paginationControlsBan');
+                    let currentPageBan = 1;
+                    const rowsBan = Array.from(tableBodyBan.getElementsByTagName('tr'));
+                    const totalPagesBan = Math.ceil(rowsBan.length / rowsPerPageBan);
+                    function displayRowsBan(page) {
+                    const start = (page - 1) * rowsPerPageBan;
+                            const end = start + rowsPerPageBan;
+                            rowsBan.forEach((row, index) => {
+                            row.style.display = (index >= start && index < end) ? '' : 'none';
+                            });
+                    }
+
+            function setupPaginationBan() {
+            paginationControlsBan.innerHTML = '';
+                    for (let i = 1; i <= totalPagesBan; i++) {
+            const buttonBan = document.createElement('button');
+                    buttonBan.textContent = i;
+                    buttonBan.classList.add('pagination-button');
+                    if (i === currentPageBan) {
+            buttonBan.classList.add('active');
+            }
+            buttonBan.addEventListener('click', function () {
+            currentPageBan = i;
+                    displayRowsBan(currentPageBan);
+                    </body>
+
+<!-- Mirrored from www.vasterad.com/themes/hireo_21/single-freelancer-profile.html by HTTrack Website Copier/3.x [XR&CO'2014], Sat, 14 Sep 2024 08:34:45 GMT -->
+                    </html>

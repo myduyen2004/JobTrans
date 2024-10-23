@@ -23,7 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static jobtrans.controller.web.home.HomeServlet.BUFFER_SIZE;
 import jobtrans.dal.JobCategoryDAO;
-import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
 import jobtrans.dal.UserDAO;
@@ -570,7 +569,6 @@ public class JobServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("account");
         User u = new UserDAO().getUserByEmail(email);
-        JobDAO jobDao = new JobDAO();
         JobGreetingDAO jgDao = new JobGreetingDAO();
         List<JobGreeting> jobGreetingList = new ArrayList<>();
         try {
@@ -585,15 +583,12 @@ public class JobServlet extends HttpServlet {
 
     public void bidderDetail(HttpServletRequest request, HttpServletResponse response) 
             throws ServletException, IOException {
-        String jobIdParam = request.getParameter("jobId");
         int userId = Integer.parseInt(request.getParameter("userId"));
-        int jobId = Integer.parseInt(jobIdParam);
         
         UserDAO userDAO = new UserDAO();
         User user = userDAO.getUserById(userId);
         
         if (user != null) {
-            request.setAttribute("jobId", jobId);
             request.setAttribute("user", user);
             request.getRequestDispatcher("seeker-infor.jsp").forward(request, response);
         } else {

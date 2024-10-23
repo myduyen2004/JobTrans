@@ -640,7 +640,7 @@ public class JobDAO {
     return jobId; // Trả về jobId
 }
 
-
+    
     public static void main(String[] args) {
         JobDAO dao = new JobDAO();
 //        List<String> list = new ArrayList<>();

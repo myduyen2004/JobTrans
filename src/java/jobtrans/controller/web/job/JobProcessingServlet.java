@@ -7,29 +7,42 @@ package jobtrans.controller.web.job;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
+import jobtrans.dal.ProcessDAO;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.Job;
 import jobtrans.model.JobGreeting;
 import jobtrans.model.Transaction;
 import jobtrans.model.User;
+import jobtrans.model.Process;
+import jobtrans.utils.DateTimeUtils;
 
 /**
  *
  * @author admin
  */
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 15 // 15 MB
+)
 public class JobProcessingServlet extends HttpServlet {
 
     /**
@@ -70,30 +83,39 @@ public class JobProcessingServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action = request.getParameter("action");
-        switch (action) {
-            case "list-employer":
-                myJobForEmployer(request, response);
-                break;
-            case "list-seeker":
-                myJobForSeeker(request, response);
-                break;
-            case "load-deposit":
-                loadDeposit(request, response);
-                break;
-            case "deposit-seeker":
-                depositForJob(request, response);
-                break;
-            case "load-prepay":
-                loadPrepay(request, response);
-                break;
-            case "prepay-employer":
-                prepayForJob(request, response);
-                break;
-
+        try {
+            String action = request.getParameter("action");
+            switch (action) {
+                case "list-employer":
+                    myJobForEmployer(request, response);
+                    break;
+                case "list-seeker":
+                    myJobForSeeker(request, response);
+                    break;
+                case "load-deposit":
+                    loadDeposit(request, response);
+                    break;
+                case "deposit-seeker":
+                    depositForJob(request, response);
+                    break;
+                case "load-prepay":
+                    loadPrepay(request, response);
+                    break;
+                case "prepay-employer":
+                    prepayForJob(request, response);
+                    break;
+                case "view-process-employer":
+                    viewProcessEmployer(request, response);
+                    break;
+                case "load-creating":
+                    loadCreating(request, response);
+                    break;
 //            case "prepay-employer":
 //                prepayForJob(request, response);
 //                break;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -108,7 +130,27 @@ public class JobProcessingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        try {
+            String command = request.getParameter("command");
+            switch (command) {
+                case "CREATE":
+                    createProcess(request, response);
+                    break;
+                case "UPDATE":
+                    response.getWriter().print(command);
+//                    updateJob(request, response);
+                    break;
+                case "INTERVIEW":
+//                    updateJobInterview(request, response);
+                    break;
+                default:
+//                    viewJobList(request, response);
+                    break;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -206,10 +248,10 @@ public class JobProcessingServlet extends HttpServlet {
 
                 if (u.getBalance() >= prepayMoney) {
                     jobDao.updateJobStatusAndWallet(jobId, "Chờ đặt cọc", prepayMoney);
-                job = jobDao.getJobByJobId(jobId);
-                if (job.getSecureWallet() == job.calcSecureWallet(jg)) {
-                    jobDao.updateJobStatus(jobId, "Đang làm việc");
-                }
+                    job = jobDao.getJobByJobId(jobId);
+                    if (job.getSecureWallet() == job.calcSecureWallet(jg)) {
+                        jobDao.updateJobStatus(jobId, "Đang làm việc");
+                    }
                     u.setBalance(u.getBalance() - prepayMoney);
                     try {
                         transDao.addTransactionForJob(trans);
@@ -326,4 +368,98 @@ public class JobProcessingServlet extends HttpServlet {
         }
 
     }
+
+    protected void viewProcessEmployer(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, Exception {
+        HttpSession session = request.getSession();
+        String email = (String) session.getAttribute("account");
+
+        if (email == null) {
+            response.sendRedirect("login.jsp"); // Chuyển hướng đến trang đăng nhập
+            return;
+        }
+        int jobId = Integer.parseInt(request.getParameter("jobId"));
+
+        ProcessDAO processDAO = new ProcessDAO();
+        List<Process> processes = new ArrayList<>();
+
+        // Gọi DAO để lấy danh sách quy trình cho công việc theo jobId
+        processes = processDAO.getProcessesByJobId(jobId);
+
+        // Gửi danh sách quy trình sang trang JSP
+        request.setAttribute("processes", processes);
+        request.setAttribute("jobId", jobId);
+
+        // Điều hướng đến trang JSP để hiển thị
+        request.getRequestDispatcher("view-process-of-job-employer.jsp").forward(request, response);
+    }
+
+    public void loadCreating(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        int jobId = Integer.parseInt(request.getParameter("jobId"));
+        session.setAttribute("jobId", jobId);
+        session.setAttribute("createdProcessId", jobId);
+        request.getRequestDispatcher("post-a-process.jsp").forward(request, response);
+    }
+
+    protected void createProcess(HttpServletRequest request, HttpServletResponse response)
+        throws IOException, ServletException, Exception {
+    HttpSession session = request.getSession(true);
+    ProcessDAO processDAO = new ProcessDAO();
+    int jobId = Integer.parseInt(request.getParameter("jobId"));
+    session.setAttribute("jobId", jobId);
+
+    
+
+    // Lấy thông tin từ form
+    String stageName = request.getParameter("stageName");
+    String requirements = request.getParameter("requirements");
+    String date = request.getParameter("endDate");
+    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    Date endDate = null;
+
+    // Xử lý ngày kết thúc
+    try {
+        endDate = dateFormat.parse(date);
+    } catch (ParseException ex) {
+        request.setAttribute("errorMessage", "Định dạng ngày không hợp lệ.");
+        request.getRequestDispatcher("post-a-process.jsp").forward(request, response);
+        return;
+    }
+
+    // Xử lý tệp tải lên
+    String url = null;
+    String baseUploadPath = "D:/FALL24/JobTrans/web/process_docs/";
+    String uniqueFolderName = "process_docs_" + System.currentTimeMillis();
+    File uploadDir = new File(baseUploadPath + uniqueFolderName);
+    if (!uploadDir.exists()) {
+        uploadDir.mkdirs();
+    }
+
+    Collection<Part> parts = request.getParts();
+    for (Part part : parts) {
+        if (part.getSubmittedFileName() != null && !part.getSubmittedFileName().isEmpty()) {
+            String fileName = part.getSubmittedFileName();
+            part.write(uploadDir.getAbsolutePath() + File.separator + fileName);
+            url = "process_docs/" + uniqueFolderName + "/" + fileName; // Cập nhật URL nếu có file
+        }
+    }
+
+    // Tạo đối tượng Process
+    Process process = new Process();
+    process.setJobId(jobId);
+    process.setStageName(stageName);
+    process.setRequirements(requirements);
+    process.setEndDate(endDate);
+    process.setResultUrl(url);
+
+    // Gọi phương thức createProcess từ DAO
+    Process processes = processDAO.createProcess(process);
+
+    request.setAttribute("processes", processes);
+        response.sendRedirect("myjob?action=view-process-employer&jobId=" + jobId);
+    
+}
+
+
 }

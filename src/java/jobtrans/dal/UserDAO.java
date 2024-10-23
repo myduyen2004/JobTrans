@@ -502,7 +502,7 @@ public class UserDAO {
 
     public static void main(String[] args) {
         UserDAO u = new UserDAO();
-        System.out.println(u.getUserByEmail("myduyenvt31@gmail.com"));
+        System.out.println(u.getUserById(2));
     }
 
 }

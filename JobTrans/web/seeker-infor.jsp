@@ -207,57 +207,6 @@
 
                         </div>
                         <!-- Danh sách đóng gói / Kết thúc -->
-
-                        <!-- Danh sách đóng gói -->
-                        <!--                        <div class="boxed-list margin-bottom-60">
-                                                    <div class="boxed-list-headline">
-                                                        <h3><i class="icon-material-outline-business"></i> Lịch sử việc làm</h3>
-                                                    </div>
-                                                    <ul class="boxed-list-ul">
-                                                        <li>
-                                                            <div class="boxed-list-item">
-                                                                 Hình đại diện 
-                                                                <div class="item-image">
-                                                                    <img src="images/browse-companies-03.png" alt="">
-                                                                </div>
-                        
-                                                                 Nội dung 
-                                                                <div class="item-content">
-                                                                    <h4>Trưởng nhóm phát triển</h4>
-                                                                    <div class="item-details margin-top-7">
-                                                                        <div class="detail-item"><a href="#"><i class="icon-material-   outline-business"></i> Acodia</a></div>
-                                                                        <div class="detail-item"><i class="icon-material-outline-date-range"></i> Tháng 5 năm 2019 - Hiện tại</div>
-                                                                    </div>
-                                                                    <div class="item-description">
-                                                                        <p>Tập trung đội ngũ vào các nhiệm vụ hiện tại hoặc yêu cầu của khách hàng bên trong và bên ngoài.</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                        <li>
-                                                            <div class="boxed-list-item">
-                                                                 Hình đại diện 
-                                                                <div class="item-image">
-                                                                    <img src="images/browse-companies-04.png" alt="">
-                                                                </div>
-                        
-                                                                 Nội dung 
-                                                                <div class="item-content">
-                                                                    <h4><a href="#">Trưởng bộ phận thiết kế UX/UI</a></h4>
-                                                                    <div class="item-details margin-top-7">
-                                                                        <div class="detail-item"><a href="#"><i class="icon-material-outline-business"></i> Acorta</a></div>
-                                                                        <div class="detail-item"><i class="icon-material-outline-date-range"></i> Tháng 4 năm 2014 - Tháng 5 năm 2019</div>
-                                                                    </div>
-                                                                    <div class="item-description">
-                                                                        <p>Tôi đã thiết kế và triển khai hơn 10 hệ thống CRM dựa trên web, hệ thống quy trình công việc, giải pháp thanh toán và ứng dụng di động tùy chỉnh.</p>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                </div>-->
-                        <!-- Danh sách đóng gói / Kết thúc -->
-
                     </div>
 
 
@@ -266,9 +215,11 @@
                         <div class="sidebar-container">
 
                             <!-- Button -->
-                            <!--href="CV?action=view&cvId={cvDao.getCVByUserId(user.userId).cvId}"-->
-                            <a href="" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Xem CV</a>
 
+                            <c:if test="not empty ${jobGreetingDao.getJobGreetingBySeekerID(user.userId).cvId}">
+                                <!--href="CV?action=view&cvId={cvDao.getCVByUserId(user.userId).cvId}"-->
+                                <a href="CV?action=view&cvId=${jobGreetingDao.getJobGreetingBySeekerID(user.userId).cvId}" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Xem CV</a>
+                            </c:if>
 
                             <!-- Tổng quan hồ sơ -->
                             <div class="profile-overview">
@@ -310,8 +261,8 @@
                                                     </div>
                                                 </li>
                                             </c:forEach>
-                                        
-                                </ul>
+
+                                        </ul>
 
                                         <!-- Hiển thị các liên kết phân trang -->
                                         <div id="paginationControls" class="pagination-controls">

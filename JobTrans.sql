@@ -203,7 +203,22 @@ CREATE TABLE JobReport(
 	status NVARCHAR(100)
 );
 GO
-
+CREATE TABLE Process (
+        process_id INT IDENTITY(1,1) PRIMARY KEY,
+        stage_name NVARCHAR(100) NOT NULL,
+        end_date DATE NOT NULL,
+        requirements NVARCHAR(MAX),
+        description_result NVARCHAR(MAX),
+        result_url NVARCHAR(MAX),
+		requirement_url NVARCHAR(MAX),
+        status NVARCHAR(50),
+        comments NVARCHAR(MAX),
+        job_id INT,
+        FOREIGN KEY (job_id) REFERENCES Job(job_id)
+    );
+	GO
+	ALTER TABLE process
+ADD CONSTRAINT CHK_Status CHECK (status IN (N'chấp nhận', N'Từ chối', N'Đang xem xét',N'Chưa hoàn thành',N'Hoàn thành'));
 ALTER TABLE Users
 ADD CONSTRAINT chk_role CHECK (role IN ('Seeker', 'Employer', 'Admin'));
 GO
@@ -278,9 +293,19 @@ VALUES
 (6, 2, 'Tôi là Hoang Thi F, tôi có đam mê trong lĩnh vực công nghệ thông tin.', NULL, 4000, N'Chưa phản hồi', 9, NULL);
 GO
 
+INSERT INTO Process (job_id, stage_name, description_result, end_date, result_url) VALUES
+(1, 'Giai đoạn 1', 'Mô tả cho giai đoạn 1', '2024-10-30', 'process_docs/unique_folder_1/file1.pdf'),
+(1, 'Giai đoạn 2', 'Mô tả cho giai đoạn 2', '2024-11-05', 'process_docs/unique_folder_2/file2.pdf'),
+(1, 'Giai đoạn 1', 'Mô tả cho giai đoạn 1 của Job 2', '2024-11-10', 'process_docs/unique_folder_3/file3.pdf'),
+(1, 'Giai đoạn 2', 'Mô tả cho giai đoạn 2 của Job 2', '2024-11-15', 'process_docs/unique_folder_4/file4.pdf'),
+(1, 'Giai đoạn 1', 'Mô tả cho giai đoạn 1 của Job 3', '2024-11-20', 'process_docs/unique_folder_5/file5.pdf');
+GO
+
 SELECT * FROM Users;
 SELECT * FROM Job;
 SELECT * FROM JobGreetings;
-GO
+SELECT * FROM Process;
 
+GO
+drop table Process;
 SELECT * FROM Job WHERE user_id = 3;

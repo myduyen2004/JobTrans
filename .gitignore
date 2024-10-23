@@ -1,7 +1,6 @@
 /JobTrans/build/
 /JobTrans/dist/
 /JobTrans/nbproject/private/
-/JobTrans/
 # Bỏ qua các tệp class Java
 *.class
 

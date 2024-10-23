@@ -11,14 +11,29 @@ public class Process {
     private String stageName;
     private Date endDate;
     private String requirements;
-    private String descriptionResult;
+    private String description;
     private String resultUrl;
     private String requirementUrl;
     private String status;
     private String comments;
     private int jobId;
 
-    // Getters và Setters cho các thuộc tính
+    public Process() {
+    }
+
+    public Process(int processId, String stageName, Date endDate, String requirements, String description, String resultUrl, String requirementUrl, String status, String comments, int jobId) {
+        this.processId = processId;
+        this.stageName = stageName;
+        this.endDate = endDate;
+        this.requirements = requirements;
+        this.description = description;
+        this.resultUrl = resultUrl;
+        this.requirementUrl = requirementUrl;
+        this.status = status;
+        this.comments = comments;
+        this.jobId = jobId;
+    }
+
     public int getProcessId() {
         return processId;
     }
@@ -51,12 +66,12 @@ public class Process {
         this.requirements = requirements;
     }
 
-    public String getDescriptionResult() {
-        return descriptionResult;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescriptionResult(String descriptionResult) {
-        this.descriptionResult = descriptionResult;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getResultUrl() {
@@ -101,8 +116,10 @@ public class Process {
 
     @Override
     public String toString() {
-        return "Process{" + "processId=" + processId + ", stageName=" + stageName + ", endDate=" + endDate + ", requirements=" + requirements + ", descriptionResult=" + descriptionResult + ", resultUrl=" + resultUrl + ", requirementUrl=" + requirementUrl + ", status=" + status + ", comments=" + comments + ", jobId=" + jobId + '}';
+        return "Process{" + "processId=" + processId + ", stageName=" + stageName + ", endDate=" + endDate + ", requirements=" + requirements + ", description=" + description + ", resultUrl=" + resultUrl + ", requirementUrl=" + requirementUrl + ", status=" + status + ", comments=" + comments + ", jobId=" + jobId + '}';
     }
+
+    
     
     
 }

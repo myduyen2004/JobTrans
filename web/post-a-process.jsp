@@ -25,14 +25,8 @@
             <link rel="stylesheet" href="css/popup.css">
             <style>
 
-                body {
-                    font-family: Arial, sans-serif;
-                    margin: 0;
-                    padding: 0;
-                    background-color: #f4f4f4;
-                }
                 .container {
-                    width: 90%;
+                    width: 100%;
                     max-width: 1200px;
                     margin: 50px auto;
                     background-color: white;

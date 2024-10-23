@@ -21,37 +21,37 @@ public class JobProcessDAO {
     public JobProcessDAO() {
         dbConnection = DBConnection.getInstance();
     }
-
-    public process getProcessById(int processId) {
-        process process = null;
-        String query = "SELECT * FROM process WHERE process_id = ?";
-        try (
-                Connection con = dbConnection.openConnection(); PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setInt(1, processId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                process = new process();
-                process.setProcessId(rs.getInt("process_id"));
-                process.setStageName(rs.getString("stage_name"));
-                process.setEndDate(rs.getDate("end_date"));
-                process.setRequirements(rs.getString("requirements"));
-                process.setRequirement_url(rs.getString("requirement_url"));
-                process.setDescription(rs.getString("description_result"));
-                process.setResultUrl(rs.getString("result_url"));
-                process.setStatus(rs.getString("status"));
-                process.setComments(rs.getString("comments"));
-                process.setJobId(rs.getInt("job_id"));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
+   public Process getProcessById(int processId) {
+    Process process = null;
+    String query = "SELECT * FROM process WHERE process_id = ?";
+    try (
+         Connection con = dbConnection.openConnection();
+         PreparedStatement ps = con.prepareStatement(query)){
+        ps.setInt(1, processId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            process = new Process();  // No need to re-declare 'process', just instantiate it
+            
+            process.setProcessId(rs.getInt("process_id"));
+            process.setStageName(rs.getString("stage_name"));
+            process.setEndDate(rs.getDate("end_date"));
+            process.setRequirements(rs.getString("requirements"));
+            process.setRequirementUrl(rs.getString("requirement_url"));
+            process.setDescription(rs.getString("description_result"));
+            process.setResultUrl(rs.getString("result_url"));
+            process.setStatus(rs.getString("status"));
+            process.setComments(rs.getString("comments"));
+            process.setJobId(rs.getInt("job_id"));
         }
-        return process;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return process;
+}
 
     // Method to get all processes by greeting_id
     public List<Process> getProcessesByJobId(int jobId) {
-        List<process> processList = new ArrayList<>();
+        List<Process> processList = new ArrayList<>();
         String query = "SELECT * FROM process WHERE job_id = ?";
 
         try (
@@ -64,12 +64,12 @@ public class JobProcessDAO {
 
             // Iterate through the result set and map each row to a Process object
             while (rs.next()) {
-                process process = new process();
+                Process process = new Process();
                 process.setProcessId(rs.getInt("process_id"));
                 process.setStageName(rs.getString("stage_name"));
                 process.setEndDate(rs.getDate("end_date"));
                 process.setRequirements(rs.getString("requirements"));
-                process.setRequirement_url(rs.getString("requirement_url"));
+                process.setRequirementUrl(rs.getString("requirement_url"));
                 process.setDescription(rs.getString("description_result"));
                 process.setResultUrl(rs.getString("result_url"));
                 process.setStatus(rs.getString("status"));
@@ -86,7 +86,7 @@ public class JobProcessDAO {
         return processList;
     }
 
-    public boolean updateProcessDescription(int processId, String description_result) {
+    public boolean updateProcessDescription(int processId, String description) {
         String query = "UPDATE process SET description_result = ? WHERE process_id = ?";
 
         try (
@@ -94,7 +94,7 @@ public class JobProcessDAO {
                  PreparedStatement ps = con.prepareStatement(query) // Chuẩn bị câu truy vấn SQL
                 ) {
             // Đặt tham số cho câu truy vấn
-            ps.setString(1, description_result); // Tham số đầu tiên là giá trị mới cho "result"
+            ps.setString(1, description); // Tham số đầu tiên là giá trị mới cho "result"
             ps.setInt(2, processId);    // Tham số thứ hai là giá trị của "process_id"
 
             // Thực thi câu lệnh cập nhật
@@ -110,7 +110,7 @@ public class JobProcessDAO {
         return false;
     }
 
-    public boolean updateProcessFile(int processId, String result_url) {
+    public boolean updateProcessFile(int processId, String resultUrl) {
         String query = "UPDATE process SET result_url = ? WHERE process_id = ?";
 
         try (
@@ -118,7 +118,7 @@ public class JobProcessDAO {
                  PreparedStatement ps = con.prepareStatement(query) // Chuẩn bị câu truy vấn SQL
                 ) {
             // Đặt tham số cho câu truy vấn
-            ps.setString(1, result_url); // Tham số đầu tiên là giá trị mới cho "result"
+            ps.setString(1, resultUrl); // Tham số đầu tiên là giá trị mới cho "result"
             ps.setInt(2, processId);    // Tham số thứ hai là giá trị của "process_id"
 
             // Thực thi câu lệnh cập nhật
@@ -200,18 +200,17 @@ public class JobProcessDAO {
                 process.setProcessId(rs.getInt("process_id")); // Giả sử cột tên là process_id
                 process.setJobId(rs.getInt("job_id")); // Giả sử cột tên là job_id
                 process.setStageName(rs.getString("stage_name")); // Giả sử cột tên là stage_name
-                process.setDescriptionResult(rs.getString("description_result")); // Giả sử cột tên là description_result
+                process.setDescription(rs.getString("description_result")); // Giả sử cột tên là description_result
                 process.setEndDate(rs.getDate("end_date")); // Giả sử cột tên là end_date
                 process.setResultUrl(rs.getString("result_url")); // Giả sử cột tên là result_url
             }
         } catch (SQLException e) {
-            Logger.getLogger(ProcessDAO.class.getName()).log(Level.SEVERE, null, e);
+            Logger.getLogger(JobProcessDAO.class.getName()).log(Level.SEVERE, null, e);
         }
         return process;
     }
 
     public Process createProcess(jobtrans.model.Process process) {
-
         int newProcessId = -1;
         String query = "INSERT INTO Process (job_id, stage_"
                 + "name, requirements, end_date, requirement_url, status) "

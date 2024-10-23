@@ -17,13 +17,8 @@
         <link rel="stylesheet" href="css/colors/blue.css">
         <link rel="stylesheet" href="css/popup.css">
         <style>
-            body {
-                font-family: 'Arial', sans-serif;
-                background-color: #f8f9fa;
-                margin: 0;
-                padding: 0;
-            }
-
+            
+            
             .container-custom {
                 margin: 30px auto;
                 padding: 20px;
@@ -127,6 +122,7 @@
             
         </style>
     </head>
+    
     <body class="gray">
         <div id="wrapper">
             <!-- Include Header -->
@@ -152,6 +148,7 @@
                                                 
 <form action="myjob" method="POST" enctype="multipart/form-data">
     <!-- Hidden input for processId -->
+    <input type="hidden" name="command" value="submit-process-result">
     <input type="hidden" name="processId" value="${processId}"> <!-- Replace 123 with dynamic processId -->
 
     <!-- Description -->

@@ -573,7 +573,6 @@ public class JobServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("account");
         User u = new UserDAO().getUserByEmail(email);
-        JobDAO jobDao = new JobDAO();
         JobGreetingDAO jgDao = new JobGreetingDAO();
         List<JobGreeting> jobGreetingList = new ArrayList<>();
         try {

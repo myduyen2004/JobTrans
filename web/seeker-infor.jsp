@@ -260,15 +260,21 @@
 
                     </div>
 
+                        </div>
+                        <!-- Danh sách đóng gói / Kết thúc -->
+                    </div>
+
 
                     <!-- Thanh bên -->
                     <div class="col-xl-4 col-lg-4">
                         <div class="sidebar-container">
 
                             <!-- Button -->
-                            <!--href="CV?action=view&cvId={cvDao.getCVByUserId(user.userId).cvId}"-->
-                            <a href="" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Xem CV</a>
 
+                            <c:if test="not empty ${jobGreetingDao.getJobGreetingBySeekerID(user.userId).cvId}">
+                                <!--href="CV?action=view&cvId={cvDao.getCVByUserId(user.userId).cvId}"-->
+                                <a href="CV?action=view&cvId=${jobGreetingDao.getJobGreetingBySeekerID(user.userId).cvId}" class="apply-now-button popup-with-zoom-anim margin-bottom-50">Xem CV</a>
+                            </c:if>
 
                             <!-- Tổng quan hồ sơ -->
                             <div class="profile-overview">
@@ -310,8 +316,8 @@
                                                     </div>
                                                 </li>
                                             </c:forEach>
-                                        
-                                </ul>
+
+                                        </ul>
 
                                         <!-- Hiển thị các liên kết phân trang -->
                                         <div id="paginationControls" class="pagination-controls">

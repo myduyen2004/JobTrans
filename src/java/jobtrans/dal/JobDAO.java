@@ -400,11 +400,13 @@ public class JobDAO {
         return feedbackList;
     }
 
+
     public int getMaxJobId() {
         int maxJobId = -1;
         String sql = "SELECT MAX(job_id) AS max_job_id FROM Job";
 
         try (Connection connection = dbConnection.openConnection(); PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+
             ResultSet resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
                 maxJobId = resultSet.getInt("max_job_id");
@@ -690,5 +692,6 @@ public class JobDAO {
         l.add(11);
         System.out.println(dao.getJobsByStatuses(statuses));
     }
+
 
 }

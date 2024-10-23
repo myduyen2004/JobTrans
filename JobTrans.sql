@@ -194,6 +194,8 @@ CREATE TABLE UserReport(
 	status NVARCHAR(100)
 );
 GO
+);
+GO
 CREATE TABLE JobReport(
 	job_report_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	reported_job INT FOREIGN KEY REFERENCES Job(job_id),
@@ -203,7 +205,22 @@ CREATE TABLE JobReport(
 	status NVARCHAR(100)
 );
 GO
-
+CREATE TABLE Process (
+        process_id INT IDENTITY(1,1) PRIMARY KEY,
+        stage_name NVARCHAR(100) NOT NULL,
+        end_date DATE NOT NULL,
+        requirements NVARCHAR(MAX),
+        description_result NVARCHAR(MAX),
+        result_url NVARCHAR(MAX),
+		requirement_url NVARCHAR(MAX),
+        status NVARCHAR(50),
+        comments NVARCHAR(MAX),
+        job_id INT,
+        FOREIGN KEY (job_id) REFERENCES Job(job_id)
+    );
+	GO
+	ALTER TABLE process
+ADD CONSTRAINT CHK_Status CHECK (status IN (N'chấp nhận', N'Từ chối', N'Đang xem xét',N'Chưa hoàn thành',N'Hoàn thành'));
 ALTER TABLE Users
 ADD CONSTRAINT chk_role CHECK (role IN ('Seeker', 'Employer', 'Admin'));
 GO

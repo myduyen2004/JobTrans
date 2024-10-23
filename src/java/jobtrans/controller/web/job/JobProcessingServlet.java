@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package jobtrans.controller.web.job;
 
 import java.io.IOException;
@@ -12,9 +8,6 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.servlet.http.Part;
-import java.io.File;
-import java.nio.file.Paths;
 import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.InputStream;
@@ -30,24 +23,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
-import jobtrans.dal.MessageDAO;
-import jobtrans.dal.NotificationDAO;
 import jobtrans.dal.JobProcessDAO;
+import jobtrans.dal.NotificationDAO;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.Job;
 import jobtrans.model.JobGreeting;
-import jobtrans.model.Message;
 import jobtrans.model.Notification;
 import jobtrans.model.Transaction;
 import jobtrans.model.User;
-import jobtrans.model.process;
 
 /**
  *
  * @author admin
  */
-@MultipartConfig
+@MultipartConfig(
+        fileSizeThreshold = 1024 * 1024 * 1, // 1 MB
+        maxFileSize = 1024 * 1024 * 10, // 10 MB
+        maxRequestSize = 1024 * 1024 * 15 // 15 MB
+)
 public class JobProcessingServlet extends HttpServlet {
 
     /**
@@ -108,50 +102,39 @@ public class JobProcessingServlet extends HttpServlet {
             case "prepay-employer":
                 prepayForJob(request, response);
                 break;
-                
-            case "load-chat":
-            {
-                try {
-                    loadChat(request, response);
-                } catch (Exception ex) {
-                    Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-                break;
 
 //            case "prepay-employer":
 //                prepayForJob(request, response);
 //                break;
-
-             case "list-process":
+            case "list-process":
                 listProcessSeeker(request, response);
                 break;
-                
+
             case "request-process":
-                 requestProcess(request, response);
+                requestProcess(request, response);
                 break;
-            case "result-process": 
-                 loadResultSeeker(request, response);
-                 break;
+            case "result-process":
+                loadResultSeeker(request, response);
+                break;
             case "downloadRequirement":
-                 downloadRequirement(request, response);
+                downloadRequirement(request, response);
                 break;
 //            case "prepay-employer":
 //                prepayForJob(request, response);
 //                break;
-        }
+            }
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+/**
+ * Handles the HTTP <code>POST</code> method.
+ *
+ * @param request servlet request
+ * @param response servlet response
+ * @throws ServletException if a servlet-specific error occurs
+ * @throws IOException if an I/O error occurs
+ */
+@Override
+protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
        String processIdStr = request.getParameter("processId");
     if (processIdStr == null || processIdStr.isEmpty()) {
@@ -367,8 +350,11 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
     try {
         ;
         processList = processDAO.getProcessesByJobId(jobId);
-    } catch (Exception ex) {
-        Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+
+} catch (Exception ex) {
+        Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
     }
     request.setAttribute("j", job);
     request.setAttribute("processList", processList);
@@ -387,8 +373,11 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
         List<Job> jobList = new ArrayList<>();
         try {
             jobList = jobDao.selectJobsExcludingHiring(u);
-        } catch (Exception ex) {
-            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+
+} catch (Exception ex) {
+            Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
 
         request.setAttribute("jobList", jobList);
@@ -404,8 +393,11 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
         List<Job> jobList = new ArrayList<>();
         try {
             jobList = jobDao.getAcceptedJobOfSeeker(u.getUserId());
-        } catch (Exception ex) {
-            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+
+} catch (Exception ex) {
+            Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
 
         request.setAttribute("jobList", jobList);
@@ -424,8 +416,11 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
         JobGreeting jg = new JobGreeting();
         try {
             jg = new JobGreetingDAO().getJobGreetingsByJobIdAndStatus(jobId, "Được chấp nhận");
-        } catch (Exception ex) {
-            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+
+} catch (Exception ex) {
+            Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("role", u.getRole());
         TransactionDAO transDao = new TransactionDAO();
@@ -434,9 +429,12 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
                 request.setAttribute("prepay-check", "Đã trả trước");
             } else {
                 request.setAttribute("prepay-check", "Chưa trả trước");
-            }
+
+}
         } catch (Exception ex) {
-            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("job", job);
         request.setAttribute("user", u);
@@ -459,8 +457,11 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
         NotificationDAO notiDao = new NotificationDAO();
         try {
             jg = new JobGreetingDAO().getJobGreetingsByJobIdAndStatus(jobId, "Được chấp nhận");
-        } catch (Exception ex) {
-            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+
+} catch (Exception ex) {
+            Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             if (!transDao.checkTransactionExists(jobId, "Trả trước")) {
@@ -470,16 +471,20 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
 
                 if (u.getBalance() >= prepayMoney) {
                     jobDao.updateJobStatusAndWallet(jobId, "Chờ đặt cọc", prepayMoney);
-                job = jobDao.getJobByJobId(jobId);
-                if (job.getSecureWallet() == job.calcSecureWallet(jg)) {
-                    jobDao.updateJobStatus(jobId, "Đang làm việc");
-                }
+                    job = jobDao.getJobByJobId(jobId);
+                    if (job.getSecureWallet() == job.calcSecureWallet(jg)) {
+                        jobDao.updateJobStatus(jobId, "Đang làm việc");
+                    }
                     u.setBalance(u.getBalance() - prepayMoney);
                     try {
                         transDao.addTransactionForJob(trans);
                     } catch (Exception ex) {
                         request.setAttribute("error", ex);
-                        Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger
+
+.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
                     }
                     userDao.updateBalance(u);
                     Notification notification = new Notification(jg.getJobSeekerId(), "Đối tác của bạn đã trả trước cho công việc", "Đối tác "+u.getUserName()+" của bạn đã trả trước cho công việc "+job.getJobTitle()+". Hãy theo dõi hoàn tất thanh toán để chính thức tham gia vào công việc!", new Date(), false);
@@ -497,9 +502,12 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
             } else {
                 request.setAttribute("prepay-check", "Đã trả trước");
                 request.getRequestDispatcher("deposit.jsp").forward(request, response);
-            }
+
+}
         } catch (Exception ex) {
-            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
 
         }
 
@@ -516,8 +524,11 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
         JobGreeting jg = new JobGreeting();
         try {
             jg = new JobGreetingDAO().getJobGreetingBySeekerAndJob(u.getUserId(), jobId);
-        } catch (Exception ex) {
-            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+
+} catch (Exception ex) {
+            Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("role", u.getRole());
         TransactionDAO transDao = new TransactionDAO();
@@ -526,9 +537,12 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
                 request.setAttribute("deposit-check", "Đã cọc");
             } else {
                 request.setAttribute("deposit-check", "Chưa cọc");
-            }
+
+}
         } catch (Exception ex) {
-            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         request.setAttribute("job", job);
         request.setAttribute("user", u);
@@ -551,8 +565,11 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
         NotificationDAO notiDao = new NotificationDAO();
         try {
             jg = new JobGreetingDAO().getJobGreetingBySeekerAndJob(u.getUserId(), jobId);
-        } catch (Exception ex) {
-            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+
+} catch (Exception ex) {
+            Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             if (!transDao.checkTransactionExists(jobId, "Đặt cọc nhận việc")) {
@@ -571,7 +588,11 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
                         transDao.addTransactionForJob(trans);
                     } catch (Exception ex) {
                         request.setAttribute("error", ex);
-                        Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+                        Logger
+
+.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
                     }
                     userDao.updateBalance(u);
                     Notification notification = new Notification(job.getUserId(), "Đối tác của bạn đã đặt cọc nhận việc", "Đối tác "+u.getUserName()+" của bạn đã đặt cọc nhận công việc "+job.getJobTitle()+". Hãy theo dõi hoàn tất thanh toán để chính thức tham gia vào công việc!", new Date(), false);
@@ -589,29 +610,98 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
             } else {
                 request.setAttribute("deposit-check", "Đã cọc");
                 request.getRequestDispatcher("deposit.jsp").forward(request, response);
-            }
+
+}
         } catch (Exception ex) {
-            Logger.getLogger(JobProcessingServlet.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(JobProcessingServlet.class  
+
+.getName()).log(Level.SEVERE, null, ex);
         }
 
     }
-    
-    public void loadChat(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, Exception {
+
+    protected void viewProcessEmployer(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, Exception {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("account");
-        UserDAO userDao = new UserDAO();
-        User u = userDao.getUserByEmail(email);
-        int jobId = Integer.parseInt(request.getParameter("jobId"));
-        JobDAO jobDao = new JobDAO();
-        Job job = jobDao.getJobByJobId(jobId);
-        MessageDAO msgDao = new MessageDAO();
-        List<Message> msgList = msgDao.getMessagesByJobId(jobId);
-        for (Message message : msgList) {
-            response.getWriter().print(message);
+
+        if (email == null) {
+            response.sendRedirect("login.jsp"); // Chuyển hướng đến trang đăng nhập
+            return;
         }
-        
+        int jobId = Integer.parseInt(request.getParameter("jobId"));
+
+        ProcessDAO processDAO = new ProcessDAO();
+        List<Process> processes = new ArrayList<>();
+
+        // Gọi DAO để lấy danh sách quy trình cho công việc theo jobId
+        processes = processDAO.getProcessesByJobId(jobId);
+
+        // Gửi danh sách quy trình sang trang JSP
+        request.setAttribute("processes", processes);
+        request.setAttribute("jobId", jobId);
+
+        // Điều hướng đến trang JSP để hiển thị
+        request.getRequestDispatcher("view-process-of-job-employer.jsp").forward(request, response);
     }
-    
-    
-    
+
+    public void loadCreating(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        int jobId = Integer.parseInt(request.getParameter("jobId"));
+        session.setAttribute("jobId", jobId);
+        session.setAttribute("createdProcessId", jobId);
+        request.getRequestDispatcher("post-a-process.jsp").forward(request, response);
+    }
+
+    protected void createProcess(HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException, Exception {
+        HttpSession session = request.getSession(true);
+        ProcessDAO processDAO = new ProcessDAO();
+        int jobId = Integer.parseInt(request.getParameter("jobId"));
+        session.setAttribute("jobId", jobId);
+
+        String stageName = request.getParameter("stageName");
+        String requirements = request.getParameter("requirements");
+        String date = request.getParameter("endDate");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date endDate = null;
+
+        try {
+            endDate = dateFormat.parse(date);
+        } catch (ParseException ex) {
+            request.setAttribute("errorMessage", "Định dạng ngày không hợp lệ.");
+            request.getRequestDispatcher("post-a-process.jsp").forward(request, response);
+            return;
+        }
+
+        String url = null;
+        String baseUploadPath = "D:/FALL24/JobTrans/web/process_docs/";
+        String uniqueFolderName = "process_docs_" + System.currentTimeMillis();
+        File uploadDir = new File(baseUploadPath + uniqueFolderName);
+        if (!uploadDir.exists()) {
+            uploadDir.mkdirs();
+        }
+        Collection<Part> parts = request.getParts();
+        for (Part part : parts) {
+            if (part.getSubmittedFileName() != null && !part.getSubmittedFileName().isEmpty()) {
+                String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
+                part.write(uploadDir.getAbsolutePath() + File.separator + fileName);
+                url = "process_docs/" + uniqueFolderName + "/" + fileName; // Cập nhật URL nếu có file
+            }
+        }
+
+        Process process = new Process();
+        process.setJobId(jobId);
+        process.setStageName(stageName);
+        process.setRequirements(requirements);
+        process.setEndDate(endDate);
+        process.setResultUrl(url);
+
+        Process processes = processDAO.createProcess(process);
+
+        request.setAttribute("processes", processes);
+        response.sendRedirect("myjob?action=view-process-employer&jobId=" + jobId);
+
+    }
 }
+

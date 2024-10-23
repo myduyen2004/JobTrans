@@ -627,6 +627,9 @@ public List<User> getAllSeeker() {
         return user;
     }
 
+
+
+
     public static void main(String[] args) {
         UserDAO u = new UserDAO();
         UserReport  ur = new UserReport(2);

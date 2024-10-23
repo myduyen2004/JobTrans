@@ -96,6 +96,8 @@ public class CVServlet extends HttpServlet {
                 }
             }
                 break;
+            case "view-applied-cv":
+                viewAppliedCVForAJob(request, response);
             default:
                 response.getWriter().print("Ủaaa alo");
                 break;
@@ -610,4 +612,28 @@ public class CVServlet extends HttpServlet {
         request.getRequestDispatcher("viewCV_detail.jsp").forward(request, response);
 
     }
+    
+    private void viewAppliedCVForAJob(HttpServletRequest request, HttpServletResponse response)
+        throws ServletException, IOException {
+    HttpSession session = request.getSession();
+    String email = (String) session.getAttribute("account");
+    int jobId = Integer.parseInt(request.getParameter("jobId"));
+
+    UserDAO userDao = new UserDAO();
+    User user = userDao.getUserByEmail(email);
+
+    CVDAO cvDao = new CVDAO();
+    CV cv = new CV();
+
+    try {
+        cv = cvDao.getAppliedCVByUserIdAndJobId(user.getUserId(), jobId);
+    } catch (Exception ex) {
+        Logger.getLogger(CVServlet.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+    request.setAttribute("user", user);
+    request.setAttribute("CV", cv);
+    request.getRequestDispatcher("viewCV_detail.jsp").forward(request, response);
+}
+
 }

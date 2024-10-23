@@ -26,7 +26,7 @@ public class JobGreetingDAO {
     public List<JobGreeting> getJobGreetingBySeekerId(int jobSeekerId) throws Exception {
         List<JobGreeting> greetings = new ArrayList<>();
         String query = "SELECT * FROM JobGreetings WHERE job_seeker_id = ?";
-        
+
         try {
             Connection con = dbConnection.openConnection();
             PreparedStatement ps = con.prepareStatement(query);
@@ -50,13 +50,12 @@ public class JobGreetingDAO {
         }
         return greetings;
     }
-    
+
     public List<JobGreeting> getJobGreetingByJobId(int jobId) throws Exception {
         List<JobGreeting> greetings = new ArrayList<>();
         String query = "SELECT * FROM JobGreetings WHERE job_id = ?";
 
-        try (Connection con = dbConnection.openConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
+        try (Connection con = dbConnection.openConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, jobId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -74,16 +73,15 @@ public class JobGreetingDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(JobGreetingDAO.class.getName()).log(Level.SEVERE, null, e);
-            
+
         }
         return greetings;
     }
-     
+
     public boolean addJobGreeting(JobGreeting jobGreeting) throws Exception {
-        String query = "INSERT INTO JobGreetings (job_seeker_id, job_id, introduction, attachment, price, status, expectedDay, cv_id) " +
-                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-        try (Connection con = dbConnection.openConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
+        String query = "INSERT INTO JobGreetings (job_seeker_id, job_id, introduction, attachment, price, status, expectedDay, cv_id) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (Connection con = dbConnection.openConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, jobGreeting.getJobSeekerId());
             ps.setInt(2, jobGreeting.getJobId());
             ps.setNString(3, jobGreeting.getIntroduction());
@@ -99,11 +97,10 @@ public class JobGreetingDAO {
             throw new Exception("Error adding job greeting", e);
         }
     }
-    
+
     public boolean updateStatus(int greetingId, String status) throws Exception {
         String query = "UPDATE JobGreetings SET status = ? WHERE greeting_id = ?";
-        try (Connection con = dbConnection.openConnection();
-             PreparedStatement ps = con.prepareStatement(query)) {
+        try (Connection con = dbConnection.openConnection(); PreparedStatement ps = con.prepareStatement(query)) {
             ps.setNString(1, status);
             ps.setInt(2, greetingId);
             int rowsUpdated = ps.executeUpdate();
@@ -113,13 +110,12 @@ public class JobGreetingDAO {
             throw new Exception("Error updating status for greeting ID: " + greetingId, e);
         }
     }
-    
+
     public double getAveragePriceByJobId(int jobId) throws Exception {
         double averagePrice = 0;
         String sql = "SELECT AVG(price) AS average_price FROM JobGreetings WHERE job_id = ?";
-        
-        try (Connection con = dbConnection.openConnection();
-            PreparedStatement pstmt = con.prepareStatement(sql)) {
+
+        try (Connection con = dbConnection.openConnection(); PreparedStatement pstmt = con.prepareStatement(sql)) {
             pstmt.setInt(1, jobId);
             try (ResultSet rs = pstmt.executeQuery()) {
                 if (rs.next()) {
@@ -129,15 +125,14 @@ public class JobGreetingDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
+
         return averagePrice;
     }
-    
+
     public void deleteJobGreetingByJobId(int jobId) throws Exception {
         String sql = "DELETE FROM JobGreetings WHERE job_id = ?";
 
-        try (Connection connection = dbConnection.openConnection(); 
-             PreparedStatement statement = connection.prepareStatement(sql)) {
+        try (Connection connection = dbConnection.openConnection(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
             statement.setInt(1, jobId);
             int rowsDeleted = statement.executeUpdate();
@@ -150,7 +145,7 @@ public class JobGreetingDAO {
             e.printStackTrace();
         }
     }
-    
+
     public boolean checkJobHasAcceptedGreeting(int jobId) throws Exception {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -169,24 +164,23 @@ public class JobGreetingDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } 
+        }
         return hasAcceptedGreeting;
     }
-    
+
     public JobGreeting getJobGreetingsByJobIdAndStatus(int jobId, String status) throws Exception {
-        String query = "SELECT * " +
-                       "FROM [dbo].[JobGreetings] " +
-                       "WHERE job_id = ? AND status = ?";
+        String query = "SELECT * "
+                + "FROM [dbo].[JobGreetings] "
+                + "WHERE job_id = ? AND status = ?";
         JobGreeting jobGreeting = new JobGreeting();
 
-        try (Connection connection = dbConnection.openConnection();
-             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+        try (Connection connection = dbConnection.openConnection(); PreparedStatement preparedStatement = connection.prepareStatement(query)) {
 
             preparedStatement.setInt(1, jobId);
             preparedStatement.setString(2, status);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            
+
             while (resultSet.next()) {
                 jobGreeting.setGreetingId(resultSet.getInt("greeting_id"));
                 jobGreeting.setJobSeekerId(resultSet.getInt("job_seeker_id"));
@@ -205,7 +199,7 @@ public class JobGreetingDAO {
 
         return jobGreeting;
     }
-    
+
     public JobGreeting getJobGreetingBySeekerAndJob(int jobSeekerId, int jobId) throws Exception {
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -239,6 +233,42 @@ public class JobGreetingDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         } 
+
+        return jobGreeting;
+    }
+
+    public JobGreeting getJobGreetingBySeekerID(int jobSeekerId) throws Exception {
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+        JobGreeting jobGreeting = null;
+
+        try {
+            String sql = "SELECT * FROM JobGreetings WHERE job_seeker_id = ?";
+
+            // Chuẩn bị câu truy vấn
+            pstmt = dbConnection.openConnection().prepareStatement(sql);
+            pstmt.setInt(1, jobSeekerId);
+
+            // Thực hiện truy vấn
+            rs = pstmt.executeQuery();
+
+            // Nếu tìm thấy kết quả
+            if (rs.next()) {
+                jobGreeting = new JobGreeting();
+                jobGreeting.setGreetingId(rs.getInt("greeting_id"));
+                jobGreeting.setJobSeekerId(rs.getInt("job_seeker_id"));
+                jobGreeting.setJobId(rs.getInt("job_id"));
+                jobGreeting.setIntroduction(rs.getString("introduction"));
+                jobGreeting.setAttachment(rs.getString("attachment"));
+                jobGreeting.setPrice(rs.getInt("price"));
+                jobGreeting.setStatus(rs.getString("status"));
+                jobGreeting.setExpectedDay(rs.getInt("expectedDay"));
+                jobGreeting.setCvId(rs.getInt("cv_id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
         return jobGreeting;
     }
@@ -278,7 +308,8 @@ public class JobGreetingDAO {
     public static void main(String[] args) throws Exception {
         JobGreeting j = new JobGreeting(3, 1, "ahjajfsj", "hjssd", 10000000, "Đang tuyển", 5, 1);
         JobGreetingDAO dao = new JobGreetingDAO();
-        dao.addJobGreeting(j);
+
+        System.out.println(dao.getJobGreetingBySeekerAndJob(3, 2));
     }
 
 }

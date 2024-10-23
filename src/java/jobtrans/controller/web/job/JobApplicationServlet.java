@@ -25,7 +25,6 @@ import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
 import jobtrans.dal.NotificationDAO;
 import jobtrans.dal.UserDAO;
-import jobtrans.model.Job;
 import jobtrans.model.JobGreeting;
 import jobtrans.model.Notification;
 import jobtrans.model.User;
@@ -132,8 +131,9 @@ public class JobApplicationServlet extends HttpServlet {
         request.setAttribute("due", utilDate.countdownDays(jdao.getJobByJobId(jobId).getDueDate()));
         
         response.sendRedirect("home?action=jobDetail&jobId="+jobId);
+        
+        response.sendRedirect("home?action=jobDetail&jobId="+jobId);
     }
-
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description

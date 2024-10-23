@@ -110,7 +110,7 @@
                                                             <c:if test="${jobGreeting.status == 'Được chấp nhận'}">
                                                                             <div class="verified-badge"></div>
                                                                         </c:if>
-                                                            <a href="#"><img src="${userDAO.getUserById(jobGreeting.jobSeekerId).avatarUrl}" alt=""></a>
+                                                            <a href="job?command=bidderDetail&userId=${jobGreeting.jobSeekerId}"><img src="${userDAO.getUserById(jobGreeting.jobSeekerId).avatarUrl}" alt=""></a>
                                                         </div>
                                                     </div>
 
@@ -118,7 +118,7 @@
                                                     <div class="bids-content">
                                                         <!-- Name -->
                                                         <div class="freelancer-name">
-                                                            <h4><a href="single-freelancer-profile.html">${userDAO.getUserById(jobGreeting.jobSeekerId).userName}</a></h4>
+                                                            <h4><a href="job?command=bidderDetail&userId=${jobGreeting.jobSeekerId}">${userDAO.getUserById(jobGreeting.jobSeekerId).userName}</a></h4>
                                                         </div>
                                                     </div>
 

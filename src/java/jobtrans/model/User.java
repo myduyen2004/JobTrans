@@ -62,9 +62,6 @@ public class User {
         this.balance = balance;
         this.status = status;
     }
-    
-    
-    
 
     public int getUserId() {
         return userId;
@@ -161,7 +158,7 @@ public class User {
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
-
+    
     public Date getDateOfBirth() {
         return dateOfBirth;
     }

@@ -90,7 +90,7 @@
                                             </div>
                                             <div class="bids-content">
                                                 <div class="freelancer-name">
-                                                    <h4><a href="single-freelancer-profile.html">${userDAO.getUserById(jobGreeting.jobSeekerId).userName}</a></h4>
+                                                    <h4><a href="job?command=bidderDetail&userId=${userDAO.getUserById(jobGreeting.jobSeekerId).userId}">${userDAO.getUserById(jobGreeting.jobSeekerId).userName}</a></h4>
                                                 </div>
                                             </div>
 
@@ -117,7 +117,6 @@
                                 <ul>
                                     <li><strong>Ngày hết hạn:</strong> ${job.dueDate}</li>
                                     <li><strong>Địa điểm:</strong> ${job.address}</li>
-                                    <li><strong>Ngân sách:</strong> <fmt:formatNumber value="${jobGreeting.price}" type="currency" pattern="#,##0" currencySymbol="₫" groupingUsed="true" /></li>
                                     <li><strong>Loại:</strong> Làm việc online</li>
                                     <li><strong>Đã đăng bởi:</strong> ${userDAO.getUserById(job.userId).userName}</li>
                                 </ul>
@@ -128,7 +127,7 @@
                                 <div>
                                     <c:if test="${due > 0}">
                                     <c:if test="${user != null && user.role == 'Seeker'}">
-                                        
+
                                         <c:if test="${cvDAO.getCVByUserId(user.userId).isEmpty()}">
                                             <p>Hãy tạo ít nhất 1 CV trên hệ thống để ứng tuyển cho công việc này</p>
                                             <a href="CV?action=load-creating">Tạo CV</a>
@@ -186,7 +185,7 @@
                                                 <br>
                                             </c:if>
                                         </c:if>
-                                        
+
                                     </c:if>
                                     <c:if test="${user == null}">
                                         <p>Vui lòng đăng nhập để thực hiện ứng tuyển</p>

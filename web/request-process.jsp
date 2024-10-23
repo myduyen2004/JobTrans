@@ -158,15 +158,15 @@
 <form action="myjob" method="POST" enctype="multipart/form-data">
     <!-- Hidden input for processId -->
     <input type="hidden" name="processId" value="${processId}"> <!-- Replace 123 with dynamic processId -->
-          <c:if test="${not empty pro.requirement_url}">
+          <c:if test="${not empty pro.requirementUrl}">
               <div style="margin-bottom: 20px" class="form-group">
                 <label style="margin-bottom: 20px">File Yêu Cầu:</label>
                 <!-- Link để xem file yêu cầu từ employer -->
                 <div>
-                <a style="margin-left: 0px;" href="${pro.requirement_url}" target="_blank" class="btn btn-primary">
+                <a style="margin-left: 0px;" href="${pro.requirementUrl}" target="_blank" class="btn btn-primary">
                     Xem File Yêu Cầu
                  </a>      
-                <a href="myjob?action=downloadRequirement&url=${pro.requirement_url}" style="color: white" target="_blank" class="btn btn-primary" name="url" value="${pro.requirement_url}"> 
+                <a href="myjob?action=downloadRequirement&url=${pro.requirementUrl}" style="color: white" target="_blank" class="btn btn-primary" name="url" value="${pro.requirementUrl}"> 
                     Lưu File Yêu Cầu
                 </a>    
                 
@@ -174,7 +174,7 @@
         </c:if>
 
         <!-- Hiển thị thông báo nếu không có file yêu cầu -->
-        <c:if test="${empty pro.requirement_url}">
+        <c:if test="${empty pro.requirementUrl}">
             <p>Không có file yêu cầu từ employer.</p>
         </c:if>
       

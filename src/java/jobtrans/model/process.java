@@ -15,7 +15,7 @@ public class Process {
     private String stageName;
     private Date endDate;
     private String requirements;
-    private String requirement_url;
+    private String requirementUrl;
     private String description;
     private String resultUrl;
     private String status;
@@ -25,12 +25,12 @@ public class Process {
     public Process() {
     }
 
-    public Process(int processId, String stageName, Date endDate, String requirements, String requirement_url, String description, String resultUrl, String status, String comments, int jobId) {
+    public Process(int processId, String stageName, Date endDate, String requirements, String requirementUrl, String description, String resultUrl, String status, String comments, int jobId) {
         this.processId = processId;
         this.stageName = stageName;
         this.endDate = endDate;
         this.requirements = requirements;
-        this.requirement_url = requirement_url;
+        this.requirementUrl = requirementUrl;
         this.description = description;
         this.resultUrl = resultUrl;
         this.status = status;
@@ -70,12 +70,12 @@ public class Process {
         this.requirements = requirements;
     }
 
-    public String getRequirement_url() {
-        return requirement_url;
+    public String getRequirementUrl() {
+        return requirementUrl;
     }
 
-    public void setRequirement_url(String requirement_url) {
-        this.requirement_url = requirement_url;
+    public void setRequirementUrl(String requirementUrl) {
+        this.requirementUrl = requirementUrl;
     }
 
     public String getDescription() {
@@ -120,8 +120,7 @@ public class Process {
 
     @Override
     public String toString() {
-        return "process{" + "processId=" + processId + ", stageName=" + stageName + ", endDate=" + endDate + ", requirements=" + requirements + ", requirement_url=" + requirement_url + ", description=" + description + ", resultUrl=" + resultUrl + ", status=" + status + ", comments=" + comments + ", jobId=" + jobId + '}';
+        return "Process{" + "processId=" + processId + ", stageName=" + stageName + ", endDate=" + endDate + ", requirements=" + requirements + ", requirementUrl=" + requirementUrl + ", description=" + description + ", resultUrl=" + resultUrl + ", status=" + status + ", comments=" + comments + ", jobId=" + jobId + '}';
     }
-    
     
 }

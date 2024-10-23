@@ -31,7 +31,7 @@ public class JobProcessDAO {
             process.setStageName(rs.getString("stage_name"));
             process.setEndDate(rs.getDate("end_date"));
             process.setRequirements(rs.getString("requirements"));
-            process.setRequirement_url(rs.getString("requirement_url"));
+            process.setRequirementUrl(rs.getString("requirement_url"));
             process.setDescription(rs.getString("description_result"));
             process.setResultUrl(rs.getString("result_url"));
             process.setStatus(rs.getString("status"));
@@ -66,7 +66,7 @@ public class JobProcessDAO {
                 process.setStageName(rs.getString("stage_name"));
                 process.setEndDate(rs.getDate("end_date"));
                 process.setRequirements(rs.getString("requirements"));
-                process.setRequirement_url(rs.getString("requirement_url"));
+                process.setRequirementUrl(rs.getString("requirement_url"));
                 process.setDescription(rs.getString("description_result"));
                 process.setResultUrl(rs.getString("result_url"));
                 process.setStatus(rs.getString("status"));

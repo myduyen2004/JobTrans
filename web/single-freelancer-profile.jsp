@@ -114,36 +114,7 @@
                             </div>
 
 
-                            <c:choose>
-                                <c:when test="${not empty jobDao.getJobsByJobSeekerId(user.userId)}">
-                                    <ul class="boxed-list-ul">
-                                        <c:forEach var="job" items="${jobDao.getJobsByJobSeekerId(user.userId)}">
-                                            <li>
-                                                <div class="boxed-list-item">
-                                                    <div class="item-content">
-                                                        <h4>${job.jobTitle} <span>Trạng thái: ${jobGreetingDao.getJobGreetingBySeekerID(user.userId).status}</span></h4>
-                                                        <div class="item-details margin-top-7">
-                                                            <div class="detail-item"><i class="icon-material-outline-date-range"></i>Ngày hoàn thành: ${job.dueDate}</div>
-                                                        </div>
-                                                        <div class="item-description">
-                                                            <p>Lập trình viên xuất sắc - hoàn thành dự án của tôi một cách rất chuyên nghiệp.</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </li>
-                                        </c:forEach>
-                                    </ul>
-
-                                    <!-- Hiển thị các liên kết phân trang -->
-                                    <div class="pagination">
-
-                                    </div>
-
-                                </c:when>
-                                <c:otherwise>
-                                    <p>Chưa có công việc nào trước đây.</p>
-                                </c:otherwise>
-                            </c:choose>
+                           
 
                             <!-- Phân trang -->
                             <div class="clearfix"></div>

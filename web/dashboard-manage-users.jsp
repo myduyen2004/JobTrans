@@ -28,23 +28,121 @@ button[name="action"][value="banUser"]:hover {
     background-color: darkred;
 }
 
-table#UserTable th,
-table#UserTable td {
-    width: 33.33%; /* Mỗi cột chiếm 1/3 của bảng */
-    text-align: center; /* Canh giữa nội dung trong cột */ 
+
+</style>
+ <style>
+   .pagination-controls {
+    text-align: right; /* Aligns pagination controls to the right */
+    margin-top: 20px; /* Optional: adds space above the pagination */
 }
-table#UserTable th,
-table#UserTable td {
-    width: 33.33%; /* Mỗi cột chiếm 1/3 của bảng */
-    text-align: center; /* Canh giữa nội dung trong cột */ 
-}
-table#UserBanTable th,
-table#UserBanTable td {
-   width: 33.33%; /* Mỗi cột chiếm 1/3 của bảng */
-    text-align: center; /* Canh giữa nội dung trong cột */  
+    .pagination-button {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        color: #333;
+        padding: 8px 12px;
+        margin: 0 5px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .pagination-button:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .pagination-button.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+    
+   
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+    }
+
+    th, td {
+        padding: 12px 20px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        vertical-align: middle;
+    }
+
+    /* Đảm bảo các cột có kích thước cố định */
+    th:nth-child(1), td:nth-child(1) {
+        width: 20%; /* Cột Tên Người Dùng */
+    }
+    
+    th:nth-child(2), td:nth-child(2) {
+        width: 25%; /* Cột Vai Trò */
+    }
+
+    th:nth-child(3), td:nth-child(3) {
+        width: 25%; /* Cột Trạng Thái */
+    }
+
+    th:nth-child(4), td:nth-child(4) {
+        width: 30%; /* Cột Hành Động */
+    }
+
+    /* CSS cho các nút hành động */
+    .button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        cursor: pointer;
+        border-radius: 4px;
+        text-align: center;
+        transition: background-color 0.3s ease;
+    }
+
+    .button:hover {
+        background-color: #0056b3;
+    }
+
+    .ripple-effect {
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Pagination CSS */
+    .pagination-controls {
+        text-align: right; /* Đặt phân trang sang phải */
+        margin-top: 15px;
+    }
+
+    .pagination-button {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        color: #333;
+        padding: 8px 12px;
+        margin: 0 5px;
+        cursor: pointer;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+    .pagination-button:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .pagination-button.active {
+        background-color: #007bff;
+        color: white;
+        border-color: #007bff;
+    }
+    table tr:nth-child(odd) {
+    background-color: #f2f2f2; /* màu xám nhạt */
 }
 </style>
- 
+
+
+
 
 <!-- CSS
 ================================================== -->
@@ -138,23 +236,26 @@ table#UserBanTable td {
     <div class="col-xl-12">
         <div class="dashboard-box margin-top-0">
             <div class="content">
+             
                 <table id="UserTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th style="padding-left: 150px">Tên Người Dùng</th>
-                            <th style="padding-left: 200px">Vai Trò</th>
-                            <th style="padding-left: 200px">Hành Động</th>
+                            <th style="background-color: blue; color: white;word-wrap: break-word; white-space: normal;">Tên Người Dùng</th>
+                            <th  style="background-color: blue; color: white; padding-left: 40px;">Vai Trò</th>
+                            <th style="background-color: blue; color: white; padding-left: 40px;">Trạng Thái</th>
+                            <th style="background-color: blue; color: white; padding-left: 100px;">Hành Động</th>
                         </tr>
                     </thead>
                     <tbody id="tableBody">
+                        <!-- Người dùng đang hoạt động -->
                         <c:forEach items="${list}" var="o">
                             <c:if test="${o.status == true}">
                                 <tr>
                                     <td>${o.userName}</td>
-                                    <td style="padding-left: 200px">
+                                    <td>
                                         <c:choose>
-                                            <c:when  test="${o.role == 'Seeker'} ">
-                                                 Người tìm việc
+                                            <c:when test="${o.role == 'Seeker'}">
+                                                Người tìm việc
                                             </c:when>
                                             <c:when test="${o.role == 'Employer'}">
                                                 Nhà tuyển dụng
@@ -164,8 +265,9 @@ table#UserBanTable td {
                                             </c:otherwise>
                                         </c:choose>
                                     </td>
-                                    <td style="padding-left: 150px">
-                                        <form id="banForm" action="AccountManagement" method="get">
+                                    <td>Đang hoạt động</td>
+                                    <td >
+                                        <form id="banForm" action="AccountManagement" method="get" >
                                             <input type="hidden" name="userId" value="${o.userId}">
                                             <button type="submit" name="action" value="viewDetail" class="button ripple-effect">Xem Chi Tiết</button>
                                             <button type="button" name="action" value="banUser" class="button ripple-effect" onclick="confirmBan(event)">Chặn</button>
@@ -174,31 +276,12 @@ table#UserBanTable td {
                                 </tr>
                             </c:if>
                         </c:forEach>
-                    </tbody>
-                </table>
-                <!-- Pagination controls -->
-                <div id="paginationControls" class="pagination-controls"></div>
-            </div>
-        </div>
-    </div>
-</div>
 
-
-
-
-             <div class="row">
-    <div class="col-xl-12">
-        <div class="dashboard-box margin-top-0">
-            <div class="content">
-                <table id="UserBanTable" class="table table-striped">
-                    <thead>
-                      
-                    </thead>
-                    <tbody id="tableBodyBan">
+                        <!-- Người dùng bị chặn -->
                         <c:forEach items="${listBan}" var="o">
                             <tr>
-                                <td style="padding-left: 80px">${o.userName}</td>
-                                <td style="padding-left: 80px">
+                                <td >${o.userName}</td>
+                                <td>
                                     <c:choose>
                                         <c:when test="${o.role == 'Seeker'}">
                                             Người tìm việc
@@ -211,8 +294,9 @@ table#UserBanTable td {
                                         </c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td style="padding-left: 80px">
-                                     <form id="unbanForm" action="AccountManagement" method="get">
+                                <td >Đã bị chặn</td>
+                                <td>
+                                    <form id="unbanForm" action="AccountManagement" method="get">
                                         <input type="hidden" name="userId" value="${o.userId}">
                                         <button type="submit" name="action" value="viewDetail" class="button ripple-effect">Xem Chi Tiết</button>
                                         <button type="button" class="button ripple-effect" onclick="confirmUnban(event)">Gỡ Chặn</button>
@@ -223,11 +307,12 @@ table#UserBanTable td {
                     </tbody>
                 </table>
                 <!-- Pagination controls -->
-                <div id="paginationControlsBan" class="pagination-controls"></div>
+                <div id="paginationControls" class="pagination-controls"></div>
             </div>
         </div>
     </div>
 </div>
+
 
             
             

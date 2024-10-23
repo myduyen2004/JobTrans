@@ -21,9 +21,11 @@ import jobtrans.controller.web.job.JobServlet;
 import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
+import jobtrans.dal.JobReportDAO;
 import jobtrans.model.Job;
 import jobtrans.model.JobCategory;
 import jobtrans.model.JobGreeting;
+import jobtrans.model.JobReport;
 
 /**
  *
@@ -77,6 +79,15 @@ public class JobManagement extends HttpServlet {
                 break;
             case "DELETE":
                 deleteJob(request, response);
+                break;
+            case "DETAIL":
+                viewDetailJob(request, response);
+                break;
+            case "REPORT":
+                viewReport(request, response);
+                break;
+            case "DENYREPORT":
+                denyReport(request, response);
                 break;
             default:
                 break;
@@ -148,5 +159,42 @@ public class JobManagement extends HttpServlet {
             jobDAO.deleteJobById(id);
         }
         viewListJob(request, response);
+    }
+    
+    public void viewDetailJob(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        JobDAO jobDAO = new JobDAO();
+        String sid = request.getParameter("jid");
+        int id = Integer.parseInt(sid);
+        
+        Job j = jobDAO.getJobByJobId(id);
+        
+        request.setAttribute("job", j);
+        request.getRequestDispatcher("manage-job-page-ad.jsp").forward(request, response);
+    }
+    
+    public void viewReport(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        JobReportDAO jrDAO = new JobReportDAO();
+        JobDAO jobDAO = new JobDAO();
+        
+        String sid = request.getParameter("jid");
+        int id = Integer.parseInt(sid);
+        
+        List<JobReport> jrList = jrDAO.getAllReportByJobId(id);  
+        Job j = jobDAO.getJobByJobId(id);
+        
+        request.setAttribute("jobinfo", j);
+        request.setAttribute("jobReportList", jrList);
+        request.getRequestDispatcher("manage-report-admin.jsp").forward(request, response);
+    }
+    
+    public void denyReport(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
+        JobReportDAO jrDAO = new JobReportDAO();
+        
+        String sid = request.getParameter("rid");
+        int id = Integer.parseInt(sid);
+        
+        jrDAO.denyJobReportByReportId(id);
+        
+        viewReport(request, response);
     }
 }

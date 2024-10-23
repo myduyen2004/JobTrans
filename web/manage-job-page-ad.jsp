@@ -88,9 +88,6 @@
                                             <table style="width: 100%">
                                                 <tr>
                                                     <td>
-                                                        <a href="#"><button class="btn btn-secondary">Danh Sách Tham Gia Công Việc</button></a>
-                                                    </td>
-                                                    <td>
                                                         <a href="job?command=manageSeeker&jobId=${job.jobId}"><button class="btn btn-secondary">Danh Sách Ứng Tuyển</button></a>
                                                     </td>
                                                     <td>
@@ -98,7 +95,22 @@
                                                     </td>
                                                 </tr>
                                             </table>
-                                        </div>            
+                                        </div>
+                                        <div class="mt-4 mb-2">
+                                            <form action="JobManagement" method="get">
+                                                <input type="hidden" name="command" value="PAYSALARY">
+                                                <input type="hidden" name="jid" value="${job.jobId}">
+                                                <input type="hidden" name="description" value="Nhận lương">
+                                                <c:if test="${msgSalary != 'Trả Lương Hoàn Tất!'}">
+                                                    <h4 style="font-style: italic; color: red;">${msgSalary}</h4>
+                                                </c:if>
+                                                <c:if test="${msgSalary == 'Trả Lương Hoàn Tất!'}">
+                                                    <h4 style="font-style: italic; color: green;">${msgSalary}</h4>
+                                                </c:if>
+                                                <h3 class="mb-1">Thanh toán tiền lương: </h3>
+                                                <button type="submit" class="button ripple-effect big margin-top-10">Trả lương</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.model.User;
+import jobtrans.model.UserReport;
 import jobtrans.utils.DBConnection;
 
 /**
@@ -504,6 +505,47 @@ public List<User> getAllSeeker() {
         }
         return users;
     }
+    public List<UserReport> getAllReportUserbyId(int reportedUser){
+            List<UserReport> listUserReport = new ArrayList<>();
+        String query = "SELECT * FROM UserReport WHERE reported_user = ?";
+
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, reportedUser);
+            ResultSet rs = ps.executeQuery();
+             while (rs.next()) {
+                UserReport userReport = new UserReport();
+                  userReport.setUserReportId(rs.getInt("user_report_id"));
+                userReport.setReportedUser(rs.getInt("reported_user"));
+                userReport.setReportBy(rs.getInt("report_by"));
+                userReport.setContentReport(rs.getString("content_report"));
+                userReport.setAttachment(rs.getString("attachment"));
+                userReport.setStatus(rs.getString("status"));
+                listUserReport.add(userReport);
+            }
+        } catch (Exception e) {
+            Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return listUserReport;
+    }
+ 
+ public  boolean unReportUser(UserReport userReport){
+     String sql = "UPDATE [dbo].[UserReport]  SET status =? WHERE user_report_id=? ";
+             try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setString(1, "Đã từ chối xử lí"); // Đặt giá trị mới cho status
+            ps.setInt(2, userReport.getUserReportId());
+           
+
+            int rowsUpdated = ps.executeUpdate(); // Thực hiện cập nhật
+            return rowsUpdated > 0; // Trả về true nếu cập nhật thành công
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra thông báo lỗi
+            return false; // Trả về false nếu có lỗi
+        }
+ }
 
     public List<User> getEmployersOfSeeker(int seekerId) {
         List<User> employer = new ArrayList<>();
@@ -587,10 +629,9 @@ public List<User> getAllSeeker() {
 
     public static void main(String[] args) {
         UserDAO u = new UserDAO();
-      User user = new User(7, true);
-      u.updateStatus(user);
-       
-        System.out.println("hehe");
+        UserReport  ur = new UserReport(2);
+       Boolean result = u.unReportUser(ur);
+        System.out.println("Update result: " + result); // In ra kết quả
     }
 
 }

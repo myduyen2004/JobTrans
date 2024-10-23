@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import jobtrans.controller.web.home.HomeServlet;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.User;
+import jobtrans.model.UserReport;
 
 /**
  *
@@ -90,7 +91,14 @@ public class AccountManagement extends HttpServlet {
                 break;   
               case "UnbanUser":
                 unbanUser(request,response);
-                break;  
+                break; 
+              case "viewComplain":
+                  viewComplain(request,response);
+                break;
+                
+              case "unReportUser":
+              unReportUser(request,response);
+              break;
             default:
                 throw new AssertionError();
         }
@@ -167,7 +175,26 @@ public class AccountManagement extends HttpServlet {
        User u = new User(userId, true);
        ud.updateStatus(u);
       request.getRequestDispatcher("AccountManagement?action=viewAll").forward(request, response);
-    }    
+    }   
+  private void viewComplain(HttpServletRequest request, HttpServletResponse response)   throws ServletException, IOException{
+    int userId = Integer.parseInt(request.getParameter("userId"));
+     List <UserReport> ur = ud.getAllReportUserbyId(userId);
+      User u = ud.getUserById(userId);
+     request.setAttribute("u", u); 
+      request.setAttribute("ur", ur);
+            request.getRequestDispatcher("viewReportUser.jsp").forward(request, response);
+
+  }
+
+    private void unReportUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+         int userReportID = Integer.parseInt(request.getParameter("userReportId"));
+         UserReport ur = new UserReport(userReportID);
+         ud.unReportUser(ur);
+         request.getRequestDispatcher("AccountManagement?action=viewComplain").forward(request, response);
+    }
+  
+    
+    
 }
 
 

@@ -15,6 +15,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
@@ -107,7 +112,9 @@ public class JobProcessingServlet extends HttpServlet {
             case "result-process": 
                  loadResultSeeker(request, response);
                  break;
-                
+            case "downloadRequirement":
+                 downloadRequirement(request, response);
+                break;
 //            case "prepay-employer":
 //                prepayForJob(request, response);
 //                break;
@@ -135,30 +142,47 @@ public class JobProcessingServlet extends HttpServlet {
         String description = request.getParameter("description");
         // Initialize file upload path to null
         String uploadPath = null;
-        // Handle file upload (if file was uploaded)
-        Part filePart = request.getPart("fileUpload");
-        if (filePart != null && filePart.getSize() > 0) {
-            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-            String uploadDir = "/Users/mac/Documents/netbean/tomcat/apache-tomcat-10.1.28/work/Catalina/localhost/JobTrans/your/upload/directory/";
-            // Create the directory if it doesn't exist
-            File fileDir = new File(uploadDir);
-            if (!fileDir.exists()) {
-                fileDir.mkdirs();  // Creates the directories
-            }
-            // Save the uploaded file to the specified directory
-            uploadPath = uploadDir + fileName;
-            filePart.write(uploadPath);
-        } else {
-            System.out.println("No file was uploaded.");
-        }
+        String fileURL = null;
+
+// Xử lý việc tải tệp (nếu có tệp được tải lên)
+Part filePart = request.getPart("fileUpload");
+if (filePart != null && filePart.getSize() > 0) {
+    // Lấy tên tệp từ phần tải lên
+    String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+    
+    // Đường dẫn thư mục lưu trữ tệp
+    String baseUploadPath = "D:/FALL24/JobTrans/web/job_docs/";
+    
+    // Tạo tên thư mục duy nhất để lưu trữ tệp theo thời gian
+    String uniqueFolderName = "job_docs_" + System.currentTimeMillis();
+    
+    // Tạo thư mục mới để lưu tệp
+    File uploadDir = new File(baseUploadPath + uniqueFolderName);
+    if (!uploadDir.exists()) {
+        uploadDir.mkdirs();  // Tạo thư mục nếu nó chưa tồn tại
+    }
+    
+    // Đường dẫn đầy đủ để lưu tệp
+    uploadPath = uploadDir.getAbsolutePath() + File.separator + fileName;
+    
+    // Ghi tệp vào thư mục đã tạo
+    filePart.write(uploadPath);
+    
+    // Tạo URL công khai để có thể truy cập tệp qua ứng dụng web
+    fileURL = "http://localhost:8080/JobTrans/job_docs/" + uniqueFolderName + "/" + fileName;
+    
+    // In URL của tệp đã tải lên ra màn hình console (hoặc có thể lưu vào cơ sở dữ liệu)
+    System.out.println("File URL: " + fileURL);
+} else {
+    System.out.println("No file was uploaded.");
+}
         // Update the process description
         JobProcessDAO processDAO = new JobProcessDAO();
         boolean descriptionResult = processDAO.updateProcessDescription(processId, description);
-
         // Update the file URL only if a file was uploaded
         boolean fileResult = true;
         if (uploadPath != null) {
-            fileResult = processDAO.updateProcessFile(processId, uploadPath);
+            fileResult = processDAO.updateProcessFile(processId, fileURL);
         }
         // Check if both updates succeeded
         if (descriptionResult) {
@@ -171,6 +195,49 @@ public class JobProcessingServlet extends HttpServlet {
         e.printStackTrace();
     }
 }
+    public void downloadRequirement(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String fileUrl = request.getParameter("url");
+
+            // Check if the URL is valid
+            if (fileUrl == null || fileUrl.isEmpty()) {
+                response.getWriter().write("Error: File URL is missing or invalid.");
+                return;
+            }
+
+            // Create a connection to the file URL
+            try {
+                URL url = new URL(fileUrl);
+                URLConnection connection = url.openConnection();
+
+                // Get the input stream from the URL connection
+                InputStream inputStream = connection.getInputStream();
+
+                // Set response headers to force download
+                String fileName = Paths.get(url.getPath()).getFileName().toString();
+                response.setContentType("application/octet-stream");
+                response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\"");
+
+                // Write the file to the response output stream
+                OutputStream outputStream = response.getOutputStream();
+                byte[] buffer = new byte[4096];
+                int bytesRead = -1;
+
+                while ((bytesRead = inputStream.read(buffer)) != -1) {
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+
+                inputStream.close();
+                outputStream.close();
+            } catch (MalformedURLException e) {
+                response.getWriter().write("Error: Invalid URL format.");
+                e.printStackTrace();
+            } catch (IOException e) {
+                response.getWriter().write("Error: Unable to download the file.");
+                e.printStackTrace();
+            }
+        
+        
+    }
     public void requestProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     HttpSession session = request.getSession();
     String name = request.getParameter("name");

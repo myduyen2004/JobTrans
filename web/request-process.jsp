@@ -153,25 +153,37 @@
                                     <div class="container">
                                         <div class="col-md-12">
                                             <!--<div class="container-custom">-->
-                                                <h4 style="margin-bottom: 35px; margin-top: 35px"> ${name}     -     Yêu cầu tiến trình: ${pro.requirements} </h4>
+                                                <h3 style="margin-bottom: 35px; margin-top: 35px"> ${name}     -     Yêu cầu tiến trình: ${pro.requirements} </h3>
                                                 
 <form action="myjob" method="POST" enctype="multipart/form-data">
     <!-- Hidden input for processId -->
     <input type="hidden" name="processId" value="${processId}"> <!-- Replace 123 with dynamic processId -->
-    
-    <!-- Description -->
-    <div class="form-group">
-        <label for="description">Mô tả</label>
-        <textarea name="description" class="form-control" id="description" rows="4" placeholder="Nhập mô tả công việc..." required></textarea>
-    </div>
+          <c:if test="${not empty pro.requirement_url}">
+              <div style="margin-bottom: 20px" class="form-group">
+                <label style="margin-bottom: 20px">File Yêu Cầu:</label>
+                <!-- Link để xem file yêu cầu từ employer -->
+                <div>
+                <a style="margin-left: 0px;" href="${pro.requirement_url}" target="_blank" class="btn btn-primary">
+                    Xem File Yêu Cầu
+                 </a>      
+                <a href="myjob?action=downloadRequirement&url=${pro.requirement_url}" style="color: white" target="_blank" class="btn btn-primary" name="url" value="${pro.requirement_url}"> 
+                    Lưu File Yêu Cầu
+                </a>    
+                
+            </div>
+        </c:if>
 
-    <!-- Upload File -->
- 
-     <input name="fileUpload" type="file"  style="width: 100%;">
-
-
-    <!-- Submit Button -->
-    <button  type="submit" class="btn btn-primary">Nộp kết quả</button>
+        <!-- Hiển thị thông báo nếu không có file yêu cầu -->
+        <c:if test="${empty pro.requirement_url}">
+            <p>Không có file yêu cầu từ employer.</p>
+        </c:if>
+      
+    <!--<a   href="myjob?action=result-process&processId=${pro.processId}&name=${pro.stageName}&jobId=${pro.jobId}" class="action-button submit-button">Nộp Kết Quả</a>-->
+<a href="myjob?action=result-process&processId=${pro.processId}&name=${pro.stageName}&jobId=${pro.jobId}" 
+       class="action-button submit-button" 
+       style="display: inline-block; margin-top: 20px;">
+       Nộp Kết Quả
+    </a>
 </form>
                                             </div>
                                         </div>

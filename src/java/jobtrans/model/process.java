@@ -15,6 +15,7 @@ public class process {
     private String stageName;
     private Date endDate;
     private String requirements;
+    private String requirement_url;
     private String description;
     private String resultUrl;
     private String status;
@@ -24,11 +25,12 @@ public class process {
     public process() {
     }
 
-    public process(int processId, String stageName, Date endDate, String requirements, String description, String resultUrl, String status, String comments, int jobId) {
+    public process(int processId, String stageName, Date endDate, String requirements, String requirement_url, String description, String resultUrl, String status, String comments, int jobId) {
         this.processId = processId;
         this.stageName = stageName;
         this.endDate = endDate;
         this.requirements = requirements;
+        this.requirement_url = requirement_url;
         this.description = description;
         this.resultUrl = resultUrl;
         this.status = status;
@@ -66,6 +68,14 @@ public class process {
 
     public void setRequirements(String requirements) {
         this.requirements = requirements;
+    }
+
+    public String getRequirement_url() {
+        return requirement_url;
+    }
+
+    public void setRequirement_url(String requirement_url) {
+        this.requirement_url = requirement_url;
     }
 
     public String getDescription() {
@@ -110,7 +120,8 @@ public class process {
 
     @Override
     public String toString() {
-        return "process{" + "processId=" + processId + ", stageName=" + stageName + ", endDate=" + endDate + ", requirements=" + requirements + ", description=" + description + ", resultUrl=" + resultUrl + ", status=" + status + ", comments=" + comments + ", jobId=" + jobId + '}';
+        return "process{" + "processId=" + processId + ", stageName=" + stageName + ", endDate=" + endDate + ", requirements=" + requirements + ", requirement_url=" + requirement_url + ", description=" + description + ", resultUrl=" + resultUrl + ", status=" + status + ", comments=" + comments + ", jobId=" + jobId + '}';
     }
+    
     
 }

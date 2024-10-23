@@ -10,7 +10,7 @@ import java.util.Date;
  *
  * @author mac
  */
-public class process {
+public class Process {
     private int processId;
     private String stageName;
     private Date endDate;
@@ -22,10 +22,10 @@ public class process {
     private String comments;
     private int jobId;
 
-    public process() {
+    public Process() {
     }
 
-    public process(int processId, String stageName, Date endDate, String requirements, String requirement_url, String description, String resultUrl, String status, String comments, int jobId) {
+    public Process(int processId, String stageName, Date endDate, String requirements, String requirement_url, String description, String resultUrl, String status, String comments, int jobId) {
         this.processId = processId;
         this.stageName = stageName;
         this.endDate = endDate;

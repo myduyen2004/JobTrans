@@ -35,7 +35,7 @@ import jobtrans.model.Job;
 import jobtrans.model.JobGreeting;
 import jobtrans.model.Transaction;
 import jobtrans.model.User;
-import jobtrans.model.process;
+import jobtrans.model.Process;
 
 /**
  *
@@ -266,7 +266,7 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
         response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Định dạng jobId không hợp lệ");
         return;
     }
-    process pro = j.getProcessById(IntprocessId);
+    Process pro = j.getProcessById(IntprocessId);
     JobDAO jobDao = new JobDAO();
     Job job = jobDao.getJobByJobId(IntjobId);
     request.setAttribute("name",name);
@@ -341,7 +341,7 @@ public void downloadRequirement(HttpServletRequest request, HttpServletResponse 
     
    
     JobProcessDAO processDAO = new JobProcessDAO();
-    List<process> processList = new ArrayList<>();
+    List<Process> processList = new ArrayList<>();
     
     try {
         ;

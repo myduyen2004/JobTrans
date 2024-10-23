@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import jobtrans.model.Job;
-import jobtrans.model.process;
+import jobtrans.model.Process;
 import jobtrans.utils.DBConnection;
 
 public class JobProcessDAO {
@@ -16,35 +16,37 @@ public class JobProcessDAO {
     public JobProcessDAO() {
         dbConnection = DBConnection.getInstance();
     }
-     public process getProcessById(int processId) {
-        process process = null;
-        String query = "SELECT * FROM process WHERE process_id = ?";
-        try (
-             Connection con = dbConnection.openConnection();
-            PreparedStatement ps = con.prepareStatement(query)){
-            ps.setInt(1, processId);
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                process = new process();
-                process.setProcessId(rs.getInt("process_id"));
-                process.setStageName(rs.getString("stage_name"));
-                process.setEndDate(rs.getDate("end_date"));
-                process.setRequirements(rs.getString("requirements"));
-                process.setRequirement_url(rs.getString("requirement_url"));
-                process.setDescription(rs.getString("description_result"));
-                process.setResultUrl(rs.getString("result_url"));
-                process.setStatus(rs.getString("status"));
-                process.setComments(rs.getString("comments"));
-                process.setJobId(rs.getInt("job_id"));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+   public Process getProcessById(int processId) {
+    Process process = null;
+    String query = "SELECT * FROM process WHERE process_id = ?";
+    try (
+         Connection con = dbConnection.openConnection();
+         PreparedStatement ps = con.prepareStatement(query)){
+        ps.setInt(1, processId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            process = new Process();  // No need to re-declare 'process', just instantiate it
+            
+            process.setProcessId(rs.getInt("process_id"));
+            process.setStageName(rs.getString("stage_name"));
+            process.setEndDate(rs.getDate("end_date"));
+            process.setRequirements(rs.getString("requirements"));
+            process.setRequirement_url(rs.getString("requirement_url"));
+            process.setDescription(rs.getString("description_result"));
+            process.setResultUrl(rs.getString("result_url"));
+            process.setStatus(rs.getString("status"));
+            process.setComments(rs.getString("comments"));
+            process.setJobId(rs.getInt("job_id"));
         }
-        return process;
+    } catch (Exception e) {
+        e.printStackTrace();
     }
+    return process;
+}
+
     // Method to get all processes by greeting_id
-    public List<process> getProcessesByJobId(int jobId) {
-        List<process> processList = new ArrayList<>();
+    public List<Process> getProcessesByJobId(int jobId) {
+        List<Process> processList = new ArrayList<>();
         String query = "SELECT * FROM process WHERE job_id = ?";
 
         try (
@@ -59,7 +61,7 @@ public class JobProcessDAO {
 
             // Iterate through the result set and map each row to a Process object
             while (rs.next()) {
-                process process = new process();
+                Process process = new Process();
                 process.setProcessId(rs.getInt("process_id"));
                 process.setStageName(rs.getString("stage_name"));
                 process.setEndDate(rs.getDate("end_date"));

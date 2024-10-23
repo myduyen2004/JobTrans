@@ -23,7 +23,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import static jobtrans.controller.web.home.HomeServlet.BUFFER_SIZE;
 import jobtrans.dal.JobCategoryDAO;
-import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
 import jobtrans.dal.UserDAO;
@@ -124,6 +123,9 @@ public class JobServlet extends HttpServlet {
                 break;
             case "appliedList":
                 appliedJobList(request, response);
+                break;
+                case "downloadJG":
+                downloadJG(request, response);
                 break;
             default:
                 break;
@@ -441,7 +443,7 @@ public class JobServlet extends HttpServlet {
             throws ServletException, IOException {
         String fileName = request.getParameter("fileName");
         if (fileName != null) {
-            String path = getServletContext().getRealPath("") + "job-docs" + File.separator + fileName;
+            String path = getServletContext().getRealPath("") + "job_greetings  " + File.separator + fileName;
 //        System.out.println(path);
 //        response.getWriter().print(path);
 
@@ -529,7 +531,7 @@ public class JobServlet extends HttpServlet {
                 Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             jobDao.updateJobStatus(jobId, "Chờ đặt cọc");
-        }else{
+        } else {
             request.setAttribute("error", "Bạn đã chọn ứng viên cho công việc này");
         }
         ArrayList<JobGreeting> jobGreetings = new ArrayList<>();
@@ -567,7 +569,6 @@ public class JobServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("account");
         User u = new UserDAO().getUserByEmail(email);
-        JobDAO jobDao = new JobDAO();
         JobGreetingDAO jgDao = new JobGreetingDAO();
         List<JobGreeting> jobGreetingList = new ArrayList<>();
         try {
@@ -580,7 +581,50 @@ public class JobServlet extends HttpServlet {
 
     }
 
-    public void bidderDetail(HttpServletRequest request, HttpServletResponse response) {
-
+    public void bidderDetail(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserById(userId);
+        
+        if (user != null) {
+            request.setAttribute("user", user);
+            request.getRequestDispatcher("seeker-infor.jsp").forward(request, response);
+        } else {
+            request.setAttribute("error", "Không tìm thấy người dùng."); 
+            request.getRequestDispatcher("errorPage.jsp").forward(request, response); 
+        }
     }
+    
+    public void downloadJG(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException{
+        String fileName = request.getParameter("fileName");
+        if (fileName != null) {
+            String path = getServletContext().getRealPath("") + "job_greetings" + File.separator + fileName;
+//        System.out.println(path);
+//        response.getWriter().print(path);
+
+            File file = new File(path);
+            OutputStream os = null;
+            FileInputStream fis = null;
+
+            response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
+            response.setContentType("application/octet-stream");
+
+            if (file.exists()) {
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                byte[] bf = new byte[BUFFER_SIZE];
+                int byteRead = -1;
+                while ((byteRead = fis.read(bf)) != -1) {
+                    os.write(bf, 0, byteRead);
+                }
+            } else {
+                System.out.println("File Not Found: " + fileName);
+            }
+        }
+    }
+    
+    
 }

@@ -90,7 +90,7 @@
                                             </div>
                                             <div class="bids-content">
                                                 <div class="freelancer-name">
-                                                    <h4><a href="single-freelancer-profile.html">${userDAO.getUserById(jobGreeting.jobSeekerId).userName}</a></h4>
+                                                    <h4><a href="job?command=bidderDetail&userId=${userDAO.getUserById(jobGreeting.jobSeekerId).userId}">${userDAO.getUserById(jobGreeting.jobSeekerId).userName}</a></h4>
                                                 </div>
                                             </div>
 
@@ -117,7 +117,6 @@
                                 <ul>
                                     <li><strong>Ngày hết hạn:</strong> ${job.dueDate}</li>
                                     <li><strong>Địa điểm:</strong> ${job.address}</li>
-                                    <li><strong>Ngân sách:</strong> <fmt:formatNumber value="${jobGreeting.price}" type="currency" pattern="#,##0" currencySymbol="₫" groupingUsed="true" /></li>
                                     <li><strong>Loại:</strong> Làm việc online</li>
                                     <li><strong>Đã đăng bởi:</strong> ${userDAO.getUserById(job.userId).userName}</li>
                                 </ul>
@@ -126,9 +125,9 @@
                             <div class="sidebar-widget">
                                 <h3 style="font-weight: bold">Thông tin chào giá</h3>
                                 <div>
-                                    
+
                                     <c:if test="${user != null && user.role == 'Seeker'}">
-                                        
+
                                         <c:if test="${cvDAO.getCVByUserId(user.userId).isEmpty()}">
                                             <p>Hãy tạo ít nhất 1 CV trên hệ thống để ứng tuyển cho công việc này</p>
                                             <a href="CV?action=load-creating">Tạo CV</a>
@@ -160,8 +159,9 @@
                                                     <textarea id="intro" name="intro" 
                                                               style="width: 316px; height: 182px; text-align: left;" 
                                                               placeholder="- Tôi đã có ... năm kinh nghiệm&#10;- Tôi đã thành thạo ...&#10;- Hãy liên hệ tôi qua...." required></textarea>
-                                                    <label for="fileUpload"><strong>Chọn tệp đính kèm:</strong></label>
-                                                    <input type="file" id="fileUpload" name="fileUpload" accept=".jpg, .jpeg, .png, .pdf">
+                                                    <input class="uploadButton-input" type="file" id="upload" name="file" multiple/>
+                                                    <label class="uploadButton-button" for="upload"><strong>Chọn tệp đính kèm:</strong></label>
+
                                                     <br>
                                                     <input type="submit" value="Ứng tuyển">
                                                 </form>
@@ -186,7 +186,7 @@
                                                 <br>
                                             </c:if>
                                         </c:if>
-                                        
+
                                     </c:if>
                                     <c:if test="${user == null}">
                                         <p>Vui lòng đăng nhập để thực hiện ứng tuyển</p>

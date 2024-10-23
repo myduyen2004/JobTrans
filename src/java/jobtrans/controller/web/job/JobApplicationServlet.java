@@ -16,14 +16,11 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
-import java.nio.file.Paths;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
 import jobtrans.dal.UserDAO;
-import jobtrans.model.Job;
 import jobtrans.model.JobGreeting;
 import jobtrans.model.User;
 import jobtrans.utils.DateTimeUtils;
@@ -101,21 +98,15 @@ public class JobApplicationServlet extends HttpServlet {
         int exday = Integer.parseInt(request.getParameter("days"));
         String intro = request.getParameter("intro");
         int cvId = Integer.parseInt(request.getParameter("cv"));
-        String url = null;
-        String baseUploadPath = "D:/FALL24/JobTrans/web/job_greetings/";
-        String uniqueFolderName = "job_greetings_" + System.currentTimeMillis();
-        File uploadDir = new File(baseUploadPath + uniqueFolderName);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-        Collection<Part> parts = request.getParts();
-        for (Part part : parts) {
-            if (part.getSubmittedFileName() != null && !part.getSubmittedFileName().isEmpty()) {
-                String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-                part.write(uploadDir.getAbsolutePath() + File.separator + fileName);
-                url = "job_greetings/" + uniqueFolderName + "/" + fileName;
-            }
-        }
+        
+        Part p = request.getPart("file");
+        String fileName = p.getSubmittedFileName();
+        //Luu file vao folder imgs
+        String path = getServletContext().getRealPath("") + "job_greetings";
+        File file = new File(path);
+        p.write(path + File.separator + fileName);
+        System.out.println(path);
+        String url = fileName;
         String status ="Chưa phản hồi";
         
         JobGreeting jg = new JobGreeting(userId, jobId, intro, url, price, status, exday, cvId);
@@ -129,9 +120,9 @@ public class JobApplicationServlet extends HttpServlet {
         request.setAttribute("user", userDao.getUserByEmail(email));
         request.setAttribute("job", jdao.getJobByJobId(jobId));
         request.setAttribute("due", utilDate.countdownDays(jdao.getJobByJobId(jobId).getDueDate()));
-        request.getRequestDispatcher("job-page.jsp").forward(request, response);
+        
+        response.sendRedirect("home?action=jobDetail&jobId="+jobId);
     }
-
     /** 
      * Returns a short description of the servlet.
      * @return a String containing servlet description

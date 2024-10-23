@@ -319,8 +319,11 @@
                             <h3>Tạo Tài Khoản Của Bạn Ngây Bây Giờ!</h3>
                         </div>
 
+                        <!-- Account Type -->
+
+
                         <!-- Form -->
-                        <form method="GET" id="register-account-form" action="./Register">
+                        <form method="post" id="register-account-form" action="./Register">
                             <div class="account-type">
                                 <div>
                                     <input type="radio" name="account-type-radio" id="freelancer-radio" value = "freelancer" class="account-type-radio" checked/>

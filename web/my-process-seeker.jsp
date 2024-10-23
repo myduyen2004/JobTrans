@@ -123,7 +123,7 @@
         <td>${pl.endDate}</td>
         <td>
             <!-- Yêu Cầu Button -->
-            <button class="action-button view-button" onclick="toggleRequestTable(${status.index})">Yêu Cầu</button>
+            <a href="myjob?action=request-process&processId=${pl.processId}&name=${pl.stageName}&jobId=${pl.jobId}" class="action-button view-button" onclick="toggleRequestTable(${status.index})">Yêu Cầu</a>
 
             <!-- Nộp Kết Quả Button (sửa thành <a>) -->
             <a href="myjob?action=result-process&processId=${pl.processId}&name=${pl.stageName}&jobId=${pl.jobId}" class="action-button submit-button">Nộp Kết Quả</a>
@@ -149,25 +149,7 @@
             <button class="action-button view-button">Xem</button>
         </td>
     </tr>
-<!--   <tr id="requestTable${status.index}" class="request-table" style="display:none;">
-                <td colspan="6">
-                     Table to display request details 
-                    <table class="request-details-table" style="width: 100%; border: 1px solid #ddd; margin-top: 10px;">
-                        <thead>
-                            <tr>
-                                <th>Yêu Cầu</th>
-                                <th>Chi Tiết</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>Request Example</td>
-                                <td>Request details for stage ${pl.stageName}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </td>
-    </tr>-->
+   
 </c:forEach>
      
     </tbody>

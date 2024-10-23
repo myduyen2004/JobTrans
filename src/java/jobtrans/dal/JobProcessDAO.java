@@ -16,7 +16,31 @@ public class JobProcessDAO {
     public JobProcessDAO() {
         dbConnection = DBConnection.getInstance();
     }
-
+     public process getProcessById(int processId) {
+        process process = null;
+        String query = "SELECT * FROM process WHERE process_id = ?";
+        try (
+             Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query)){
+            ps.setInt(1, processId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                process = new process();
+                process.setProcessId(rs.getInt("process_id"));
+                process.setStageName(rs.getString("stage_name"));
+                process.setEndDate(rs.getDate("end_date"));
+                process.setRequirements(rs.getString("requirements"));
+                process.setDescription(rs.getString("description_result"));
+                process.setResultUrl(rs.getString("result_url"));
+                process.setStatus(rs.getString("status"));
+                process.setComments(rs.getString("comments"));
+                process.setJobId(rs.getInt("job_id"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return process;
+    }
     // Method to get all processes by greeting_id
     public List<process> getProcessesByJobId(int jobId) {
         List<process> processList = new ArrayList<>();

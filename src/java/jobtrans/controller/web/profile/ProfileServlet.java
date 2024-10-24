@@ -1,6 +1,5 @@
 package jobtrans.controller.web.profile;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
@@ -10,8 +9,12 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.Part;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,13 +25,14 @@ import java.util.logging.Logger;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.model.User;
 import jobtrans.dal.UserDAO;
+import static jobtrans.dal.UserDAO.getMd5;
 import jobtrans.model.Transaction;
 
 @WebServlet(name = "ProfileServlet", urlPatterns = {"/profile"})
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-    maxFileSize = 1024 * 1024 * 10,      // 10MB
-    maxRequestSize = 1024 * 1024 * 50    // 50MB
+        fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+        maxFileSize = 1024 * 1024 * 10, // 10MB
+        maxRequestSize = 1024 * 1024 * 50 // 50MB
 )
 public class ProfileServlet extends HttpServlet {
 
@@ -52,8 +56,8 @@ public class ProfileServlet extends HttpServlet {
             case "addWallet":
                 addWallet(request, response);
                 break;
-            case "load":
-                loadProfile(request, response);
+            case "editProfile":
+                editProfile(request, response);
                 break;
             default:
                 response.sendRedirect("viewProfile.jsp"); // Trang lỗi nếu action không hợp lệ
@@ -74,8 +78,12 @@ public class ProfileServlet extends HttpServlet {
         String specification = request.getParameter("specification");
         String address = request.getParameter("address");
         String birthdateStr = request.getParameter("birthdate");
-        String avatarUrl = request.getParameter("avatar");
-
+//        String avatarUrl = request.getParameter("avatar");
+        Part filePart = request.getPart("avatar");
+        String fileName = getFileName(filePart);
+        InputStream imageInputStream = filePart.getInputStream();
+        String typeOfImage = fileName.substring(fileName.lastIndexOf(".") + 1);
+        String newImageName = "";
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
         try {
             birthdate = formatter.parse(birthdateStr);
@@ -83,19 +91,24 @@ public class ProfileServlet extends HttpServlet {
         } catch (ParseException ex) {
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        String baseUploadPath = "D:/FALL24/JobTrans/web/images/";
-        String uniqueFolderName = "avatar_" + System.currentTimeMillis();
-        File uploadDir = new File(baseUploadPath + uniqueFolderName);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
+        String uploadDir = getServletContext().getRealPath("/images");
+        File uploadDirFile = new File(uploadDir);
+        if (!uploadDirFile.exists()) {
+            uploadDirFile.mkdir();
         }
-        Collection<Part> parts = request.getParts();
-        for (Part part : parts) {
-            if (part.getSubmittedFileName() != null && !part.getSubmittedFileName().isEmpty()) {
-                String fileName = Paths.get(part.getSubmittedFileName()).getFileName().toString();
-                part.write(uploadDir.getAbsolutePath() + File.separator + fileName);
-                avatarUrl = "images/" + uniqueFolderName + "/" + fileName;
+        if (containsExtension(typeOfImage)) {
+            Time timeObj = new Time(System.currentTimeMillis());
+            newImageName = timeObj.getTime() + "_" + fileName;
+
+            String uploadPath = getServletContext().getRealPath("") + File.separator + "images";
+            File uploadDirectory = new File(uploadPath);
+            if (!uploadDirectory.exists()) {
+                uploadDirectory.mkdir();
+            }
+
+            Path destinationPath = Paths.get(uploadDirectory.getAbsolutePath());
+            try (FileOutputStream fout = new FileOutputStream(destinationPath.resolve(newImageName).toString())) {
+                fout.write(imageInputStream.readAllBytes());
             }
         }
 
@@ -105,15 +118,16 @@ public class ProfileServlet extends HttpServlet {
             user.setUserName(userName);
             user.setAddress(address);
             user.setDescription(description);
-            if(avatarUrl == null){
+            if (newImageName == null) {
                 user.setAvatarUrl(request.getParameter("avatemp"));
-            }else{
-                user.setAvatarUrl(avatarUrl);
+            } else {
+                user.setAvatarUrl("images/" + newImageName);
             }
             user.setSpecification(specification);
             user.setDateOfBirth(birthdate);
             request.setAttribute("user", user);
             if (dao.editProfile(user)) {
+                session.setAttribute("avatarUrl", user.getAvatarUrl());
                 request.setAttribute("success", "Cập nhật thành công");
                 request.getRequestDispatcher("viewProfile.jsp").forward(request, response);
             } else {
@@ -146,7 +160,7 @@ public class ProfileServlet extends HttpServlet {
         }
     }
 
-    private void loadProfile(HttpServletRequest request, HttpServletResponse response)
+    private void editProfile(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         UserDAO uDao = new UserDAO();
@@ -176,7 +190,7 @@ public class ProfileServlet extends HttpServlet {
     }
 
     private void addWallet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{
+            throws ServletException, IOException {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("account");
         UserDAO userDao = new UserDAO();
@@ -190,7 +204,7 @@ public class ProfileServlet extends HttpServlet {
             trans.setAmount(Integer.parseInt(amount));
             trans.setStatus(true);
             trans.setTransactionType("Thêm tiền");
-            trans.setDescription("Nộp tiền vào ví");
+            trans.setDescription("Nộp vào ví");
             Date createdDate = new Date();
             trans.setCreatedDate(createdDate);
             user.setBalance(user.getBalance() + Integer.parseInt(amount));
@@ -235,34 +249,62 @@ public class ProfileServlet extends HttpServlet {
         String newPassword = request.getParameter("newPassword");
         String repeatNewPassword = request.getParameter("repeatNewPassword");
 
+        String hashedCurrentPassword = getMd5(currentPassword);
+        String hashedNewPassword = getMd5(newPassword);
+
         UserDAO userDao = new UserDAO();
         User user = userDao.getUserByEmail(email);
-        if (user != null && user.getPassword() != null && user.getPassword().equals(currentPassword) && newPassword.equals(repeatNewPassword)) {
-            if(repeatNewPassword.length() >=8){
-                user.setPassword(newPassword);
-                userDao.changePassword(email, newPassword);
+        if (user != null && user.getPassword() != null && user.getPassword().equals(hashedCurrentPassword) && newPassword.equals(repeatNewPassword)) {
+            if (newPassword.equals(currentPassword)) {
+                request.setAttribute("error", "Mật khẩu mới không được trùng với mật khẩu cũ");
+                request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
+            } else if (repeatNewPassword.length() >= 8) {
+                user.setPassword(hashedNewPassword);
+                userDao.changePassword(email, hashedNewPassword);
                 request.setAttribute("success", "Đổi mật khẩu thành công");
                 request.getRequestDispatcher("profile?action=view").forward(request, response);
-            }else{
+            } else {
                 request.setAttribute("error", "Mật khẩu phải nhiều hơn hoặc 8 kí tự");
-                request.getRequestDispatcher("profile?action=view").forward(request, response);
-
+                request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
             }
-        } else if(user.getPassword() == null && newPassword.equals(repeatNewPassword)) {
-            if(repeatNewPassword.length() >=8){
-                user.setPassword(newPassword);
-                userDao.changePassword(email, newPassword);
+        } else if (user.getPassword() == null && newPassword.equals(repeatNewPassword)) {
+            if (newPassword.equals(currentPassword)) {
+                request.setAttribute("error", "Mật khẩu mới không được trùng với mật khẩu cũ");
+                request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
+            } else if (repeatNewPassword.length() >= 8) {
+                user.setPassword(hashedNewPassword);
+                userDao.changePassword(email, hashedNewPassword);
                 request.setAttribute("success", "Đổi mật khẩu thành công");
                 request.getRequestDispatcher("profile?action=view").forward(request, response);
-            }else{
+            } else {
                 request.setAttribute("error", "Mật khẩu phải nhiều hơn hoặc 8 kí tự");
-                request.getRequestDispatcher("profile?action=view").forward(request, response);
-
+                request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
             }
-        }else{
+        } else {
             request.setAttribute("error", "Mật khẩu không khớp");
-            request.getRequestDispatcher("profile?action=view").forward(request, response);
+            request.getRequestDispatcher("profile?action=loadPassword").forward(request, response);
         }
+    }
+
+    private String getFileName(Part part) {
+        String contentDispositionHeader = part.getHeader("content-disposition");
+        String[] elements = contentDispositionHeader.split(";");
+        for (String element : elements) {
+            if (element.trim().startsWith("filename")) {
+                return element.substring(element.indexOf('=') + 1).trim().replace("\"", "");
+            }
+        }
+        return "unknown.jpg";
+    }
+
+    private boolean containsExtension(String uploadedFileExtension) {
+        String[] extensions = {"png", "jpg", "jpeg"};
+        for (String value : extensions) {
+            if (value.equalsIgnoreCase(uploadedFileExtension)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

@@ -5,7 +5,7 @@ CREATE TABLE Users (
     user_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
     user_name NVARCHAR(50),
     email VARCHAR(100) UNIQUE,
-    password VARCHAR(20),
+    password VARCHAR(32),
     oauth_provider VARCHAR(100),
     oauth_id VARCHAR(MAX),
     role VARCHAR(15),
@@ -48,17 +48,10 @@ CREATE TABLE Job(
 	doc_URL VARCHAR(MAX),
 	interview_URL VARCHAR(MAX),
 	interview_Date DATE,
-	address NVARCHAR(MAX)
+	address NVARCHAR(MAX),
+	label_verify NVARCHAR(100)
 );
 GO
-
---Sửa bảng Job
-
-
-ALTER TABLE Job
-ADD label_verify NVARCHAR(100);
-
-
 CREATE TABLE CV (
     cv_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,   
     job_position NVARCHAR(200),
@@ -82,8 +75,7 @@ CREATE TABLE JobGreetings (
     FOREIGN KEY (job_id) REFERENCES Job(job_id)
 );
 GO
-
-create table School(
+CREATE TABLE School(
 	 education_id INT not null IDENTITY(1,1) primary key ,
 	 school_name Nvarchar(100)
 );
@@ -99,16 +91,11 @@ CREATE TABLE CV_Education (
     
     CONSTRAINT FK_cv_education_cv_id FOREIGN KEY (cv_id) REFERENCES CV(cv_id),
     
-    CONSTRAINT FK_cv_education_education_id FOREIGN KEY (education_id) REFERENCES School(education_id) 
+    CONSTRAINT FK_cv_education_education_id FOREIGN KEY (education_id) REFERENCES School(education_id),
+	school_custom NVARCHAR(200)
 );
 GO
-
---Sửa CV_Edu
-ALTER TABLE CV_Education
-ADD school_custom NVARCHAR(200)
-
-
- create table Skill(
+CREATE TABLE Skill(
 	 skill_id INT not null IDENTITY(1,1) primary key ,
 	 skill_name Nvarchar(100),
 );
@@ -118,15 +105,11 @@ CREATE TABLE CV_Skill (
     skill_id INT NOT NULL,            
     PRIMARY KEY (cv_id, skill_id),    
     CONSTRAINT FK_cv_id FOREIGN KEY (cv_id) REFERENCES CV(cv_id), 
-    CONSTRAINT FK_skill_id FOREIGN KEY (skill_id) REFERENCES Skill(skill_id)
+    CONSTRAINT FK_skill_id FOREIGN KEY (skill_id) REFERENCES Skill(skill_id),
+	skill_custom NVARCHAR(200)
 );
 GO
-
---Sửa CV_Skill
-ALTER TABLE CV_Skill
-ADD skill_custom NVARCHAR(200)
-
-create table Company(
+CREATE TABLE Company(
 	 experience_id INT not null IDENTITY(1,1) primary key ,
 	 company_name Nvarchar(100),
 	 description Nvarchar(max)
@@ -135,59 +118,46 @@ GO
 CREATE TABLE CV_Experience (
     cv_id INT NOT NULL,              
     experience_id INT NOT NULL,       
-    years_of_experience INT,         
+    --years_of_experience INT,         
     job_position NVARCHAR(100),  
 	address NVARCHAR(100),
 	description NVARCHAR(MAX),
     PRIMARY KEY (cv_id, experience_id),
     CONSTRAINT FK_cv_experience_cv_id FOREIGN KEY (cv_id) REFERENCES CV(cv_id),
-    CONSTRAINT FK_cv_experience_experience_id FOREIGN KEY (experience_id) REFERENCES Company(experience_id)
+    CONSTRAINT FK_cv_experience_experience_id FOREIGN KEY (experience_id) REFERENCES Company(experience_id),
+	start_at DATE,
+	end_at DATE,
+	company_custom NVARCHAR(200)
 );
 GO
---Sửa CV_Experience
-ALTER TABLE CV_Experience
-ADD start_at DATE;
-
-ALTER TABLE CV_Experience
-ADD end_at DATE;
-
-ALTER TABLE CV_Experience
-DROP COLUMN years_of_experience
-
-ALTER TABLE CV_Experience
-ADD company_custom NVARCHAR(200)
-
-create table Certification(
+CREATE TABLE Certification(
 	 certification_id INT not null IDENTITY(1,1) primary key ,
 	 certification_name Nvarchar(100),
 );
 GO
-create table CV_Certification(
+CREATE TABLE CV_Certification(
 	 cv_id INT NOT NULL,
 	 certification_id INT NOT NULL ,
 	 year DATE,
-	 description NVARCHAR(MAX)
+	 description NVARCHAR(MAX),
+	 certification_custom NVARCHAR(200)
 );
 GO
-
---Sửa CV_Certification
-ALTER TABLE CV_Certification
-ADD certification_custom NVARCHAR(200)
-
-Create table dConversation(
+CREATE TABLE dConversation(
  conversation_id INT primary key,
  job_id INT FOREIGN KEY REFERENCES Job(job_id) ,
  start_date DATETIME ,
- )
+ );
 GO
- CREATE TABLE dMESSAGE(
+CREATE TABLE dMESSAGE(
  message_id INT IDENTITY(1,1) PRIMARY KEY, 
  conversation_id INT not null foreign key references dConversation(conversation_id) ,
  sender_id INT FOREIGN KEY REFERENCES Users(user_id),
  attachment varchar(MAX),
  content nvarchar(MAX),
  sent_time DATETIME
- )
+ );
+GO
 CREATE TABLE [Transaction] (
     transactionId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	senderId INT FOREIGN KEY REFERENCES Users(user_id),
@@ -200,7 +170,7 @@ CREATE TABLE [Transaction] (
 	description NVARCHAR(MAX),
     jobId INT FOREIGN KEY REFERENCES Job(job_id)
 );
-
+GO
 CREATE TABLE Shipment (
     shipmentId INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	jobId INT FOREIGN KEY REFERENCES Job(job_id),
@@ -214,7 +184,7 @@ CREATE TABLE Shipment (
 	detail_address NVARCHAR(MAX),
 	description NVARCHAR(MAX)
 );
-
+GO
 CREATE TABLE UserReport(
 	user_report_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	reported_user INT FOREIGN KEY REFERENCES Users(user_id),
@@ -222,8 +192,10 @@ CREATE TABLE UserReport(
 	content_report NVARCHAR(MAX),
 	attachment NVARCHAR(MAX),
 	status NVARCHAR(100)
-)
-
+);
+GO
+);
+GO
 CREATE TABLE JobReport(
 	job_report_id INT NOT NULL IDENTITY(1,1) PRIMARY KEY,
 	reported_job INT FOREIGN KEY REFERENCES Job(job_id),
@@ -231,8 +203,24 @@ CREATE TABLE JobReport(
 	content_report NVARCHAR(MAX),
 	attachment NVARCHAR(MAX),
 	status NVARCHAR(100)
-)
-
+);
+GO
+CREATE TABLE Process (
+        process_id INT IDENTITY(1,1) PRIMARY KEY,
+        stage_name NVARCHAR(100) NOT NULL,
+        end_date DATE NOT NULL,
+        requirements NVARCHAR(MAX),
+        description_result NVARCHAR(MAX),
+        result_url NVARCHAR(MAX),
+		requirement_url NVARCHAR(MAX),
+        status NVARCHAR(50),
+        comments NVARCHAR(MAX),
+        job_id INT,
+        FOREIGN KEY (job_id) REFERENCES Job(job_id)
+    );
+	GO
+	ALTER TABLE process
+ADD CONSTRAINT CHK_Status CHECK (status IN (N'chấp nhận', N'Từ chối', N'Đang xem xét',N'Chưa hoàn thành',N'Hoàn thành'));
 ALTER TABLE Users
 ADD CONSTRAINT chk_role CHECK (role IN ('Seeker', 'Employer', 'Admin'));
 GO
@@ -249,25 +237,26 @@ INSERT INTO JobCategory(category_name) values
 (N'Biên Dịch'),
 (N'Bán Hàng & Tiếp Thị'),
 (N'Không xác định');
-
+GO
 
 --Thêm Constraint cho Transaction
 ALTER TABLE [dbo].[Transaction]
 ADD CONSTRAINT chk_transaction_description CHECK (description IN (N'Nộp vào ví',N'Đặt cọc nhận việc',N'Rút tiền',N'Trả trước',N'Hoàn tiền',N'Nhận lương'));
+GO
 
 ALTER TABLE [dbo].[Transaction]
 ADD CONSTRAINT chk_transaction_type CHECK (transactionType IN (N'Thêm tiền',N'Trừ tiền'));
-
+GO
 
 --Thêm Constraint cho JobGreeting
 ALTER TABLE JobGreetings
 ADD CONSTRAINT chk_jobgreeting_status CHECK (status IN (N'Bị từ chối',N'Được chấp nhận',N'Chưa phản hồi',N'Chờ phỏng vấn'));
+GO
+
 --Thêm Constraint cho Job
 ALTER TABLE Job
 ADD CONSTRAINT chk_job_status CHECK (status IN (N'Đã trả lương',N'Đã hoàn tiền',N'Đã hoàn thành',N'Đã nộp sản phẩm',N'Bị khiếu nại',N'Đang làm việc',N'Chờ đặt cọc',N'Đang tuyển'));
-
-
-
+GO
 
 CREATE PROCEDURE UpdateJobGreetingsStatus
 AS
@@ -277,6 +266,43 @@ BEGIN
     SET status = N'Bị từ chối'
     FROM JobGreetings JG
     INNER JOIN Job J ON JG.job_id = J.job_id
-    WHERE J.due_date < GETDATE() AND JG.status != N'Bị từ chối';
+    WHERE J.due_date < GETDATE() AND JG.status = N'Chưa phản hồi';
+    WHERE J.due_date < GETDATE() AND JG.status = N'Chưa phản hồi';
 END;
 GO
+
+
+INSERT INTO Users (user_name, email, password, oauth_provider, oauth_id, role, balance, description, specification, address, avatar_url, date_of_birth, status)
+VALUES 
+('Nguyen Van A', 'nguyenvana@example.com', '25d55ad283aa400af464c76d713c07ad', null, null, 'Employer', 10000, 'User description A', null, '123 Main St', null, '1990-05-10', 1);
+GO
+
+--Chạy thêm sau ngày 21/10
+
+--Chạy thêm sau ngày 21/10
+
+ALTER TABLE [dbo].[Users]
+ALTER COLUMN password VARCHAR(32);
+
+ALTER TABLE [dbo].[Notifications]
+ADD isRead BIT;
+
+
+DROP TABLE [dbo].[dMESSAGE]
+DROP TABLE [dbo].[dConversation]
+
+CREATE TABLE dMESSAGE(
+ message_id INT IDENTITY(1,1) PRIMARY KEY, 
+ sender_id INT FOREIGN KEY REFERENCES Users(user_id),
+ receiver_id INT FOREIGN KEY REFERENCES Users(user_id),
+ attachment varchar(MAX),
+ content nvarchar(MAX),
+ sent_time DATETIME,
+ job_id INT FOREIGN KEY REFERENCES Job(job_id) ,
+ );
+GO
+
+
+ALTER TABLE dMESSAGE
+ADD isRead BIT;
+

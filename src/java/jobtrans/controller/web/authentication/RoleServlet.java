@@ -60,20 +60,7 @@ public class RoleServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String role = request.getParameter("role");
-        String email = request.getParameter("email");
-        UserDAO userDao = new UserDAO();
-        userDao.updateRole(role, email);
-        HttpSession session = request.getSession();
-
-        User user = userDao.getUserByEmail(email);
-        session.setAttribute("account", email);
-        session.setAttribute("userName", user.getUserName());
-        session.setAttribute("email", user.getEmail());
-        session.setAttribute("avatarUrl", user.getAvatarUrl());
-        session.setAttribute("oauthId", user.getOauthId());
-        session.setAttribute("role", user.getRole());
-        request.getRequestDispatcher("home").forward(request, response);
+        processRequest(request, response);
     }
 
     /**
@@ -87,20 +74,20 @@ public class RoleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-//        String role = request.getParameter("role");
-//        String email = request.getParameter("email");
-//        UserDAO userDao = new UserDAO();
-//        userDao.updateRole(role, email);
-//        HttpSession session = request.getSession();
-//
-//        User user = userDao.getUserByEmail(email);
-//        session.setAttribute("account", email);
-//        session.setAttribute("userName", user.getUserName());
-//        session.setAttribute("email", user.getEmail());
-//        session.setAttribute("avatarUrl", user.getAvatarUrl());
-//        session.setAttribute("oauthId", user.getOauthId());
-//        session.setAttribute("role", user.getRole());
-//        request.getRequestDispatcher("home").forward(request, response);
+        String role = request.getParameter("role");
+        String email = request.getParameter("email");
+        UserDAO userDao = new UserDAO();
+        userDao.updateRole(role, email);
+        HttpSession session = request.getSession();
+
+        User user = userDao.getUserByEmail(email);
+        session.setAttribute("account", email);
+        session.setAttribute("userName", user.getUserName());
+        session.setAttribute("email", user.getEmail());
+        session.setAttribute("avatarUrl", user.getAvatarUrl());
+        session.setAttribute("oauthId", user.getOauthId());
+        session.setAttribute("role", user.getRole());
+        request.getRequestDispatcher("home.jsp").forward(request, response);
     }
 
     /**

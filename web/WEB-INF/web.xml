@@ -52,6 +52,15 @@
         <servlet-name>AccountManagement</servlet-name>
         <servlet-class>jobtrans.controller.admin.management.AccountManagement</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChatServlet</servlet-name>
+        <servlet-class>jobtrans.controller.web.job.ChatServlet</servlet-class>
+        <multipart-config>
+        <max-file-size>1048576</max-file-size> <!-- 1MB -->
+        <max-request-size>2097152</max-request-size> <!-- 2MB -->
+        <file-size-threshold>512000</file-size-threshold> <!-- 500KB -->
+        </multipart-config>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ProfileServlet</servlet-name>
         <url-pattern>/profile</url-pattern>
@@ -82,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>AccountManagement</servlet-name>
         <url-pattern>/AccountManagement</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChatServlet</servlet-name>
+        <url-pattern>/ChatServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>30</session-timeout>

@@ -8,6 +8,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="jobtrans.model.Job" %>
+<%@ page import="jobtrans.model.User" %>
 <%@ page import="jobtrans.model.JobGreeting" %>
 <%@ page import="jobtrans.model.Transaction" %>
 <%@ page import="java.time.LocalDateTime, java.time.Duration" %>
@@ -41,6 +42,7 @@
 
                             <!-- Dashboard Box -->
                             <div class="col-xl-12">
+                                
                                 <div class="dashboard-box margin-top-0">
 
                                     <!-- Headline -->
@@ -94,10 +96,11 @@
                                                             <div class="buttons-to-right always-visible" style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; margin-top: 10px;">
                                                                 <!-- Các nút thông tin -->
                                                                 <div style="display: flex; gap: 10px;">
-                                                                    <a href="" class="button ripple-effect" style="background-color: #2a41e8; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; display: flex; align-items: center;">
-                                                                        <i class="icon-material-outline-rate-review" style="margin-right: 5px;"></i> Quản lí tiến trình
+                                                                    <a href="myjob?action=view-process-employer&jobId=${myJob.jobId}" class="button ripple-effect" style="background-color: #2a41e8; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; display: flex; align-items: center;">
+                                                                        <i class="icon-material-outline-rate-review" style="margin-right: 5px;"></i>
+                                                                        Quản lí tiến trình
                                                                     </a>
-                                                                    <a href="" class="button ripple-effect" style="background-color: #2a41e8; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; display: flex; align-items: center;">
+                                                                    <a href="ChatServlet?receiverId=${jgDAO.getJobGreetingsByJobIdAndStatus(myJob.jobId,'Được chấp nhận').jobSeekerId}&jobId=${myJob.jobId}&action=load" class="button ripple-effect" style="background-color: #2a41e8; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; display: flex; align-items: center;">
                                                                         CHAT
                                                                     </a>
                                                                     <a href="" class="button ripple-effect" style="background-color: #2a41e8; color: white; padding: 10px 15px; border-radius: 4px; text-decoration: none; display: flex; align-items: center;">

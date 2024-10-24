@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 
 package jobtrans.controller.web.authentication;
 
@@ -18,6 +14,7 @@ import java.net.URL;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.dal.UserDAO;
+import static jobtrans.dal.UserDAO.getMd5;
 import jobtrans.model.User;
 import jobtrans.utils.Gmail;
 import jobtrans.utils.RandomGenerator;
@@ -142,11 +139,12 @@ public class ForgotPassword extends HttpServlet {
                 String passwordAgain = req.getParameter("password-again");
                 
                 if (password.equals(passwordAgain)) {
+                    String hashedPassword = getMd5(password);
                     if(password.length() <8){
                         req.setAttribute("error", "Mật khẩu mới phải lớn hơn 8 kí tự");
                         req.getRequestDispatcher("authentication/reset-password.jsp").forward(req, resp);
                     }else
-                    userDAO.changePassword(password, email);
+                    userDAO.changePassword(hashedPassword, email);
                     req.setAttribute("success", "Đặt mật khẩu mới thành công");
                     req.getRequestDispatcher("home.jsp").forward(req, resp);
                 } else {

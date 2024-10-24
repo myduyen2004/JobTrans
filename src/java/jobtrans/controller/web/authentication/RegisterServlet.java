@@ -15,11 +15,10 @@ import jakarta.servlet.http.HttpSession;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.logging.Level;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.User;
 import java.util.logging.Logger;
+import static jobtrans.dal.UserDAO.getMd5;
 import jobtrans.utils.Gmail;
 import jobtrans.utils.RandomGenerator;
 
@@ -82,7 +81,7 @@ public class RegisterServlet extends HttpServlet {
                     .initMacro()
                     .appendMacro("NAME", userName)
                     .appendMacro("CODE", code)
-                    .sendTemplate(new URL("http://localhost:8080/JobTrans/mail-noti/verify-account.jsp"));
+                    .sendTemplate(new URL("http://localhost:9999/JobTrans/mail-noti/verify-account.jsp"));
         } catch (MalformedURLException ex) {
             Logger.getLogger(ForgotPassword.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -90,51 +89,7 @@ public class RegisterServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String cmd = request.getParameter("cmd");
-        HttpSession mySession = request.getSession();
-        User u = new User();
-        if(cmd.equals("1")){
-            String username = request.getParameter("username-register");
-        String email = request.getParameter("emailaddress-register");
-        String password = request.getParameter("password-register");
-        String role = request.getParameter("account-type-radio");
-        if(role.equals("freelancer")){
-            role = "Seeker";
-        }else{
-            role = "Employer";
-        }
-        u = new User(username, email, password, role, 0, true);
-        u.setAvatarUrl("images/default-avatar.jpg");
-        if(ud.checkExistEmail(email)==false){
-            String otpvalue = RandomGenerator.randString(RandomGenerator.NUMERIC_CHARACTER, 6);
-            new Thread(() -> {
-                        sendVerificationMail(username, "Xác thực đăng kí", email, otpvalue);
-                    }).start();
-            request.setAttribute("email", email);
-            request.setAttribute("success", "Vui lòng kiểm tra email để xác nhận đăng kí!");
-            mySession.setAttribute(email, otpvalue);
-            mySession.setAttribute("u", u);
-            request.getRequestDispatcher("authentication/verify-otp_1.jsp").forward(request, response);
-        }else{
-            request.setAttribute("error", "Email đã được đăng kí. Thất bại");
-            request.getRequestDispatcher("home").forward(request, response);
-        }
-        }
-        else if(cmd.equals("2")){
-            String emailReceive = request.getParameter("email");
-            String otp = request.getParameter("otp1")+request.getParameter("otp2")+request.getParameter("otp3")+request.getParameter("otp4")
-                    +request.getParameter("otp5")+request.getParameter("otp6");
-            String code = (String) mySession.getAttribute(emailReceive);
-            User user = (User) mySession.getAttribute("u");
-            if (otp.equals(code)) {
-                ud.addUserByRegister(user);
-                request.setAttribute("success", "Thành công! Hãy đăng nhập để tiếp tục");
-                request.getRequestDispatcher("home").forward(request, response);
-            } else {
-                request.setAttribute("error", "Xác minh mã OTP thất bại! Vui lòng thử lại");
-                request.getRequestDispatcher("home").forward(request, response);
-            }
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -149,7 +104,53 @@ public class RegisterServlet extends HttpServlet {
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        String cmd = request.getParameter("cmd");
+        HttpSession mySession = request.getSession();
+        User u = new User();
+        if(cmd.equals("1")){
+            String username = request.getParameter("username-register");
+        String email = request.getParameter("emailaddress-register");
+        String password = request.getParameter("password-register");
+        String role = request.getParameter("account-type-radio");
+        String hashedPassword = getMd5(password);
+        if(role.equals("freelancer")){
+            role = "Seeker";
+        }else{
+            role = "Employer";
+        }
+        u = new User(username, email, hashedPassword, role, 0, true);
+        u.setAvatarUrl("images/default-avatar.jpg");
+        if(ud.checkExistEmail(email)==false){
+            String otpvalue = RandomGenerator.randString(RandomGenerator.NUMERIC_CHARACTER, 6);
+            new Thread(() -> {
+                        sendVerificationMail(username, "Xác thực đăng kí", email, otpvalue);
+                    }).start();
+            request.setAttribute("email", email);
+            request.setAttribute("success", "Vui lòng kiểm tra email để xác nhận đăng kí!");
+            mySession.setAttribute(email, otpvalue);
+            mySession.setAttribute("user", u);
+            request.getRequestDispatcher("authentication/verify-otp_1.jsp").forward(request, response);
+        }else{
+            request.setAttribute("error", "Email đã được đăng kí. Thất bại");
+            request.getRequestDispatcher("home.jsp").forward(request, response);
+        }
+        }
+        else if(cmd.equals("2")){
+            String emailReceive = request.getParameter("email");
+            String otp = request.getParameter("otp1")+request.getParameter("otp2")+request.getParameter("otp3")+request.getParameter("otp4")
+                    +request.getParameter("otp5")+request.getParameter("otp6");
+            String code = (String) mySession.getAttribute(emailReceive);
+            User user = (User) mySession.getAttribute("user");
+            if (otp.equals(code)) {
+                ud.addUserByRegister(user);
+                request.setAttribute("success", "Thành công! Hãy đăng nhập để tiếp tục");
+                response.getWriter().print(user);
+                request.getRequestDispatcher("home").forward(request, response);
+            } else {
+                request.setAttribute("error", "Xác minh mã OTP thất bại! Vui lòng thử lại");
+                request.getRequestDispatcher("home").forward(request, response);
+            }
+        }
     }
 
     /**

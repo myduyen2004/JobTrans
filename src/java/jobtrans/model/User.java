@@ -19,6 +19,12 @@ public class User {
 
     public User() {}
 
+    public User(int userId, boolean status) {
+        this.userId = userId;
+        this.status = status;
+    }
+    
+
     public User(int userId, String userName, String email, String password, String oauthProvider, 
                 String oauthId, String role, int balance, String description, 
                 String specification, String address, String avatarUrl, Date dateOfBirth, boolean status) {
@@ -56,9 +62,6 @@ public class User {
         this.balance = balance;
         this.status = status;
     }
-    
-    
-    
 
     public int getUserId() {
         return userId;
@@ -155,7 +158,7 @@ public class User {
     public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
-
+    
     public Date getDateOfBirth() {
         return dateOfBirth;
     }

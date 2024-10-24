@@ -22,9 +22,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobDAO;
+import jobtrans.dal.NotificationDAO;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.Job;
 import jobtrans.model.JobCategory;
+import jobtrans.model.Notification;
 import jobtrans.model.User;
 import jobtrans.utils.DateTimeUtils;
 
@@ -35,7 +37,8 @@ import jobtrans.utils.DateTimeUtils;
 @WebServlet(name = "HomeServlet", urlPatterns = {"/home"})
 
 public class HomeServlet extends HttpServlet {
-    public static final int BUFFER_SIZE = 1024*1000;
+
+    public static final int BUFFER_SIZE = 1024 * 1000;
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -73,6 +76,9 @@ public class HomeServlet extends HttpServlet {
                 case "downloadJG":
                     downloadJG(request, response);
                     break;
+                case "markNotification":
+                    markNotification(request, response);
+                    break;
                 default:
                     homePage(request, response);
                     break;
@@ -81,8 +87,8 @@ public class HomeServlet extends HttpServlet {
             Logger.getLogger(HomeServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
-    private void homePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+
+    private void homePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JobDAO jobDao = new JobDAO();
         JobCategoryDAO categoryDao = new JobCategoryDAO();
         UserDAO userDao = new UserDAO();
@@ -92,15 +98,15 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("userList", userDao.getAllUsers());
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
-    
-    private void listJob(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+
+    private void listJob(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         JobDAO jobDao = new JobDAO();
         JobCategoryDAO categoryDao = new JobCategoryDAO();
         request.setAttribute("categoryList", categoryDao.getAllCategory());
         request.setAttribute("jobList", jobDao.getAllJob());
         request.getRequestDispatcher("job-list.jsp").forward(request, response);
     }
-    
+
     private void jobDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DateTimeUtils utilDate = new DateTimeUtils();
         JobDAO jobDao = new JobDAO();
@@ -114,70 +120,101 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("due", utilDate.countdownDays(job.getDueDate()));
         request.getRequestDispatcher("job-page.jsp").forward(request, response);
     }
+
     private void filterJobs(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String categoriesJson = request.getParameter("categories");
-        
-        List<Integer> categoryIds = new Gson().fromJson(categoriesJson, new TypeToken<List<Integer>>(){}.getType());
+
+        List<Integer> categoryIds = new Gson().fromJson(categoriesJson, new TypeToken<List<Integer>>() {
+        }.getType());
 
         JobDAO jobDAO = new JobDAO();
         List<Job> filteredJobs = jobDAO.getJobsByCategoryIds(categoryIds);
         request.setAttribute("jobList", filteredJobs);
         request.getRequestDispatcher("filter-job-list.jsp").forward(request, response);
     }
-    public void downloadFile(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException{
-        String fileName = request.getParameter("fileName");
-        int jobId = Integer.parseInt(request.getParameter("jobId"));
-        JobDAO jobDao = new JobDAO();
-        if(fileName != null && !fileName.isEmpty() && !fileName.isBlank()){
-        String path = getServletContext().getRealPath("")+"job-docs"+File.separator+fileName;
-//        System.out.println(path);
+//    public void downloadFile(HttpServletRequest request, HttpServletResponse response)
+//    throws ServletException, IOException{
+//        String fileName = request.getParameter("fileName");
+//        int jobId = Integer.parseInt(request.getParameter("jobId"));
+//        JobDAO jobDao = new JobDAO();
+//        if(fileName != null && !fileName.isEmpty() && !fileName.isBlank()){
+//        String path = getServletContext().getRealPath("")+"job-docs"+File.separator+fileName;
+////        System.out.println(path);
+//
+//        File file = new File(path);
+//        OutputStream os = null;
+//        FileInputStream fis = null;
+//        
+//        response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
+//        response.setContentType("application/octet-stream");
+//        
+//        if(file.exists()){
+//            os=response.getOutputStream();
+//            fis = new FileInputStream(file);
+//            byte[] bf = new byte[BUFFER_SIZE];
+//            int byteRead = -1;
+//            while((byteRead = fis.read(bf))!=-1){
+//                os.write(bf, 0, byteRead);
+//            }
+//            
+//        }else{
+//            System.out.println("File Not Found: "+fileName);
+//        }
+//        }else{
+//            request.setAttribute("job", jobDao.getJobByJobId(jobId));
+//            request.getRequestDispatcher("job-page.jsp").forward(request, response);
+//        }
+//    }
 
-        File file = new File(path);
-        OutputStream os = null;
-        FileInputStream fis = null;
-        
-        response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
-        response.setContentType("application/octet-stream");
-        
-        if(file.exists()){
-            os=response.getOutputStream();
-            fis = new FileInputStream(file);
-            byte[] bf = new byte[BUFFER_SIZE];
-            int byteRead = -1;
-            while((byteRead = fis.read(bf))!=-1){
-                os.write(bf, 0, byteRead);
+    public void downloadFile(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String fileName = request.getParameter("fileName");
+        if (fileName != null) {
+            String path = getServletContext().getRealPath("") + "job_docs" + File.separator + fileName;
+//        System.out.println(path);
+//        response.getWriter().print(path);
+
+            File file = new File(path);
+            OutputStream os = null;
+            FileInputStream fis = null;
+
+            response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
+            response.setContentType("application/octet-stream");
+
+            if (file.exists()) {
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                byte[] bf = new byte[BUFFER_SIZE];
+                int byteRead = -1;
+                while ((byteRead = fis.read(bf)) != -1) {
+                    os.write(bf, 0, byteRead);
+                }
+            } else {
+                System.out.println("File Not Found: " + fileName);
             }
-            
-        }else{
-            System.out.println("File Not Found: "+fileName);
-        }
-        }else{
-            request.setAttribute("job", jobDao.getJobByJobId(jobId));
-            request.getRequestDispatcher("job-page.jsp").forward(request, response);
         }
     }
-    
+
     private void viewEmployer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UserDAO dao = new UserDAO();
         List<User> employers = dao.getAllEmployers();
         request.setAttribute("ListEmployer", employers);
         request.getRequestDispatcher("list-employer.jsp").forward(request, response);
     }
-    
-    private void detailEmployer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String id= request.getParameter("id");
+
+    private void detailEmployer(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
         UserDAO dao = new UserDAO();
         JobDAO jobDao = new JobDAO();
-        User employer =dao.getUserById(Integer.parseInt(id));
+        User employer = dao.getUserById(Integer.parseInt(id));
         request.setAttribute("detail", employer);
         request.setAttribute("posted", jobDao.getJobByUserId(employer.getUserId()));
         request.setAttribute("feedback", jobDao.getEmployerFeedbackByUserId(employer.getUserId()));
         request.getRequestDispatcher("employer-infor.jsp").forward(request, response);
     }
-    
-    private void searchJob(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        String keyword= request.getParameter("keyword");
+
+    private void searchJob(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String keyword = request.getParameter("keyword");
         UserDAO dao = new UserDAO();
         JobDAO jobDao = new JobDAO();
         JobCategoryDAO cateDao = new JobCategoryDAO();
@@ -193,38 +230,49 @@ public class HomeServlet extends HttpServlet {
         request.setAttribute("categoryList", categoryList);
         request.getRequestDispatcher("job-list.jsp").forward(request, response);
     }
-    
-    public void downloadJG(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException{
-        String fileName = request.getParameter("fileName");
-        int jobId = Integer.parseInt(request.getParameter("jobId"));
-        JobDAO jobDao = new JobDAO();
-        if(fileName != null && !fileName.isEmpty() && !fileName.isBlank()){
-        String path = getServletContext().getRealPath("")+"job-docs"+File.separator+fileName;
-//        System.out.println(path);
 
-        File file = new File(path);
-        OutputStream os = null;
-        FileInputStream fis = null;
-        
-        response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
-        response.setContentType("application/octet-stream");
-        
-        if(file.exists()){
-            os=response.getOutputStream();
-            fis = new FileInputStream(file);
-            byte[] bf = new byte[BUFFER_SIZE];
-            int byteRead = -1;
-            while((byteRead = fis.read(bf))!=-1){
-                os.write(bf, 0, byteRead);
+    public void downloadJG(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        String fileName = request.getParameter("fileName");
+        if (fileName != null) {
+            String path = getServletContext().getRealPath("") + "job_greetings" + File.separator + fileName;
+            File file = new File(path);
+            OutputStream os = null;
+            FileInputStream fis = null;
+
+            response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
+            response.setContentType("application/octet-stream");
+
+            if (file.exists()) {
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                byte[] bf = new byte[BUFFER_SIZE];
+                int byteRead = -1;
+                while ((byteRead = fis.read(bf)) != -1) {
+                    os.write(bf, 0, byteRead);
+                }
+            } else {
+                System.out.println("File Not Found: " + fileName);
             }
-        }else{
-            System.out.println("File Not Found: "+fileName);
-        }
-        }else{
-            request.setAttribute("job", jobDao.getJobByJobId(jobId));
-            request.getRequestDispatcher("job-page.jsp").forward(request, response);
         }
     }
-    
+
+    private void markNotification(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        HttpSession session = request.getSession();
+        NotificationDAO notiDao = new NotificationDAO();
+        Notification noti = new Notification();
+        String email = (String) session.getAttribute("account");
+        User user = new UserDAO().getUserByEmail(email);
+        List<Notification> notiList = notiDao.getUnreadNotificationsByUserId(user.getUserId());
+        notiDao.updateNotificationStatus(notiList);
+        String previousPage = request.getHeader("Referer");
+
+        // Chuyển hướng về trang trước đó (nếu không có, chuyển về trang home)
+        if (previousPage != null) {
+            response.sendRedirect(previousPage); // Quay lại trang người dùng đang ở
+        } else {
+            response.sendRedirect("home"); // Nếu không có trang trước, chuyển về trang chủ
+        }
+    }
+
 }

@@ -12,23 +12,22 @@ import jakarta.servlet.http.Part;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.OutputStream;
-import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static jobtrans.controller.web.home.HomeServlet.BUFFER_SIZE;
 import jobtrans.dal.JobCategoryDAO;
-import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
+import jobtrans.dal.NotificationDAO;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.Job;
 import jobtrans.model.JobGreeting;
+import jobtrans.model.Notification;
 import jobtrans.model.User;
 import jobtrans.utils.DateTimeUtils;
 
@@ -125,6 +124,9 @@ public class JobServlet extends HttpServlet {
             case "appliedList":
                 appliedJobList(request, response);
                 break;
+                case "downloadJG":
+                downloadJG(request, response);
+                break;
             default:
                 break;
         }
@@ -148,7 +150,6 @@ public class JobServlet extends HttpServlet {
                 createJob(request, response);
                 break;
             case "UPDATE":
-                response.getWriter().print(command);
                 updateJob(request, response);
                 break;
             case "INTERVIEW":
@@ -330,20 +331,19 @@ public class JobServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
         JobDAO jobDAO = new JobDAO();
         JobCategoryDAO catDao = new JobCategoryDAO();
+        DateTimeUtils utilDate = new DateTimeUtils();
+
         int id = Integer.parseInt(request.getParameter("jid"));
         String title = request.getParameter("projectName");
         String des = request.getParameter("description");
         String date = request.getParameter("date");
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        out.print(des);
         Date dueDate = new Date();
         try {
             dueDate = dateFormat.parse(date);
         } catch (ParseException ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        out.print(dueDate);
-
         int budget = Integer.parseInt(request.getParameter("budget"));
         String cate = request.getParameter("category");
         if (cate == null || cate.isEmpty()) {
@@ -351,7 +351,6 @@ public class JobServlet extends HttpServlet {
         }
         int cateId = catDao.getJobCategoryByName(cate).getCategoryId();
         String address = request.getParameter("address");
-        out.print(cateId);
         Part p=request.getPart("file");
         String fileName = p.getSubmittedFileName();
         //Luu file vao folder job_docs
@@ -377,8 +376,10 @@ public class JobServlet extends HttpServlet {
             job.setCategoryId(cateId);
         }
         jobDAO.updateJob(job);
-        response.getWriter().print(job);
-        viewJobDetail(request, response);
+        request.setAttribute("due", utilDate.countdownDays(job.getDueDate()));
+        request.setAttribute("job", job);
+        
+        response.sendRedirect("job?command=VIEW&jid="+id);
     }
 
     public void updateJobInterview(HttpServletRequest request, HttpServletResponse response)
@@ -465,14 +466,19 @@ public class JobServlet extends HttpServlet {
         int jobId = Integer.parseInt(request.getParameter("jobId"));
         int jobGreetingId = Integer.parseInt(request.getParameter("jgId"));
         JobGreetingDAO jgDao = new JobGreetingDAO();
+        NotificationDAO notiDao = new NotificationDAO();
+        JobDAO jobDao = new JobDAO();
         try {
             jgDao.updateStatus(jobGreetingId, "Chờ phỏng vấn");
+            Notification notification = new Notification(jgDao.getJobGreetingsByJGId(jobGreetingId).getJobSeekerId(), "Chào giá của bạn được chấp nhận", "Bạn có một chào giá được chấp nhận từ công việc "+jobDao.getJobByJobId(jobId).getJobTitle()+". Hãy chuẩn bị cho phỏng vấn!", new Date(), false);
+            notiDao.insertNotification(notification);
         } catch (Exception ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         ArrayList<JobGreeting> jobGreetings = new ArrayList<>();
         try {
             jobGreetings = (ArrayList<JobGreeting>) jgDao.getJobGreetingByJobId(jobId);
+            
         } catch (Exception ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -484,14 +490,19 @@ public class JobServlet extends HttpServlet {
         int jobId = Integer.parseInt(request.getParameter("jobId"));
         int jobGreetingId = Integer.parseInt(request.getParameter("jgId"));
         JobGreetingDAO jgDao = new JobGreetingDAO();
+        NotificationDAO notiDao = new NotificationDAO();
+        JobDAO jobDao = new JobDAO();
         try {
             jgDao.updateStatus(jobGreetingId, "Bị từ chối");
+            Notification notification = new Notification(jgDao.getJobGreetingsByJGId(jobGreetingId).getJobSeekerId(), "Chào giá của bạn bị từ chối", "Rất tiếc! Bạn có một chào giá đã bị từ chối từ công việc "+jobDao.getJobByJobId(jobId).getJobTitle()+". Hãy chào giá công việc khác!", new Date(), false);
+            notiDao.insertNotification(notification);
         } catch (Exception ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         ArrayList<JobGreeting> jobGreetings = new ArrayList<>();
         try {
             jobGreetings = (ArrayList<JobGreeting>) jgDao.getJobGreetingByJobId(jobId);
+            
         } catch (Exception ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -505,6 +516,7 @@ public class JobServlet extends HttpServlet {
         JobDAO jobDao = new JobDAO();
         JobGreetingDAO jgDao = new JobGreetingDAO();
         boolean check = false;
+        NotificationDAO notiDao = new NotificationDAO();
         try {
             check = jgDao.checkJobHasAcceptedGreeting(jobId);
         } catch (Exception ex) {
@@ -513,11 +525,13 @@ public class JobServlet extends HttpServlet {
         if (check == false) {
             try {
                 jgDao.updateStatus(jobGreetingId, "Được chấp nhận");
+                Notification notification = new Notification(jgDao.getJobGreetingsByJGId(jobGreetingId).getJobSeekerId(), "Phỏng vấn thành công", "Bạn đã được chấp nhận qua phỏng vấn công việc "+jobDao.getJobByJobId(jobId).getJobTitle()+". Để chính thức làm việc, vui lòng đặt cọc trước để đảm bảo!", new Date(), false);
+                notiDao.insertNotification(notification);
             } catch (Exception ex) {
                 Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
             }
             jobDao.updateJobStatus(jobId, "Chờ đặt cọc");
-        }else{
+        } else {
             request.setAttribute("error", "Bạn đã chọn ứng viên cho công việc này");
         }
         ArrayList<JobGreeting> jobGreetings = new ArrayList<>();
@@ -535,8 +549,12 @@ public class JobServlet extends HttpServlet {
         int jobId = Integer.parseInt(request.getParameter("jobId"));
         int jobGreetingId = Integer.parseInt(request.getParameter("jgId"));
         JobGreetingDAO jgDao = new JobGreetingDAO();
+        NotificationDAO notiDao = new NotificationDAO();
+        JobDAO jobDao = new JobDAO();
         try {
             jgDao.updateStatus(jobGreetingId, "Bị từ chối");
+            Notification notification = new Notification(jgDao.getJobGreetingsByJGId(jobGreetingId).getJobSeekerId(), "Phỏng vấn thất bại", "Rất tiếc! Bạn đã bị từ chối sau phỏng vấn công việc "+jobDao.getJobByJobId(jobId).getJobTitle()+". Hãy chào giá cho công việc khác!", new Date(), false);
+            notiDao.insertNotification(notification);
         } catch (Exception ex) {
             Logger.getLogger(JobServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -555,7 +573,6 @@ public class JobServlet extends HttpServlet {
         HttpSession session = request.getSession();
         String email = (String) session.getAttribute("account");
         User u = new UserDAO().getUserByEmail(email);
-        JobDAO jobDao = new JobDAO();
         JobGreetingDAO jgDao = new JobGreetingDAO();
         List<JobGreeting> jobGreetingList = new ArrayList<>();
         try {
@@ -568,7 +585,50 @@ public class JobServlet extends HttpServlet {
 
     }
 
-    public void bidderDetail(HttpServletRequest request, HttpServletResponse response) {
-
+    public void bidderDetail(HttpServletRequest request, HttpServletResponse response) 
+            throws ServletException, IOException {
+        int userId = Integer.parseInt(request.getParameter("userId"));
+        
+        UserDAO userDAO = new UserDAO();
+        User user = userDAO.getUserById(userId);
+        
+        if (user != null) {
+            request.setAttribute("user", user);
+            request.getRequestDispatcher("seeker-infor.jsp").forward(request, response);
+        } else {
+            request.setAttribute("error", "Không tìm thấy người dùng."); 
+            request.getRequestDispatcher("errorPage.jsp").forward(request, response); 
+        }
     }
+    
+    public void downloadJG(HttpServletRequest request, HttpServletResponse response)
+    throws ServletException, IOException{
+        String fileName = request.getParameter("fileName");
+        if (fileName != null) {
+            String path = getServletContext().getRealPath("") + "job_greetings" + File.separator + fileName;
+//        System.out.println(path);
+//        response.getWriter().print(path);
+
+            File file = new File(path);
+            OutputStream os = null;
+            FileInputStream fis = null;
+
+            response.setHeader("Content-Disposition", String.format("attachment;filename=\"%s\"", file.getName()));
+            response.setContentType("application/octet-stream");
+
+            if (file.exists()) {
+                os = response.getOutputStream();
+                fis = new FileInputStream(file);
+                byte[] bf = new byte[BUFFER_SIZE];
+                int byteRead = -1;
+                while ((byteRead = fis.read(bf)) != -1) {
+                    os.write(bf, 0, byteRead);
+                }
+            } else {
+                System.out.println("File Not Found: " + fileName);
+            }
+        }
+    }
+    
+    
 }

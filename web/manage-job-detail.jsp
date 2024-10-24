@@ -110,7 +110,7 @@
                                                             <c:if test="${jobGreeting.status == 'Được chấp nhận'}">
                                                                             <div class="verified-badge"></div>
                                                                         </c:if>
-                                                            <a href="#"><img src="${userDAO.getUserById(jobGreeting.jobSeekerId).avatarUrl}" alt=""></a>
+                                                            <a href="job?command=bidderDetail&userId=${jobGreeting.jobSeekerId}"><img src="${userDAO.getUserById(jobGreeting.jobSeekerId).avatarUrl}" alt=""></a>
                                                         </div>
                                                     </div>
 
@@ -118,7 +118,7 @@
                                                     <div class="bids-content">
                                                         <!-- Name -->
                                                         <div class="freelancer-name">
-                                                            <h4><a href="single-freelancer-profile.html">${userDAO.getUserById(jobGreeting.jobSeekerId).userName}</a></h4>
+                                                            <h4><a href="job?command=bidderDetail&userId=${jobGreeting.jobSeekerId}">${userDAO.getUserById(jobGreeting.jobSeekerId).userName}</a></h4>
                                                         </div>
                                                     </div>
 
@@ -161,7 +161,7 @@
                                     <div class="sidebar-widget">
                                         <h3>Thông tin</h3>
                                         <ul class="task-info">
-                                            <li><strong>Ngày hết hạn:</strong> ${job.dueDate}</li>
+                                            <li><strong>Ngày hết hạn:</strong> <fmt:formatDate value="${job.dueDate}" pattern="dd/MM/yyyy" /></li>
                                             <li><strong>Địa điểm:</strong> ${job.address}</li>
                                             <li><strong>Ngân sách:</strong> <fmt:formatNumber value="${job.budget}" type="currency" pattern="#,##0" currencySymbol="₫" groupingUsed="true" /></li>
                                             <li><strong>Đã đăng bởi:</strong> ${employer.userName}</li>

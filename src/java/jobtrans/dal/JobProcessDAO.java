@@ -21,6 +21,7 @@ public class JobProcessDAO {
     public JobProcessDAO() {
         dbConnection = DBConnection.getInstance();
     }
+   
    public Process getProcessById(int processId) {
     Process process = null;
     String query = "SELECT * FROM process WHERE process_id = ?";
@@ -238,5 +239,26 @@ public class JobProcessDAO {
         }
         return null;
     }
+   public boolean updateProcessStatus(int processId) {
+    String query = "UPDATE process SET status = N'Đã nộp' WHERE process_id = ?";
 
+    try (
+            Connection con = dbConnection.openConnection(); // Mở kết nối cơ sở dữ liệu
+            PreparedStatement ps = con.prepareStatement(query) // Chuẩn bị câu truy vấn SQL
+        ) {
+        // Chỉ cần thiết lập tham số cho "process_id"
+        ps.setInt(1, processId);   // Tham số thứ nhất là giá trị của "process_id"
+
+        // Thực thi câu lệnh cập nhật
+        int rowsAffected = ps.executeUpdate();
+
+        // Nếu có ít nhất một hàng được cập nhật, trả về true
+        return rowsAffected > 0;
+    } catch (Exception e) {
+        e.printStackTrace(); // In chi tiết lỗi ra để kiểm tra
+    }
+
+    // Trả về false nếu cập nhật không thành công
+    return false;
+}
 }

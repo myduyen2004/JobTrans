@@ -76,6 +76,18 @@
 
                             <div class="header-notifications-headline">
                                 <h4>Thông báo</h4>
+                                <% 
+    String message = (String) request.getSession().getAttribute("message");
+    if (message != null) { 
+%>
+    <div class="alert alert-info" id="messageAlert">
+        <%= message %>
+    </div>
+<% 
+        // Remove the message after displaying it
+        request.getSession().removeAttribute("message"); 
+    } 
+%>
                                 <form action="home" method="GET">
                                     <input type="hidden" name="action" value="markNotification">
                                     <input type="hidden" name="notiList" value="${notiDAO.getUnreadNotificationsByUserId(sessionScope.userId)}">

@@ -98,6 +98,18 @@
                                     <div class="container">
     
   <table>
+<% 
+    String message = (String) request.getSession().getAttribute("message");
+    if (message != null) { 
+%>
+    <div class="alert alert-info" id="messageAlert">
+        <%= message %>
+    </div>
+<% 
+        // Remove the message after displaying it
+        request.getSession().removeAttribute("message"); 
+    } 
+%>
     <thead>
         <tr>
             <th>No.</th> <!-- Cột mới cho số thứ tự -->
@@ -120,12 +132,24 @@
             <a href="myjob?action=request-process&processId=${pl.processId}&name=${pl.stageName}&jobId=${pl.jobId}" class="action-button view-button" onclick="toggleRequestTable(${status.index})">Yêu Cầu</a>
 
             <!-- Nộp Kết Quả Button (sửa thành <a>) -->
+                
+                 
+            <!--<a href="myjob?action=result-process&processId=${pl.processId}&name=${pl.stageName}&jobId=${pl.jobId}" class="action-button submit-button">Nộp Kết Quả</a>-->
+            <c:choose>
+        <c:when test="${pl.status == 'Đã chấp nhận'}">
+            <a href="" class="action-button submit-button">Nộp Kết Quả</a>
+        </c:when>
+        <c:when test="${pl.status != 'Đã chấp nhận'}">
             <a href="myjob?action=result-process&processId=${pl.processId}&name=${pl.stageName}&jobId=${pl.jobId}" class="action-button submit-button">Nộp Kết Quả</a>
+        </c:when>      
+           </c:choose>
+     
+            
         </td>
        <td class="status-accepted">
     <c:choose>
         <c:when test="${pl.status == 'Đã nộp'}">
-            <span style="color:#ffc107;font-weight: bold;">${pl.status}</span>
+            <span style="color:#ffc107;font-weight: bold;">Đã nộp</span>
         </c:when>
         <c:when test="${pl.status == 'Từ chối'}">
             <span style="color: red;font-weight: bold;">${pl.status}</span>

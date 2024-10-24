@@ -137,36 +137,37 @@
                         
                         <h2 style="margin-bottom: 40px;">Tiến trình công việc:   ${j.jobTitle}</h2>
                     
-                      
-                        <div class="row">
-                            <div class="col-xl-12">
-                                <div class="dashboard-box margin-top-0 ">
-                                    <div class="container">
-                                        <div class="col-md-12">
-                                            <!--<div class="container-custom">-->
-                                                <h4 style="margin-bottom: 35px; margin-top: 35px"> ${name}     -     nộp tiến trình: </h4>
-                                                
-<form action="myjob" method="POST" enctype="multipart/form-data">
-    <!-- Hidden input for processId -->
-    <input type="hidden" name="command" value="submit-process-result">
-    <input type="hidden" name="processId" value="${processId}"> <!-- Replace 123 with dynamic processId -->
 
-    <!-- Description -->
-    <div class="form-group">
-        <label for="description">Mô tả</label>
-        <textarea name="description" class="form-control" id="description" rows="4" placeholder="Nhập mô tả công việc..." required></textarea>
-    </div>
+                            <div class="row">
+                                <div class="col-xl-12">
+                                    <div class="dashboard-box margin-top-0 ">
+                                        <div class="container">
+                                            <div class="col-md-12">
+                                                <!--<div class="container-custom">-->
+                                                    <h4 style="margin-bottom: 35px; margin-top: 35px"> ${name}     -     nộp tiến trình: </h4>
+              
+    <form action="myjob" method="POST" enctype="multipart/form-data">
+        <!-- Hidden input for processId -->
+        <input type="hidden" name="command" value="submit-process-result">
+        <input type="hidden" name="processId" value="${processId}"> <!-- Replace 123 with dynamic processId -->
+       
+        <input type="hidden" name="job" value="${j.jobId}">
+        <!-- Description -->
+        <div class="form-group">
+            <label for="description">Mô tả</label>
+            <textarea name="description" class="form-control" id="description" rows="4" placeholder="Nhập mô tả công việc..." required></textarea>
+        </div>
 
-    <!-- Upload File -->
- 
-     <input name="fileUpload" type="file"  style="width: 100%;">
+        <!-- Upload File -->
+
+         <input name="fileUpload" type="file"  style="width: 100%;">
 
 
-    <!-- Submit Button -->
-    <button  type="submit" class="btn btn-primary">Nộp kết quả</button>
-</form>
+        <!-- Submit Button -->
+        <button  type="submit" class="btn btn-primary">Nộp kết quả</button>
+    </form>
+                                                </div>
                                             </div>
-                                        </div>
                                     </div>
                                 </div>
                             </div>

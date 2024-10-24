@@ -706,68 +706,66 @@ public class JobProcessingServlet extends HttpServlet {
 
     }
 
-    private void submitProcess(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        String processIdStr = request.getParameter("processId");
-        if (processIdStr == null || processIdStr.isEmpty()) {
-            response.getWriter().write("Error: processId is missing or invalid.");
-            return;
-        }
-        try {
-            int processId = Integer.parseInt(processIdStr);
-            String description = request.getParameter("description");
-            // Initialize file upload path to null
-            String uploadPath = null;
-            String fileURL = null;
-
-// Xử lý việc tải tệp (nếu có tệp được tải lên)
-            Part filePart = request.getPart("fileUpload");
-            if (filePart != null && filePart.getSize() > 0) {
-                // Lấy tên tệp từ phần tải lên
-                String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
-
-                // Đường dẫn thư mục lưu trữ tệp
-                String baseUploadPath = "D:/FALL24/JobTrans/web/job_docs/";
-
-                // Tạo tên thư mục duy nhất để lưu trữ tệp theo thời gian
-                String uniqueFolderName = "job_docs_" + System.currentTimeMillis();
-
-                // Tạo thư mục mới để lưu tệp
-                File uploadDir = new File(baseUploadPath + uniqueFolderName);
-                if (!uploadDir.exists()) {
-                    uploadDir.mkdirs();  // Tạo thư mục nếu nó chưa tồn tại
-                }
-
-                // Đường dẫn đầy đủ để lưu tệp
-                uploadPath = uploadDir.getAbsolutePath() + File.separator + fileName;
-
-                // Ghi tệp vào thư mục đã tạo
-                filePart.write(uploadPath);
-
-                // Tạo URL công khai để có thể truy cập tệp qua ứng dụng web
-                fileURL = "http://localhost:8080/JobTrans/job_docs/" + uniqueFolderName + "/" + fileName;
-
-                // In URL của tệp đã tải lên ra màn hình console (hoặc có thể lưu vào cơ sở dữ liệu)
-                System.out.println("File URL: " + fileURL);
-            } else {
-                System.out.println("No file was uploaded.");
-            }
-            // Update the process description
-            JobProcessDAO processDAO = new JobProcessDAO();
-            boolean descriptionResult = processDAO.updateProcessDescription(processId, description);
-            // Update the file URL only if a file was uploaded
-            boolean fileResult = true;
-            if (uploadPath != null) {
-                fileResult = processDAO.updateProcessFile(processId, fileURL);
-            }
-            // Check if both updates succeeded
-            if (descriptionResult) {
-                response.getWriter().write("Cập nhật thành công!");
-            } else {
-                response.getWriter().write("Cập nhật thất bại!");
-            }
-        } catch (NumberFormatException e) {
-            response.getWriter().write("Error: processId is not a valid integer.");
-            e.printStackTrace();
-        }
+   private void submitProcess(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    String processIdStr = request.getParameter("processId");
+    int jobId = Integer.parseInt(request.getParameter("job"));
+    
+    if (processIdStr == null || processIdStr.isEmpty()) {
+        response.getWriter().write("Error: processId is missing or invalid.");
+        return;
     }
+
+    try {
+
+        int processId = Integer.parseInt(processIdStr);
+        String description = request.getParameter("description");
+        String uploadPath = null;
+        String fileURL = null;
+
+        // Handle file upload (if any file is uploaded)
+        Part filePart = request.getPart("fileUpload");
+        if (filePart != null && filePart.getSize() > 0) {
+            String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
+            String baseUploadPath = "D:/FALL24/JobTrans/web/job_docs/";
+            String uniqueFolderName = "job_docs_" + System.currentTimeMillis();
+            File uploadDir = new File(baseUploadPath + uniqueFolderName);
+            if (!uploadDir.exists()) {
+                uploadDir.mkdirs();  // Create directory if it doesn't exist
+            }
+            uploadPath = uploadDir.getAbsolutePath() + File.separator + fileName;
+            filePart.write(uploadPath);
+            fileURL = "http://localhost:8080/JobTrans/job_docs/" + uniqueFolderName + "/" + fileName;
+            System.out.println("File URL: " + fileURL);
+        } else {
+            System.out.println("No file was uploaded.");
+        }
+
+        // Update the process description
+        JobProcessDAO processDAO = new JobProcessDAO();
+        boolean descriptionResult = processDAO.updateProcessDescription(processId, description);
+        boolean fileResult = true;
+
+        // Update the file URL only if a file was uploaded
+        if (uploadPath != null) {
+            fileResult = processDAO.updateProcessFile(processId, fileURL);
+        }
+
+        // Check if both updates succeeded
+        if (descriptionResult) {
+             Boolean updatestatus =processDAO.updateProcessStatus(processId);
+             request.getSession().setAttribute("message", "Nộp bài thành công"); 
+        } else {
+            // Store failure message in the session
+            request.getSession().setAttribute("message", "Nộp bài thất bại!");
+            
+        }
+    response.sendRedirect("myjob?action=list-process&jobId=" +jobId);
+    } catch (NumberFormatException e) {
+        response.getWriter().write("Error: processId is not a valid integer.");
+        e.printStackTrace();
+    } catch (Exception e) {
+        response.getWriter().write("Error: " + e.getMessage());
+        e.printStackTrace();
+    }
+   }
 }

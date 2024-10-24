@@ -1,6 +1,7 @@
 <%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page import="jobtrans.model.JobCategory" %>
+<%@page import="jobtrans.utils.CookieUtils"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <!doctype html>
 <html lang="en">
@@ -11,23 +12,31 @@
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
             <link rel="stylesheet" href="css/style.css">
             <link rel="stylesheet" href="css/colors/blue.css">
             <link rel="stylesheet" href="css/other.css">
             <link rel="stylesheet" href="css/popup.css">
-            
+
             <style>
-                #job tr:nth-child(even){background-color: #DCDCDC;}
-                
+                #job tr:nth-child(even){
+                    background-color: #DCDCDC;
+                }
+
                 .dropdown-toggle::after {
                     content: none; /* Loại bỏ nội dung */
                     display: none; /* Ẩn phần tử */
                 }
+                
+                nav {
+                    display: flex;
+                    justify-content: center;
+                }
             </style>
         </head>
         <body class="gray">
-
+            
             <!-- Wrapper -->
             <div id="wrapper">
             <%@include file="includes/header.jsp" %>
@@ -36,41 +45,43 @@
                 <%@include file="/includes/sidebar.jsp" %>
                 <div class="dashboard-content-container" data-simplebar>
                     <div class="dashboard-content-inner" >
-                        <div class="margin-top-20"></div>
                         <div class="container">
-                            <div class="row">
-                                <div class="col-xl-2 col-lg-3">
-                                    <div class="sidebar-container">
-                                        <div class="sidebar-widget">
-                                            <h3>Trạng Thái</h3>
-                                            <select class="selectpicker default" multiple data-selected-text-format="count" data-size="8" title="Tất cả trạng thái" onchange="filterJobsByCategory()">
-                                                <option value="Đã trả lương">Đã trả lương</option>
-                                                <option value="Đã hoàn tiền">Đã hoàn tiền</option>
-                                                <option value="Đã hoàn thành">Đã hoàn thành</option>
-                                                <option value="Đã nộp sản phẩm">Đã nộp sản phẩm</option>
-                                                <option value="Bị khiếu nại">Bị khiếu nại</option>
-                                                <option value="Đang làm việc">Đang làm việc</option>
-                                                <option value="Chờ đặt cọc">Chờ đặt cọc</option>
-                                                <option value="Đang tuyển">Đang tuyển</option>
-                                            </select>
+                            <div class="row">    
+                                <div class="col-xl-12 col-lg-12 content-left-offset">
+                                    <div class="row">
+                                        <div class="col-xl-3"></div>
+                                        <div class="col-xl-6">
+                                            <h2 class="text-center page-title">Quản Lý Công Việc</h2>
+                                        </div>
+                                        <div class="col-xl-3">
+                                            <div class="sidebar-container" style="margin-bottom: 0">
+                                                <div class="sidebar-widget" style="margin-bottom: 0">
+                                                    <select class="selectpicker default" multiple data-selected-text-format="count" data-size="8" title="Tất cả trạng thái" onchange="filterJobsByCategory()">
+                                                        <option value="Đã trả lương">Đã trả lương</option>
+                                                        <option value="Đã hoàn tiền">Đã hoàn tiền</option>
+                                                        <option value="Đã hoàn thành">Đã hoàn thành</option>
+                                                        <option value="Đã nộp sản phẩm">Đã nộp sản phẩm</option>
+                                                        <option value="Bị khiếu nại">Bị khiếu nại</option>
+                                                        <option value="Đang làm việc">Đang làm việc</option>
+                                                        <option value="Chờ đặt cọc">Chờ đặt cọc</option>
+                                                        <option value="Đang tuyển">Đang tuyển</option>
+                                                    </select>
 
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-xl-10 col-lg-9 content-left-offset">
-
-                                    <h3 class="page-title">Quản Lý Công Việc</h3>
                                     <div class="container tasks-list-container margin-top-15">
                                         <div class="row" id="jobListContainer">
                                             <!-- Task -->
                                             <table id="job" class="align-content-center table">
                                                 <thead>
                                                     <tr>
-                                                        <th scope="col" style="color: white; background-color: #007bff;">Tên Công Việc</th>
-                                                        <th scope="col" style="color: white; background-color: #007bff;">Phân Loại</th>
-                                                        <th scope="col" style="color: white; background-color: #007bff;">Tình Trạng</th>
-                                                        <th scope="col" style="color: white; background-color: #007bff;">Hành Động</th>
-                                                        <th scope="col" style="color: white; background-color: #007bff;">Duyệt</th>
+                                                        <th scope="col" style="color: white; background-color: #2a41e8;">Tên Công Việc</th>
+                                                        <th scope="col" style="color: white; background-color: #2a41e8;">Phân Loại</th>
+                                                        <th scope="col" style="color: white; background-color: #2a41e8;">Tình Trạng</th>
+                                                        <th scope="col" style="color: white; background-color: #2a41e8;">Hành Động</th>
+                                                        <th scope="col" style="color: white; background-color: #2a41e8;">Duyệt</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -96,17 +107,56 @@
                                                                     <button type="button" style="background-color: green; font-size: 14px; padding: 10px 5px 10px 5px;" class="btn btn-success">Đã Duyệt</button>
                                                                 </c:if>
                                                                 <c:if test="${o.labelVerify != 'Được duyệt'}">
-                                                                    <button type="button" style="background-color: red; font-size: 14px; padding: 10px 5px 10px 5px;" class="btn btn-danger">Chưa Duyệt</button>
+                                                                    <a href="JobManagement?jid=${o.jobId}&command=VERIFY"><button type="button" style="background-color: red; font-size: 14px; padding: 10px 5px 10px 5px;" class="btn btn-danger">Chưa Duyệt</button></a>
                                                                 </c:if>
                                                             </td>
                                                         </tr>
                                                     </c:forEach>
                                                 </tbody>
                                             </table>
+                                            <nav id="pageDevide">
+                                        <ul class="pagination">
+                                            <c:if test="${currentPage != 1}">
+                                                <c:if test="${sessionScope.conditionPage == 'true'}">
+                                                    <li class="page-item"><a class="page-link" currentPage="${currentPage-1}" onclick="filterJobsByStatus(this)">PreviousFilter</a></li>
+                                                </c:if>
+                                                <c:if test="${sessionScope.conditionPage == 'false'}">
+                                                    <li class="page-item"><a class="page-link" href="JobManagement?command=LIST&currentPage=${currentPage-1}">Previous</a></li>
+                                                </c:if>
+                                            </c:if>
+
+                                            <c:forEach begin="1" end="${noOfPages}" var="i">
+                                                <c:choose>
+                                                    <c:when test="${currentPage eq i}">
+                                                        <li class="page-item active">
+                                                            <a class="page-link">${i} <span class="sr-only">(current)</span></a>
+                                                        </li>
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <c:if test="${sessionScope.conditionPage == 'true'}">
+                                                            <li class="page-item"><a class="page-link" currentPage="${i}" onclick="filterJobsByStatus(this)">${i}</a></li>
+                                                        </c:if>
+                                                        <c:if test="${sessionScope.conditionPage == 'false'}">
+                                                            <li class="page-item"><a class="page-link" href="JobManagement?command=LIST&currentPage=${i}">${i}</a></li>
+                                                        </c:if>
+                                                    </c:otherwise>
+                                                </c:choose>
+                                            </c:forEach>
+
+                                            <c:if test="${currentPage lt noOfPages}">
+                                                <c:if test="${sessionScope.conditionPage == 'true'}">
+                                                    <li class="page-item"><a class="page-link" currentPage="${currentPage+1}" onclick="filterJobsByStatus(this)">Next</a></li>
+                                                </c:if>
+                                                <c:if test="${sessionScope.conditionPage == 'false'}">
+                                                    <li class="page-item"><a class="page-link" href="JobManagement?command=LIST&currentPage=${currentPage+1}">Next</a></li>
+                                                </c:if>
+                                            </c:if>
+                                        </ul>
+                                    </nav>
                                         </div>
+                                        
                                     </div>
-
-
+                                    
                                 </div>
                             </div>
                         </div>
@@ -236,7 +286,7 @@
             function filterJobsByCategory() {
                 var selectedStatuses = $('.selectpicker').val();
                 var statuses = JSON.stringify(selectedStatuses);
-
+                
                 $.ajax({
                     url: 'JobManagement', // Đường dẫn đến servlet xử lý
                     type: 'GET',
@@ -246,16 +296,36 @@
                     },
                     success: function (response) {
                         $('#jobListContainer').html(response);
-
-
                     },
                     error: function (xhr, status, error) {
                         console.error('Error filtering jobs: ', error);
                     }
                 });
             }
-
-
+        </script>
+        
+        <script>
+            function filterJobsByStatus(element) {
+                var selectedStatuses = $('.selectpicker').val();
+                var statuses = JSON.stringify(selectedStatuses);
+                var currentPage = element.getAttribute("currentPage");
+                
+                $.ajax({
+                    url: 'JobManagement', // Đường dẫn đến servlet xử lý
+                    type: 'GET',
+                    data: {
+                        command: 'filterJobsByStatus',
+                        statuses: statuses,
+                        currentPage: currentPage
+                    },
+                    success: function (response) {
+                        $('#jobListContainer','#pageDevide').html(response);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error filtering jobs: ', error);
+                    }
+                });
+            }
         </script>
         <script>
             function openPopup(element) { // Click vào button thì gán style cho Popup là display:block để hiển thị lên
@@ -268,13 +338,13 @@
                 document.getElementById("popup").style.display = "block";
             }
 
-            
+
         </script>
 
         <script>
             function closePopup() { // Click vào close thì gán style cho Popup là display:none để ẩn đi
-                        document.getElementById("popup").style.display = "none";
-                    }
+                document.getElementById("popup").style.display = "none";
+            }
         </script>
 
         <!-- Google API & Maps -->

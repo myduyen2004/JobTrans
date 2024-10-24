@@ -8,26 +8,29 @@ package jobtrans.controller.admin.management;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
-import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import java.io.PrintWriter;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import jobtrans.controller.web.job.JobServlet;
-import jobtrans.dal.JobCategoryDAO;
 import jobtrans.dal.JobDAO;
 import jobtrans.dal.JobGreetingDAO;
 import jobtrans.dal.JobReportDAO;
 import jobtrans.dal.TransactionDAO;
 import jobtrans.dal.UserDAO;
 import jobtrans.model.Job;
-import jobtrans.model.JobCategory;
 import jobtrans.model.JobGreeting;
 import jobtrans.model.JobReport;
 import jobtrans.model.Transaction;
@@ -54,7 +57,7 @@ public class JobManagement extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet JobManagement</title>");  
+            out.println("<title>Servlet JobManagement</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet JobManagement at " + request.getContextPath () + "</h1>");
@@ -95,10 +98,29 @@ public class JobManagement extends HttpServlet {
             case "DENYREPORT":
                 denyReport(request, response);
                 break;
-            case "PAYSALARY":
-            {
+            case "PAYSALARY": 
                 try {
                     paySalary(request, response);
+                } catch (Exception ex) {
+                    Logger.getLogger(JobManagement.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            case "VERIFY":
+                verifyJob(request, response);
+                break;
+            case "PROCESSREPORT":
+            {
+                try {
+                    processReport(request, response);
+                } catch (Exception ex) {
+                    Logger.getLogger(JobManagement.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+                break;
+            case "REFUND":
+            {
+                try {
+                    refund(request, response);
                 } catch (Exception ex) {
                     Logger.getLogger(JobManagement.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -135,22 +157,70 @@ public class JobManagement extends HttpServlet {
     public void viewListJob(HttpServletRequest request, HttpServletResponse response)
     throws ServletException, IOException {
         JobDAO jobDao = new JobDAO();
+        HttpSession session = request.getSession();
         
-        List<Job> jobList = jobDao.getAllJob();
+        int currentPage;
+        if(request.getParameter("currentPage")==null){
+            currentPage = 1;
+        }else{
+            currentPage = Integer.parseInt(request.getParameter("currentPage"));
+        }
+        int recordsPerPage = 5;
+
+        int rows = jobDao.getNumberOfRows();
+        int nOfPages = rows / recordsPerPage;
+        if (nOfPages % recordsPerPage > 0) {
+           nOfPages++;
+        }
+        
+        request.setAttribute("noOfPages", nOfPages);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("recordsPerPage", recordsPerPage);
+        session.setAttribute("conditionPage", "false");
+        
+        List<Job> jobList = jobDao.findJobs(currentPage, recordsPerPage);
         
         request.setAttribute("jobList", jobList);
         request.getRequestDispatcher("manage-job-admin.jsp").forward(request, response);
     }
     
     private void filterJobByStatuses(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
-        String statusesJson = request.getParameter("statuses");
-        
-        List<String> statuses = new Gson().fromJson(statusesJson, new TypeToken<List<String>>(){}.getType());
+        HttpSession session = request.getSession();
         
         JobDAO jobDAO = new JobDAO();
-        List<Job> filteredJobs = jobDAO.getJobsByStatuses(statuses);
+        String statusesJson = request.getParameter("statuses");
+        List<String> statuses = new Gson().fromJson(statusesJson, new TypeToken<List<String>>(){}.getType());
+        
+        if(statuses == null){
+            statuses = (List<String>) session.getAttribute("status");
+            
+        }
+        
+        int currentPage;
+        if(request.getParameter("currentPage")==null){
+            currentPage = 1;
+        }else{
+            currentPage = Integer.parseInt(request.getParameter("currentPage"));
+        }
+        int recordsPerPage = 5;
+
+        int rows = jobDAO.getNumberOfRowsByStatuses(statuses);
+        int nOfPages = rows / recordsPerPage;
+        if (nOfPages % recordsPerPage > 0) {
+           nOfPages++;
+        }
+        
+        request.setAttribute("noOfPages", nOfPages);
+        request.setAttribute("currentPage", currentPage);
+        request.setAttribute("recordsPerPage", recordsPerPage);
+        session.setAttribute("conditionPage", "true");
+        session.setAttribute("status", statuses);
+        
+        
+        List<Job> filteredJobs = jobDAO.findJobsByStatus(currentPage, recordsPerPage, statuses);
+       
         request.setAttribute("jobList", filteredJobs);
-        request.getRequestDispatcher("filter-manage-job-admin.jsp").forward(request, response);
+        request.getRequestDispatcher("filter-manage-job-admin.jsp").include(request, response);
     }
     
     public void deleteJob(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
@@ -220,7 +290,6 @@ public class JobManagement extends HttpServlet {
         
         String sid = request.getParameter("jid");
         int id = Integer.parseInt(sid);
-        String des = request.getParameter("description");
         
         JobDAO jobDAO = new JobDAO();
         JobGreetingDAO jgDAO = new JobGreetingDAO();
@@ -242,12 +311,13 @@ public class JobManagement extends HttpServlet {
                 request.setAttribute("msgSalary", "Công việc chưa hoàn thành!");
                 viewDetailJob(request, response);
             }else{
-                Transaction t = new Transaction(admin.getUserId(), (int) (job.getSecureWallet() - jg.getPrice() * 0.03), date, true, "Trừ tiền", des, id);
-                tDAO.addTransactionForJob(t);
-
+                Transaction tAdmin = new Transaction(admin.getUserId(), admin.getUserId(), (int) (jg.getPrice() * 0.03), date, true, "Thêm tiền", id, "Nhận hoa hồng");
+                tDAO.addReceiveTransaction(tAdmin);
+                User seeker = uDAO.getUserById(jg.getJobSeekerId());
+                Transaction tSeeker = new Transaction(seeker.getUserId(), admin.getUserId(), (int) (job.getSecureWallet() - jg.getPrice() * 0.03), date, true, "Thêm tiền", id, "Nhận lương");
+                tDAO.addReceiveTransaction(tSeeker);
                 jobDAO.updateJobStatusAndWallet(id, "Đã trả lương", -job.getSecureWallet());
 
-                User seeker = uDAO.getUserById(jg.getJobSeekerId());
                 seeker.setBalance(seeker.getBalance() + (int) (job.getSecureWallet() - jg.getPrice() * 0.03));
                 uDAO.updateBalance(seeker);
 
@@ -256,6 +326,151 @@ public class JobManagement extends HttpServlet {
                 
                 request.setAttribute("msgSalary", "Trả Lương Hoàn Tất!");
                 viewDetailJob(request, response);
+            }
+        }
+    }
+    
+    public void verifyJob(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException{
+        String sid = request.getParameter("jid");
+        int id = Integer.parseInt(sid);
+        
+        JobDAO dao = new JobDAO();
+        dao.verifyJob(id);
+        
+        viewListJob(request, response);
+    }
+    
+    public void processReport(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, Exception{
+        HttpSession session = request.getSession(true);
+        String email = (String) session.getAttribute("account");
+        
+        JobDAO jobDAO = new JobDAO();
+        JobGreetingDAO jgDAO = new JobGreetingDAO();
+        TransactionDAO tDAO = new TransactionDAO();
+        UserDAO uDAO = new UserDAO();
+        JobReportDAO jrDAO = new JobReportDAO();
+        
+        User admin = uDAO.getUserByEmail(email);
+        
+        String sjid = request.getParameter("jid");
+        String srid = request.getParameter("rid");
+        String suid = request.getParameter("uid");
+        
+        int jid = Integer.parseInt(sjid);
+        int rid = Integer.parseInt(srid);
+        int uid = Integer.parseInt(suid);
+        
+        
+        
+        Job job = jobDAO.getJobByJobId(jid);
+        User user = uDAO.getUserById(uid);
+        Date date=new java.util.Date();
+        JobGreeting jg = jgDAO.getJobGreetingsByJobIdAndStatus(jid, "Được chấp nhận");
+        
+        if(jg == null){
+            request.setAttribute("msgSalary", "Công việc chưa bắt đầu!");
+            viewReport(request, response);
+        }else{
+            if(user.getRole().equalsIgnoreCase("Employer")){
+                Transaction tEmployer = new Transaction(user.getUserId(), admin.getUserId(), job.getSecureWallet(), date, true, "Thêm tiền", jid, "Hoàn tiền");
+                tDAO.addReceiveTransaction(tEmployer);
+                
+                user.setBalance(user.getBalance()+job.getSecureWallet());
+                jobDAO.updateJobStatusAndWallet(jid, "Đã hoàn tiền", -job.getSecureWallet());
+                uDAO.updateBalance(user);
+                
+                jrDAO.processJobReportByReportId(rid);
+                viewReport(request, response);
+            }else{
+                if(user.getRole().equalsIgnoreCase("Seeker")){
+                    Transaction tEmployer = new Transaction(job.getUserId(), admin.getUserId(), (int) (job.getSecureWallet()-jg.getPrice()*0.1), date, true, "Thêm tiền", jid, "Hoàn tiền");
+                    tDAO.addReceiveTransaction(tEmployer);
+
+                    Transaction tSeeker = new Transaction(user.getUserId(), admin.getUserId(), (int) (jg.getPrice()*0.1), date, true, "Thêm tiền", jid, "Hoàn tiền");
+                    tDAO.addReceiveTransaction(tSeeker);
+
+                    jobDAO.updateJobStatusAndWallet(jid, "Đã hoàn tiền", -job.getSecureWallet());
+                    user.setBalance((int) (user.getBalance()+jg.getPrice()*0.1));
+                    uDAO.updateBalance(user);
+
+                    User employer = uDAO.getUserById(job.getUserId());
+                    employer.setBalance((int) (employer.getBalance()+job.getSecureWallet()-jg.getPrice()*0.1));
+                    uDAO.updateBalance(employer);
+                    jrDAO.processJobReportByReportId(rid);
+                    viewReport(request, response);
+                }
+            }
+        }
+    }
+    
+    public void refund(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException, Exception{
+        PrintWriter out = response.getWriter();
+        HttpSession session = request.getSession(true);
+        String email = (String) session.getAttribute("account");
+        
+        String sid = request.getParameter("jid");
+        int id = Integer.parseInt(sid);
+        
+        JobDAO jobDAO = new JobDAO();
+        JobGreetingDAO jgDAO = new JobGreetingDAO();
+        TransactionDAO tDAO = new TransactionDAO();
+        UserDAO uDAO = new UserDAO();
+        
+        User admin = uDAO.getUserByEmail(email);
+        Job job = jobDAO.getJobByJobId(id);
+        User employer = uDAO.getUserById(job.getUserId());
+
+        LocalDate today = LocalDate.now();
+        Instant instant = Instant.ofEpochMilli(job.getDueDate().getTime());
+        LocalDate dueDate = LocalDateTime.ofInstant(instant, ZoneId.systemDefault()).toLocalDate();
+        LocalDate newDueDate = dueDate.plusDays(3);
+        Date date=new java.util.Date();
+        
+        out.println(today);
+        
+        JobGreeting jg = jgDAO.getJobGreetingsByJobIdAndStatus(id, "Được chấp nhận");
+        
+        if(jg == null){
+            request.setAttribute("msgRefund", "Công việc chưa bắt đầu!");
+            viewDetailJob(request, response);
+        }else{
+            User seeker = uDAO.getUserById(jg.getJobSeekerId());
+            if(!job.getStatus().equalsIgnoreCase("Chờ đặt cọc")){
+                request.setAttribute("msgRefund", "Công việc không trong thời gian chờ đặt cọc - " + job.getStatus());
+                viewDetailJob(request, response);
+            }else{
+                if (newDueDate.isBefore(today) || newDueDate.isEqual(today)) {
+                    if (job.getSecureWallet() == 0) {
+                        jobDAO.updateJobStatus(id, "Đã hoàn tiền");
+                        request.setAttribute("msgRefund", "Hoàn Tiền Hoàn Tất!");
+                        viewDetailJob(request, response);
+                    } else {
+                        if (job.getSecureWallet() == job.calcPrepayFee(jg)) {
+                            Transaction tEmployer = new Transaction(employer.getUserId(), admin.getUserId(), job.getSecureWallet(), date, true, "Thêm tiền", id, "Hoàn tiền");
+                            tDAO.addReceiveTransaction(tEmployer);
+
+                            jobDAO.updateJobStatusAndWallet(id, "Đã hoàn tiền", -job.getSecureWallet());
+                            employer.setBalance(employer.getBalance() + job.getSecureWallet());
+                            uDAO.updateBalance(employer);
+                            request.setAttribute("msgRefund", "Hoàn Tiền Hoàn Tất!");
+                            viewDetailJob(request, response);
+                        } else {
+                            if (job.getSecureWallet() == (int) (job.calcPrepayFee(jg) * 0.1)) {
+                                Transaction tSeeker = new Transaction(seeker.getUserId(), admin.getUserId(), (int) (jg.getPrice() * 0.1), date, true, "Thêm tiền", id, "Hoàn tiền");
+                                tDAO.addReceiveTransaction(tSeeker);
+
+                                jobDAO.updateJobStatusAndWallet(id, "Đã hoàn tiền", -job.getSecureWallet());
+                                seeker.setBalance((int) (seeker.getBalance() + jg.getPrice() * 0.1));
+                                uDAO.updateBalance(seeker);
+                                request.setAttribute("msgRefund", "Hoàn Tiền Hoàn Tất!");
+                                viewDetailJob(request, response);
+                            }
+                        }
+                    }
+                } else {
+                    request.setAttribute("msgRefund", "Chưa đến ngày hết hạn!");
+                    viewDetailJob(request, response);
+                }
             }
         }
     }

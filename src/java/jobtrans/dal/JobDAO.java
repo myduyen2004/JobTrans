@@ -343,7 +343,7 @@ public class JobDAO {
 
         return jobList;
     }
-    
+
     public List<Job> getJobsByStatuses(List<String> statuses) {
         List<Job> jobList = new ArrayList<>();
 
@@ -380,7 +380,7 @@ public class JobDAO {
 
         return jobList;
     }
-    
+
     public List<String> getEmployerFeedbackByUserId(int userId) {
         List<String> feedbackList = new ArrayList<>();
         String query = "SELECT employer_feedback FROM Job WHERE user_id = ?";
@@ -399,7 +399,6 @@ public class JobDAO {
         }
         return feedbackList;
     }
-
 
     public int getMaxJobId() {
         int maxJobId = -1;
@@ -663,35 +662,190 @@ public class JobDAO {
     }
 
     public Integer getJobIdBySeekerId(int jobSeekerId) {
-    Integer jobId = null;
-    String query = "SELECT job_id FROM JobGreetings WHERE job_seeker_id = ?";
+        Integer jobId = null;
+        String query = "SELECT job_id FROM JobGreetings WHERE job_seeker_id = ?";
 
-    try {
-        Connection con = dbConnection.openConnection();
-        PreparedStatement ps = con.prepareStatement(query);
-        ps.setInt(1, jobSeekerId); // Truyền giá trị job_seeker_id
-        ResultSet rs = ps.executeQuery();
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(query);
+            ps.setInt(1, jobSeekerId); // Truyền giá trị job_seeker_id
+            ResultSet rs = ps.executeQuery();
 
-        if (rs.next()) {
-            jobId = rs.getInt("job_id"); // Lấy job_id
+            if (rs.next()) {
+                jobId = rs.getInt("job_id"); // Lấy job_id
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Log lỗi nếu có
         }
-    } catch (Exception e) {
-        e.printStackTrace(); // Log lỗi nếu có
+
+        return jobId; // Trả về jobId
     }
 
-    return jobId; // Trả về jobId
-}
+    public void verifyJob(int jid) {
+        String sql = "Update Job SET label_verify = N'Được duyệt' WHERE job_id = ?";
 
+        Connection con;
+        try {
+            con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, jid); // Truyền giá trị job_seeker_id
+            ps.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+    
+    public Integer getNumberOfRows() {
+        Integer numOfRows = 0;
+        String sql = "SELECT * FROM Job";
+        
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                numOfRows++;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE,null, ex);
+        }
+
+        return numOfRows;
+    }
+    
+    public Integer getNumberOfRowsByStatuses( List<String> statuses) {
+        Integer numOfRows = 0;
+        String sql = "SELECT * FROM Job WHERE status IN (N'" + statuses.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining("',N'")) + "')";
+        
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                numOfRows++;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE,null, ex);
+        }
+
+        return numOfRows;
+    }
+    
+    public List<Job> findJobs(int currentPage, int recordsPerPage) {
+        
+        List<Job> jobs = new ArrayList<>();
+        
+        String sql = "With coun AS "
+            + "( SELECT job_id, user_id, job_title, budget, description, due_date, status, category_id, employer_feedback, seeker_feedback, secure_wallet, "
+            + "doc_URL, interview_URL, interview_Date, address, label_verify, "
+            + "ROW_NUMBER() OVER (order by job_id) as RowNumber "
+            + "FROM Job) "
+            + "select * "
+            + "from coun "
+            + " Where RowNumber Between ? and ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            
+            int start = currentPage * recordsPerPage - recordsPerPage + 1;
+            System.out.println("start" + start);
+            
+            int end = recordsPerPage * currentPage;
+            System.out.println("end " + end);
+            System.out.println("record" + recordsPerPage);
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, start);
+            ps.setInt(2, end);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job();
+                job.setJobId(rs.getInt("job_id"));
+                job.setUserId(rs.getInt("user_id"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setBudget(rs.getInt("budget"));
+                job.setDescription(rs.getString("description"));
+                job.setDueDate(rs.getDate("due_date"));
+                job.setStatus(rs.getString("status"));
+                job.setCategoryId(rs.getInt("category_id"));
+                job.setEmployerFeedback(rs.getString("employer_feedback"));
+                job.setSeekerFeedback(rs.getString("seeker_feedback"));
+                job.setSecureWallet(rs.getInt("secure_wallet"));
+                job.setDocUrl(rs.getString("doc_URL"));
+                job.setInterviewUrl(rs.getString("interview_URL"));
+                job.setInterviewDate(rs.getDate("interview_Date"));
+                job.setAddress(rs.getString("address"));
+                job.setLabelVerify(rs.getString("label_verify"));
+                jobs.add(job);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return jobs;
+    }
+    
+    public List<Job> findJobsByStatus(int currentPage, int recordsPerPage, List<String> statuses) {
+        
+        List<Job> jobs = new ArrayList<>();
+        
+        String sql = "With coun AS "
+            + "( SELECT job_id, user_id, job_title, budget, description, due_date, status, category_id, employer_feedback, seeker_feedback, secure_wallet, "
+            + "doc_URL, interview_URL, interview_Date, address, label_verify, "
+            + "ROW_NUMBER() OVER (order by job_id) as RowNumber "
+            + "FROM Job WHERE status IN (N'"+ statuses.stream().map(String::valueOf).collect(Collectors.joining("',N'")) +"' )) "
+            + "select * "
+            + "from coun "
+            + " Where RowNumber Between ? and ?";
+        try {
+            Connection con = dbConnection.openConnection();
+            
+            int start = currentPage * recordsPerPage - recordsPerPage + 1;
+            System.out.println("start" + start);
+            
+            int end = recordsPerPage * currentPage;
+            System.out.println("end " + end);
+            System.out.println("record" + recordsPerPage);
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, start);
+            ps.setInt(2, end);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                Job job = new Job();
+                job.setJobId(rs.getInt("job_id"));
+                job.setUserId(rs.getInt("user_id"));
+                job.setJobTitle(rs.getString("job_title"));
+                job.setBudget(rs.getInt("budget"));
+                job.setDescription(rs.getString("description"));
+                job.setDueDate(rs.getDate("due_date"));
+                job.setStatus(rs.getString("status"));
+                job.setCategoryId(rs.getInt("category_id"));
+                job.setEmployerFeedback(rs.getString("employer_feedback"));
+                job.setSeekerFeedback(rs.getString("seeker_feedback"));
+                job.setSecureWallet(rs.getInt("secure_wallet"));
+                job.setDocUrl(rs.getString("doc_URL"));
+                job.setInterviewUrl(rs.getString("interview_URL"));
+                job.setInterviewDate(rs.getDate("interview_Date"));
+                job.setAddress(rs.getString("address"));
+                job.setLabelVerify(rs.getString("label_verify"));
+                System.out.println(job);
+                jobs.add(job);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(JobDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return jobs;
+    }
 
     public static void main(String[] args) {
-        JobDAO dao = new JobDAO();
-        List<String> statuses = new ArrayList<>();
-        statuses.add("Đang tuyển");
-        statuses.add("Đã trả lương");
-        List<Integer> l = new ArrayList<>();
-        l.add(11);
-        System.out.println(dao.getJobsByStatuses(statuses));
+        // JobDAO dao = new JobDAO();
+        
+        // List<String> statuses = new ArrayList<>();
+        // statuses.add("Đã trả lương");
+        
+        // List<Job> jlist = dao.findJobsByStatus(1, 2, statuses);
+        // System.out.println(jlist);
     }
 
-
+    
 }

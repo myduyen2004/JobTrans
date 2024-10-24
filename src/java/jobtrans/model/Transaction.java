@@ -38,6 +38,16 @@ public class Transaction {
         this.jobId = jobId;
     }
     
+    public Transaction(int receiverId, int adminId, int amount, Date createdDate, boolean status, String transactionType, int jobId, String description) {
+        this.receiverId = receiverId;
+        this.adminId = adminId;
+        this.amount = amount;
+        this.createdDate = createdDate;
+        this.status = status;
+        this.transactionType = transactionType;
+        this.description = description;
+        this.jobId = jobId;
+    }
     
     // Getters and Setters
     public int getTransactionId() {

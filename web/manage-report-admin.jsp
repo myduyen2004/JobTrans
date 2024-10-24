@@ -37,18 +37,18 @@
                                 <div class="col-xl-11 col-lg-11 content-left-offset">
 
                                     <h2 class="text-center page-title">Chi Tiết Khiếu Nại Công Việc</h2>
-                                    <h3 class="text-center" style="font-weight: bolder">${jobinfo.jobTitle}</h3>
+                                    <h3 class="text-center" style="font-weight: bolder; margin-top: 20px;">${jobinfo.jobTitle}</h3>
                                     <div class="container tasks-list-container margin-top-15">
                                         <div class="row" id="jobListContainer">
                                             <!-- Task -->
                                             <table id="report" class="table">
                                                 <thead>
                                                     <tr>
-                                                        <th class="align-content-center" scope="col" style="color: white; background-color: #007bff;">Người Khiếu Nại</th>
-                                                        <th  class="align-content-center" scope="col" style="color: white; background-color: #007bff;">Nội Dung Khiếu Nại</th>
-                                                        <th  class="align-content-center" scope="col" style="color: white; background-color: #007bff;">Tài Liệu Khiếu Nại</th>
-                                                        <th  class="align-content-center" scope="col" style="color: white; background-color: #007bff;">Tình Trạng</th>
-                                                        <th  class="align-content-center" scope="col" style="color: white; background-color: #007bff;"></th>
+                                                        <th class="align-content-center" scope="col" style="color: white; background-color: #2a41e8;">Người Khiếu Nại</th>
+                                                        <th  class="align-content-center" scope="col" style="color: white; background-color: #2a41e8;">Nội Dung Khiếu Nại</th>
+                                                        <th  class="align-content-center" scope="col" style="color: white; background-color: #2a41e8;">Tài Liệu Khiếu Nại</th>
+                                                        <th  class="align-content-center" scope="col" style="color: white; background-color: #2a41e8;">Tình Trạng</th>
+                                                        <th  class="align-content-center" scope="col" style="color: white; background-color: #2a41e8;"></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -68,7 +68,7 @@
                                                                 <table style="width: 100%">
                                                                     <tr>
                                                                         <td>
-                                                                            <a href="#"><button class="btn btn-secondary" style="font-size: 14px; padding: 10px 5px 10px 5px;">Xứ Lí Khiếu Nại</button></a>
+                                                                            <a href="JobManagement?command=PROCESSREPORT&rid=${o.jobReportId}&jid=${jobinfo.jobId}&uid=${o.reportBy}"><button class="btn btn-secondary" style="font-size: 14px; padding: 10px 5px 10px 5px;">Xứ Lí Khiếu Nại</button></a>
                                                                         </td>
                                                                         <td>
                                                                             <a href="JobManagement?command=DENYREPORT&rid=${o.jobReportId}&jid=${jobinfo.jobId}"><button class="btn btn-secondary" style="font-size: 14px; padding: 10px 5px 10px 5px;">Từ Chối Khiếu Nại</button></a>

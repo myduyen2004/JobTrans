@@ -99,6 +99,20 @@ public class JobReportDAO {
         }
     }
     
+    public void processJobReportByReportId(int rid){
+        String sql = "UPDATE JobReport SET status = ? WHERE job_report_id = ?";
+        
+        try {
+            Connection con = dbConnection.openConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setNString(1, "Đã xử lí");
+            ps.setInt(2, rid);
+            ps.execute();
+        } catch (Exception ex) {
+            Logger.getLogger(JobReportDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     public static void main(String[] args) {
         JobReportDAO dao = new JobReportDAO();
 

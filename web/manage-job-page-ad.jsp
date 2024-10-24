@@ -20,6 +20,10 @@
             
             <style>
                 #job tr:nth-child(even){background-color: #DCDCDC;}
+                
+                #titleJob:hover{
+                    font-weight: bold;
+                }
             </style>
         </head>
         <body class="gray">
@@ -43,24 +47,24 @@
                                             <!-- Task -->
                                             <table id="job" class="table">
                                                 <tbody>
-                                                    <tr class="align-content-center row">
-                                                        <th class="col-xl-3" scope="col" style="color: white; background-color: #007bff;">Tên Công Việc</th>
-                                                        <td class="col-xl-9"><h4>${job.jobTitle}</h4></td>
+                                                    <tr class="align-content-center row" style="font-weight: bold">
+                                                        <th class="col-xl-3" scope="col" style="color: white; background-color: #2a41e8;">Tên Công Việc</th>
+                                                        <td class="col-xl-9">
+                                                            <a href="home?action=jobDetail&jobId=${job.jobId}">
+                                                                <h4 id="titleJob">${job.jobTitle}</h4>
+                                                            </a>
+                                                        </td>
                                                     </tr>
                                                     <tr class="align-content-center row">
-                                                        <th  class="col-xl-3" scope="col" style="color: white; background-color: #007bff;">Mô Tả Công Việc</th>
-                                                        <td class="col-xl-9"><h4>${job.description}</h4></td>
-                                                    </tr>
-                                                    <tr class="align-content-center row">
-                                                        <th  class="col-xl-3" scope="col" style="color: white; background-color: #007bff;">Phân Loại</th>
+                                                        <th  class="col-xl-3" scope="col" style="color: white; background-color: #2a41e8;">Phân Loại</th>
                                                         <td class="col-xl-9"><h4>${category.getCategoryById(job.categoryId).categoryName}</h4></td>
                                                     </tr>
                                                     <tr class="align-content-center row">
-                                                        <th  class="col-xl-3" scope="col" style="color: white; background-color: #007bff;">Nhà tuyển dụng</th>
+                                                        <th  class="col-xl-3" scope="col" style="color: white; background-color: #2a41e8;">Nhà tuyển dụng</th>
                                                         <td class="col-xl-9"><h4>${user.getUserById(job.userId).userName}</h4></td>
                                                     </tr>
                                                     <tr class="align-content-center row">
-                                                        <th class="col-xl-3"  scope="col" style="color: white; background-color: #007bff;">Ngân Sách</th>
+                                                        <th class="col-xl-3"  scope="col" style="color: white; background-color: #2a41e8;">Ngân Sách</th>
                                                         <td class="col-xl-9">
                                                             <h4>
                                                                 <strong>
@@ -70,15 +74,15 @@
                                                         </td>
                                                     </tr>
                                                     <tr class="align-content-center row">
-                                                        <th  class="col-xl-3" scope="col" style="color: white; background-color: #007bff;">Tình Trạng</th>
+                                                        <th  class="col-xl-3" scope="col" style="color: white; background-color: #2a41e8;">Tình Trạng</th>
                                                         <td class="col-xl-9"><h4>${job.status}</h4></td>
                                                     </tr>
                                                     <tr class="align-content-center row">
-                                                        <th  class="col-xl-3" scope="col" style="color: white; background-color: #007bff;">Ngày hết hạn</th>
+                                                        <th  class="col-xl-3" scope="col" style="color: white; background-color: #2a41e8;">Ngày hết hạn</th>
                                                         <td class="col-xl-9"><h4>${job.dueDate}</h4></td>
                                                     </tr>
                                                     <tr class="align-content-center row">
-                                                        <th class="col-xl-3"  scope="col" style="color: white; background-color: #007bff;">Địa điểm</th>
+                                                        <th class="col-xl-3"  scope="col" style="color: white; background-color: #2a41e8;">Địa điểm</th>
                                                         <td class="col-xl-9"><h4>${job.address}</h4></td>
                                                     </tr>
                                                 </tbody>
@@ -111,6 +115,20 @@
                                                 <button type="submit" class="button ripple-effect big margin-top-10">Trả lương</button>
                                             </form>
                                         </div>
+                                        <div class="mt-4 mb-2">
+                                            <form action="JobManagement" method="get">
+                                                <input type="hidden" name="command" value="REFUND">
+                                                <input type="hidden" name="jid" value="${job.jobId}">
+                                                <c:if test="${msgRefund != 'Hoàn Tiền Hoàn Tất!'}">
+                                                    <h4 style="font-style: italic; color: red;">${msgRefund}</h4>
+                                                </c:if>
+                                                <c:if test="${msgRefund == 'Hoàn Tiền Hoàn Tất!'}">
+                                                    <h4 style="font-style: italic; color: green;">${msgRefund}</h4>
+                                                </c:if>
+                                                <h3 class="mb-1">Hoàn tiền quá hạn đặt cọc: </h3>
+                                                <button type="submit" class="button ripple-effect big margin-top-10">Hoàn Tiền</button>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +138,7 @@
 
                     <!-- Footer
                     ================================================== -->
-                    <%@include file="includes/footer.jsp" %>
+                    <%@include file="includes/subfooter.jsp" %>
                     <!-- Footer / End -->
                 </div>
             </div>

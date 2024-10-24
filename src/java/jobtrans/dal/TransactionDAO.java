@@ -32,13 +32,14 @@ public class TransactionDAO {
         dbConnection = DBConnection.getInstance();
     }
     
-    public List<Transaction> getTransactionBySenderId(int senderId) throws Exception {
+    public List<Transaction> getTransactionBySenderIdOrReceiveId(int id) throws Exception {
         List<Transaction> transactions = new ArrayList<>();
-        String query = "SELECT * FROM [Transaction] WHERE senderId = ?";
+        String query = "SELECT * FROM [Transaction] WHERE senderId = ? OR receiverId = ?";
 
         try (Connection con = dbConnection.openConnection();
              PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setInt(1, senderId);
+            ps.setInt(1, id);
+            ps.setInt(2, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 Transaction transaction = new Transaction();
@@ -56,7 +57,7 @@ public class TransactionDAO {
             }
         } catch (SQLException e) {
             Logger.getLogger(TransactionDAO.class.getName()).log(Level.SEVERE, null, e);
-            throw new Exception("Error retrieving transactions for sender ID: " + senderId, e);
+            throw new Exception("Error retrieving transactions for sender ID: " + id, e);
         }
         return transactions;
     }
@@ -125,20 +126,46 @@ public class TransactionDAO {
         return false;
     }
     
-    public static void main(String[] args) throws Exception {
-        TransactionDAO dao = new TransactionDAO();
-        System.out.println(dao.getTransactionBySenderId(1));
+    public boolean addReceiveTransaction(Transaction transaction) throws Exception {
+        String query = "INSERT INTO [dbo].[Transaction] " +
+                       "(receiverId, adminId, amount, createdDate, status, transactionType, description, jobId ) " +
+                       "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         
-        Transaction trans = new Transaction();
-            trans.setSenderId(1);
-            trans.setAmount(200000);
-            trans.setStatus(true);
-            trans.setTransactionType("Thêm tiền");
-            trans.setDescription("Nộp tiền vào ví");
-            Date createdDate = new Date();
-            trans.setCreatedDate(createdDate);
-//            user.setBalance(user.getBalance() + Integer.parseInt(amount));
-dao.addTransaction(trans);
+        try (Connection connection = dbConnection.openConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            preparedStatement.setInt(1, transaction.getReceiverId());
+            preparedStatement.setInt(2, transaction.getAdminId());
+            preparedStatement.setInt(3, transaction.getAmount());
+            preparedStatement.setTimestamp(4, new Timestamp(transaction.getCreatedDate().getTime())); // Lấy thời gian hiện tại
+            preparedStatement.setBoolean(5, transaction.isStatus());
+            preparedStatement.setNString(6, transaction.getTransactionType());
+            preparedStatement.setNString(7, transaction.getDescription());
+            preparedStatement.setInt(8, transaction.getJobId());
+
+            int rowsAffected = preparedStatement.executeUpdate();
+            return rowsAffected > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public static void main(String[] args) throws Exception {
+//        TransactionDAO dao = new TransactionDAO();
+//        System.out.println(dao.getTransactionBySenderIdOrReceiveId(2));
+        
+//        Transaction trans = new Transaction();
+//            trans.setSenderId(1);
+//            trans.setAmount(200000);
+//            trans.setStatus(true);
+//            trans.setTransactionType("Thêm tiền");
+//            trans.setDescription("Nộp tiền vào ví");
+//            Date createdDate = new Date();
+//            trans.setCreatedDate(createdDate);
+////            user.setBalance(user.getBalance() + Integer.parseInt(amount));
+//dao.addTransaction(trans);
     }
 
     

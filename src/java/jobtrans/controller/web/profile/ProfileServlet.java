@@ -180,7 +180,7 @@ public class ProfileServlet extends HttpServlet {
         TransactionDAO transDao = new TransactionDAO();
         ArrayList<Transaction> transList = new ArrayList<>();
         try {
-            transList = (ArrayList<Transaction>) transDao.getTransactionBySenderId(user.getUserId());
+            transList = (ArrayList<Transaction>) transDao.getTransactionBySenderIdOrReceiveId(user.getUserId());
         } catch (Exception ex) {
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -221,7 +221,7 @@ public class ProfileServlet extends HttpServlet {
 
         ArrayList<Transaction> transList = new ArrayList<>();
         try {
-            transList = (ArrayList<Transaction>) transDao.getTransactionBySenderId(user.getUserId());
+            transList = (ArrayList<Transaction>) transDao.getTransactionBySenderIdOrReceiveId(user.getUserId());
         } catch (Exception ex) {
             Logger.getLogger(ProfileServlet.class.getName()).log(Level.SEVERE, null, ex);
         }

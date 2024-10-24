@@ -116,6 +116,7 @@
         <td>${pl.endDate}</td>
         <td>
             <!-- Yêu Cầu Button -->
+            
             <a href="myjob?action=request-process&processId=${pl.processId}&name=${pl.stageName}&jobId=${pl.jobId}" class="action-button view-button" onclick="toggleRequestTable(${status.index})">Yêu Cầu</a>
 
             <!-- Nộp Kết Quả Button (sửa thành <a>) -->
@@ -123,24 +124,34 @@
         </td>
        <td class="status-accepted">
     <c:choose>
-        <c:when test="${pl.status == 'Đang xem xét'}">
-            <span style="color: orange;">${pl.status}</span>
+        <c:when test="${pl.status == 'Đã nộp'}">
+            <span style="color:#ffc107;font-weight: bold;">${pl.status}</span>
         </c:when>
         <c:when test="${pl.status == 'Từ chối'}">
-            <span style="color: red;">${pl.status}</span>
+            <span style="color: red;font-weight: bold;">${pl.status}</span>
         </c:when>
-        <c:when test="${pl.status == 'Chấp nhận'}">
-            <span style="color: green;">${pl.status}</span>
+        <c:when test="${pl.status == 'Chưa nộp'}">
+            <span style="color:blueviolet;font-weight: bold;">${pl.status}</span>
+        </c:when>
+        <c:when test="${pl.status == 'Đã chấp nhận'}">
+            <span style="color: green;font-weight: bold;">${pl.status}</span>
         </c:when>
         <c:otherwise>
             <span>${pl.status}</span> <!-- Default color if status doesn't match -->
         </c:otherwise>
     </c:choose>
-</td>
-        <td>
-            <!-- Xem Button -->
-            <button class="action-button view-button">Xem</button>
+</td>   
+         <c:if test="${not empty pl.comments}">
+        <td>           
+            <a href="myjob?action=comments-process&processId=${pl.processId}&name=${pl.stageName}&jobId=${pl.jobId}"   class="action-button view-button"">Xem</a>
         </td>
+        </c:if>
+                 <c:if test="${empty pl.comments}">
+        <td>           
+            <button class="action-button view-button" style="background-color: gray">Xem</button>
+        </td>
+        </c:if>
+       
     </tr>
    
 </c:forEach>

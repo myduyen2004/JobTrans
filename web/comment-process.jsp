@@ -22,6 +22,79 @@
         <link rel="stylesheet" href="css/colors/blue.css">
         <link rel="stylesheet" href="css/popup.css">
         <style>
+    .progress-container {
+    display: flex; /* Sử dụng Flexbox để sắp xếp phần tử con theo hàng ngang */
+    align-items: center; /* Căn chỉnh phần tử con theo chiều dọc */
+    gap: 10px; /* Khoảng cách giữa các nút */
+}
+
+.accept-button {
+    background-color: #5cb85c; /* Màu xanh lá tượng trưng cho chấp nhận */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.accept-button:hover {
+    background-color: #4cae4c;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.accept-button:active {
+    background-color: #449d44;
+    box-shadow: none;
+}
+
+/* Nút Từ chối */
+.reject-button {
+    background-color: #d9534f;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.reject-button:hover {
+    background-color: #c9302c;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.reject-button:active {
+    background-color: #ac2925;
+    box-shadow: none;
+}
+        
+            .reject-button {
+    background-color: #d9534f; /* Màu đỏ nhẹ để tượng trưng cho "Từ chối" */
+    color: white; /* Màu chữ trắng để tương phản với nền */
+    border: none; /* Loại bỏ đường viền mặc định */
+    padding: 10px 20px; /* Tạo không gian bên trong nút */
+    font-size: 16px; /* Kích thước chữ vừa phải */
+    font-weight: bold; /* Chữ đậm để tạo sự nổi bật */
+    border-radius: 5px; /* Bo tròn các góc nút */
+    cursor: pointer; /* Con trỏ chuột dạng pointer khi hover */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Hiệu ứng chuyển màu và đổ bóng khi hover */
+    padding: 5px 10px;
+            }
+
+.reject-button:hover {
+    background-color: #c9302c; /* Thay đổi màu nền khi hover */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Thêm hiệu ứng đổ bóng khi hover */
+}
+
+.reject-button:active {
+    background-color: #ac2925; /* Màu tối hơn khi nút bị nhấn */
+    box-shadow: none; /* Loại bỏ đổ bóng khi nhấn */
+}
             body {
                 font-family: 'Arial', sans-serif;
                 background-color: #f8f9fa;
@@ -152,39 +225,44 @@
                                 <div class="dashboard-box margin-top-0 ">
                                     <div class="container">
                                         <div class="col-md-12">
-                                            <!--<div class="container-custom">-->
-                                                <h3 style="margin-bottom: 35px; margin-top: 35px">Yêu cầu tiến trình : ${name} </h3>
-                                                
+                                        <div class="progress-container">
+    <h3 style="margin-bottom: 35px; margin-top: 35px;font-weight: bold;">Tiến trình:</h3>
+    <label style="margin-top: 10px;">${name}</label>
+    <c:choose>
+        <c:when test="${pro.status == 'Đã chấp nhận'}">
+            <button class="action-button view-button accept-button">Đã chấp nhận</button>
+        </c:when>
+        <c:when test="${pro.status == 'Từ chối'}">
+            <button class="action-button view-button reject-button">Từ chối</button>
+        </c:when>
+    </c:choose>
+</div>
+
 <form action="myjob" method="POST" enctype="multipart/form-data">
     <!-- Hidden input for processId -->
     <input type="hidden" name="processId" value="${processId}"> <!-- Replace 123 with dynamic processId -->
-          <c:if test="${not empty pro.requirementUrl}">
+        
               <div style="margin-bottom: 20px" class="form-group">
-                <label style="margin-bottom: 20px">Nội dung yêu cầu: ${pro.requirements}</label>  
-                <label style="margin-bottom: 20px">File Yêu Cầu:</label>
-                <!-- Link để xem file yêu cầu từ employer -->
-                <div>
-                <a style="margin-left: 0px;" href="${pro.requirementUrl}" target="_blank" class="btn btn-primary">
-                    Xem File Yêu Cầu
-                 </a>      
-                <a href="myjob?action=downloadRequirement&url=${pro.requirementUrl}" style="color: white" target="_blank" class="btn btn-primary" name="url" value="${pro.requirementUrl}"> 
-                    Lưu File Yêu Cầu
-                </a>    
-                
-            </div>
-        </c:if>
-
-        <!-- Hiển thị thông báo nếu không có file yêu cầu -->
-        <c:if test="${empty pro.requirementUrl}">
-            <p>Không có file yêu cầu từ employer.</p>
-        </c:if>
+                 
+                 <div class="progress-container">
+                    <label style="margin-bottom: 20px;font-weight: bold;">Nhận xét:</label> 
+                    <label style="margin-bottom: 20px">${pro.comments}</label> 
+                 </div>  
+                      <c:if test="${pro.status == 'Từ chối'}">
       
-    <!--<a   href="myjob?action=result-process&processId=${pro.processId}&name=${pro.stageName}&jobId=${pro.jobId}" class="action-button submit-button">Nộp Kết Quả</a>-->
-<a class="btn btn-primary" href="myjob?action=result-process&processId=${pro.processId}&name=${pro.stageName}&jobId=${pro.jobId}" 
+       
+                <label style=""> Nộp lại kết quả:</label>
+                <!-- Link để xem file yêu cầu từ employer -->
+                
+                <a class="btn btn-primary" href="myjob?action=result-process&processId=${pro.processId}&name=${pro.stageName}&jobId=${pro.jobId}" 
        class="action-button submit-button" 
-       style="display: inline-block; margin-top: 20px; background-color: green; margin-left: 0px; padding: 5px 5px">
+       style="display: inline-block;  background-color: green; margin-left: 0px; padding: 5px 5px">
        Nộp Kết Quả
-    </a>
+                </a>
+        </c:if>
+            </div>
+  
+
 </form>
                                             </div>
                                         </div>

@@ -123,6 +123,9 @@ public class JobProcessingServlet extends HttpServlet {
             case "downloadRequirement":
                 downloadRequirement(request, response);
                 break;
+            case "comments-process":
+                loadCommentProcess(request, response);
+                break;
             case "view-process-employer": {
                 try {
                     viewProcessEmployer(request, response);
@@ -174,6 +177,44 @@ public class JobProcessingServlet extends HttpServlet {
         }
         
     }
+    public void loadCommentProcess(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+           HttpSession session = request.getSession();
+        String name = request.getParameter("name");
+        JobProcessDAO j = new JobProcessDAO();
+        String processId = request.getParameter("processId");
+        String jobIdParam = request.getParameter("jobId");
+        // Kiểm tra nếu jobIdParam là null hoặc rỗng
+        if (jobIdParam == null || jobIdParam.isEmpty()) {
+            // Xử lý trường hợp không có jobId (ví dụ: trả về lỗi hoặc redirect)
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Tham số jobId không hợp lệ");
+            return;
+        }
+        int IntjobId;
+        try {
+            IntjobId = Integer.parseInt(jobIdParam);
+        } catch (NumberFormatException e) {
+            // Xử lý trường hợp jobId không phải là số nguyên hợp lệ
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Định dạng jobId không hợp lệ");
+            return;
+        }
+        int IntprocessId;
+        try {
+            IntprocessId = Integer.parseInt(processId);
+        } catch (NumberFormatException e) {
+            // Xử lý trường hợp jobId không phải là số nguyên hợp lệ
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Định dạng jobId không hợp lệ");
+            return;
+        }
+        Process pro = j.getProcessById(IntprocessId);
+        JobDAO jobDao = new JobDAO();
+        Job job = jobDao.getJobByJobId(IntjobId);
+        request.setAttribute("name", name);
+        request.setAttribute("j", job);
+        request.setAttribute("pro", pro);
+        request.setAttribute("processId", processId);
+        request.getRequestDispatcher("comment-process.jsp").forward(request, response);
+    }
+
     
     
 
